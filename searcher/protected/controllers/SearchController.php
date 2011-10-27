@@ -39,7 +39,15 @@ class SearchController extends Controller
             $viewStyle = $_SESSION['viewStyle'];
         }
 
-        $profiles = ProfileSearch::factory($_SESSION['search_q']);
+        if(isset($_SESSION['search_q']))
+        {
+            $profiles = ProfileSearch::factory($_SESSION['search_q']);
+        }
+        else
+        {
+            $profiles = ProfileSearch::factory('');
+        }
+
         $dataProvider = $profiles->getDataProvider();
         $model = $profiles->getModel();
         $valid = false;

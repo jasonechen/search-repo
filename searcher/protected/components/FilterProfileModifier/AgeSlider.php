@@ -32,6 +32,11 @@ class AgeSlider extends AbstractModifier
 
     public function modifyCriteria()
     {
+        if(!$this->checkRequestArrayForMinAndMaxValues())
+        {
+            return $this->object->criteria;
+        }
+        
         if(is_numeric($this->requestArray[$this->requestVariable][$this->key . 'Min']) &&
            is_numeric($this->requestArray[$this->requestVariable][$this->key . 'Max']))
         {

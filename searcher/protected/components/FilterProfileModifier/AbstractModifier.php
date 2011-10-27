@@ -58,6 +58,19 @@ abstract class AbstractModifier
     {
         return $this->object->criteria;
     }
+
+    /**
+     * @return bool
+     */
+
+    protected function checkRequestArrayForMinAndMaxValues()
+    {
+        if(!isset($this->requestArray[$this->requestVariable][$this->key . 'Min']) || (!isset($this->requestArray[$this->requestVariable][$this->key . 'Max'])))
+        {
+            return false;
+        }
+        return true;
+    }
 }
 
 ?>

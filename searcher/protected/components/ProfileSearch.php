@@ -211,13 +211,17 @@ class ProfileSearch extends AbstractProfileSearch
 		if(isset($field['throughModel']) && isset($field['throughAttribute']))
 		{
 			$model = call_user_func(array($field['throughModel'], 'model'));
-			$id = $model->findByAttributes(array($field['throughAttribute'] => $this->searchQuery))->id;
-			$this->criteria->with = array(
-				$fieldKey => array(
-					'condition' => $fieldKey . '.' . $field['field'] . ' = "' . $id . '"',
-					'together' => true,
-				)
-			);
+            $idModel = $model->findByAttributes(array($field['throughAttribute'] => $this->searchQuery));
+            if($idModel)
+            {
+                $id = $idModel->id;
+                    $this->criteria->with = array(
+                    $fieldKey => array(
+                        'condition' => $fieldKey . '.' . $field['field'] . ' = "' . $id . '"',
+                        'together' => true,
+                    )
+                );
+            }
 		}
 		else
 		{

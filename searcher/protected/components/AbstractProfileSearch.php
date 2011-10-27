@@ -103,6 +103,7 @@ abstract class AbstractProfileSearch
         else
         {
             $this->model = Profile::model();
+            $this->criteria = new CDbCriteria();
             $this->criteria->condition = 'id = 0';
         }
     }
