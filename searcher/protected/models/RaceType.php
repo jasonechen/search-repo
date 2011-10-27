@@ -87,4 +87,9 @@ class RaceType extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    public static function getTitles()
+    {
+        return CHtml::listData(self::model()->findAll(), 'id', 'name');
+    }
 }

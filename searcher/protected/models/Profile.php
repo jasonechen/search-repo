@@ -173,4 +173,26 @@ class Profile extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    public static function returnCities()
+    {
+        $arr = array();
+        foreach(self::$CityArray as $value)
+        {
+            $arr[$value] = $value;
+        }
+        return $arr;
+    }
+
+    public static function returnAge($BirthDate)
+    {
+        list($BirthYear, $BirthMonth, $BirthDay) = explode("-", $BirthDate);
+        $YearDiff = date("Y") - $BirthYear;
+        $MonthDiff = date("m") - $BirthMonth;
+        $DayDiff = date("d") - $BirthDay;
+
+        if ($DayDiff < 0 || $MonthDiff < 0)
+            $YearDiff--;
+        return $YearDiff;
+    }
 }
