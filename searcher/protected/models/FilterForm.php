@@ -5,7 +5,7 @@
  */
 class FilterForm extends CFormModel
 {
-	public $educationMax;
+    public $educationMax;
     public $educationMin;
     public $race_id;
     public $gender;

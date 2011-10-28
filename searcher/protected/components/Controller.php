@@ -25,8 +25,10 @@ class Controller extends CController
     public $test;
 
     public function init()
-    {
+    {    
         $this->filterModel = new FilterForm();
+        $this->filterModel->educationMax = 3;
+        $this->filterModel->educationMax = 0;
         if(isset($_GET['FilterForm']))
         {
             $this->filterModel->setAttributes($_GET['FilterForm']);

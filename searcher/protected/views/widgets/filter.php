@@ -22,6 +22,7 @@
                     'range' => true,
                     'min'=> 0,
                     'max' => 3,
+                    'values'=>array(0,3),
                 ),
                 'htmlOptions' => array(
                     'style' => 'width:150px;'
