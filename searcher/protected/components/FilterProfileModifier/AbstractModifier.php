@@ -21,10 +21,11 @@ abstract class AbstractModifier
 
     /**
      * @abstract function for criteria modification
+     * @param string $config additional config if needed
      * @return void
      */
     
-    abstract public function modifyCriteria();
+    abstract public function modifyCriteria($config = '');
 
     /**
      * default constructor

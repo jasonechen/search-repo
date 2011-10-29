@@ -25,13 +25,21 @@ class Controller extends CController
     public $test;
 
     public function init()
-    {    
+    {
         $this->filterModel = new FilterForm();
-        $this->filterModel->educationMax = 3;
-        $this->filterModel->educationMax = 0;
         if(isset($_GET['FilterForm']))
         {
             $this->filterModel->setAttributes($_GET['FilterForm']);
+        }
+        if(!isset($_GET['FilterForm']['educationMin']) && !isset($_GET['FilterForm']['educationMax']))
+        {
+            $this->filterModel->educationMin = 0;
+            $this->filterModel->educationMax = 3;
+        }
+        if(!isset($_GET['FilterForm']['date_of_birthMin']) && !isset($_GET['FilterForm']['date_of_birthMax']))
+        {
+            $this->filterModel->date_of_birthMin = 0;
+            $this->filterModel->date_of_birthMax = 7;
         }
     }
 }

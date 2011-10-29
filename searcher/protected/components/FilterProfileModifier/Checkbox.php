@@ -10,13 +10,13 @@
 
 class Checkbox extends AbstractModifier
 {
-
     /**
      * redefinition of abstract method
-     * @return \CDbCriteria criteria
+     * @param string $config additional config if needed
+     * @return void
      */
 
-    public function modifyCriteria()
+    public function modifyCriteria($config = '')
     {
         if(isset($this->requestArray[$this->requestVariable][$this->key]) && $this->requestArray[$this->requestVariable][$this->key])
         {

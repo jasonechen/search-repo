@@ -27,10 +27,11 @@ class AgeSlider extends AbstractModifier
 
     /**
      * redefinition of abstract method
-     * @return \CDbCriteria criteria
+     * @param string $config additional config if needed
+     * @return CDbCriteria $criteria
      */
 
-    public function modifyCriteria()
+    public function modifyCriteria($config = '')
     {
         if(!$this->checkRequestArrayForMinAndMaxValues())
         {

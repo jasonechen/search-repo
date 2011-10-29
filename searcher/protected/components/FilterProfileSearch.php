@@ -36,6 +36,10 @@ class FilterProfileSearch extends AbstractProfileSearch
     public $modificationOfCriteriaAccordingToValuesFromFilterForm = array(
         'education' => array(
             'type' => 'IntegerSlider',
+            'config' => array(
+                'defaultMinValue' => 0,
+                'defaultMaxValue' => 3,
+            ),
         ),
         'race_id' => array(
             'type' => 'CheckboxList',
@@ -87,7 +91,14 @@ class FilterProfileSearch extends AbstractProfileSearch
     {
         foreach($this->modificationOfCriteriaAccordingToValuesFromFilterForm as $key => $field)
         {
-            $this->criteria = FilterProfileModifierFactory::init($this, $field['type'], $key)->modifyCriteria();
+            if(isset($field['config']))
+            {
+                $this->criteria = FilterProfileModifierFactory::init($this, $field['type'], $key)->modifyCriteria($field['config']);
+            }
+            else
+            {
+                $this->criteria = FilterProfileModifierFactory::init($this, $field['type'], $key)->modifyCriteria();
+            }
         }
     }
 }

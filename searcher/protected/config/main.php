@@ -59,7 +59,10 @@ return array(
 			'password' => '3bptShjLSBS89Lay',
 			'charset' => 'utf8',
 		),
-		
+		'request'=>array(
+                                'enableCookieValidation'=>true,
+                                'enableCsrfValidation'=>false,
+                ),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
             'errorAction'=>'site/error',
