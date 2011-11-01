@@ -63,11 +63,27 @@ class ProfileSearch extends AbstractProfileSearch
 
     public function runSearch()
     {
+        if(isset($_GET['clear-button']) || isset($_POST['clear-button']))
+        {
+            $this->clearSearchCriteria();
+        }
         if($this->searchQuery !== ' ')
         {
             $this->modifyDatabaseCriteriaAccordingToSearchQuery();
         }
         $this->invokeAdditionalSearchModifiers();
+    }
+
+    /**
+     * @return void
+     */
+
+    public function clearSearchCriteria()
+    {
+        $this->criteria = new CDbCriteria();
+        $_SESSION['search_q'] = '';
+        Yii::app()->controller->redirect(Yii::app()->controller->createUrl('search/index'));
+        Yii::app()->end();
     }
 
     /**

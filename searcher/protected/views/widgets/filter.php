@@ -5,7 +5,7 @@
         'id' => 'filter-form',
         'enableAjaxValidation' => false,
         'action' => $this->createUrl('search/index'),
-        'method' => 'get'
+        'method' => 'get',
     ));
     ?>
 
@@ -121,7 +121,8 @@
         </div>
 
         <div class="row">
-            <?php echo CHtml::submitButton('Search');?>
+            <?php echo CHtml::submitButton('Search', array('name' => 'submit-button'));?>
+            <?php echo CHtml::submitButton('Clear', array('name' => 'clear-button'));?>
         </div>
 
     <?php $this->endWidget(); ?>

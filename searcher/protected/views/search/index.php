@@ -34,11 +34,6 @@ if($valid)
                     'header' => 'Age',
                     'value' => 'Profile::returnAge($data->date_of_birth)',
                 ),
-                array(
-			'class'=>'CButtonColumn',
-                        'template' => '{view}',
-                        'viewButtonUrl'=>'Yii::app()->createUrl("/profile/view", array("id" => $data->id))',
-		),
             ),
         ));
     }
