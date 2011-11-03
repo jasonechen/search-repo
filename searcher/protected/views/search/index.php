@@ -15,27 +15,41 @@ if($valid)
 {
     if($viewStyle == 'grid')
     {
-        $this->widget('zii.widgets.grid.CGridView', array(
-            'id' => 'profile-grid',
-            'dataProvider' => $dataProvider,
-            'filter' => $model,
-            'columns'=>array(
-                'id',
-                'username',
-                'FirstName',
-                'LastName',
-                array(
-                    'name' => 'gender',
-                    'value' => '$data->gender == "M" ? "Male" : "Female"',
+  
+     $this->widget('zii.widgets.grid.CGridView', array(
+	'id'=>'profile-grid',
+	'dataProvider'=>$dataProvider,
+	'filter'=>$model,
+	'columns'=>array(
+		'user_id',
+		array(
+                  'name'=>'firstUniversity',
+                  'value'=>'$data->firstUniversity->name',
+                  'header'=>'College'
                 ),
-                'city',
-                array(
-                    'name' => 'date_of_birth',
-                    'header' => 'Age',
-                    'value' => 'Profile::returnAge($data->date_of_birth)',
+                'gender',
+		array(
+                  'name'=>'race',
+                  'value'=>'($data->race !== NULL)? $data->race->name : NA', //Need to deal with nulls here
                 ),
-            ),
-        ));
+		array(
+                  'name'=>'sat_I_score_range',
+                  'value'=>'BasicProfile::getSATRange($data->sat_I_score_range)', //Need to deal with nulls here
+                ), 
+		'num_scores:number:# Scores',
+            	'num_academics:number:# Academics',
+		'num_extracurriculars:number:# Extracurriculars',
+                array(
+                  'name'=>'profile_type',
+                  'value'=>'BasicProfile::getProfileTypeName($data->profile_type)', //Need to deal with nulls here
+                ), 
+		array(
+			'class'=>'CButtonColumn',
+                        'template' => '{view}',
+                        'viewButtonUrl'=>'Yii::app()->createUrl("/profile/viewProfile", array("profileID" => $data->user_id))',
+		),
+	),
+)); 
     }
     else
     {

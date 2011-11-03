@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Web Application',
+	'name'=>'Meceve',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -20,26 +20,27 @@ return array(
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
-		
+		'wizardBehavior',
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
-			'password'=>'password',
+			'password'=>'123459876512345',
 		 	// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
-		),
 		
+                    ),
+		
+            
 	),
 
 	// application components
 	'components'=>array(
-        'request'=>array(
-            'enableCookieValidation'=>true,
-            'enableCsrfValidation'=>true,
-        ),
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
+                'authManager'=>array( 
+                                'class'=>'CDbAuthManager', 
+                                'connectionID'=>'db', ),
 		// uncomment the following to enable URLs in path-format
 		/*
 		'urlManager'=>array(
@@ -51,18 +52,22 @@ return array(
 			),
 		),
 		*/
-		'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-		),
+//		'db'=>array(
+//			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
+//		),
 		// uncomment the following to use a MySQL database
 		
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=test',
+			'connectionString' => 'mysql:host=localhost;dbname=searcher_test',
 			'emulatePrepare' => true,
-			'username' => 'tempuser',
-			'password' => '3bptShjLSBS89Lay',
+			'username' => 'searcher_admin',
+			'password' => 'jKZJ4uqHYcZRADfK',
 			'charset' => 'utf8',
 		),
+                'request'=>array(
+                                'enableCookieValidation'=>true,
+                                'enableCsrfValidation'=>true,
+                ),
 		
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
@@ -73,25 +78,49 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
+//                                    'levels'=>'trace',
+					'levels'=>'trace, info, error, warning',
 				),
 				// uncomment the following to show log messages on web pages
-
-				/*array(
+				
+				array(
 					'class'=>'CWebLogRoute',
-                    'levels'=>'trace, info, error, warning',
-                    'categories'=>'system.*',
-
-				),*/
+                                        'levels'=>'trace,error,warning',
+                                        'categories'=>'vardump',
+                                        'showInFireBug'=>true,
+                                    
+				),
 				
 			),
 		),
+            
+            
+      
+             'widgetFactory' => array(
+            'widgets' => array(
+                'CJuiAutoComplete' => array(
+                    'themeUrl' => '/css/jqueryui',
+                    'theme' => 'southstreet',
+                ),
+                'CJuiAccordion' => array(
+                    'themeUrl' => '/css/jqueryui',
+                    'theme' => 'southstreet',
+                ),
+                'CJuiTabs' => array(
+                    'themeUrl' => '/css/jqueryui',
+                    'theme' => 'southstreet',
+                ),
+            ),
+        ),     
+            
+            
+            
 	),
 
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'=>'webmaster@example.com',
+		'adminEmail'=>'etchen@gmail.com',
 	),
 );

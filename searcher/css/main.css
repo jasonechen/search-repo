@@ -4,7 +4,8 @@ body
 	padding: 0;
 	color: #555;
 	font: normal 10pt Arial,Helvetica,sans-serif;
-	background: #EFEFEF;
+	background: #white;
+        line-height: 135%;
 }
 
 #page
@@ -12,14 +13,14 @@ body
 	margin-top: 5px;
 	margin-bottom: 5px;
 	background: white;
-	border: 1px solid #C9E0ED;
+	/*border: 1px solid #C9E0ED;*/
 }
 
 #header
 {
 	margin: 0;
 	padding: 0;
-	border-top: 3px solid #C9E0ED;
+	border-top: 3px solid #30AB59;
 }
 
 #content
@@ -33,23 +34,43 @@ body
 }
 
 #footer
-{
-	padding: 10px;
-	margin: 10px 20px;
-	font-size: 0.8em;
+{	background: #DFE3DE;
+	padding: 0;
+	margin: 0;
+	font: normal 8pt Arial,Helvetica,sans-serif;
 	text-align: center;
-	border-top: 1px solid #C9E0ED;
+	border-top: 2px solid #C9E0ED;
 }
 
+#footerbody /*footer background color and font */
+{
+    background: #F2F6F2;
+    text-align: left;
+    font: normal 9pt Arial,Helvetica,sans-serif;
+    text-decoration:none;
+    line-height: 150%;
+    
+}
+
+#fcathead /*footer category font*/
+{
+    padding-top: 15px;
+    font: bold 9pt Arial,Helvetica,sans-serif;
+    
+     
+}
 #logo
 {
 	padding: 10px 20px;
-	font-size: 200%;
+	font-size: 100%;
 }
 
+
+
+/*
 #mainmenu
 {
-	background:white url(bg.gif) repeat-x left top;
+	background: url(bg.gif) repeat-x left top;
 }
 
 #mainmenu ul
@@ -57,26 +78,27 @@ body
 	padding:6px 20px 5px 20px;
 	margin:0px;
 }
-
+*/
 #mainmenu ul li
 {
-	display: inline;
+	
+    display: inline;
 }
 
 #mainmenu ul li a
 {
-	color:#ffffff;
-	background-color:transparent;
-	font-size:12px;
+	color:#008E00; /*color of menu bar text */
+	background-color:transparent; /*this is color of menu bar background */
+	font-size:11px;
 	font-weight:bold;
 	text-decoration:none;
-	padding:5px 8px;
+	padding:10px 18px; /*2nd # is spacing between menu bar text labels */
 }
 
 #mainmenu ul li a:hover, #mainmenu ul li.active a
 {
-	color: #6399cd;
-	background-color:#EFF4FA;
+	color: #30AB59; /*this is color of menu bar text when you hover */
+	background-color:#BFFEBF; /*this is color of menu bar box when you hover */
 	text-decoration:none;
 }
 
@@ -85,6 +107,7 @@ div.flash-error, div.flash-notice, div.flash-success
 	padding:.8em;
 	margin-bottom:1em;
 	border:2px solid #ddd;
+  
 }
 
 div.flash-error
@@ -106,6 +129,7 @@ div.flash-success
 	background:#E6EFC2;
 	color:#264409;
 	border-color:#C6D880;
+        
 }
 
 div.flash-error a
@@ -121,6 +145,8 @@ div.flash-notice a
 div.flash-success a
 {
 	color:#264409;
+        
+              
 }
 
 div.form .rememberMe label
@@ -132,7 +158,7 @@ div.view
 {
 	padding: 10px;
 	margin: 10px 0;
-	border: 1px solid #C9E0ED;
+	border: 1px solid #95F3BC;
 }
 
 div.breadcrumbs
@@ -150,7 +176,7 @@ div.search-form
 {
 	padding: 10px;
 	margin: 10px 0;
-	background: #eee;
+	background: #2D8E2A;
 }
 
 .portlet
@@ -158,28 +184,35 @@ div.search-form
 
 }
 
-.portlet-decoration
+.portlet2
 {
-	padding: 3px 8px;
-	background: #B7D6E7;
-	border-left: 5px solid #6FACCF;
+background: #EFEFEF;
 }
 
-.portlet-title
+.portlet-decoration /*this is the tiny little vertical line in the background of the menu bar box */
 {
-	font-size: 12px;
+	padding: 3px 8px;
+	background: #D2F4D3;
+	border-left: 5px solid #2D8E2A;
+}
+
+.portlet-title /*this is the font title of the menu bar box */
+{
+	font-size: 11px;
 	font-weight: bold;
 	padding: 0;
 	margin: 0;
-	color: #298dcd;
+	color: #2D8E2A;
 }
 
-.portlet-content
+.portlet-content /*this is the background color of the menu box below the title of the menu*/
 {
 	font-size:0.9em;
-	margin: 0 0 15px 0;
+      	margin: 0 0 15px 0;
 	padding: 5px 8px;
-	background:#EFFDFF;
+	background:transparent;/*#E3FEE2;*/
+        /*background-color:#EFF4FA;*/
+        
 }
 
 .portlet-content ul
@@ -189,41 +222,64 @@ div.search-form
 	list-style-type:none;
 	margin: 0;
 	padding: 0;
+        	
 }
 
 .portlet-content li
 {
 	padding: 2px 0 4px 0px;
+        
 }
 
+
+.portlet-content li a:hover, .portlet-content ul li.active a
+{
+	color: #30AB59;
+	background-color:#EFF4FA;
+	text-decoration:none;
+}
 .operations
 {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
+        color: #2D8E2A;
+         
 }
 
 .operations li
 {
 	padding-bottom: 2px;
+             color: #2D8E2A;
+              
+             
 }
 
-.operations li a
+.operations li a /*this is where you edit the fonts inside the menu bar */
 {
-	font: bold 12px Arial;
-	color: #0066A4;
+	font: 11px Arial;
+	color: #2D8E2A;
+    
 	display: block;
 	padding: 2px 0 2px 8px;
 	line-height: 15px;
 	text-decoration: none;
+        	
 }
 
 .operations li a:visited
 {
-	color: #0066A4;
+	color: #2D8E2A;
+          
 }
 
 .operations li a:hover
 {
-	background: #80CFFF;
+	background-color: #95F3BC;
+        
+}
+
+.operations ul li.active a
+{
+    background-color:#EFF4FA;
 }

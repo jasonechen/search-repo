@@ -26,11 +26,15 @@ abstract class AbstractProfileSearch
     */
 
 	public $fieldsThatAreSearchable = array(
-        't.id',   // this is because we are using eager loading in relationship queries (main table has pseudonym of 't')
-        'username',
-        'FirstName',
-        'LastName',
-        'city',
+        't.user_id',   // this is because we are using eager loading in relationship queries (main table has pseudonym of 't')
+//        'username',
+//        'FirstName',
+//        'LastName',
+//        'city',
+        'firstUniversity' => array(  // example of relationship field type
+            'type' => 'relationship',
+            'field' => 'name',
+        ),
         'gender' => array(  // if field in database has type of ENUM, we could set search phrases separated by comma for these fields
             'type' => 'enum',
             'synonyms' => array(
@@ -38,24 +42,25 @@ abstract class AbstractProfileSearch
                 'F' => 'female,woman,women'
             ),
         ),
-        'education' => array(  // we could link search attribute with any class static property
-            'type' => 'linkedStaticProperty',
-            'linkedStaticProperty' => '$staticFieldValue = Profile::$EducationArray;',
-        ),
+//        'education' => array(  // we could link search attribute with any class static property
+//            'type' => 'linkedStaticProperty',
+//            'linkedStaticProperty' => '$staticFieldValue = Profile::$EducationArray;',
+//        ),
         'race' => array(  // example of relationship field type
             'type' => 'relationship',
             'field' => 'name',
         ),
-        'hobbys' => array(  // example of relationship field type
-            'type' => 'relationship',
-            'field' => 'hobby_id',
-            'throughModel' => 'HobbyType', // we use this field if we want to search by field of other relation
-            'throughAttribute' => 'name', // for example hobby - hobbyType relations
-        ),
-        'religion' => array(
-            'type' => 'relationship',
-            'field' => 'name',
-        ),
+
+//        'hobbys' => array(  // example of relationship field type
+//            'type' => 'relationship',
+//            'field' => 'hobby_id',
+//            'throughModel' => 'HobbyType', // we use this field if we want to search by field of other relation
+//            'throughAttribute' => 'name', // for example hobby - hobbyType relations
+//        ),
+//        'religion' => array(
+//            'type' => 'relationship',
+//            'field' => 'name',
+//        ),
     );
 
     /**
@@ -96,15 +101,15 @@ abstract class AbstractProfileSearch
         $this->searchQuery = $this->filterIncomingSearchQuery($searchQuery);
         if($this->isSearchQueryValid())
         {
-            $this->model = Profile::model();
+            $this->model = BasicProfile::model();
             $this->criteria = new CDbCriteria();
             $this->runSearch();
         }
         else
         {
-            $this->model = Profile::model();
+            $this->model = BasicProfile::model();
             $this->criteria = new CDbCriteria();
-            $this->criteria->condition = 'id = 0';
+            $this->criteria->condition = 'user_id = 0';
         }
     }
 

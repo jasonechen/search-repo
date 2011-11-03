@@ -38,7 +38,28 @@ div.form
 {
 }
 
-div.form input,
+div.form input
+{width: 110px;}
+
+div.checkform input
+{
+    
+    width: 40px;}
+
+div.filtercheckform input
+{
+    
+    width: 30px;}
+
+div.filtercheckform label
+{
+    font-size: 0.8em;
+    font-weight: normal;
+    }
+
+div.wform input
+{width: 350px;}
+
 div.form textarea,
 div.form select
 {
@@ -52,11 +73,16 @@ div.form fieldset
 	margin: 0 0 10px 0;
     -moz-border-radius:7px;
 }
-
+input[type=radio] + label, input[type=checkbox] + label
+{  font-size: 0.8em;
+        
+    /*display:inline !important; }*/
+}
 div.form label
 {
-	font-weight: bold;
-	font-size: 0.9em;
+	font: normal 9pt Arial;
+        /*font-weight: bold;*/
+	/* font-size: 0.8em;*/
 	display: block;
 }
 
@@ -103,7 +129,8 @@ div.form select.error
 div.form div.success input,
 div.form div.success textarea,
 div.form div.success select,
-div.form input.success,
+div.form input.success
+
 div.form textarea.success,
 div.form select.success
 {

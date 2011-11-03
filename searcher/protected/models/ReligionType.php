@@ -8,7 +8,7 @@
  * @property string $name
  *
  * The followings are the available model relations:
- * @property Profile[] $profiles
+ * @property PersonalProfile[] $personalProfiles
  */
 class ReligionType extends CActiveRecord
 {
@@ -54,7 +54,7 @@ class ReligionType extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'profiles' => array(self::HAS_MANY, 'Profile', 'religion_id'),
+			'personalProfiles' => array(self::HAS_MANY, 'PersonalProfile', 'religion_id'),
 		);
 	}
 

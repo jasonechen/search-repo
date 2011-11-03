@@ -1,49 +1,23 @@
 <div class="form">
 
+
     <?php
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'filter-form',
         'enableAjaxValidation' => false,
         'action' => $this->createUrl('search/index'),
-        'method' => 'get',
+        'method' => 'get', 
     ));
     ?>
-
-        <div class="row">
-
-            <?php echo $form->labelEx($model, 'education'); ?>
-            <br/>
-            
-            <?php $this->widget('zii.widgets.jui.CJuiSliderInput', array(
-                'model' => $model,
-                'attribute' => 'educationMin',
-                'maxAttribute' => 'educationMax',
-                'options' => array(
-                    'range' => true,
-                    'min' => 0,
-                    'max' => 3,
-                ),
-                'htmlOptions' => array(
-                    'style' => 'width:150px;'
-                ),
-            ));
-		    ?>
-
-            <?php foreach(Profile::$EducationArray as $education):?>
-
-                <div class="range-div">
-                    <?php echo $education; ?>
-                </div>
-
-            <?php endforeach; ?>
-
-        </div>
+        <?php echo $form->hiddenField($model,'first_university_id'); ?>
+    
         <div class="clear"></div><br/>
-
+        <div class="filtercheckform">
         <div class="row">
-            <?php echo $form->labelEx($model, 'race_id'); ?>
+            
+             <?php echo $form->labelEx($model, 'race_id', array('label'=>'Race')); ?> 
             <br/>
-            <?php echo $form->checkBoxList($model, 'race_id', RaceType::getTitles()); ?>
+             <?php echo $form->checkBoxList($model, 'race_id', RaceType::getTypes()); ?>
         </div>
 
         <div class="row">
@@ -55,69 +29,29 @@
                                                                 ));
             ?>
         </div>
-
-        <div class="row">
-
-            <?php echo $form->labelEx($model, 'age'); ?>
-            <br/>
-
-            <?php $this->widget('zii.widgets.jui.CJuiSliderInput', array(
-                'model' => $model,
-                'attribute' => 'date_of_birthMin',
-                'maxAttribute' => 'date_of_birthMax',
-                'options' => array(
-                    'range' => true,
-                    'min' => 0,
-                    'max' => 7,
-                ),
-            ));
-		    ?>
-            <div style="margin-left:-5px">
-                <div class="range-age-div">
-                    < 21
-                </div>
-                <div class="range-age-div">
-                    21-25
-                </div>
-                <div class="range-age-div">
-                    26-30
-                </div>
-                <div class="range-age-div">
-                    31-35
-                </div>
-                <div class="range-age-div">
-                    36-40
-                </div>
-                <div class="range-age-div">
-                    41-50
-                </div>
-                <div class="range-age-div">
-                    51-60
-                </div>
-                <div class="range-age-div">
-                    ++
-                </div>
-            </div>
         </div>
-
-        <div class="clear"></div><br/>
-
+  
         <div class="row">
-            <?php echo $form->labelEx($model, 'hasPets'); ?>
-            <br/>
-            <?php echo $form->checkBox($model, 'hasPets'); ?>
-        </div>
-
-        <div class="row">
-            <?php echo $form->labelEx($model, 'hasChildren'); ?>
-            <br/>
-            <?php echo $form->checkBox($model, 'hasChildren'); ?>
-        </div>
-
-        <div class="row">
-            <?php echo $form->labelEx($model, 'city'); ?>
-            <br/>
-            <?php echo $form->dropDownList($model, 'city', Profile::returnCities(), array('prompt' => 'Choose city')); ?>
+		<?php echo $form->labelEx($model,'first_university_id',array('label'=>'First University')); ?>
+		 <?php
+                        $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+                        'model'=>$model,
+                        'attribute'=>'first_university_name',
+//                        'id'=>'first_university_id',
+                        'name'=>'first_university_id',
+                        'source'=>$this->createURL('profile/suggestUniversity'),
+                         // additional javascript options for the autocomplete plugin
+                        'options'=>array(
+                            'minLength'=>'2',
+                            'select'=>"js:function(event, ui) {
+                                    $('#BasicProfile_first_university_id').val(ui.item['id']);
+                                }"
+                            ),
+                        'htmlOptions'=>array(
+                            'style'=>'height:18px;width:220px'
+                            ),
+                )); ?>
+                
         </div>
 
         <div class="row">
@@ -127,8 +61,8 @@
 
     <?php $this->endWidget(); ?>
 
-</div>
 
+</div>
 
 <style type="text/css">
     .range-div {
@@ -147,10 +81,14 @@
     div.form input[type=checkbox] {
         float:left;
         margin:-1px 4px 2px 2px;
+         
     }
+    
+    
     div.form input[type=radio] {
         float:left;
         margin:-1px 4px 2px 2px;
+
     }
     .form .row {
         padding-bottom:15px;

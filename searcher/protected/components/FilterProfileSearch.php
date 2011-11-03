@@ -34,31 +34,34 @@ class FilterProfileSearch extends AbstractProfileSearch
      */
 
     public $modificationOfCriteriaAccordingToValuesFromFilterForm = array(
-        'education' => array(
-            'type' => 'IntegerSlider',
-            'config' => array(
-                'defaultMinValue' => 0,
-                'defaultMaxValue' => 3,
-            ),
-        ),
+//        'education' => array(
+//            'type' => 'IntegerSlider',
+//            'config' => array(
+//                'defaultMinValue' => 0,
+//                'defaultMaxValue' => 3,
+//            ),
+//        ),
         'race_id' => array(
             'type' => 'CheckboxList',
+        ),
+        'first_university_id' => array(
+            'type' => 'DropDownList',
         ),
         'gender' => array(
             'type' => 'RadioButton',
         ),
-        'hasPets' => array(
-            'type' => 'Checkbox',
-        ),
-        'hasChildren' => array(
-            'type' => 'Checkbox',
-        ),
-        'city' => array(
-            'type' => 'DropDownList',
-        ),
-        'date_of_birth' => array(
-            'type' => 'AgeSlider'
-        ),
+//        'hasPets' => array(
+//            'type' => 'Checkbox',
+//        ),
+//        'hasChildren' => array(
+//            'type' => 'Checkbox',
+//        ),
+//        'city' => array(
+//            'type' => 'DropDownList',
+//        ),
+//        'date_of_birth' => array(
+//            'type' => 'AgeSlider'
+//        ),
     );
 
     /**
