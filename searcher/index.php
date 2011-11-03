@@ -2,7 +2,11 @@
 
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/../yii118/framework/yii.php';
-$config=dirname(__FILE__).'/protected/config/main.php';
+$config=dirname(__FILE__).'/../searcher/protected/config/main.php';
+
+function fb($what){
+  echo Yii::trace(CVarDumper::dumpAsString($what),'vardump');
+}
 
 // remove the following lines when in production mode
 defined('YII_DEBUG') or define('YII_DEBUG',true);

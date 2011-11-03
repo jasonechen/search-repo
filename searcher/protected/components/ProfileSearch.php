@@ -74,18 +74,14 @@ class ProfileSearch extends AbstractProfileSearch
         $this->invokeAdditionalSearchModifiers();
     }
 
-    /**
-     * @return void
-     */
-
     public function clearSearchCriteria()
     {
         $this->criteria = new CDbCriteria();
         $_SESSION['search_q'] = '';
         Yii::app()->controller->redirect(Yii::app()->controller->createUrl('search/index'));
         Yii::app()->end();
-    }
-
+    }    
+    
     /**
      * Modifies search criteria according to search Query
      * @return void

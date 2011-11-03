@@ -5,20 +5,19 @@
  */
 class FilterForm extends CFormModel
 {
-	public $educationMax;
-    public $educationMin;
+    public $first_university_name;
+    public $SATMax;
+    public $SATMin;
+    public $first_university_id;
     public $race_id;
     public $gender;
-    public $date_of_birthMin;
-    public $date_of_birthMax;
-    public $hasPets;
-    public $hasChildren;
-    public $city;
+
+
 
 	public function rules()
 	{
 		return array(
-            array('educationMin, educationMax, race_id, gender, date_of_birthMin, date_of_birthMax, hasPets, hasChildren, city', 'safe'),
+            array('first_university_name, gender, SATMax, SATMin, first_university_id, race_id', 'safe'),
 		);
 	}
 }

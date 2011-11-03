@@ -8,7 +8,7 @@
  * @property string $name
  *
  * The followings are the available model relations:
- * @property Profile[] $profiles
+ * @property BasicProfile[] $basicProfiles
  */
 class RaceType extends CActiveRecord
 {
@@ -54,7 +54,7 @@ class RaceType extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'profiles' => array(self::HAS_MANY, 'Profile', 'race_id'),
+			'basicProfiles' => array(self::HAS_MANY, 'BasicProfile', 'race_id'),
 		);
 	}
 
@@ -86,10 +86,10 @@ class RaceType extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
-	}
-
-    public static function getTitles()
-    {
-        return CHtml::listData(self::model()->findAll(), 'id', 'name');
-    }
+        }
+        
+        public static function getTypes()
+        {
+            return CHtml::listData(self::model()->findAll(), 'id', 'name');
+        }
 }

@@ -1,10 +1,18 @@
 <?php
-$this->pageTitle=Yii::app()->name . ' - About';
-$this->breadcrumbs=array(
-	'About',
-);
+$this->pageTitle=Yii::app()->name . ' - About Us';
+/*$this->breadcrumbs=array(
+	'About Us',
+);*/
 ?>
-<h1>About</h1>
+<h2>About Us</h2>
 
-<p>This is a "static" page. You may change the content of this page
-by updating the file <tt><?php echo __FILE__; ?></tt>.</p>
+<div class="span-15 last">
+    <p>
+        Meceve was founded in 2011.  
+
+    
+</div>
+<div class="span-20">
+
+ </div>
+<div class="span-26"><br></br><br></br><br></br><br></br><br></br><br></br></div>

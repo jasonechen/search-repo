@@ -31,15 +31,11 @@ class Controller extends CController
         {
             $this->filterModel->setAttributes($_GET['FilterForm']);
         }
-        if(!isset($_GET['FilterForm']['educationMin']) && !isset($_GET['FilterForm']['educationMax']))
+        if(!isset($_GET['FilterForm']['SATMin']) && !isset($_GET['FilterForm']['SATMax']))
         {
-            $this->filterModel->educationMin = 0;
-            $this->filterModel->educationMax = 3;
+            $this->filterModel->SATMin = 0;
+            $this->filterModel->SATMax = 2400;
         }
-        if(!isset($_GET['FilterForm']['date_of_birthMin']) && !isset($_GET['FilterForm']['date_of_birthMax']))
-        {
-            $this->filterModel->date_of_birthMin = 0;
-            $this->filterModel->date_of_birthMax = 7;
-        }
+
     }
 }

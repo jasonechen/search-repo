@@ -6,78 +6,64 @@
 )); ?>
 
 	<div class="row">
-		<?php echo $form->label($model,'id'); ?>
-		<?php echo $form->textField($model,'id',array('size'=>10,'maxlength'=>10)); ?>
+		<?php echo $form->labelEx($model,'user_id'); ?>
+		<?php echo $form->textField($model,'user_id'); ?>
+		<?php echo $form->error($model,'user_id'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'email'); ?>
-		<?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>256)); ?>
+		<?php echo $form->labelEx($model,'first_university_id'); ?>
+		<?php echo $form->textField($model,'first_university_id'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'username'); ?>
-		<?php echo $form->textField($model,'username',array('size'=>60,'maxlength'=>256)); ?>
+		<?php echo $form->labelEx($model,'num_scores'); ?>
+		<?php echo $form->textField($model,'num_scores'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'FirstName'); ?>
-		<?php echo $form->textField($model,'FirstName',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->labelEx($model,'num_aps'); ?>
+		<?php echo $form->textField($model,'num_aps'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'LastName'); ?>
-		<?php echo $form->textField($model,'LastName',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->labelEx($model,'num_sat2s'); ?>
+		<?php echo $form->textField($model,'num_sat2s'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'race_id'); ?>
-		<?php echo $form->textField($model,'race_id',array('size'=>1,'maxlength'=>1)); ?>
+		<?php echo $form->labelEx($model,'num_competitions'); ?>
+		<?php echo $form->textField($model,'num_competitions'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'religion_id'); ?>
-		<?php echo $form->textField($model,'religion_id',array('size'=>2,'maxlength'=>2)); ?>
+		<?php echo $form->labelEx($model,'num_sports'); ?>
+		<?php echo $form->textField($model,'num_sports'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'gender'); ?>
-		<?php echo $form->textField($model,'gender',array('size'=>1,'maxlength'=>1)); ?>
+		<?php echo $form->labelEx($model,'num_academics'); ?>
+		<?php echo $form->textField($model,'num_academics'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'hasPets'); ?>
-		<?php echo $form->textField($model,'hasPets',array('size'=>1,'maxlength'=>1)); ?>
+		<?php echo $form->labelEx($model,'num_extracurriculars'); ?>
+		<?php echo $form->textField($model,'num_extracurriculars'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'hasChildren'); ?>
-		<?php echo $form->textField($model,'hasChildren',array('size'=>1,'maxlength'=>1)); ?>
+		<?php echo $form->labelEx($model,'num_essays'); ?>
+		<?php echo $form->textField($model,'num_essays'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'education'); ?>
-		<?php echo $form->textField($model,'education'); ?>
+		<?php echo $form->labelEx($model,'profile_type'); ?>
+		<?php echo $form->textField($model,'profile_type'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'income_bracket'); ?>
-		<?php echo $form->textField($model,'income_bracket'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'city'); ?>
-		<?php echo $form->textField($model,'city',array('size'=>50,'maxlength'=>50)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'photo_id'); ?>
-		<?php echo $form->textField($model,'photo_id',array('size'=>10,'maxlength'=>10)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'date_of_birth'); ?>
-		<?php echo $form->textField($model,'date_of_birth'); ?>
+		<?php echo $form->labelEx($model,'sat_I_score_range'); ?>
+		<?php echo $form->textField($model,'sat_I_score_range'); ?>
 	</div>
 
 	<div class="row buttons">
