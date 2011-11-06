@@ -13,11 +13,11 @@ $this->setViewProfileMenu($profileID);
 
 <?php
     if ($scoreProfile!==null){
-        $this->renderPartial('_viewScores',array('scoreProfile'=>$scoreProfile));
+        $this->renderPartial('_viewScores',array('scoreProfile'=>$scoreProfile, 'profileID' => $profileID));
     }
 ?>
 <?php
     if ($sat2ProfileArray!==null){
-        $this->renderPartial('_viewSat2s',array('sat2ProfileArray'=>$sat2ProfileArray));
+        $this->renderPartial('_viewSat2s',array('sat2ProfileArray'=>$sat2ProfileArray, 'profileID' => $profileID));
     }
 ?>

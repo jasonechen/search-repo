@@ -13,6 +13,10 @@ $this->setViewProfileMenu($profileID);
 
 <?php
    
-        $this->renderPartial('_viewBasic',array('basicProfile'=>$basicProfile,'personalProfile'=>$personalProfile));
+        $this->renderPartial('_viewBasic',array(
+                                               'basicProfile' => $basicProfile,
+                                               'personalProfile' => $personalProfile,
+                                               'profileID' => $profileID,
+                                          ));
   
 ?>

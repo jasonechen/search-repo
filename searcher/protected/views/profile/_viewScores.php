@@ -36,3 +36,15 @@
     </tbody>
 </table>
 <br/>
+
+    <h2> User rating</h2>
+
+    <?php
+        $this->widget('application.components.widgets.StarRatingWidget',
+                      array(
+                          'user_id' => $profileID,
+                          'enableComments' => true,
+                          'enableCommentsId' => '#rating-comment',
+                      )
+        );
+    ?>

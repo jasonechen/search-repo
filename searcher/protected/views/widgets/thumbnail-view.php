@@ -27,7 +27,16 @@
 	    <br />
         <strong><?php echo CHtml::encode($data->getAttributeLabel('first_university_id')); ?>:</strong>
 	    <?php echo CHtml::encode($data->firstUniversity->name); ?>
-	    <br />
+	    <br /><br />
+        <?php
+        $this->widget('application.components.widgets.StarRatingWidget',
+                      array(
+                          'user_id' => $data->user_id,
+                          'enableComments' => false,
+                          'isDisabled' => true,
+                      )
+        );
+        ?>
             
 
                 <?php
@@ -46,7 +55,16 @@
 	    <br />
         <strong><?php echo CHtml::encode($data->getAttributeLabel('first_university_id')); ?>:</strong>
 	    <?php echo CHtml::encode($data->firstUniversity->name); ?>
-	    <br />
+	    <br /><br />
+        <?php
+        $this->widget('application.components.widgets.StarRatingWidget',
+                      array(
+                          'user_id' => $data->user_id,
+                          'enableComments' => false,
+                          'isDisabled' => true,
+                      )
+        );
+        ?>
 
     <?php
     }

@@ -30,7 +30,7 @@
     //    $image= CHtml::image(Yii::app()->request->baseURL. '/images/body2.gif'); 
    //     echo Chtml::link($image, array('site/learnmore')) ?>
             
-            <br></br>
+            <br><br/>
          
          <h3 class="caps">
               TITLE DESCRIPTION

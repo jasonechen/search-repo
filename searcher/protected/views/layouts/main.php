@@ -81,9 +81,9 @@
 	<?php echo $content; ?>
 </div>      
          
-        
 
-</body>
+
+
 <div id="footerbody">
     <hr> 
     <div class="container">
@@ -123,9 +123,9 @@
             </div>
             
 
-         <div class="span-26"><br></br></div>
+         <div class="span-26"><br><br/></div>
          
-         <div class="span-4"><br></br></div>
+         <div class="span-4"><br><br/></div>
             <div class="span-10 pull-4">
                                  
                 <ftnt>     Copyright &copy; <?php echo date('Y'); ?> by Meceve Inc. All Rights Reserved.</ftnt><br/>
@@ -153,7 +153,8 @@
         )
 ));?> 
                 </div><!-- page -->
-         <div class="span-26"><br></br></div>  
+         <div class="span-26"><br><br/></div>
         </div>    
 </div>
+</body>
 </html>
