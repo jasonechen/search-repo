@@ -48,8 +48,11 @@ class FilterProfileSearch extends AbstractProfileSearch
             'type' => 'DropDownList',
         ),
         'gender' => array(
-            'type' => 'RadioButton',
+            'type' => 'CheckboxList',
         ),
+        /*'first_university_id' => array(
+            'type' => 'hiddenField',
+        ),*/
 //        'hasPets' => array(
 //            'type' => 'Checkbox',
 //        ),

@@ -13,22 +13,23 @@
     
         <div class="clear"></div><br/>
         <div class="filtercheckform">
-        <div class="row">
-            
-             <?php echo $form->labelEx($model, 'race_id', array('label'=>'Race')); ?> 
-            <br/>
-             <?php echo $form->checkBoxList($model, 'race_id', RaceType::getTypes()); ?>
-        </div>
+            <div class="row">
 
-        <div class="row">
-            <?php echo $form->labelEx($model, 'gender'); ?>
-            <br/>
-            <?php echo $form->radioButtonList($model, 'gender', array(
-                                                                     'M' => 'Male',
-                                                                     'F' => 'Female',
-                                                                ));
-            ?>
-        </div>
+                 <?php echo $form->labelEx($model, 'race_id', array('label'=>'Race')); ?>
+                <br/>
+                 <?php echo $form->checkBoxList($model, 'race_id', RaceType::getTypes()); ?>
+            </div>
+
+            <div class="row">
+                <?php echo $form->labelEx($model, 'gender'); ?>
+                <br/>
+                <?php echo $form->checkBoxList($model, 'gender', array(
+                                                                         'M' => 'Male',
+                                                                         'F' => 'Female',
+                                                                    ));
+                ?>
+            </div>
+            <?php //echo $form->hiddenField($model, 'first_university_id', array('value' => 1)); ?>
         </div>
   
         <div class="row">

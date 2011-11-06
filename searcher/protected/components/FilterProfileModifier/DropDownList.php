@@ -13,9 +13,8 @@ class DropDownList extends AbstractModifier
     /**
      * redefinition of abstract method
      * @param string $config additional config if needed
-     * @return void
+     * @return CDbCriteria $criteria
      */
-
 
     public function modifyCriteria($config = '')
     {
