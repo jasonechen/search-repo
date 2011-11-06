@@ -1,20 +1,20 @@
 -- phpMyAdmin SQL Dump
 -- version 2.6.4-pl3
 -- http://www.phpmyadmin.net
--- 
+--
 -- Хост: localhost
--- Время создания: Ноя 06 2011 г., 02:03
+-- Время создания: Ноя 06 2011 г., 23:30
 -- Версия сервера: 5.0.67
 -- Версия PHP: 5.3.8
--- 
+--
 -- БД: `searcher_test`
--- 
+--
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `authassignment`
--- 
+--
 
 DROP TABLE IF EXISTS `authassignment`;
 CREATE TABLE `authassignment` (
@@ -25,16 +25,16 @@ CREATE TABLE `authassignment` (
   PRIMARY KEY  (`itemname`,`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Дамп данных таблицы `authassignment`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `authitem`
--- 
+--
 
 DROP TABLE IF EXISTS `authitem`;
 CREATE TABLE `authitem` (
@@ -46,9 +46,9 @@ CREATE TABLE `authitem` (
   PRIMARY KEY  (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Дамп данных таблицы `authitem`
--- 
+--
 
 INSERT INTO `authitem` VALUES ('admin', 2, '', NULL, 'N;');
 INSERT INTO `authitem` VALUES ('buyerLevel1', 2, '', NULL, 'N;');
@@ -83,9 +83,9 @@ INSERT INTO `authitem` VALUES ('viewLevel3', 0, 'viewLevel3', NULL, 'N;');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `authitemchild`
--- 
+--
 
 DROP TABLE IF EXISTS `authitemchild`;
 CREATE TABLE `authitemchild` (
@@ -95,9 +95,9 @@ CREATE TABLE `authitemchild` (
   KEY `child` (`child`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Дамп данных таблицы `authitemchild`
--- 
+--
 
 INSERT INTO `authitemchild` VALUES ('admin', 'buyerLevel1');
 INSERT INTO `authitemchild` VALUES ('seller', 'buyerLevel1');
@@ -138,9 +138,9 @@ INSERT INTO `authitemchild` VALUES ('buyerLevel3', 'viewLevel3');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_academic_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_academic_profile`;
 CREATE TABLE `tbl_academic_profile` (
@@ -154,18 +154,18 @@ CREATE TABLE `tbl_academic_profile` (
   PRIMARY KEY  (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Дамп данных таблицы `tbl_academic_profile`
--- 
+--
 
 INSERT INTO `tbl_academic_profile` VALUES (29, 'S', NULL, '', NULL, 2, NULL);
 INSERT INTO `tbl_academic_profile` VALUES (33, '', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_activity_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_activity_profile`;
 CREATE TABLE `tbl_activity_profile` (
@@ -187,16 +187,16 @@ CREATE TABLE `tbl_activity_profile` (
   KEY `TYPE` (`activity_type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_activity_profile`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_activity_type`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_activity_type`;
 CREATE TABLE `tbl_activity_type` (
@@ -205,9 +205,9 @@ CREATE TABLE `tbl_activity_type` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Дамп данных таблицы `tbl_activity_type`
--- 
+--
 
 INSERT INTO `tbl_activity_type` VALUES ('AA', 'Academic Honor Society');
 INSERT INTO `tbl_activity_type` VALUES ('AB', 'Art Activity or Club');
@@ -235,9 +235,9 @@ INSERT INTO `tbl_activity_type` VALUES ('AW', 'Other Club');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_ap_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_ap_profile`;
 CREATE TABLE `tbl_ap_profile` (
@@ -255,9 +255,9 @@ CREATE TABLE `tbl_ap_profile` (
   KEY `TYPE` (`ap_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_ap_profile`
--- 
+--
 
 INSERT INTO `tbl_ap_profile` VALUES (10, 29, 'EL', 2, NULL, '2011-10-24 16:41:53', 29, '2011-10-24 16:41:53', 29);
 INSERT INTO `tbl_ap_profile` VALUES (11, 29, 'CS', 1, NULL, '2011-10-24 19:21:00', 29, '2011-10-24 19:21:00', 29);
@@ -265,9 +265,9 @@ INSERT INTO `tbl_ap_profile` VALUES (14, 33, 'BI', 3, NULL, '2011-11-03 00:18:04
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_ap_type`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_ap_type`;
 CREATE TABLE `tbl_ap_type` (
@@ -276,9 +276,9 @@ CREATE TABLE `tbl_ap_type` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Дамп данных таблицы `tbl_ap_type`
--- 
+--
 
 INSERT INTO `tbl_ap_type` VALUES ('AB', 'Calculus AB');
 INSERT INTO `tbl_ap_type` VALUES ('AH', 'Art History');
@@ -313,9 +313,9 @@ INSERT INTO `tbl_ap_type` VALUES ('WH', 'World History');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_award_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_award_profile`;
 CREATE TABLE `tbl_award_profile` (
@@ -333,17 +333,17 @@ CREATE TABLE `tbl_award_profile` (
   KEY `USER` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_award_profile`
--- 
+--
 
 INSERT INTO `tbl_award_profile` VALUES (3, 28, 4, 'National Latin Exam', 'exam', '6', '2011-10-27 23:18:09', 28, '2011-10-27 23:18:09', 28);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_basic_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_basic_profile`;
 CREATE TABLE `tbl_basic_profile` (
@@ -381,18 +381,18 @@ CREATE TABLE `tbl_basic_profile` (
   KEY `CUNIV` (`curr_university_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Дамп данных таблицы `tbl_basic_profile`
--- 
+--
 
 INSERT INTO `tbl_basic_profile` VALUES (29, 'smitty', 1, 2047, '', 'F', 1, 'PRN', 'B', NULL, 0, 0, 0, 0, 0, 0, 0, 0, NULL, 1, 1, 1, NULL, 3, '2011-10-31 20:24:30', 29, '2011-10-31 21:46:30', 29);
 INSERT INTO `tbl_basic_profile` VALUES (33, 'test1', 1, 2039, 'N', 'M', 1, 'PUB', 'A', 7, 4, 1, 0, 0, 0, 0, 0, 0, NULL, 0, 0, 0, NULL, 5, '2011-11-03 00:16:53', 33, '2011-11-03 00:18:04', 33);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_citizen_type`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_citizen_type`;
 CREATE TABLE `tbl_citizen_type` (
@@ -401,9 +401,9 @@ CREATE TABLE `tbl_citizen_type` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=4 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_citizen_type`
--- 
+--
 
 INSERT INTO `tbl_citizen_type` VALUES (1, 'United States of America ');
 INSERT INTO `tbl_citizen_type` VALUES (2, 'Afghanistan');
@@ -411,9 +411,9 @@ INSERT INTO `tbl_citizen_type` VALUES (3, 'Albania');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_competition_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_competition_profile`;
 CREATE TABLE `tbl_competition_profile` (
@@ -433,16 +433,16 @@ CREATE TABLE `tbl_competition_profile` (
   KEY `USER` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_competition_profile`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_essay_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_essay_profile`;
 CREATE TABLE `tbl_essay_profile` (
@@ -460,16 +460,16 @@ CREATE TABLE `tbl_essay_profile` (
   KEY `USER` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_essay_profile`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_ethnic_type`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_ethnic_type`;
 CREATE TABLE `tbl_ethnic_type` (
@@ -478,9 +478,9 @@ CREATE TABLE `tbl_ethnic_type` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=123 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_ethnic_type`
--- 
+--
 
 INSERT INTO `tbl_ethnic_type` VALUES (1, 0x4166726963616e2d416d65726963616e202f20426c61636b);
 INSERT INTO `tbl_ethnic_type` VALUES (2, 0x416c62616e69616e);
@@ -517,9 +517,9 @@ INSERT INTO `tbl_ethnic_type` VALUES (122, 0x4f74686572);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_highschool_name`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_highschool_name`;
 CREATE TABLE `tbl_highschool_name` (
@@ -545,9 +545,9 @@ CREATE TABLE `tbl_highschool_name` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Дамп данных таблицы `tbl_highschool_name`
--- 
+--
 
 INSERT INTO `tbl_highschool_name` VALUES (1, 'bronx science', '', 'New York', 'NY', 127, 0, 0, 0.00, 0.00, 0.00, 0, 0, 0, 0, 0, 0, 0, '1');
 INSERT INTO `tbl_highschool_name` VALUES (2, 'palo alto high school', 'el camino real', 'Palo Alto', 'CA', 0, 0, 0, 0.00, 0.00, 0.00, 0, 0, 0, 0, 0, 0, 0, '1');
@@ -555,9 +555,9 @@ INSERT INTO `tbl_highschool_name` VALUES (3, 'Philips Exeter Acadamy', '', 'Ando
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_highschool_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_highschool_profile`;
 CREATE TABLE `tbl_highschool_profile` (
@@ -575,16 +575,16 @@ CREATE TABLE `tbl_highschool_profile` (
   KEY `HS` (`highSchool_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_highschool_profile`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_language_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_language_profile`;
 CREATE TABLE `tbl_language_profile` (
@@ -599,9 +599,9 @@ CREATE TABLE `tbl_language_profile` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=8 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_language_profile`
--- 
+--
 
 INSERT INTO `tbl_language_profile` VALUES (2, 28, 0x4131, 4, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
 INSERT INTO `tbl_language_profile` VALUES (4, 28, 0x4150, 3, '2011-10-25 09:50:12', 28, '2011-10-25 09:50:12', 28);
@@ -611,9 +611,9 @@ INSERT INTO `tbl_language_profile` VALUES (7, 33, 0x4136, 1, '2011-11-03 00:17:3
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_language_type`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_language_type`;
 CREATE TABLE `tbl_language_type` (
@@ -622,9 +622,9 @@ CREATE TABLE `tbl_language_type` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- 
+--
 -- Дамп данных таблицы `tbl_language_type`
--- 
+--
 
 INSERT INTO `tbl_language_type` VALUES (0x4130, '');
 INSERT INTO `tbl_language_type` VALUES (0x4131, 'Albanian');
@@ -705,9 +705,9 @@ INSERT INTO `tbl_language_type` VALUES (0x434f, 'Zhuang');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_major_type`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_major_type`;
 CREATE TABLE `tbl_major_type` (
@@ -716,9 +716,9 @@ CREATE TABLE `tbl_major_type` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=10 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_major_type`
--- 
+--
 
 INSERT INTO `tbl_major_type` VALUES (1, 0x41637475617269616c20536369656e63657320);
 INSERT INTO `tbl_major_type` VALUES (2, 0x4164756c74202620436f6e74696e75696e6720456475636174696f6e);
@@ -732,9 +732,9 @@ INSERT INTO `tbl_major_type` VALUES (9, 0x4167726963756c747572616c20536369656e63
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_map_profile_student`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_map_profile_student`;
 CREATE TABLE `tbl_map_profile_student` (
@@ -751,9 +751,9 @@ CREATE TABLE `tbl_map_profile_student` (
   KEY `tbl_map_profile_student_ibfk_2` (`purchased_profile_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Дамп данных таблицы `tbl_map_profile_student`
--- 
+--
 
 INSERT INTO `tbl_map_profile_student` VALUES (29, 29, 0, 0, 0, 1, NULL, NULL, NULL);
 INSERT INTO `tbl_map_profile_student` VALUES (33, 33, 0, 0, 0, 1, NULL, NULL, NULL);
@@ -762,9 +762,9 @@ INSERT INTO `tbl_map_profile_student` VALUES (34, 34, 0, 0, 0, 1, NULL, NULL, NU
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_music_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_music_profile`;
 CREATE TABLE `tbl_music_profile` (
@@ -786,17 +786,17 @@ CREATE TABLE `tbl_music_profile` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=3 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_music_profile`
--- 
+--
 
 INSERT INTO `tbl_music_profile` VALUES (2, 29, 7, 3, 9, 13, NULL, NULL, NULL, NULL, '', '2011-10-24 16:42:23', 29, '2011-10-24 16:42:23', 29);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_other_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_other_profile`;
 CREATE TABLE `tbl_other_profile` (
@@ -813,17 +813,17 @@ CREATE TABLE `tbl_other_profile` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=3 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_other_profile`
--- 
+--
 
 INSERT INTO `tbl_other_profile` VALUES (2, 28, 0x6173, 4, 6, 0x6173646664617366, '2011-10-25 10:20:45', 28, '2011-10-25 10:20:45', 28);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_other_school_admit_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_other_school_admit_profile`;
 CREATE TABLE `tbl_other_school_admit_profile` (
@@ -837,9 +837,9 @@ CREATE TABLE `tbl_other_school_admit_profile` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=13 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_other_school_admit_profile`
--- 
+--
 
 INSERT INTO `tbl_other_school_admit_profile` VALUES (6, 28, 1805, '2011-10-25 11:08:58', 28, '2011-10-25 11:08:58', 28);
 INSERT INTO `tbl_other_school_admit_profile` VALUES (8, 28, 779, '2011-10-25 11:11:44', 28, '2011-10-25 11:11:44', 28);
@@ -850,9 +850,9 @@ INSERT INTO `tbl_other_school_admit_profile` VALUES (12, 29, 2096, '2011-10-31 1
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_personal_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_personal_profile`;
 CREATE TABLE `tbl_personal_profile` (
@@ -880,18 +880,18 @@ CREATE TABLE `tbl_personal_profile` (
   KEY `RELIGION` (`religion_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Дамп данных таблицы `tbl_personal_profile`
--- 
+--
 
 INSERT INTO `tbl_personal_profile` VALUES (29, '0000-00-00', '1', 7, 'N', 'N', '07645', 13, 'B', 'M', NULL, NULL, NULL, '6', 2009, NULL, '2011-10-24 16:41:24', 29, '2011-10-31 20:24:59', 29);
 INSERT INTO `tbl_personal_profile` VALUES (33, '0000-00-00', '1', 10, 'N', 'N', '60450', 29, NULL, NULL, NULL, NULL, NULL, '8', 2010, NULL, '2011-11-03 00:16:53', 33, '2011-11-03 00:17:29', 33);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_race_type`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_race_type`;
 CREATE TABLE `tbl_race_type` (
@@ -900,9 +900,9 @@ CREATE TABLE `tbl_race_type` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Дамп данных таблицы `tbl_race_type`
--- 
+--
 
 INSERT INTO `tbl_race_type` VALUES ('A', 'White');
 INSERT INTO `tbl_race_type` VALUES ('B', 'Asian / Asian-American / Pacific-Islander');
@@ -915,33 +915,36 @@ INSERT INTO `tbl_race_type` VALUES ('H', 'Other');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_rating`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_rating`;
 CREATE TABLE `tbl_rating` (
+  `id` int(10) unsigned NOT NULL auto_increment,
   `user_id` int(10) unsigned NOT NULL,
-  `user_id_by` int(10) unsigned NOT NULL,
-  `rating` int(1) unsigned NOT NULL,
+  `rating` int(1) unsigned default NULL,
   `comment` varchar(255) character set utf8 collate utf8_bin NOT NULL,
-  KEY `FK_tbl_rating_1` (`user_id`),
-  KEY `FK_tbl_rating_2` (`user_id_by`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `create_user_id` int(10) default NULL,
+  `create_time` datetime default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `FK_tbl_rating_1` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_rating`
--- 
+--
 
-INSERT INTO `tbl_rating` VALUES (29, 34, 3, 0x7465737420636f6d6d656e7420666f7220726174696e67);
-INSERT INTO `tbl_rating` VALUES (29, 34, 2, 0x7465737420636f6d6d656e74203220666f7220726174696e67);
-INSERT INTO `tbl_rating` VALUES (29, 33, 5, 0x7465737420636f6d6d656e74203320666f7220726174696e67);
+INSERT INTO `tbl_rating` VALUES (1, 29, 2, 0x62616420636f6d6d656e74, 33, '2011-11-06 17:49:09');
+INSERT INTO `tbl_rating` VALUES (2, 29, 5, 0x676f6f6420636f6d6d656e74, 34, '2011-11-06 03:49:09');
+INSERT INTO `tbl_rating` VALUES (3, 29, 4, 0x6e65757472616c20636f6d6d656e74, 34, '2011-11-06 18:49:09');
+INSERT INTO `tbl_rating` VALUES (4, 33, 3, 0x74657374, 34, '2011-11-06 18:49:09');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_religion_type`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_religion_type`;
 CREATE TABLE `tbl_religion_type` (
@@ -950,9 +953,9 @@ CREATE TABLE `tbl_religion_type` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Дамп данных таблицы `tbl_religion_type`
--- 
+--
 
 INSERT INTO `tbl_religion_type` VALUES ('A0', '');
 INSERT INTO `tbl_religion_type` VALUES ('A1', 'I prefer not to answer');
@@ -973,9 +976,9 @@ INSERT INTO `tbl_religion_type` VALUES ('BD', 'Atheist/Agnostic');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_research_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_research_profile`;
 CREATE TABLE `tbl_research_profile` (
@@ -994,17 +997,17 @@ CREATE TABLE `tbl_research_profile` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=2 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_research_profile`
--- 
+--
 
 INSERT INTO `tbl_research_profile` VALUES (1, 28, 0x416c7a6865696d657227732044697365617365, 28, 4, 6, 2, '', '2011-10-23 11:24:32', 28, '2011-10-23 11:24:32', 28);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_sat2_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_sat2_profile`;
 CREATE TABLE `tbl_sat2_profile` (
@@ -1022,16 +1025,16 @@ CREATE TABLE `tbl_sat2_profile` (
   KEY `TYPE` (`sat2_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_sat2_profile`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_sat2_type`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_sat2_type`;
 CREATE TABLE `tbl_sat2_type` (
@@ -1040,9 +1043,9 @@ CREATE TABLE `tbl_sat2_type` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Дамп данных таблицы `tbl_sat2_type`
--- 
+--
 
 INSERT INTO `tbl_sat2_type` VALUES ('CH', 'Chemistry');
 INSERT INTO `tbl_sat2_type` VALUES ('CL', 'Chinese with Listening');
@@ -1068,9 +1071,9 @@ INSERT INTO `tbl_sat2_type` VALUES ('WH', 'World History');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_score_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_score_profile`;
 CREATE TABLE `tbl_score_profile` (
@@ -1095,18 +1098,18 @@ CREATE TABLE `tbl_score_profile` (
   PRIMARY KEY  (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Дамп данных таблицы `tbl_score_profile`
--- 
+--
 
 INSERT INTO `tbl_score_profile` VALUES (29, 290, 280, 300, 2, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, '2011-10-24 16:42:04', 29, '2011-10-24 19:20:56', 29);
 INSERT INTO `tbl_score_profile` VALUES (33, 780, 500, 500, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2011-11-03 00:17:54', 33, '2011-11-03 00:17:54', 33);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_sport_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_sport_profile`;
 CREATE TABLE `tbl_sport_profile` (
@@ -1130,16 +1133,16 @@ CREATE TABLE `tbl_sport_profile` (
   KEY `TYPE` (`sport_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_sport_profile`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_sport_type`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_sport_type`;
 CREATE TABLE `tbl_sport_type` (
@@ -1148,9 +1151,9 @@ CREATE TABLE `tbl_sport_type` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Дамп данных таблицы `tbl_sport_type`
--- 
+--
 
 INSERT INTO `tbl_sport_type` VALUES ('ARC', 'Archery');
 INSERT INTO `tbl_sport_type` VALUES ('BAD', 'Badminton');
@@ -1191,9 +1194,9 @@ INSERT INTO `tbl_sport_type` VALUES ('XCO', 'Cross-Country');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_states`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_states`;
 CREATE TABLE `tbl_states` (
@@ -1203,9 +1206,9 @@ CREATE TABLE `tbl_states` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=55 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_states`
--- 
+--
 
 INSERT INTO `tbl_states` VALUES (1, 0x416c6162616d61, 0x414c);
 INSERT INTO `tbl_states` VALUES (2, 0x416c61736b61, 0x414b);
@@ -1264,9 +1267,9 @@ INSERT INTO `tbl_states` VALUES (54, 0x57796f6d696e67, 0x5759);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_subject_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_subject_profile`;
 CREATE TABLE `tbl_subject_profile` (
@@ -1284,17 +1287,17 @@ CREATE TABLE `tbl_subject_profile` (
   KEY `USER` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_subject_profile`
--- 
+--
 
 INSERT INTO `tbl_subject_profile` VALUES (9, 29, 4, 6, 1, 5, '2011-10-28 21:30:26', 29, '2011-10-28 21:30:26', 29);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_subject_type`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_subject_type`;
 CREATE TABLE `tbl_subject_type` (
@@ -1303,9 +1306,9 @@ CREATE TABLE `tbl_subject_type` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=55 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_subject_type`
--- 
+--
 
 INSERT INTO `tbl_subject_type` VALUES (1, 0x416c67656272612049);
 INSERT INTO `tbl_subject_type` VALUES (2, 0x416c6765627261204949);
@@ -1364,9 +1367,9 @@ INSERT INTO `tbl_subject_type` VALUES (54, 0x57726974696e67);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_summer_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_summer_profile`;
 CREATE TABLE `tbl_summer_profile` (
@@ -1383,17 +1386,17 @@ CREATE TABLE `tbl_summer_profile` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=4 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_summer_profile`
--- 
+--
 
 INSERT INTO `tbl_summer_profile` VALUES (3, 28, '', 7, 5, '', '2011-10-25 01:08:57', 28, '2011-10-25 01:08:57', 28);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_university_name`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_university_name`;
 CREATE TABLE `tbl_university_name` (
@@ -1403,9 +1406,9 @@ CREATE TABLE `tbl_university_name` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Дамп данных таблицы `tbl_university_name`
--- 
+--
 
 INSERT INTO `tbl_university_name` VALUES (1, 'Abilene Christian University', 'AL');
 INSERT INTO `tbl_university_name` VALUES (2, 'Abraham Baldwin Agricultural C', 'AL');
@@ -1842,9 +1845,9 @@ INSERT INTO `tbl_university_name` VALUES (2532, 'Zion Bible College', 'CA');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_user`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_user`;
 CREATE TABLE `tbl_user` (
@@ -1867,9 +1870,9 @@ CREATE TABLE `tbl_user` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_user`
--- 
+--
 
 INSERT INTO `tbl_user` VALUES (29, 0, 'S', 'C', 'jsmith@gmail.com', 'jsmith', 'f75e19aa8da1f3bef9aaa878e8375dce840b3df185dbb3caed29c89dfef04afacc1c696bfb77d3d2b7153b0d4185a5e933b831263297099c21044bd824004963', 'John', 'Smith', NULL, 'A', NULL, '2011-10-24 16:40:19', NULL, '2011-10-24 16:40:19', NULL);
 INSERT INTO `tbl_user` VALUES (33, 0, 'S', 'C', 'test@gmail.com', 'test', '8a3815c4b5efae15ebdaf24c593526d495eb263c7871b8234572f5b02bfa296d6d8f6ab88e2de6160b26c118db1732fc9d3d7ba213caf13ac84ff0e52f3042d7', 'test', 'testy', NULL, 'A', NULL, '2011-11-03 00:14:11', NULL, '2011-11-03 00:14:11', NULL);
@@ -1877,9 +1880,9 @@ INSERT INTO `tbl_user` VALUES (34, 0, 'S', 'C', 'test2@gmail.com', 'test2', '03a
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_user_credit`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_user_credit`;
 CREATE TABLE `tbl_user_credit` (
@@ -1889,9 +1892,9 @@ CREATE TABLE `tbl_user_credit` (
   PRIMARY KEY  (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Дамп данных таблицы `tbl_user_credit`
--- 
+--
 
 INSERT INTO `tbl_user_credit` VALUES (29, 11, 0);
 INSERT INTO `tbl_user_credit` VALUES (33, 0, 0);
@@ -1899,9 +1902,9 @@ INSERT INTO `tbl_user_credit` VALUES (34, 51, 0);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_volunteer_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_volunteer_profile`;
 CREATE TABLE `tbl_volunteer_profile` (
@@ -1921,16 +1924,16 @@ CREATE TABLE `tbl_volunteer_profile` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_volunteer_profile`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Структура таблицы `tbl_work_profile`
--- 
+--
 
 DROP TABLE IF EXISTS `tbl_work_profile`;
 CREATE TABLE `tbl_work_profile` (
@@ -1950,118 +1953,117 @@ CREATE TABLE `tbl_work_profile` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
--- 
+--
 -- Дамп данных таблицы `tbl_work_profile`
--- 
+--
 
 
--- 
+--
 -- Constraints for dumped tables
--- 
+--
 
--- 
+--
 -- Constraints for table `authassignment`
--- 
+--
 ALTER TABLE `authassignment`
   ADD CONSTRAINT `authassignment_ibfk_1` FOREIGN KEY (`itemname`) REFERENCES `authitem` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- 
+--
 -- Constraints for table `authitemchild`
--- 
+--
 ALTER TABLE `authitemchild`
   ADD CONSTRAINT `authitemchild_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `authitem` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `authitemchild_ibfk_2` FOREIGN KEY (`child`) REFERENCES `authitem` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- 
+--
 -- Constraints for table `tbl_academic_profile`
--- 
+--
 ALTER TABLE `tbl_academic_profile`
   ADD CONSTRAINT `tbl_academic_profile_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- 
+--
 -- Constraints for table `tbl_activity_profile`
--- 
+--
 ALTER TABLE `tbl_activity_profile`
   ADD CONSTRAINT `tbl_activity_profile_ibfk_1` FOREIGN KEY (`activity_type_id`) REFERENCES `tbl_activity_type` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   ADD CONSTRAINT `tbl_activity_profile_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- 
+--
 -- Constraints for table `tbl_ap_profile`
--- 
+--
 ALTER TABLE `tbl_ap_profile`
   ADD CONSTRAINT `tbl_ap_profile_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_ap_profile_ibfk_2` FOREIGN KEY (`ap_id`) REFERENCES `tbl_ap_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- 
+--
 -- Constraints for table `tbl_basic_profile`
--- 
+--
 ALTER TABLE `tbl_basic_profile`
   ADD CONSTRAINT `tbl_basic_profile_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_basic_profile_ibfk_2` FOREIGN KEY (`first_university_id`) REFERENCES `tbl_university_name` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_basic_profile_ibfk_3` FOREIGN KEY (`race_id`) REFERENCES `tbl_race_type` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   ADD CONSTRAINT `tbl_basic_profile_ibfk_4` FOREIGN KEY (`curr_university_id`) REFERENCES `tbl_university_name` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- 
+--
 -- Constraints for table `tbl_competition_profile`
--- 
+--
 ALTER TABLE `tbl_competition_profile`
   ADD CONSTRAINT `tbl_competition_profile_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- 
+--
 -- Constraints for table `tbl_essay_profile`
--- 
+--
 ALTER TABLE `tbl_essay_profile`
   ADD CONSTRAINT `tbl_essay_profile_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- 
+--
 -- Constraints for table `tbl_map_profile_student`
--- 
+--
 ALTER TABLE `tbl_map_profile_student`
   ADD CONSTRAINT `tbl_map_profile_student_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_map_profile_student_ibfk_2` FOREIGN KEY (`purchased_profile_id`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- 
+--
 -- Constraints for table `tbl_personal_profile`
--- 
+--
 ALTER TABLE `tbl_personal_profile`
   ADD CONSTRAINT `tbl_personal_profile_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_personal_profile_ibfk_2` FOREIGN KEY (`religion_id`) REFERENCES `tbl_religion_type` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
--- 
+--
 -- Constraints for table `tbl_rating`
--- 
+--
 ALTER TABLE `tbl_rating`
-  ADD CONSTRAINT `FK_tbl_rating_2` FOREIGN KEY (`user_id_by`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_tbl_rating_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- 
+--
 -- Constraints for table `tbl_sat2_profile`
--- 
+--
 ALTER TABLE `tbl_sat2_profile`
   ADD CONSTRAINT `tbl_sat2_profile_ibfk_1` FOREIGN KEY (`sat2_id`) REFERENCES `tbl_sat2_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_sat2_profile_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- 
+--
 -- Constraints for table `tbl_score_profile`
--- 
+--
 ALTER TABLE `tbl_score_profile`
   ADD CONSTRAINT `tbl_score_profile_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- 
+--
 -- Constraints for table `tbl_sport_profile`
--- 
+--
 ALTER TABLE `tbl_sport_profile`
   ADD CONSTRAINT `tbl_sport_profile_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_sport_profile_ibfk_2` FOREIGN KEY (`sport_id`) REFERENCES `tbl_sport_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- 
+--
 -- Constraints for table `tbl_subject_profile`
--- 
+--
 ALTER TABLE `tbl_subject_profile`
   ADD CONSTRAINT `tbl_subject_profile_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
--- 
+--
 -- Constraints for table `tbl_user_credit`
--- 
+--
 ALTER TABLE `tbl_user_credit`
   ADD CONSTRAINT `tbl_user_credit_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
