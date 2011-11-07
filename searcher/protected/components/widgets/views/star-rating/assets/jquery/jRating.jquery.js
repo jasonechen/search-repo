@@ -168,7 +168,7 @@
                             'json'
                         );
                     };
-                    if(opts.enableComments && $(opts.enableCommentsId).val() === '')
+                    /*if(opts.enableComments && $(opts.enableCommentsId).val() === '')
                     {
                         postRatingValue = false;
                         alert('Please provide comment for user in field below');
@@ -185,7 +185,7 @@
                                 $(opts.enableCommentsId).focus();
                             }
                         });
-                    }
+                    }*/
 					$(this).unbind().css('cursor','default').addClass('jDisabled');
 					if (opts.showRateInfo) $("p.jRatingInfos").fadeOut('fast',function(){$(this).remove();});
 					e.preventDefault();
