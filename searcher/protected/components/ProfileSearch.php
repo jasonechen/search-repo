@@ -74,6 +74,10 @@ class ProfileSearch extends AbstractProfileSearch
         $this->invokeAdditionalSearchModifiers();
     }
 
+    /**
+     * @return void
+     */
+
     public function clearSearchCriteria()
     {
         $this->criteria = new CDbCriteria();
@@ -91,9 +95,9 @@ class ProfileSearch extends AbstractProfileSearch
     {
         foreach($this->fieldsThatAreSearchable as $key => $value)
         {
-            if($this->checkIfFieldIsSimple($key))
+            if($this->checkIfFieldIsSimple($value))
             {
-                $this->modifyDatabaseCriteriaIfFieldIsSimple($value);
+                $this->modifyDatabaseCriteriaIfFieldIsSimple($key, $value);
             }
             elseif($this->checkIfFieldHasTypeOfEnum($value))
             {
@@ -107,30 +111,46 @@ class ProfileSearch extends AbstractProfileSearch
     }
 
     /**
+     * Method for modifying default order if defined
+     * @param array $field
+     * @return void
+     */
+
+    private function modifyOrder($field)
+    {
+        if(isset($field['order']))
+        {
+            $this->criteria->order = $field['order'];
+        }
+    }
+
+    /**
      * Check if field is simple
-     * @param int $fieldKey field key
+     * @param int $field field
      * @return bool
      */
 
-    private function checkIfFieldIsSimple($fieldKey)
+    private function checkIfFieldIsSimple($field)
     {
-        return is_numeric($fieldKey);
+        return (is_array($field) && isset($field['type']) && $field['type'] == 'simple');
     }
 
     /**
      * Modifies criteria if field is simple
+     * @param string $fieldKey field key
      * @param string $field field
      * @return void
      */
 
-    private function modifyDatabaseCriteriaIfFieldIsSimple($field)
+    private function modifyDatabaseCriteriaIfFieldIsSimple($fieldKey, $field)
     {
-        $this->criteria->compare($field, $this->searchQuery, true, 'OR');
+        $this->criteria->compare($fieldKey, $this->searchQuery, true, 'OR');
+        $this->modifyOrder($field);
     }
 
     /**
      * Check if field has type of enum
-     * @param int $field field
+     * @param array $field field
      * @return bool
      */
 
@@ -150,14 +170,33 @@ class ProfileSearch extends AbstractProfileSearch
     {
         if(!isset($field['synonyms'])) return;
 
+        $breakExternalLoop = false;
+
         foreach($field['synonyms'] as $synonym => $searchString)
         {
             $searchStringArray = explode(',', $searchString);
+
+            // not good solution but at least it works
+            // @TODO beatify this solution
+            
+            if($breakExternalLoop) break;
+
             foreach($searchStringArray as $searchStringArrayItem)
             {
+                // if we've found exact occurrence then just break external and internal loops
+                // this is needed in some special cases
+                
+                if($searchStringArrayItem == $this->searchQuery)
+                {
+                    $this->criteria->condition = $fieldKey . ' = "' . $synonym . '"';
+                    $breakExternalLoop = true;
+                    $this->modifyOrder($field);
+                    break;
+                }
                 if(strpos($searchStringArrayItem, $this->searchQuery) !== FALSE)
                 {
                     $this->criteria->condition = $fieldKey . ' = "' . $synonym . '"';
+                    $this->modifyOrder($field);
                 }
             }
         }
@@ -165,7 +204,7 @@ class ProfileSearch extends AbstractProfileSearch
 
     /**
      * Check if field is linked with static property of class
-     * @param int $field field
+     * @param array $field field
      * @return bool
      */
 
@@ -192,13 +231,14 @@ class ProfileSearch extends AbstractProfileSearch
             if(strpos(strtolower($value), $this->searchQuery) !== FALSE)
             {
                 $this->criteria->compare($fieldKey, $key, true, 'OR');
+                $this->modifyOrder($field);
             }
         }
     }
 
     /**
      * Check if field is relationship beetween one model and other model
-     * @param int $field field
+     * @param array $field field
      * @return bool
      */
 
@@ -227,10 +267,11 @@ class ProfileSearch extends AbstractProfileSearch
             if($idModel)
             {
                 $id = $idModel->id;
-                    $this->criteria->with = array(
+                $this->criteria->with = array(
                     $fieldKey => array(
                         'condition' => $fieldKey . '.' . $field['field'] . ' LIKE "%' . $id . '%"',
                         'together' => true,
+                        'order' => (isset($field['order'])) ? $field['order'] : '',
                     )
                 );
             }
@@ -240,6 +281,7 @@ class ProfileSearch extends AbstractProfileSearch
 			$this->criteria->with = array(
 				$fieldKey => array(
 					'condition' => $fieldKey . '.' . $field['field'] . ' LIKE "%' . $this->searchQuery . '%"',
+                    'order' => (isset($field['order'])) ? $field['order'] : '',
 				)
 			);
 		}

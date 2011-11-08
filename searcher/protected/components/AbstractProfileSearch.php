@@ -26,7 +26,14 @@ abstract class AbstractProfileSearch
     */
 
 	public $fieldsThatAreSearchable = array(
-        't.user_id',   // this is because we are using eager loading in relationship queries (main table has pseudonym of 't')
+        't.user_id' => array(     // this is because we are using eager loading in relationship queries (main table has pseudonym of 't')
+            'type' => 'simple',
+            'order' => 'nickname ASC',
+        ),
+        /*'nickname' => array(
+            'type' => 'simple',
+            'order' => 'nickname ASC',
+        ),*/
 //        'username',
 //        'FirstName',
 //        'LastName',
@@ -34,6 +41,7 @@ abstract class AbstractProfileSearch
         'firstUniversity' => array(  // example of relationship field type
             'type' => 'relationship',
             'field' => 'name',
+            'order' => 'nickname ASC',
         ),
         'gender' => array(  // if field in database has type of ENUM, we could set search phrases separated by comma for these fields
             'type' => 'enum',
@@ -41,6 +49,7 @@ abstract class AbstractProfileSearch
                 'M' => 'male,man,men',
                 'F' => 'female,woman,women'
             ),
+            'order' => 'nickname ASC',
         ),
             
         'state' => array(
@@ -69,6 +78,7 @@ abstract class AbstractProfileSearch
         'race' => array(  // example of relationship field type
             'type' => 'relationship',
             'field' => 'name',
+            'order' => 'nickname ASC',
         ),
 
 //        'hobbys' => array(  // example of relationship field type
@@ -95,7 +105,7 @@ abstract class AbstractProfileSearch
      * @var int $minLengthOfQuery - min length of bad query
      */
 
-    public $minLengthOfQuery = 2;
+    public $minLengthOfQuery = 3;
 
     public $additionalSearchModifierClasses = array();
 
