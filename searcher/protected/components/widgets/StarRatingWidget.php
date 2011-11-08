@@ -11,6 +11,18 @@ Yii::import('application.components.widgets.StarRatingClass');
 
 class StarRatingWidget extends CWidget
 {
+    /**
+     * @var int $user_id - id of user that we use to build widget for
+     * @var boolean $enableComments - either to enable commenting for instance of widget or not
+     * @var string $enableCommentsId - if comments enabled use this as comment input field
+     * @var boolean $isDisabled - either instance if widget is disabled or not
+     * @var string $enableCommentsSubmitId - if comments enabled use this as comment submit button
+     * @var string $phpPath - path to php script for commenting (usually controller)
+     * @var int $forUser - user id for what commenting is done
+     * @var int $byUser - user id by what commenting is done
+     *
+     */
+
     public $user_id;
     public $enableComments = true;
     public $enableCommentsId = '#rating-comment';
