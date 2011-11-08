@@ -72,7 +72,7 @@ class HighschoolName extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
                     
-                 'basicProfilehs' => array(self::HAS_MANY, 'BasicProfile', 'highschool_id'),
+                 'basicProfiles' => array(self::HAS_MANY, 'BasicProfile', 'highschool_id'),
                   
 		
 		);

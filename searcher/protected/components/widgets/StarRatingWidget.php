@@ -14,7 +14,7 @@ class StarRatingWidget extends CWidget
     public $user_id;
     public $enableComments = true;
     public $enableCommentsId = '#rating-comment';
-    public $isDisabled = false;
+    public $isDisabled;
     public $enableCommentsSubmitId = '#rating-submit';
     public $phpPath;
     public $forUser;
@@ -33,13 +33,13 @@ class StarRatingWidget extends CWidget
         $this->_data = array();
         $this->_data['averageRating'] = round($this->_starRatingObject->getAverageRating(), 2);
         $this->_data['ratingObject'] = $this->_starRatingObject->getRatingObject();
+        if(!isset($this->isDisabled))
+        {
+            $this->isDisabled = $this->_starRatingObject->doesCookieExist();
+        }
         if(empty($this->phpPath))
         {
             $this->phpPath = Yii::app()->controller->createUrl('rating/index');
-        }
-        if($this->_doesCookieExist())
-        {
-            $this->isDisabled = true;
         }
         $this->byUser = Yii::app()->user->id;
         $this->forUser = $this->user_id;
@@ -94,14 +94,4 @@ class StarRatingWidget extends CWidget
 			throw new Exception('Star Rating Widget - Error: Couldn\'t find assets to publish.');
 		}
 	}
-
-    /**
-     * Check whether vote cookie exists or not
-     * @return bool whether cookie exists or not
-     */
-
-    private function _doesCookieExist()
-    {
-        return isset(Yii::app()->request->cookies['already_voted']) && Yii::app()->request->cookies['already_voted']->value == $this->user_id;
-    }
 }

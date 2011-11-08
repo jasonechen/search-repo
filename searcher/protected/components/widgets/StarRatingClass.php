@@ -77,4 +77,14 @@ class StarRatingClass
     {
         return $this->modelClassName;
     }
+
+    /**
+     * Check whether vote cookie exists or not
+     * @return bool whether cookie exists or not
+     */
+
+    public function doesCookieExist()
+    {
+        return isset(Yii::app()->request->cookies['already_voted']) && Yii::app()->request->cookies['already_voted']->value == $this->user_id;
+    }
 }
