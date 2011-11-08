@@ -42,6 +42,26 @@ abstract class AbstractProfileSearch
                 'F' => 'female,woman,women'
             ),
         ),
+            
+        'state' => array(
+            'type' => 'relationship',
+            'field' => 'state',
+            'throughModel' => 'States',
+            'throughAttribute' => 'name',
+        ),    
+            
+            'ethnicity' => array(
+            'type' => 'relationship',
+            'field' => 'ethnic_origin',
+            'throughModel' => 'EthnicType',
+            'throughAttribute' => 'name',
+        ),   
+            
+        'profile_type' => array(  
+          'type' => 'linkedStaticProperty',
+           'linkedStaticProperty' => '$staticFieldValue = BasicProfile::$ProfileTypeArray;',  
+            ),
+            
 //        'education' => array(  // we could link search attribute with any class static property
 //            'type' => 'linkedStaticProperty',
 //            'linkedStaticProperty' => '$staticFieldValue = Profile::$EducationArray;',

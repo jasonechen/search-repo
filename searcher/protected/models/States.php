@@ -51,6 +51,7 @@ class States extends ProfileActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                    'states' => array(self::HAS_MANY, 'PersonalProfile', 'state'),
 		);
 	}
 
