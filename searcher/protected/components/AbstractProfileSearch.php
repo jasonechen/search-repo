@@ -75,7 +75,7 @@ abstract class AbstractProfileSearch
      * @var int $minLengthOfQuery - min length of bad query
      */
 
-    public $minLengthOfQuery = 3;
+    public $minLengthOfQuery = 2;
 
     public $additionalSearchModifierClasses = array();
 

@@ -14,7 +14,7 @@ class StarRatingWidget extends CWidget
     public $user_id;
     public $enableComments = true;
     public $enableCommentsId = '#rating-comment';
-    public $isDisabled = false;
+    public $isDisabled;
     public $enableCommentsSubmitId = '#rating-submit';
     public $phpPath;
     public $forUser;
@@ -33,7 +33,10 @@ class StarRatingWidget extends CWidget
         $this->_data = array();
         $this->_data['averageRating'] = round($this->_starRatingObject->getAverageRating(), 2);
         $this->_data['ratingObject'] = $this->_starRatingObject->getRatingObject();
-        $this->isDisabled = $this->_starRatingObject->doesCookieExist();
+        if(!isset($this->isDisabled))
+        {
+            $this->isDisabled = $this->_starRatingObject->doesCookieExist();
+        }
         if(empty($this->phpPath))
         {
             $this->phpPath = Yii::app()->controller->createUrl('rating/index');

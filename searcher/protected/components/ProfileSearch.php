@@ -155,7 +155,7 @@ class ProfileSearch extends AbstractProfileSearch
             $searchStringArray = explode(',', $searchString);
             foreach($searchStringArray as $searchStringArrayItem)
             {
-                if($this->searchQuery == $searchStringArrayItem)
+                if(strpos($searchStringArrayItem, $this->searchQuery) !== FALSE)
                 {
                     $this->criteria->condition = $fieldKey . ' = "' . $synonym . '"';
                 }
@@ -229,7 +229,7 @@ class ProfileSearch extends AbstractProfileSearch
                 $id = $idModel->id;
                     $this->criteria->with = array(
                     $fieldKey => array(
-                        'condition' => $fieldKey . '.' . $field['field'] . ' = "' . $id . '"',
+                        'condition' => $fieldKey . '.' . $field['field'] . ' LIKE "%' . $id . '%"',
                         'together' => true,
                     )
                 );
@@ -239,7 +239,7 @@ class ProfileSearch extends AbstractProfileSearch
 		{
 			$this->criteria->with = array(
 				$fieldKey => array(
-					'condition' => $fieldKey . '.' . $field['field'] . ' = "' . $this->searchQuery . '"',
+					'condition' => $fieldKey . '.' . $field['field'] . ' LIKE "%' . $this->searchQuery . '%"',
 				)
 			);
 		}
