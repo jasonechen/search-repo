@@ -113,14 +113,14 @@
                         }
                     }
                 );*/
-                $(opts.enableCommentsSubmitId).click(function() {
+                $(opts.enableCommentsSubmitId).unbind('click').bind('click', function() {
                     var rate = getNote(newWidth);
                     if(!rate) alert('Please provide rating by clicking on star!');
                 });
             }
 
 			if(!jDisabled)
-			$(this).bind({
+			$(this).unbind('click').bind({
 				mouseenter : function(e){
 					var realOffsetLeft = findRealLeft(this);
 					var relativeX = e.pageX - realOffsetLeft;

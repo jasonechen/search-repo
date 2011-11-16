@@ -246,11 +246,15 @@ class ProfileController extends Controller
               $buyProfileForm->fillInStatus($mapProfileStudent);
 
                $creditModel = $this->loadCreditModel($userID);
+
+        $ratingModel = Rating::model()->findByAttributes(array('user_id' => $profileID, 'create_user_id' => Yii::app()->user->id));
+        $disableRating = ($ratingModel !== null) ? true : false;
        
 		$this->render('viewPurchProfile',array(
 			'buyProfileForm'=>$buyProfileForm,
                         'creditModel'=>$creditModel,
                         'basicProfile'=>$basicProfile,
+                        'disableRating' => $disableRating,
                         ));
 	}        
         

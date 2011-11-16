@@ -21,6 +21,7 @@ class StarRatingWidget extends CWidget
      * @var int $forUser - user id for what commenting is done
      * @var int $byUser - user id by what commenting is done
      * @var boolean $smallStars - whether we are using small stars for widget or not
+     * @var string $cssClassName - class name for widget, needed in some cases
      *
      */
 
@@ -33,6 +34,7 @@ class StarRatingWidget extends CWidget
     public $forUser;
     public $byUser;
     public $smallStars = false;
+    public $cssClassName = 'jRating';
     protected $_starRatingObject;
     protected $_data;
 
@@ -50,6 +52,7 @@ class StarRatingWidget extends CWidget
         if(!isset($this->isDisabled))
         {
             //$this->isDisabled = $this->_starRatingObject->doesCookieExist();
+            $this->isDisabled = $this->_starRatingObject->doesDatabaseRecordExists();
         }
         if(empty($this->phpPath))
         {
@@ -82,6 +85,7 @@ class StarRatingWidget extends CWidget
                           'forUser' => $this->forUser,
                           'byUser' => $this->byUser,
                           'smallStars' => $this->smallStars,
+                          'cssClassName' => $this->cssClassName,
                       )
         );
     }
