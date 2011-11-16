@@ -47,6 +47,7 @@ class BasicProfile extends ProfileActiveRecord
          public $curr_university_name;
          public $other_university_name;
          public $high_school_name;
+         public $stateName;
          
         public static $SATRangeArray 
           = array("NA","2310 to 2400","2210 to 2300","2110 to 2200",
@@ -137,8 +138,8 @@ class BasicProfile extends ProfileActiveRecord
 			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 			'firstUniversity' => array(self::BELONGS_TO, 'UniversityName', 'first_university_id'),
 			'currUniversity' => array(self::BELONGS_TO, 'UniversityName', 'curr_university_id'),
-                        'hsName' => array(self::BELONGS_TO, 'HighschoolName', 'highschool_id'),
-                        'purchasedProfile' => array(self::HAS_MANY, 'MapProfileStudent', '',
+            'hsName' => array(self::BELONGS_TO, 'HighschoolName', 'highschool_id'),
+            'purchasedProfile' => array(self::HAS_MANY, 'MapProfileStudent', '',
 //                                    'params'=>array(":userID"=>Yii::app()->user->id),
 //                                    'params'=>array(":userID"=>"$userID"),
                                     'joinType'=>'INNER JOIN',
@@ -179,6 +180,7 @@ class BasicProfile extends ProfileActiveRecord
 			'create_user_id' => 'Create User',
 			'update_time' => 'Update Time',
 			'update_user_id' => 'Update User',
+            'stateName' => 'State',
 		);
 	}
 
@@ -395,6 +397,11 @@ class BasicProfile extends ProfileActiveRecord
    
             return BasicProfile::$ProfileTypeArray[$indexVal];
 	}
+        public static function getStateName($data)
+        {
+            $stateId = $data->user->personalProfile->state;
+            return States::model()->findByPk($stateId)->name;
+        }
         
         public function checkBuyer($buyer_id,$mpStudent){
             if ($mpStudent === null){

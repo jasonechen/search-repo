@@ -42,7 +42,11 @@ if($valid)
                 array(
                   'name'=>'profile_type',
                   'value'=>'BasicProfile::getProfileTypeName($data->profile_type)', //Need to deal with nulls here
-                ), 
+                ),
+        array(
+            'name'=>'stateName',
+            'value'=>'BasicProfile::getStateName($data)',
+        ),
 		array(
 			'class'=>'CButtonColumn',
                         'template' => '{view}',

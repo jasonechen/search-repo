@@ -87,10 +87,10 @@ class PersonalProfile extends ProfileActiveRecord
 		return array(
 			'religion' => array(self::BELONGS_TO, 'ReligionType', 'religion_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
-                        'lang' => array(self::BELONGS_TO, 'LanguageType', 'foreign_languages_spoken'),
-                        'citizenship' => array(self::BELONGS_TO, 'CitizenType', 'citizenship'),
-                        'ethnicity' => array(self::BELONGS_TO, 'EthnicType', 'ethnic_origin'),
-                        'states' => array(self::BELONGS_TO, 'State', 'state'),
+            'lang' => array(self::BELONGS_TO, 'LanguageType', 'foreign_languages_spoken'),
+            'citizenship' => array(self::BELONGS_TO, 'CitizenType', 'citizenship'),
+            'ethnicity' => array(self::BELONGS_TO, 'EthnicType', 'ethnic_origin'),
+            'states' => array(self::BELONGS_TO, 'State', 'state'),
 		);
 	}
 
