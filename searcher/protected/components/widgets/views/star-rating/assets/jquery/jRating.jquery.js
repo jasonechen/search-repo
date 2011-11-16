@@ -101,6 +101,24 @@
 
 			$(this).css({width: widthRatingContainer,overflow:'hidden',zIndex:1,position:'relative'});
 
+            if(opts.enableComments && $(opts.enableCommentsId) !== '')
+            {
+                /*var inputFieldAlreadyUsed = false;
+                $(opts.enableCommentsId).keypress(function() {
+                        inputFieldAlreadyUsed = true;
+                        $(opts.enableCommentsSubmitId).show();
+                        if(inputFieldAlreadyUsed)
+                        {
+                            $(opts.enableCommentsId).unbind('keypress');
+                        }
+                    }
+                );*/
+                $(opts.enableCommentsSubmitId).click(function() {
+                    var rate = getNote(newWidth);
+                    if(!rate) alert('Please provide rating by clicking on star!');
+                });
+            }
+
 			if(!jDisabled)
 			$(this).bind({
 				mouseenter : function(e){
@@ -196,6 +214,7 @@
                         postVariablesToScript();
                     }
 				}
+
 			});
 
 			function getNote(relativeX) {

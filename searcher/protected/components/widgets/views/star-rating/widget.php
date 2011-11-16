@@ -34,7 +34,7 @@
         <div class="row">
             <label for="rating-comment">Your comment to user rating</label>
             <input type="text" id="rating-comment"/>
-            <input type="submit" id="rating-submit" value="Submit your vote" style="display:none;"/>
+            <input type="submit" id="rating-submit" value="Submit your vote"/>
         </div>
     </div>
 

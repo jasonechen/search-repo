@@ -49,7 +49,7 @@ class StarRatingWidget extends CWidget
         $this->_data['ratingObject'] = $this->_starRatingObject->getRatingObject();
         if(!isset($this->isDisabled))
         {
-            $this->isDisabled = $this->_starRatingObject->doesCookieExist();
+            //$this->isDisabled = $this->_starRatingObject->doesCookieExist();
         }
         if(empty($this->phpPath))
         {
