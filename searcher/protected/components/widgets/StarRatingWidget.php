@@ -20,6 +20,7 @@ class StarRatingWidget extends CWidget
      * @var string $phpPath - path to php script for commenting (usually controller)
      * @var int $forUser - user id for what commenting is done
      * @var int $byUser - user id by what commenting is done
+     * @var boolean $smallStars - whether we are using small stars for widget or not
      *
      */
 
@@ -31,6 +32,7 @@ class StarRatingWidget extends CWidget
     public $phpPath;
     public $forUser;
     public $byUser;
+    public $smallStars = false;
     protected $_starRatingObject;
     protected $_data;
 
@@ -79,6 +81,7 @@ class StarRatingWidget extends CWidget
                           'phpPath' => $this->phpPath,
                           'forUser' => $this->forUser,
                           'byUser' => $this->byUser,
+                          'smallStars' => $this->smallStars,
                       )
         );
     }

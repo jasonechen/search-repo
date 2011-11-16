@@ -34,6 +34,7 @@
                           'user_id' => $data->user_id,
                           'enableComments' => false,
                           'isDisabled' => true,
+                          'smallStars' => true,
                       )
         );
         ?>
@@ -62,6 +63,7 @@
                           'user_id' => $data->user_id,
                           'enableComments' => false,
                           'isDisabled' => true,
+                          'smallStars' => true,
                       )
         );
         ?>

@@ -16,6 +16,9 @@
             <?php if($isDisabled): ?>
                 isDisabled: true,
             <?php endif; ?>
+            <?php if($smallStars): ?>
+                type:'small',
+            <?php endif; ?>
             length : 5,
             bigStarsPath: '<?php echo $data['bigStarsPath']; ?>',
             smallStarsPath: '<?php echo $data['smallStarsPath']; ?>',
