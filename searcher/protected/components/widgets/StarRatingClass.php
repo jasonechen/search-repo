@@ -87,4 +87,15 @@ class StarRatingClass
     {
         return isset(Yii::app()->request->cookies['already_voted']) && Yii::app()->request->cookies['already_voted']->value == $this->user_id;
     }
+
+    /**
+     * This method ensures whether there are some records about ratings for this user by this user
+     * @return bool
+     */
+
+    public function doesDatabaseRecordExists()
+    {
+        $model = Rating::model()->findByAttributes(array('user_id' => $this->user_id, 'create_user_id' => Yii::app()->user->id));
+        return $model !== null;
+    }
 }

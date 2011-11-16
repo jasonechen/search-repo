@@ -1,9 +1,8 @@
-
-<div class="jRating" data="<?php echo $data['averageRating']; ?>_1"></div>
+<div class="<?php echo $cssClassName; ?>" data="<?php echo $data['averageRating']; ?>_1"></div>
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $(".jRating").jRating( {
+        $(".<?php echo $cssClassName; ?>").jRating( {
             phpPath: '<?php echo $phpPath; ?>',
             csrfToken: '<?php echo Yii::app()->getRequest()->getCsrfToken(); ?>',
             <?php if($enableComments): ?>
@@ -15,6 +14,9 @@
             <?php endif; ?>
             <?php if($isDisabled): ?>
                 isDisabled: true,
+            <?php endif; ?>
+            <?php if($smallStars): ?>
+                type:'small',
             <?php endif; ?>
             length : 5,
             bigStarsPath: '<?php echo $data['bigStarsPath']; ?>',
@@ -31,7 +33,7 @@
         <div class="row">
             <label for="rating-comment">Your comment to user rating</label>
             <input type="text" id="rating-comment"/>
-            <input type="submit" id="rating-submit" value="Submit your vote" style="display:none;"/>
+            <input type="submit" id="rating-submit" value="Submit your vote" style="font-size:11px;"/>
         </div>
     </div>
 
