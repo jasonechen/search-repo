@@ -13,20 +13,37 @@ class Checkbox extends AbstractModifier
     /**
      * redefinition of abstract method
      * @param string $config additional config if needed
-     * @return void
+     * @return CDbCriteria $criteria
      */
 
     public function modifyCriteria($config = '')
     {
-        if(isset($this->requestArray[$this->requestVariable][$this->key]) && $this->requestArray[$this->requestVariable][$this->key])
+        if(empty($config))
         {
-            if(!empty($this->object->criteria->condition))
+            if(isset($this->requestArray[$this->requestVariable][$this->key]) && $this->requestArray[$this->requestVariable][$this->key])
             {
-                $this->object->criteria->condition .= ' AND (' . $this->key . ' = "Y") ';
+                if(!empty($this->object->criteria->condition))
+                {
+                    $this->object->criteria->condition .= ' AND (' . $this->key . ' = "Y") ';
+                }
+                else
+                {
+                    $this->object->criteria->condition .= ' (' . $this->key . ' = "Y") ';
+                }
             }
-            else
+        }
+        else
+        {
+            if(isset($this->requestArray[$this->requestVariable][$this->key]) && $this->requestArray[$this->requestVariable][$this->key])
             {
-                $this->object->criteria->condition .= ' (' . $this->key . ' = "Y") ';
+                if(!empty($this->object->criteria->condition))
+                {
+                    $this->object->criteria->condition .= ' AND (' . $this->key . ' ' . $config['operator'] . ' ' . $config['value'] . ') ';
+                }
+                else
+                {
+                    $this->object->criteria->condition .= ' (' . $this->key . ' ' . $config['operator'] . ' ' . $config['value'] . ') ';
+                }
             }
         }
 

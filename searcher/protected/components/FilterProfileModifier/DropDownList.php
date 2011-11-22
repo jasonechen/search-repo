@@ -20,13 +20,49 @@ class DropDownList extends AbstractModifier
     {
         if(!empty($this->requestArray[$this->requestVariable][$this->key]))
         {
-            if(!empty($this->object->criteria->condition))
+            if(empty($config))
             {
-                $this->object->criteria->condition .= ' AND (' . $this->key . ' = "' . $this->requestArray[$this->requestVariable][$this->key]  .'") ';
+                if(!empty($this->object->criteria->condition))
+                {
+                    $this->object->criteria->condition .= ' AND (' . $this->key . ' = "' . $this->requestArray[$this->requestVariable][$this->key]  .'") ';
+                }
+                else
+                {
+                    $this->object->criteria->condition .= ' (' . $this->key . ' = "' . $this->requestArray[$this->requestVariable][$this->key]  .'") ';
+                }
             }
             else
             {
-                $this->object->criteria->condition .= ' (' . $this->key . ' = "' . $this->requestArray[$this->requestVariable][$this->key]  .'") ';
+                if(!empty($config['useAnotherModel']) && !empty($config['anotherModelAttribute']))
+                {
+                    $model = call_user_func(array($config['useAnotherModel'], 'model'));
+                    $anotherModel = $model->findAllByAttributes(
+                        array(
+                             $config['anotherModelAttribute'] => $this->requestArray[$this->requestVariable][$this->key],
+                        )
+                    );
+                    if($anotherModel !== NULL && !empty($anotherModel))
+                    {
+                        $addedCondition = '';
+                        foreach($anotherModel as $aModel)
+                        {
+                            $addedCondition .= $config['mainModelAttribute'] . ' = "' . $aModel->$config['mainModelAttribute'] .  '" OR ';
+                        }
+                        $addedCondition = substr($addedCondition, 0, -3);
+                    }
+                    else
+                    {
+                        $addedCondition = $config['mainModelAttribute'] . ' = 0';
+                    }
+                    if(!empty($this->object->criteria->condition))
+                    {
+                        $this->object->criteria->condition .= ' AND (' . $addedCondition .') ';
+                    }
+                    else
+                    {
+                        $this->object->criteria->condition .= ' (' . $addedCondition .') ';
+                    }
+                }
             }
         }
 

@@ -85,4 +85,21 @@ class States extends ProfileActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    /**
+     * Method that returns all available states form state table
+     * @static
+     * @return array $result - array of states
+     */
+
+    public static function getAllStates()
+    {
+        $result = array();
+        $states = self::model()->findAll(array('select' => 'id, name'));
+        foreach($states as $state)
+        {
+            $result[$state->id] = $state->name;
+        }
+        return $result;
+    }
 }

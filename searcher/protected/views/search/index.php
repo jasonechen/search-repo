@@ -30,7 +30,7 @@ if($valid)
                 'gender',
 		array(
                   'name'=>'race',
-                  'value'=>'($data->race !== NULL)? $data->race->name : NA', //Need to deal with nulls here
+                  'value'=>'($data->race !== NULL)? $data->race->name : "NA"', //Need to deal with nulls here
                 ),
 		array(
                   'name'=>'sat_I_score_range',
@@ -46,6 +46,10 @@ if($valid)
         array(
             'name'=>'stateName',
             'value'=>'BasicProfile::getStateName($data)',
+        ),
+        array(
+            'header' => 'User Rating',
+            'value'=>'round($data->user->averageRating, 2)',
         ),
 		array(
 			'class'=>'CButtonColumn',
