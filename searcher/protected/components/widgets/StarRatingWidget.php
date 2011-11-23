@@ -22,6 +22,7 @@ class StarRatingWidget extends CWidget
      * @var int $byUser - user id by what commenting is done
      * @var boolean $smallStars - whether we are using small stars for widget or not
      * @var string $cssClassName - class name for widget, needed in some cases
+     * @var boolean $noStartingRate - if we are not going to set initial stars, set this = true
      *
      */
 
@@ -35,6 +36,8 @@ class StarRatingWidget extends CWidget
     public $byUser;
     public $smallStars = false;
     public $cssClassName = 'jRating';
+    public $noStartingRate = false;
+
     protected $_starRatingObject;
     protected $_data;
 
@@ -48,16 +51,25 @@ class StarRatingWidget extends CWidget
         $this->_starRatingObject = new StarRatingClass($this->user_id);
         $this->_data = array();
         $this->_data['averageRating'] = round($this->_starRatingObject->getAverageRating(), 2);
+
+        if($this->noStartingRate)
+        {
+            $this->_data['averageRating'] = 0;
+        }
+
         $this->_data['ratingObject'] = $this->_starRatingObject->getRatingObject();
+
         if(!isset($this->isDisabled))
         {
             //$this->isDisabled = $this->_starRatingObject->doesCookieExist();
             $this->isDisabled = $this->_starRatingObject->doesDatabaseRecordExists();
         }
+
         if(empty($this->phpPath))
         {
             $this->phpPath = Yii::app()->controller->createUrl('rating/index');
         }
+        
         $this->byUser = Yii::app()->user->id;
         $this->forUser = $this->user_id;
 

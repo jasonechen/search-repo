@@ -34,22 +34,107 @@ class FilterProfileSearch extends AbstractProfileSearch
      */
 
     public $modificationOfCriteriaAccordingToValuesFromFilterForm = array(
-//        'education' => array(
+        'gender' => array(
+            'type' => 'CheckboxList',
+        ),
+        'state' => array(
+            'type' => 'DropDownList',
+            'config' => array(
+                'useAnotherModel' => 'PersonalProfile',
+                'anotherModelAttribute' => 'state',
+                'mainModelAttribute' => 'user_id',
+            ),
+        ),
+        'profile_type' => array(
+            'type' => 'DropDownList',
+        ),
+        'race_id' => array(
+            'type' => 'DropDownList',
+        ),
+        'SAT' => array(
+            'type' => 'IntegerSlider',
+            'config' => array(
+                'defaultMinValue' => 0,
+                'defaultMaxValue' => 5,
+                'useAnotherModel' => 'ScoreProfile',
+                'anotherModelAttribute' => array(
+                    'SAT_Math',
+                    'SAT_Critical_Read',
+                    'SAT_Writing'
+                ),
+                'valueCorrelation' => array(
+                    0 => '600',
+                    1 => '1000',
+                    2 => '1300',
+                    3 => '1800',
+                    4 => '2100',
+                    5 => '2400',
+                ),
+                'mainModelAttribute' => 'user_id',
+            ),
+        ),
+        'num_scores' => array(
+            'type' => 'IntegerSlider',
+            'config' => array(
+                'defaultMinValue' => 0,
+                'defaultMaxValue' => 5,
+                'valueCorrelation' => array(
+                    0 => '0',
+                    1 => '10',
+                    2 => '20',
+                    3 => '30',
+                    4 => '40',
+                    5 => '50',
+                ),
+            ),
+        ),
+        'num_extracurriculars' => array(
+            'type' => 'IntegerSlider',
+            'config' => array(
+                'defaultMinValue' => 0,
+                'defaultMaxValue' => 5,
+                'valueCorrelation' => array(
+                    0 => '0',
+                    1 => '10',
+                    2 => '20',
+                    3 => '30',
+                    4 => '40',
+                    5 => '50',
+                ),
+            ),
+        ),
+        'num_essays' => array(
+            'type' => 'Checkbox',
+            'config' => array(
+                'operator' => '>',
+                'value' => '0',
+            ),
+        ),
+        'averageRating' => array(
+            'type' => 'IntegerSlider',
+            'config' => array(
+                'defaultMinValue' => 1,
+                'defaultMaxValue' => 5,
+                'useAnotherModel' => 'User',
+                'useRelation' => 'averageRating',
+                'anotherModelAttribute' => 'id',
+                'mainModelAttribute' => 'user_id',
+                'valueCorrelation' => array(
+                    1 => '0',
+                    2 => '2',
+                    3 => '3',
+                    4 => '4',
+                    5 => '5',
+                ),
+            ),
+        ),
+//      'education' => array(
 //            'type' => 'IntegerSlider',
 //            'config' => array(
 //                'defaultMinValue' => 0,
 //                'defaultMaxValue' => 3,
 //            ),
 //        ),
-        'race_id' => array(
-            'type' => 'CheckboxList',
-        ),
-        'first_university_id' => array(
-            'type' => 'DropDownList',
-        ),
-        'gender' => array(
-            'type' => 'CheckboxList',
-        ),
         /*'first_university_id' => array(
             'type' => 'hiddenField',
         ),*/

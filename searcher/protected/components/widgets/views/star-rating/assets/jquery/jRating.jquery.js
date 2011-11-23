@@ -115,7 +115,41 @@
                 );*/
                 $(opts.enableCommentsSubmitId).unbind('click').bind('click', function() {
                     var rate = getNote(newWidth);
-                    if(!rate) alert('Please provide rating by clicking on star!');
+                    if(!rate)
+                    {
+                        alert('Please provide rating by clicking on star!');
+                    }
+                    else
+                    {
+                        var postRatingValue = true;
+                        var postVariablesToScript = function(){
+                            $.post(opts.phpPath,{
+                                    idBox : idBox,
+                                    rate : rate,
+                                    action : 'rating',
+                                    forUser: opts.forUser,
+                                    byUser: opts.byUser,
+                                    YII_CSRF_TOKEN: opts.csrfToken,
+                                    comment: $(opts.enableCommentsId).val()
+                                },
+                                function(data) {
+                                    if(!data.error)
+                                    {
+                                        alert(data.message);
+                                        if(opts.onSuccess) opts.onSuccess();
+                                        location.reload();
+                                    }
+                                    else
+                                    {
+                                        alert(data.message);
+                                        if(opts.onError) opts.onError();
+                                    }
+                                },
+                                'json'
+                            );
+                        };
+                        postVariablesToScript();
+                    }
                 });
             }
 
@@ -140,7 +174,7 @@
 				},
 				mouseout : function(){
 					$(this).css('cursor','default');
-					average.width(0);
+					//average.width(0);
 				},
 				mousemove : function(e){
 					var realOffsetLeft = findRealLeft(this);
@@ -159,7 +193,7 @@
 					$("p.jRatingInfos").remove();
 				},
 				click : function(e){
-                    var postRatingValue = true;
+                    /*var postRatingValue = true;
                     var postVariablesToScript = function(){
                         $.post(opts.phpPath,{
                                 idBox : idBox,
@@ -185,7 +219,7 @@
                             },
                             'json'
                         );
-                    };
+                    };*/
                     /*if(opts.enableComments && $(opts.enableCommentsId).val() === '')
                     {
                         postRatingValue = false;
@@ -204,15 +238,11 @@
                             }
                         });
                     }*/
-					$(this).unbind().css('cursor','default').addClass('jDisabled');
-					if (opts.showRateInfo) $("p.jRatingInfos").fadeOut('fast',function(){$(this).remove();});
+					$(this).css('cursor','default').addClass('jDisabled');
+					//if (opts.showRateInfo) $("p.jRatingInfos").fadeOut('fast',function(){$(this).remove();});
 					e.preventDefault();
 					var rate = getNote(newWidth);
 					average.width(newWidth);
-                    if(postRatingValue)
-                    {
-                        postVariablesToScript();
-                    }
 				}
 
 			});

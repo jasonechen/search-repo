@@ -36,6 +36,20 @@ class Controller extends CController
             $this->filterModel->SATMin = 0;
             $this->filterModel->SATMax = 2400;
         }
-
+        if(!isset($_GET['FilterForm']['num_scoresMin']) && !isset($_GET['FilterForm']['num_scoresMax']))
+        {
+            $this->filterModel->num_scoresMin = 0;
+            $this->filterModel->num_scoresMax = 50;
+        }
+        if(!isset($_GET['FilterForm']['num_extracurricularsMin']) && !isset($_GET['FilterForm']['num_extracurricularsMax']))
+        {
+            $this->filterModel->num_extracurricularsMin = 0;
+            $this->filterModel->num_extracurricularsMax = 50;
+        }
+        if(!isset($_GET['FilterForm']['averageRatingMin']) && !isset($_GET['FilterForm']['averageRatingMax']))
+        {
+            $this->filterModel->averageRatingMin = 1;
+            $this->filterModel->averageRatingMax = 5;
+        }
     }
 }

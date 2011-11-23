@@ -125,7 +125,7 @@ class User extends MCVActiveRecord
 			'userCredit' => array(self::HAS_ONE, 'UserCredit', 'user_id'),
                         'workProfiles' => array(self::HAS_ONE, 'WorkProfile', 'user_id'),
             'ratings' => array(self::HAS_MANY, 'Rating', 'user_id', 'order' => 'create_time DESC'),
-            'averageRating' => array(self::STAT, 'Rating', 'user_id', 'select' => 'AVG(rating)', 'group' => 'user_id')
+            'averageRating' => array(self::STAT, 'Rating', 'user_id', 'select' => 'AVG(rating)')
 		);
 	}
 
