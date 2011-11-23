@@ -78,7 +78,7 @@ abstract class AbstractProfileSearch
      */
 
     public $badQueries = array(
-        '', 'test'
+        ''
     );
 
     /**
