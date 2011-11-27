@@ -29,7 +29,9 @@ class ProfileSearch extends AbstractProfileSearch
                         'pageSize' => $this->getPageSize(),
                     ),
                 ));
-        $data = $this->provider->getData();
+
+        
+        /*$data = $this->provider->getData();
         if(empty($data))
         {
             foreach($this->fieldsThatAreSearchable as $key => $value)
@@ -52,7 +54,7 @@ class ProfileSearch extends AbstractProfileSearch
         else
         {
             return $this->provider;
-        }
+        }*/
         return $this->provider;
     }
 
@@ -99,14 +101,22 @@ class ProfileSearch extends AbstractProfileSearch
             {
                 $this->modifyDatabaseCriteriaIfFieldIsSimple($key, $value);
             }
-            elseif($this->checkIfFieldHasTypeOfEnum($value))
-            {
-                $this->modifyDatabaseCriteriaIfFieldHasTypeOfEnum($key, $value);
-            }
             elseif($this->checkIfFieldIsLinkedWithStaticProperty($value))
             {
                 $this->modifyDatabaseCriteriaIfFieldIsLinkedWithStaticProperty($key, $value);
             }
+            elseif($this->checkIfFieldIsRelationship($value))
+            {
+                $this->modifyDatabaseCriteriaIfFieldIsRelationship($key, $value);
+            }
+            elseif($this->checkIfFieldHasTypeOfEnum($value))
+            {
+                $this->modifyDatabaseCriteriaIfFieldHasTypeOfEnum($key, $value);
+            }
+        }
+        if(empty($this->criteria->condition))
+        {
+            $this->criteria->condition = 'user_id = 0';
         }
     }
 
@@ -144,7 +154,18 @@ class ProfileSearch extends AbstractProfileSearch
 
     private function modifyDatabaseCriteriaIfFieldIsSimple($fieldKey, $field)
     {
-        $this->criteria->compare($fieldKey, $this->searchQuery, true, 'OR');
+        if(sizeof($this->searchOrQueries) > 1)
+        {
+            $this->addSimpleCondition($this->searchOrQueries, $fieldKey, 'OR', 'OR');
+        }
+        if(sizeof($this->searchAndQueries) > 1)
+        {
+            $this->addSimpleCondition($this->searchAndQueries, $fieldKey, 'OR', 'AND');
+        }
+        elseif(sizeof($this->searchOrQueries) == 1 && sizeof($this->searchAndQueries) == 1)
+        {
+            $this->criteria->compare($fieldKey, $this->searchQuery, true, 'OR');
+        }
         $this->modifyOrder($field);
     }
 
@@ -181,22 +202,47 @@ class ProfileSearch extends AbstractProfileSearch
             
             if($breakExternalLoop) break;
 
-            foreach($searchStringArray as $searchStringArrayItem)
+            if(sizeof($this->searchOrQueries) > 1)
             {
-                // if we've found exact occurrence then just break external and internal loops
-                // this is needed in some special cases
-                
-                if($searchStringArrayItem == $this->searchQuery)
+                foreach($searchStringArray as $searchStringArrayItem)
                 {
-                    $this->criteria->condition = $fieldKey . ' = "' . $synonym . '"';
-                    $breakExternalLoop = true;
-                    $this->modifyOrder($field);
-                    break;
+                    foreach($this->searchOrQueries as $query)
+                    if($searchStringArrayItem == $query)
+                    {
+                        $this->addEnumCondition(array($synonym), $fieldKey, 'OR', 'OR');
+                    }
                 }
-                if(strpos($searchStringArrayItem, $this->searchQuery) !== FALSE)
+            }
+            if(sizeof($this->searchAndQueries) > 1)
+            {
+                foreach($searchStringArray as $searchStringArrayItem)
                 {
-                    $this->criteria->condition = $fieldKey . ' = "' . $synonym . '"';
-                    $this->modifyOrder($field);
+                    foreach($this->searchAndQueries as $query)
+                    if($searchStringArrayItem == $query)
+                    {
+                        $this->addEnumCondition(array($synonym), $fieldKey, 'OR', 'AND');
+                    }
+                }
+            }
+            elseif(sizeof($this->searchOrQueries) == 1 && sizeof($this->searchAndQueries) == 1)
+            {
+                foreach($searchStringArray as $searchStringArrayItem)
+                {
+                    // if we've found exact occurrence then just break external and internal loops
+                    // this is needed in some special cases
+
+                    if($searchStringArrayItem == $this->searchQuery)
+                    {
+                        $this->criteria->condition = $fieldKey . ' = "' . $synonym . '"';
+                        $breakExternalLoop = true;
+                        $this->modifyOrder($field);
+                        break;
+                    }
+                    if(strpos( $this->searchQuery, $searchStringArrayItem) !== FALSE)
+                    {
+                        $this->criteria->condition = $fieldKey . ' = "' . $synonym . '"';
+                        $this->modifyOrder($field);
+                    }
                 }
             }
         }
@@ -258,16 +304,17 @@ class ProfileSearch extends AbstractProfileSearch
     {
         if(!isset($field['field'])) return;
 
-        $this->criteria = new CDbCriteria();
+        $relationCriteria = new CDbCriteria();
 
 		if(isset($field['throughModel']) && isset($field['throughAttribute']))
 		{
 			$model = call_user_func(array($field['throughModel'], 'model'));
             $idModel = $model->findByAttributes(array($field['throughAttribute'] => $this->searchQuery));
+
             if($idModel)
             {
                 $id = $idModel->id;
-                $this->criteria->with = array(
+                $relationCriteria->with = array(
                     $fieldKey => array(
                         'condition' => $fieldKey . '.' . $field['field'] . ' LIKE "%' . $id . '%"',
                         'together' => true,
@@ -278,12 +325,146 @@ class ProfileSearch extends AbstractProfileSearch
 		}
 		else
 		{
-			$this->criteria->with = array(
+            $addedCondition = $fieldKey . '.' . $field['field'] . ' LIKE "%' . $this->searchQuery . '%"';
+
+            if(sizeof($this->searchOrQueries) > 1)
+            {
+                $addedCondition = $this->addCondition($this->searchOrQueries, $fieldKey . '.' . $field['field'], 'OR', 'OR');
+            }
+
+            if(sizeof($this->searchAndQueries) > 1)
+            {
+                $addedCondition = $this->addCondition($this->searchAndQueries, $fieldKey . '.' . $field['field'], 'OR', 'AND');
+            }
+            
+			$relationCriteria->with = array(
 				$fieldKey => array(
-					'condition' => $fieldKey . '.' . $field['field'] . ' LIKE "%' . $this->searchQuery . '%"',
+					'condition' => $addedCondition,
                     'order' => (isset($field['order'])) ? $field['order'] : '',
 				)
 			);
 		}
+
+        $this->criteria->mergeWith($relationCriteria, false);
+    }
+
+    /**
+     * Adding simple condition to our CDbCriteria
+     * @param array $searchQueries - array of words added to query condition
+     * @param $fieldKey - query field key
+     * @param string $queryConnector - string by what pieces of queries are connected
+     * @param string $conditionConnector - string by what new piece of query is connected to old query
+     * @return void
+     */
+
+    private function addSimpleCondition(array $searchQueries, $fieldKey, $queryConnector, $conditionConnector)
+    {
+        $addedCondition = '';
+
+        foreach($searchQueries as $searchQuery)
+        {
+            $addedCondition .= $fieldKey . ' LIKE "%' . $searchQuery .  '%" ' . $queryConnector . ' ';
+        }
+
+        if($queryConnector == 'OR')
+        {
+            $addedCondition = substr($addedCondition, 0, -3);
+        }
+        
+        if($queryConnector == 'AND')
+        {
+            $addedCondition = substr($addedCondition, 0, -4);
+        }
+
+        if(!empty($this->criteria->condition))
+        {
+            $this->criteria->condition .= ' ' . $conditionConnector .' (' . $addedCondition .') ';
+        }
+        else
+        {
+            $this->criteria->condition .= ' (' . $addedCondition .') ';
+        }
+    }
+
+    /**
+     * Adding enum condition to our CDbCriteria
+     * @param array $searchQueries - array of words added to query condition
+     * @param $fieldKey - query field key
+     * @param string $queryConnector - string by what pieces of queries are connected
+     * @param string $conditionConnector - string by what new piece of query is connected to old query
+     * @return void
+     */
+
+    private function addEnumCondition(array $searchQueries, $fieldKey, $queryConnector, $conditionConnector)
+    {
+        $addedCondition = '';
+
+        foreach($searchQueries as $searchQuery)
+        {
+            $addedCondition .= $fieldKey . ' = "' . $searchQuery .  '" ' . $queryConnector . ' ';
+        }
+
+        if($queryConnector == 'OR')
+        {
+            $addedCondition = substr($addedCondition, 0, -3);
+        }
+
+        if($queryConnector == 'AND')
+        {
+            $addedCondition = substr($addedCondition, 0, -4);
+        }
+
+        if(!empty($this->criteria->condition))
+        {
+            $this->criteria->condition .= ' ' . $conditionConnector .' (' . $addedCondition .') ';
+        }
+        else
+        {
+            $this->criteria->condition .= ' (' . $addedCondition .') ';
+        }
+    }
+
+    /**
+     * Adding condition to our CDbCriteria
+     * @param array $searchQueries - array of words added to query condition
+     * @param $fieldKey - query field key
+     * @param string $queryConnector - string by what pieces of queries are connected
+     * @param string $conditionConnector - string by what new piece of query is connected to old query
+     * @return string $condition new condition
+     */
+
+    private function addCondition(array $searchQueries, $fieldKey, $queryConnector, $conditionConnector)
+    {
+        $addedCondition = '';
+
+        foreach($searchQueries as $searchQuery)
+        {
+            $addedCondition .= $fieldKey . ' LIKE "%' . $searchQuery .  '%" ' . $queryConnector . ' ';
+        }
+
+        if($queryConnector == 'OR')
+        {
+            $addedCondition = substr($addedCondition, 0, -3);
+        }
+
+        if($queryConnector == 'AND')
+        {
+            $addedCondition = substr($addedCondition, 0, -4);
+        }
+
+        if(strpos($this->criteria->condition, $addedCondition) !== FALSE)
+        {
+            return $addedCondition;
+        }
+
+        if(!empty($this->criteria->condition))
+        {
+            $addedCondition .= ' ' . $conditionConnector .' (' . $addedCondition .') ';
+        }
+        else
+        {
+            $addedCondition .= ' (' . $addedCondition .') ';
+        }
+        return $addedCondition;
     }
 }
