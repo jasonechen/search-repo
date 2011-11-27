@@ -12,9 +12,13 @@ abstract class AbstractProfileSearch
 {
 /**
      * @var string $searchQuery - search query that we are working with
+     * @var array $searchAndQueries - additional array used in 'amd' queries
+     * @var array $searchOrQueries - additional array used in 'or' queries
      */
 
     public $searchQuery;
+    public $searchAndQueries = array();
+    public $searchOrQueries = array();
 
    /**
     * @var array $searchableFromTopFormFields - fields from db table Profile we are going to search
@@ -30,10 +34,10 @@ abstract class AbstractProfileSearch
             'type' => 'simple',
             'order' => 'nickname ASC',
         ),
-        /*'nickname' => array(
+        'nickname' => array(
             'type' => 'simple',
             'order' => 'nickname ASC',
-        ),*/
+        ),
 //        'username',
 //        'FirstName',
 //        'LastName',
@@ -102,10 +106,24 @@ abstract class AbstractProfileSearch
     );
 
     /**
+     * @var int $booleanAndLength - how much 'and' search string operators is supported
+     * If this value = infinity we could face with performance problems
+     */
+
+    public $booleanAndLength = 10;
+
+    /**
+     * @var int $booleanOrLength - how much 'or' search string operators is supported
+     * If this value = infinity we could face with performance problems
+     */
+
+    public $booleanOrLength = 10;
+
+    /**
      * @var int $minLengthOfQuery - min length of bad query
      */
 
-    public $minLengthOfQuery = 3;
+    public $minLengthOfQuery = 2;
 
     public $additionalSearchModifierClasses = array();
 
@@ -133,6 +151,8 @@ abstract class AbstractProfileSearch
         {
             $this->model = BasicProfile::model();
             $this->criteria = new CDbCriteria();
+            $this->resolveOrQueries();
+            $this->resolveAndQueries();
             $this->runSearch();
         }
         else
@@ -242,6 +262,39 @@ abstract class AbstractProfileSearch
             $pageSize = $_SESSION['pageSize'];
         }
         return $pageSize;
+    }
+
+    /**
+     * This method is used to resolve 'or' queries from searchstring from form
+     * For example, it resolves string such as 'value1 or value2 or value3'
+     * @return void
+     */
+
+    protected function resolveOrQueries()
+    {
+        $this->searchOrQueries = explode('or', $this->searchQuery);
+        $this->searchOrQueries = array_slice($this->searchOrQueries, 0, $this->booleanOrLength);
+        $this->searchOrQueries = array_map('trim', $this->searchOrQueries);
+    }
+
+    /**
+     * This method is used to resolve 'or' queries from searchstring from form
+     * For example, it resolves string such as 'value1 or value2 or value3'
+     * @return void
+     */
+
+    protected function resolveAndQueries()
+    {
+        $this->searchAndQueries = explode('and', $this->searchQuery);
+        $this->searchAndQueries = array_slice($this->searchAndQueries, 0, $this->booleanAndLength);
+        $this->searchAndQueries = array_map('trim', $this->searchAndQueries);
+
+        if(sizeof($this->searchAndQueries) == 1 && sizeof($this->searchOrQueries) <= 1)
+        {
+            $this->searchAndQueries = explode(' ', $this->searchQuery);
+            $this->searchAndQueries = array_slice($this->searchAndQueries, 0, $this->booleanAndLength);
+            $this->searchAndQueries = array_map('trim', $this->searchAndQueries);
+        }
     }
 }
 
