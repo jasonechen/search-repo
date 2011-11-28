@@ -35,7 +35,7 @@ if($valid)
 		array(
                   'name'=>'sat_I_score_range',
                   'value'=>'BasicProfile::getSATRange($data->sat_I_score_range)', //Need to deal with nulls here
-                ), 
+                ),
 		'num_scores:number:# Scores',
             	'num_academics:number:# Academics',
 		'num_extracurriculars:number:# Extracurriculars',
@@ -49,7 +49,7 @@ if($valid)
         ),
         array(
             'header' => 'User Rating',
-            'value'=>'round($data->user->averageRating, 2)',
+            'value'=>'!empty($data->user->averageRating) ? round($data->user->averageRating, 2) : "N/A"',
         ),
 		array(
 			'class'=>'CButtonColumn',

@@ -44,7 +44,11 @@ class StarRatingClass
 
     public function getAverageRating()
     {
-        return $this->model->{$this->relationForAverageRating};
+        if(!empty($this->model->{$this->relationForAverageRating}))
+        {
+            return $this->model->{$this->relationForAverageRating};
+        }
+        return null;
     }
 
     /**
@@ -54,7 +58,11 @@ class StarRatingClass
 
     public function getRatingObject()
     {
-        return $this->model->{$this->relation};
+        if(!empty($this->model->{$this->relation}))
+        {
+            return $this->model->{$this->relation};
+        }
+        return null;
     }
 
     /**

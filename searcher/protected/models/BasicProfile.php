@@ -399,8 +399,12 @@ class BasicProfile extends ProfileActiveRecord
 	}
         public static function getStateName($data)
         {
-            $stateId = $data->user->personalProfile->state;
-            return States::model()->findByPk($stateId)->name;
+            if(!empty($data->user->personalProfile->state))
+            {
+                $stateId = $data->user->personalProfile->state;
+                return States::model()->findByPk($stateId)->name;
+            }
+            return 'N/A';
         }
         
         public function checkBuyer($buyer_id,$mpStudent){
