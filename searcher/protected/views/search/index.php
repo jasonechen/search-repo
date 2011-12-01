@@ -6,9 +6,29 @@
     <a href="http://<?php echo $_SERVER['HTTP_HOST'] . preg_replace('/&pageSize=\d\d/', '', $_SERVER['REQUEST_URI']); ?>&pageSize=48">48</a>
 </div>
 <div>
-    Choose View Style: 
-    <a href="http://<?php echo $_SERVER['HTTP_HOST'] . preg_replace('/&viewStyle=\d/', '', $_SERVER['REQUEST_URI']); ?>&viewStyle=0">Thumbnail</a>
-    <a href="http://<?php echo $_SERVER['HTTP_HOST'] . preg_replace('/&viewStyle=\d/', '', $_SERVER['REQUEST_URI']); ?>&viewStyle=1">Grid</a>
+    Choose View Style:
+
+    <?php
+        $viewStyle = 'thumbnail';
+        if(isset($_SESSION['viewStyle']))
+        {
+            $viewStyle = $_SESSION['viewStyle'];
+        }
+    ?>
+
+    <?php if($viewStyle == 'thumbnail'): ?>
+
+        Thumbnail
+        <a href="http://<?php echo $_SERVER['HTTP_HOST'] . preg_replace('/&viewStyle=\d/', '', $_SERVER['REQUEST_URI']); ?>&viewStyle=1">Grid</a>
+
+    <?php endif; ?>
+
+    <?php if($viewStyle == 'grid'): ?>
+
+        <a href="http://<?php echo $_SERVER['HTTP_HOST'] . preg_replace('/&viewStyle=\d/', '', $_SERVER['REQUEST_URI']); ?>&viewStyle=0">Thumbnail</a>
+        Grid
+
+    <?php endif; ?>
 </div>
 <?php
 if($valid)
