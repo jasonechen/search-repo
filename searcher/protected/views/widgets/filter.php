@@ -164,15 +164,11 @@
             </div>
 
             <div class="row">
-                <?php echo $form->labelEx($model, 'num_essays', array('label' => 'Essays available')); ?>
-                <?php echo $form->checkbox($model, 'num_essays');
-                ?>
+                <?php echo $form->checkBoxList($model, 'num_essays', array('1' => 'Essays available'));?>
             </div>
 
             <div class="row">
-                <?php echo $form->labelEx($model, 'verified'); ?>
-                <?php echo $form->checkbox($model, 'verified');
-                ?>
+                <?php echo $form->checkBoxList($model, 'verified', array('1' => 'Verified'));?>
             </div>
 
             <div class="row">
@@ -222,32 +218,3 @@
 
 
 </div>
-
-<style type="text/css">
-    .range-div {
-       float:left;
-       font-size:9px;
-       border:1px solid #eee;
-    }
-    .range-age-div {
-       float:left;
-       padding-right:2px;
-       font-size:8px;
-       text-align:center;
-    }
-    div.form input[type=checkbox] {
-        float:left;
-        margin:-1px 4px 2px 2px;
-         
-    }
-    
-    
-    div.form input[type=radio] {
-        float:left;
-        margin:-1px 4px 2px 2px;
-
-    }
-    .form .row {
-        padding-bottom:15px;
-    }
-</style>
