@@ -38,13 +38,13 @@ class IntegerSlider extends AbstractModifier
                 
                 if(!empty($this->object->criteria->condition))
                 {
-                    $this->object->criteria->condition .= ' AND(' . $this->key . ' BETWEEN '
+                    $this->object->criteria->condition .= ' AND(t.' . $this->key . ' BETWEEN '
                                                                  . $this->requestArray[$this->requestVariable][$this->key . 'Min'] . ' AND '
                                                                  . $this->requestArray[$this->requestVariable][$this->key . 'Max'] .') ';
                 }
                 else
                 {
-                    $this->object->criteria->condition .= ' (' . $this->key . ' BETWEEN '
+                    $this->object->criteria->condition .= ' (t.' . $this->key . ' BETWEEN '
                                                                  . $this->requestArray[$this->requestVariable][$this->key . 'Min'] . ' AND '
                                                                  . $this->requestArray[$this->requestVariable][$this->key . 'Max'] .') ';
                 }
@@ -84,7 +84,7 @@ class IntegerSlider extends AbstractModifier
                         $addedCondition = '';
                         foreach($anotherModel as $aModel)
                         {
-                            $addedCondition .= $config['mainModelAttribute'] . ' = "' . $aModel->$config['mainModelAttribute'] .  '" OR ';
+                            $addedCondition .= 't.' . $config['mainModelAttribute'] . ' = "' . $aModel->$config['mainModelAttribute'] .  '" OR ';
                         }
                         $addedCondition = substr($addedCondition, 0, -3);
                     }
@@ -118,7 +118,7 @@ class IntegerSlider extends AbstractModifier
                 {
                     if($aModel->$config['useRelation'] >= $min && $aModel->$config['useRelation'] <= $max)
                     {
-                        $addedCondition .= $config['mainModelAttribute'] . ' = "' . $aModel->$config['anotherModelAttribute'] .  '" OR ';
+                        $addedCondition .= 't.' . $config['mainModelAttribute'] . ' = "' . $aModel->$config['anotherModelAttribute'] .  '" OR ';
                     }
                 }
 

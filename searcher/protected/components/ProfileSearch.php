@@ -23,38 +23,21 @@ class ProfileSearch extends AbstractProfileSearch
     
     public function getDataProvider()
     {
+        $sort = new CSort();
+        $sort->attributes = $this->sortableFields;
+
+        $sortableCriteria = new CDbCriteria();
+        $sortableCriteria->with = $this->sortableCriterias;
+        $this->criteria->mergeWith($sortableCriteria);
+
         $this->provider = new CActiveDataProvider($this->model, array(
                     'criteria' => $this->criteria,
+                    'sort' => $sort,
                     'pagination' => array(
                         'pageSize' => $this->getPageSize(),
                     ),
                 ));
 
-        
-        /*$data = $this->provider->getData();
-        if(empty($data))
-        {
-            foreach($this->fieldsThatAreSearchable as $key => $value)
-            {
-                if($this->checkIfFieldIsRelationship($value))
-                {
-                    $this->modifyDatabaseCriteriaIfFieldIsRelationship($key, $value);
-                    $this->provider = new CActiveDataProvider($this->model, array(
-                                'criteria' => $this->criteria,
-                                'pagination' => array(
-                                    'pageSize' => $this->getPageSize(),
-                                ),
-                    ));
-                    $this->invokeAdditionalSearchModifiers();
-                    $data = $this->provider->getData();
-                    if(!empty($data)) return $this->provider;
-                }
-            }
-        }
-        else
-        {
-            return $this->provider;
-        }*/
         return $this->provider;
     }
 

@@ -78,6 +78,43 @@ abstract class AbstractProfileSearch
     );
 
     /**
+     * @var array $sortableFields - we use it for appropriate sorting of CGridView widget
+     */
+
+    public $sortableFields = array(
+        'firstUniversity' => array(
+            'asc' => 'firstUniversity.name',
+            'desc' => 'firstUniversity.name DESC',
+        ),
+        'race' => array(
+            'asc' => 'race.name',
+            'desc' => 'race.name DESC',
+        ),
+        'stateName' => array(
+            'asc' => 'states.name',
+            'desc' => 'states.name DESC',
+        ),
+        '*',
+    );
+
+    /**
+         * @var array $sortableCriterias - we use it for appropriate sorting of CGridView widget
+         */
+
+        public $sortableCriterias = array(
+            'firstUniversity',
+            'race',
+            'user' => array(
+                'with' => array(
+                    'personalProfile' =>
+                        array(
+                            'with' => 'states',
+                        )
+                ),
+            ),
+        );
+
+    /**
      * @var array $badQueries - queries that are not valid at all
      */
 
