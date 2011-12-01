@@ -106,19 +106,19 @@
                     0
                 </div>
                 <div class="range-div" style="width:41px;">
+                    5
+                </div>
+                <div class="range-div" style="width:41px;">
                     10
+                </div>
+                <div class="range-div" style="width:41px;">
+                    15
                 </div>
                 <div class="range-div" style="width:41px;">
                     20
                 </div>
-                <div class="range-div" style="width:41px;">
-                    30
-                </div>
-                <div class="range-div" style="width:41px;">
-                    40
-                </div>
                 <div class="range-div">
-                    50
+                    25+
                 </div>
                 <div style="clear:both;"></div>
             </div>

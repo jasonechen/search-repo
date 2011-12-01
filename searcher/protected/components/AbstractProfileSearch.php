@@ -252,7 +252,7 @@ abstract class AbstractProfileSearch
 
     protected function resolveOrQueries()
     {
-        $this->searchOrQueries = explode('or', $this->searchQuery);
+        $this->searchOrQueries = explode(' or ', $this->searchQuery);
         $this->searchOrQueries = array_slice($this->searchOrQueries, 0, $this->booleanOrLength);
         $this->searchOrQueries = array_map('trim', $this->searchOrQueries);
     }
@@ -265,7 +265,7 @@ abstract class AbstractProfileSearch
 
     protected function resolveAndQueries()
     {
-        $this->searchAndQueries = explode('and', $this->searchQuery);
+        $this->searchAndQueries = explode(' and ', $this->searchQuery);
         $this->searchAndQueries = array_slice($this->searchAndQueries, 0, $this->booleanAndLength);
         $this->searchAndQueries = array_map('trim', $this->searchAndQueries);
 

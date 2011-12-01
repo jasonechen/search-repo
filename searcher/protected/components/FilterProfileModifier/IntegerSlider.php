@@ -145,13 +145,13 @@ class IntegerSlider extends AbstractModifier
                     if(!empty($this->object->criteria->condition))
                     {
                         $this->object->criteria->condition .= ' AND(' . $this->key . ' BETWEEN '
-                                                                     . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Min']) . ' AND '
+                                                                     . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Min'], 'Min') . ' AND '
                                                                      . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Max']) .') ';
                     }
                     else
                     {
                         $this->object->criteria->condition .= ' (' . $this->key . ' BETWEEN '
-                                                                     . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Min']) . ' AND '
+                                                                     . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Min'],  'Min') . ' AND '
                                                                      . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Max']) .') ';
                     }
                 }
@@ -162,13 +162,22 @@ class IntegerSlider extends AbstractModifier
 
     /**
      * @param int $index
+     * @param string $key
      * @return string $return - correlated value from config array
      */
 
-    private function getCorrelatedValue($index)
+    private function getCorrelatedValue($index, $key = 'Max')
     {
         if(isset($this->config['valueCorrelation'][$index]))
         {
+            if(strpos($this->config['valueCorrelation'][$index], '+') !== FALSE && $key !== 'Min')
+            {
+                return $this->config['valueCorrelation'][$index] + 10000;
+            }
+            if(strpos($this->config['valueCorrelation'][$index], '+') !== FALSE && $key === 'Min')
+            {
+                return str_replace('+', '', $this->config['valueCorrelation'][$index]);
+            }
             return $this->config['valueCorrelation'][$index];
         }
         return $index;
