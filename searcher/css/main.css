@@ -4,7 +4,7 @@ body
 	padding: 0;
 	color: #555;
 	font: normal 10pt Arial,Helvetica,sans-serif;
-	background: #white;
+	background: white;
         line-height: 135%;
 }
 
@@ -157,7 +157,7 @@ div.form .rememberMe label
 div.view
 {
 	padding: 10px;
-	margin: 10px 0;
+	margin: 10px 5px 10px 0;
 	border: 1px solid #95F3BC;
 }
 

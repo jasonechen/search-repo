@@ -38,8 +38,7 @@
     </div>
 
     <br/>
-
-    <?php $this->render('star-rating/_comments',
+    <?php if ($data['ratingObject'] !== NULL) $this->render('star-rating/_comments',
                                array(
                                     'comments' => $data['ratingObject'],
                                     'bigStarsPath' => $data['bigStarsPath'],

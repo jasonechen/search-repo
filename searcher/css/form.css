@@ -185,3 +185,44 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
 	clear: left;
 	padding-left: 110px;
 }
+
+/* LEFT FILTER BAR START */
+
+.filtercheckform .range-div {
+   float: left;
+   font-size: 9px;
+   border: 1px solid #eee;
+}
+
+filtercheckform .range-age-div {
+   float: left;
+   padding-right: 2px;
+   font-size: 8px;
+   text-align: center;
+}
+
+div.form input[type=checkbox] {
+    float: left;
+    margin: -1px 4px 2px 2px;
+}
+
+div.form input[type=radio] {
+    float: left;
+    margin: -1px 4px 2px 2px;
+
+}
+
+.form .row {
+    padding-bottom: 15px;
+}
+
+.filtercheckform .checkbox-label {
+    float: left;
+    text-align: right;
+}
+
+.filtercheckform .checkbox-input {
+    float: left;
+}
+
+/* LEFT FILTER BAR END */
