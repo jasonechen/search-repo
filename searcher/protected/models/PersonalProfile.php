@@ -90,7 +90,7 @@ class PersonalProfile extends ProfileActiveRecord
             'lang' => array(self::BELONGS_TO, 'LanguageType', 'foreign_languages_spoken'),
             'citizenship' => array(self::BELONGS_TO, 'CitizenType', 'citizenship'),
             'ethnicity' => array(self::BELONGS_TO, 'EthnicType', 'ethnic_origin'),
-            'states' => array(self::BELONGS_TO, 'State', 'state'),
+            'states' => array(self::BELONGS_TO, 'States', 'state'),
 		);
 	}
 
