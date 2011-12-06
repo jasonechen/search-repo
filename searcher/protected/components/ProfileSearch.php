@@ -23,12 +23,28 @@ class ProfileSearch extends AbstractProfileSearch
     
     public function getDataProvider()
     {
+        /**
+         * We use sorting capabilities
+         * for appropriate sorting of columns by clicking on column name
+         *
+         * We merge old criteria with new sort criteria
+         */
+
         $sort = new CSort();
         $sort->attributes = $this->sortableFields;
 
         $sortableCriteria = new CDbCriteria();
         $sortableCriteria->with = $this->sortableCriterias;
         $this->criteria->mergeWith($sortableCriteria);
+
+        /**
+         * If we have $_GET['BasicProfile'] then we have filtered content from
+         * user - this is CGridView possibility to filter columns
+         *
+         * We merge old criteria with new filter criteria
+         */
+
+        $this->addFilters();
 
         $this->provider = new CActiveDataProvider($this->model, array(
                     'criteria' => $this->criteria,

@@ -5,6 +5,7 @@
  *
  * The followings are the available columns in table 'tbl_basic_profile':
  * @property string $user_id
+ * @property string $nickname
  * @property integer $first_university_id
  * @property integer $curr_university_id
  * @property string $isTransfer
@@ -58,7 +59,7 @@ class BasicProfile extends ProfileActiveRecord
               "810 to 900","710 to 800","600 to 700");      
         
         public static $ProfileTypeArray
-          = array(0=>'',
+          = array(
                  1=>'Average Joe',
                  2=>'Nerd',
                  3=>'Brain',
@@ -315,13 +316,25 @@ class BasicProfile extends ProfileActiveRecord
 
 
         }
+
+        public function getNameUniversityOptions()
+        {
+            $universityArray = CHtml::listData(UniversityName::model()->findAll(), 'name', 'name');
+            return $universityArray;
+        }
         
-        public function getRaceOptions() 
-        { 
+        public function getRaceOptions()
+        {
              $raceArray = CHtml::listData(RaceType::model()->findAll(), 'id', 'name');
              return $raceArray;
 
 
+        }
+
+        public function getNameRaceOptions()
+        {
+            $raceArray = CHtml::listData(RaceType::model()->findAll(), 'name', 'name');
+            return $raceArray;
         }
         
         public static function getSATIndex($scoreVal)

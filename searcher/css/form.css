@@ -226,3 +226,7 @@ div.form input[type=radio] {
 }
 
 /* LEFT FILTER BAR END */
+
+.grid-view .filters select {
+    width: 70px !important;
+}
