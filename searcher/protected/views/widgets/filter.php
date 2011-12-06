@@ -10,11 +10,11 @@
     ?>
         <?php echo $form->hiddenField($model,'first_university_id'); ?>
     
-        <div class="clear"></div><br/>
+        <div class="clear"></div>
         <div class="filtercheckform">
             <div class="row">
                 <?php echo $form->labelEx($model, 'gender'); ?>
-                <br/>
+                
                 <?php echo $form->checkBoxList($model, 'gender', array(
                                                                          'M' => 'Male',
                                                                          'F' => 'Female',
@@ -24,21 +24,21 @@
 
             <div class="row">
                 <?php echo $form->labelEx($model, 'state'); ?>
-                <br/>
+                
                 <?php echo $form->dropDownList($model, 'state', States::getAllStates(), array('prompt' => 'Choose state...'));
                 ?>
             </div>
 
             <div class="row">
                 <?php echo $form->labelEx($model, 'profile_type'); ?>
-                <br/>
+                
                 <?php echo $form->dropDownList($model, 'profile_type', BasicProfile::$ProfileTypeArray, array('prompt' => 'Choose profile type...'));
                 ?>
             </div>
 
             <div class="row">
                 <?php echo $form->labelEx($model, 'race_id', array('label' => 'Ethnicity')); ?>
-                <br/>
+                
                 <?php echo $form->dropDownList($model, 'race_id', RaceType::getTypes(), array('prompt' => 'Choose Race...'));
                 ?>
             </div>
@@ -146,30 +146,24 @@
                     0
                 </div>
                 <div class="range-div" style="width:41px;">
+                    5
+                </div>
+                <div class="range-div" style="width:41px;">
                     10
+                </div>
+                <div class="range-div" style="width:41px;">
+                    15
                 </div>
                 <div class="range-div" style="width:41px;">
                     20
                 </div>
-                <div class="range-div" style="width:41px;">
-                    30
-                </div>
-                <div class="range-div" style="width:41px;">
-                    40
-                </div>
                 <div class="range-div">
-                    50
+                    25+
                 </div>
                 <div style="clear:both;"></div>
             </div>
 
-            <div class="row">
-                <?php echo $form->checkBoxList($model, 'num_essays', array('1' => 'Essays available'));?>
-            </div>
 
-            <div class="row">
-                <?php echo $form->checkBoxList($model, 'verified', array('1' => 'Verified'));?>
-            </div>
 
             <div class="row">
 
@@ -206,7 +200,16 @@
                     5
                 </div>
                 <div style="clear:both;"></div>
+            
             </div>
+                        <div class="row">
+                <?php echo $form->checkBoxList($model, 'num_essays', array('1' => 'Essays available'));?>
+            </div>
+
+            <div class="row">
+                <?php echo $form->checkBoxList($model, 'verified', array('1' => 'Verified'));?>
+            </div>
+            
         </div>
 
         <div class="row">
