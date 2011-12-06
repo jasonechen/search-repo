@@ -118,21 +118,83 @@ abstract class AbstractProfileSearch
     );
 
     /**
-         * @var array $sortableCriterias - we use it for appropriate sorting of CGridView widget
-         */
+     * @var array $sortableCriterias - we use it for appropriate sorting of CGridView widget
+     */
 
-        public $sortableCriterias = array(
-            'firstUniversity',
-            'race',
-            'user' => array(
-                'with' => array(
-                    'personalProfile' =>
-                        array(
-                            'with' => 'states',
-                        )
-                ),
+    public $sortableCriterias = array(
+        'firstUniversity',
+        'race',
+        'user' => array(
+            'with' => array(
+                'personalProfile' =>
+                array(
+                    'with' => 'states',
+                )
             ),
-        );
+        ),
+    );
+
+    /**
+     * @var array $filters - we use it for filtering CGridView data
+     */
+
+    public $filters = array(
+        0 => array(
+            'attribute' => 'user_id',  // attribute of BasicProfile model
+            'sqlAttribute' => 't.user_id', // column used in SQL query for this filter
+            'exact' => false, // use LIKE in SQL query or not
+        ),
+        1 => array(
+            'attribute' => 'gender',
+            'sqlAttribute' => 't.gender',
+            'exact' => false,
+        ),
+        2 => array(
+            'attribute' => 'num_scores',
+            'sqlAttribute' => 't.num_scores',
+            'exact' => false,
+        ),
+        3 => array(
+            'attribute' => 'num_academics',
+            'sqlAttribute' => 't.num_academics',
+            'exact' => false,
+        ),
+        4 => array(
+            'attribute' => 'num_extracurriculars',
+            'sqlAttribute' => 't.num_extracurriculars',
+            'exact' => false,
+        ),
+        5 => array(
+            'attribute' => 'nickname',
+            'sqlAttribute' => 't.nickname',
+            'exact' => false,
+        ),
+        6 => array(
+            'attribute' => 'profile_type',
+            'sqlAttribute' => 't.profile_type',
+            'exact' => true,
+        ),
+        7 => array(
+            'attribute' => 'firstUniversity',
+            'sqlAttribute' => 'firstUniversity.name',
+            'exact' => false,
+        ),
+        8 => array(
+            'attribute' => 'race',
+            'sqlAttribute' => 'race.name',
+            'exact' => true,
+        ),
+        9 => array(
+            'attribute' => 'stateName',
+            'sqlAttribute' => 'personalProfile.state',
+            'exact' => true,
+        ),
+        10 => array(
+            'attribute' => 'sat_I_score_range',
+            'sqlAttribute' => 't.sat_I_score_range',
+            'exact' => true,
+        ),
+    );
 
     /**
      * @var array $badQueries - queries that are not valid at all
@@ -165,7 +227,7 @@ abstract class AbstractProfileSearch
     public $additionalSearchModifierClasses = array();
 
     /**
-     * @var Profile $model - instance of model used in class
+     * @var BasicProfile $model - instance of model used in class
      * @var CDbCriteria $criteria - instance of database criteria used in class
      * @var CDataProvider $provider - instance of CDataProvider used in class
      */
@@ -186,7 +248,8 @@ abstract class AbstractProfileSearch
         $this->searchQuery = $this->filterIncomingSearchQuery($searchQuery);
         if($this->isSearchQueryValid())
         {
-            $this->model = BasicProfile::model();
+            $this->model = new BasicProfile('search');
+
             $this->criteria = new CDbCriteria();
             $this->resolveOrQueries();
             $this->resolveAndQueries();
@@ -194,7 +257,7 @@ abstract class AbstractProfileSearch
         }
         else
         {
-            $this->model = BasicProfile::model();
+            $this->model = new BasicProfile('search');
             $this->criteria = new CDbCriteria();
             $this->criteria->condition = 'user_id = 0';
         }
@@ -331,6 +394,35 @@ abstract class AbstractProfileSearch
             $this->searchAndQueries = explode(' ', $this->searchQuery);
             $this->searchAndQueries = array_slice($this->searchAndQueries, 0, $this->booleanAndLength);
             $this->searchAndQueries = array_map('trim', $this->searchAndQueries);
+        }
+    }
+
+    protected function addFilters()
+    {
+        if(isset($_GET['BasicProfile']))
+        {
+            foreach($_GET['BasicProfile'] as $key => $value)
+            {
+                $_GET[$key] = strip_tags($value);
+            }
+            foreach($this->filters as $filter)
+            {
+                $attribute = $_GET['BasicProfile'][$filter['attribute']];
+
+                if(!empty($attribute))
+                {
+                    $this->model->$filter['attribute'] = $attribute;
+
+                    if(!$filter['exact'])
+                    {
+                        $this->criteria->addCondition($filter['sqlAttribute'] . ' LIKE "%' . $attribute . '%"');
+                    }
+                    else
+                    {
+                        $this->criteria->addCondition($filter['sqlAttribute'] . ' = "' . $attribute . '"');
+                    }
+                }
+            }
         }
     }
 }

@@ -1,3 +1,11 @@
+<?php
+    /**
+     * @var boolean $valid
+     * @var CActiveDataProvider $dataProvider
+     * @var BasicProfile $model
+     */
+?>
+
 <div>
     Items per page:
     <a href="http://<?php echo $_SERVER['HTTP_HOST'] . preg_replace('/&pageSize=\d\d/', '', $_SERVER['REQUEST_URI']); ?>&pageSize=12">12</a>
@@ -42,30 +50,39 @@ if($valid)
 	'filter'=>$model,
 	'columns'=>array(
 		'user_id',
+        'nickname',
 		array(
-                  'name'=>'firstUniversity',
-                  'value'=>'$data->firstUniversity->name',
-                  'header'=>'College'
-                ),
-                'gender',
+            'name'=>'firstUniversity',
+            'value'=>'$data->firstUniversity->name',
+            'header'=>'College',
+        ),
+        array(
+            'name' => 'gender',
+            'filter' => array('M' => 'Male', 'F' => 'Female'),
+            'value' => '$data->gender',
+        ),
 		array(
-                  'name'=>'race',
-                  'value'=>'($data->race !== NULL)? $data->race->name : "NA"', //Need to deal with nulls here
-                ),
+            'name'=>'race',
+            'filter' => $model->getNameRaceOptions(),
+            'value'=>'($data->race !== NULL)? $data->race->name : "NA"', //Need to deal with nulls here
+        ),
 		array(
-                  'name'=>'sat_I_score_range',
-                  'value'=>'BasicProfile::getSATRange($data->sat_I_score_range)', //Need to deal with nulls here
-                ),
+            'name'=>'sat_I_score_range',
+            'value'=>'BasicProfile::getSATRange($data->sat_I_score_range)', //Need to deal with nulls here
+            'filter' => BasicProfile::$SATRangeArray,
+        ),
 		'num_scores:number:# Scores',
-            	'num_academics:number:# Academics',
+        'num_academics:number:# Academics',
 		'num_extracurriculars:number:# Extracurriculars',
-                array(
-                  'name'=>'profile_type',
-                  'value'=>'BasicProfile::getProfileTypeName($data->profile_type)', //Need to deal with nulls here
-                ),
+        array(
+            'name'=>'profile_type',
+            'filter' => BasicProfile::$ProfileTypeArray,
+            'value'=>'BasicProfile::getProfileTypeName($data->profile_type)', //Need to deal with nulls here
+        ),
         array(
             'name'=>'stateName',
             'value'=>'BasicProfile::getStateName($data)',
+            'filter' => States::getAllStates(),
         ),
         array(
             'header' => 'User Rating',
@@ -73,8 +90,8 @@ if($valid)
         ),
 		array(
 			'class'=>'CButtonColumn',
-                        'template' => '{view}',
-                        'viewButtonUrl'=>'Yii::app()->createUrl("/profile/viewProfile", array("profileID" => $data->user_id))',
+            'template' => '{view}',
+            'viewButtonUrl'=>'Yii::app()->createUrl("/profile/viewProfile", array("profileID" => $data->user_id))',
 		),
 	),
 )); 
