@@ -46,13 +46,13 @@ class DropDownList extends AbstractModifier
                         $addedCondition = '';
                         foreach($anotherModel as $aModel)
                         {
-                            $addedCondition .= $config['mainModelAttribute'] . ' = "' . $aModel->$config['mainModelAttribute'] .  '" OR ';
+                            $addedCondition .= 't.' . $config['mainModelAttribute'] . ' = "' . $aModel->$config['mainModelAttribute'] .  '" OR ';
                         }
                         $addedCondition = substr($addedCondition, 0, -3);
                     }
                     else
                     {
-                        $addedCondition = $config['mainModelAttribute'] . ' = 0';
+                        $addedCondition = 't.' . $config['mainModelAttribute'] . ' = 0';
                     }
                     if(!empty($this->object->criteria->condition))
                     {

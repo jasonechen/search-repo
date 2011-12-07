@@ -259,7 +259,7 @@ abstract class AbstractProfileSearch
         {
             $this->model = new BasicProfile('search');
             $this->criteria = new CDbCriteria();
-            $this->criteria->condition = 'user_id = 0';
+            $this->criteria->condition = 't.user_id = 0';
         }
     }
 

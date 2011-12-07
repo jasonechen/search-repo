@@ -115,7 +115,7 @@ class ProfileSearch extends AbstractProfileSearch
         }
         if(empty($this->criteria->condition))
         {
-            $this->criteria->condition = 'user_id = 0';
+            $this->criteria->condition = 't.user_id = 0';
         }
     }
 
