@@ -95,11 +95,11 @@ class FilterProfileSearch extends AbstractProfileSearch
                 'defaultMaxValue' => 5,
                 'valueCorrelation' => array(
                     0 => '0',
-                    1 => '10',
-                    2 => '20',
-                    3 => '30',
-                    4 => '40',
-                    5 => '50',
+                    1 => '5',
+                    2 => '10',
+                    3 => '15',
+                    4 => '20',
+                    5 => '25+',
                 ),
             ),
         ),
@@ -110,15 +110,11 @@ class FilterProfileSearch extends AbstractProfileSearch
                 'value' => '0',
             ),
         ),
-        'averageRating' => array(
+        'avg_profile_rating' => array(
             'type' => 'IntegerSlider',
             'config' => array(
                 'defaultMinValue' => 1,
                 'defaultMaxValue' => 5,
-                'useAnotherModel' => 'User',
-                'useRelation' => 'averageRating',
-                'anotherModelAttribute' => 'id',
-                'mainModelAttribute' => 'user_id',
                 'valueCorrelation' => array(
                     1 => '0',
                     2 => '2',

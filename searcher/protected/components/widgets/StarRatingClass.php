@@ -14,15 +14,13 @@ class StarRatingClass
      * @var string $modelClassName - name of CActiveRecord class that we use for info abouts users
      * @var bool $useRelations - either to use relations for calculating an average rating or not
      * @var string $relation - name of relation of $modelClassName for retrieving all necessary information
-     * @var string $relationForAverageRating - name of relation of $modelClassName for average rating
      * @var CActiveRecord $model - instance of CActiveRecord model
      */
     
     public $user_id;
-    public $modelClassName = 'User';
+    public $modelClassName = 'BasicProfile';
     public $useRelations = true;
     public $relation = 'ratings';
-    public $relationForAverageRating = 'averageRating';
     public $model;
     
     /**
@@ -34,21 +32,7 @@ class StarRatingClass
     {
         $this->user_id = $user_id;
         $this->model = call_user_func(array($this->modelClassName, 'model'));
-        $this->model = $this->model->findByAttributes(array('id' => $this->user_id));
-    }
-
-    /**
-     * Method for getting average rating of profile
-     * @return float - average rating of profile
-     */
-
-    public function getAverageRating()
-    {
-        if(!empty($this->model->{$this->relationForAverageRating}))
-        {
-            return $this->model->{$this->relationForAverageRating};
-        }
-        return null;
+        $this->model = $this->model->findByAttributes(array('user_id' => $this->user_id));
     }
 
     /**

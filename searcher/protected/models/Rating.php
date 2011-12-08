@@ -95,4 +95,13 @@ class Rating extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        protected function afterSave(){
+            parent::afterSave();
+            $basicProfile = BasicProfile::model()->findByPk($this->user_id);
+            if ($basicProfile !== NULL){
+                $basicProfile->avg_profile_rating = $basicProfile->averageRating;
+            }
+            $basicProfile->save(false);
+        }
 }

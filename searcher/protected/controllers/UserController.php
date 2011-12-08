@@ -49,7 +49,7 @@ class UserController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow',  
-				'actions'=>array('generateRandom','fillInMapInfo'),
+				'actions'=>array('generateRandom','fillInMapInfo','updateAvgRatings'),
 				'users'=>array('@'),
 			),
 			array('allow', 
@@ -456,6 +456,16 @@ class UserController extends Controller
 			Yii::app()->end();
 		}
 	}
+
+        public function actionUpdateAvgRatings()
+        {
+            $basicProfileArray=BasicProfile::model()->findAllBySql('SELECT * FROM tbl_basic_profile WHERE USER_ID > -1');
+            
+            foreach ($basicProfileArray as $basicProfile):    
+                $basicProfile->avg_profile_rating = $basicProfile->averageRating;
+                $basicProfile->save(false);
+            endforeach;            
+        }
         
         public function setAdminMenu()
         {

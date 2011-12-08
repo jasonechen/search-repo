@@ -14,7 +14,6 @@
         <div class="filtercheckform">
             <div class="row">
                 <?php echo $form->labelEx($model, 'gender'); ?>
-                
                 <?php echo $form->checkBoxList($model, 'gender', array(
                                                                          'M' => 'Male',
                                                                          'F' => 'Female',
@@ -24,28 +23,27 @@
 
             <div class="row">
                 <?php echo $form->labelEx($model, 'state'); ?>
-                
-                <?php echo $form->dropDownList($model, 'state', States::getAllStates(), array('prompt' => 'Choose state...'));
+                <?php echo $form->dropDownList($model, 'state', States::getAllStates(), array('prompt' => 'Choose state'));
                 ?>
             </div>
 
             <div class="row">
                 <?php echo $form->labelEx($model, 'profile_type'); ?>
                 
-                <?php echo $form->dropDownList($model, 'profile_type', BasicProfile::$ProfileTypeArray, array('prompt' => 'Choose profile type...'));
+                <?php echo $form->dropDownList($model, 'profile_type', BasicProfile::$ProfileTypeArray, array('prompt' => 'Choose Profile Type'));
                 ?>
             </div>
 
             <div class="row">
                 <?php echo $form->labelEx($model, 'race_id', array('label' => 'Ethnicity')); ?>
                 
-                <?php echo $form->dropDownList($model, 'race_id', RaceType::getTypes(), array('prompt' => 'Choose Race...'));
+                <?php echo $form->dropDownList($model, 'race_id', RaceType::getTypes(), array('prompt' => 'Select Race'));
                 ?>
             </div>
 
             <div class="row">
 
-                <?php echo $form->labelEx($model, 'SAT', array('label' => 'SAT I score range')); ?>
+                <?php echo $form->labelEx($model, 'SAT', array('label' => 'SAT I Combined Score')); ?>
                 <br/>
 
                 <?php $this->widget('zii.widgets.jui.CJuiSliderInput', array(
@@ -164,16 +162,15 @@
             </div>
 
 
-
             <div class="row">
 
-                <?php echo $form->labelEx($model, 'averageRating', array('label' => 'User Rating')); ?>
+                <?php echo $form->labelEx($model, 'avg_profile_rating', array('label' => 'Average Rating')); ?>
                 <br/>
 
                 <?php $this->widget('zii.widgets.jui.CJuiSliderInput', array(
                     'model' => $model,
-                    'attribute' => 'averageRatingMin',
-                    'maxAttribute' => 'averageRatingMax',
+                    'attribute' => 'avg_profile_ratingMin',
+                    'maxAttribute' => 'avg_profile_ratingMax',
                     'options' => array(
                         'range' => true,
                         'min'=> 1,
@@ -200,10 +197,10 @@
                     5
                 </div>
                 <div style="clear:both;"></div>
-            
             </div>
-                        <div class="row">
-                <?php echo $form->checkBoxList($model, 'num_essays', array('1' => 'Essays available'));?>
+
+            <div class="row">
+                <?php echo $form->checkBoxList($model, 'num_essays', array('1' => 'Essays Available'));?>
             </div>
 
             <div class="row">

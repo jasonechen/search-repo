@@ -23,9 +23,9 @@ class FilterForm extends CFormModel
     public $num_extracurricularsMax;
     public $num_essays;
     public $verified;
-    public $averageRating;
-    public $averageRatingMin;
-    public $averageRatingMax;
+    public $avg_profile_rating;
+    public $avg_profile_ratingMin;
+    public $avg_profile_ratingMax;
 
 	public function rules()
 	{
@@ -33,7 +33,7 @@ class FilterForm extends CFormModel
             array('first_university_name, gender, SATMax, SATMin, SAT, first_university_id, race_id, state
                 profile_type, num_scores, num_scoresMin, num_scoresMax, num_extracurriculars,
                 num_extracurricularsMin, num_extracurricularsMax, num_essays, verified,
-                averageRating, averageRatingMin, averageRatingMax', 'safe'),
+                avg_profile_rating, avg_profile_ratingMin, avg_profile_ratingMax', 'safe'),
 		);
 	}
 }

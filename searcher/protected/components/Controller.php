@@ -46,10 +46,11 @@ class Controller extends CController
             $this->filterModel->num_extracurricularsMin = 0;
             $this->filterModel->num_extracurricularsMax = 50;
         }
-        if(!isset($_GET['FilterForm']['averageRatingMin']) && !isset($_GET['FilterForm']['averageRatingMax']))
+        if(!isset($_GET['FilterForm']['avg_profile_ratingMin']) && !isset($_GET['FilterForm']['avg_profile_ratingMax']))
         {
-            $this->filterModel->averageRatingMin = 1;
-            $this->filterModel->averageRatingMax = 5;
+            $this->filterModel->avg_profile_ratingMin = 1;
+            $this->filterModel->avg_profile_ratingMax = 5;
         }
     }
+
 }

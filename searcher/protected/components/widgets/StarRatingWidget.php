@@ -50,11 +50,13 @@ class StarRatingWidget extends CWidget
     {
         $this->_starRatingObject = new StarRatingClass($this->user_id);
         $this->_data = array();
-        $this->_data['averageRating'] = round($this->_starRatingObject->getAverageRating(), 2);
+        
 
-        if($this->noStartingRate)
-        {
+        if($this->noStartingRate){
             $this->_data['averageRating'] = 0;
+        }
+        else{
+            $this->_data['averageRating'] = round($this->_starRatingObject->model->avg_profile_rating, 2);
         }
 
         $this->_data['ratingObject'] = $this->_starRatingObject->getRatingObject();
@@ -110,19 +112,17 @@ class StarRatingWidget extends CWidget
     
 	public function registerClientScript()
 	{
-        $assets = dirname(__FILE__) . '/views/star-rating/assets';
-		$baseUrl = Yii::app()->assetManager->publish($assets);
-        if(is_dir($assets))
-        {
-			Yii::app()->clientScript->registerCoreScript('jquery');
-            Yii::app()->clientScript->registerCssFile($baseUrl . '/jquery/jRating.jquery.css');
-			Yii::app()->clientScript->registerScriptFile($baseUrl . '/jquery/jRating.jquery.js', CClientScript::POS_HEAD);
-            $this->_data['bigStarsPath'] = $baseUrl . '/jquery/icons/stars.png';
-            $this->_data['smallStarsPath'] = $baseUrl . '/jquery/icons/small.png';
-		}
-        else if(!is_dir($assets))
-        {
-			throw new Exception('Star Rating Widget - Error: Couldn\'t find assets to publish.');
-		}
+            $assets = dirname(__FILE__) . '/views/star-rating/assets';
+            $baseUrl = Yii::app()->assetManager->publish($assets);
+            if(is_dir($assets)){
+                Yii::app()->clientScript->registerCoreScript('jquery');
+                Yii::app()->clientScript->registerCssFile($baseUrl . '/jquery/jRating.jquery.css');
+		Yii::app()->clientScript->registerScriptFile($baseUrl . '/jquery/jRating.jquery.js', CClientScript::POS_HEAD);
+                $this->_data['bigStarsPath'] = $baseUrl . '/jquery/icons/stars.png';
+                $this->_data['smallStarsPath'] = $baseUrl . '/jquery/icons/small.png';
+            }
+            else if(!is_dir($assets)){
+                throw new Exception('Star Rating Widget - Error: Couldn\'t find assets to publish.');
+            }
 	}
 }

@@ -194,6 +194,11 @@ abstract class AbstractProfileSearch
             'sqlAttribute' => 't.sat_I_score_range',
             'exact' => true,
         ),
+        11 => array(
+            'attribute' => 'avg_profile_rating',
+            'sqlAttribute' => 't.avg_profile_rating',
+            'exact' => false,
+        ),
     );
 
     /**
@@ -209,14 +214,14 @@ abstract class AbstractProfileSearch
      * If this value = infinity we could face with performance problems
      */
 
-    public $booleanAndLength = 10;
+    public $booleanAndLength = 11;
 
     /**
      * @var int $booleanOrLength - how much 'or' search string operators is supported
      * If this value = infinity we could face with performance problems
      */
 
-    public $booleanOrLength = 10;
+    public $booleanOrLength = 11;
 
     /**
      * @var int $minLengthOfQuery - min length of bad query

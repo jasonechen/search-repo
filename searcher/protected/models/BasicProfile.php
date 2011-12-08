@@ -145,6 +145,8 @@ class BasicProfile extends ProfileActiveRecord
 //                                    'params'=>array(":userID"=>"$userID"),
                                     'joinType'=>'INNER JOIN',
                                     'on'=>'t.user_id=purchased_profile_id'),
+            'ratings' => array(self::HAS_MANY, 'Rating', 'user_id', 'order' => 'create_time DESC'),
+            'averageRating' => array(self::STAT, 'Rating', 'user_id', 'select' => 'AVG(rating)')
 		);
 	}
 
@@ -412,8 +414,7 @@ class BasicProfile extends ProfileActiveRecord
 	}
         public static function getStateName($data)
         {
-            if(!empty($data->user->personalProfile->state))
-            {
+            if(!empty($data->user->personalProfile->state)){
                 $stateId = $data->user->personalProfile->state;
                 return States::model()->findByPk($stateId)->name;
             }

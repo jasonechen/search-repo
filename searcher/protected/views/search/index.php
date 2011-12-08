@@ -86,7 +86,7 @@ if($valid)
         ),
         array(
             'header' => 'User Rating',
-            'value'=>'!empty($data->user->averageRating) ? round($data->user->averageRating, 2) : "N/A"',
+            'value'=>'!empty($data->avg_profile_rating) ? round($data->avg_profile_rating, 2) : "N/A"',
         ),
 		array(
 			'class'=>'CButtonColumn',
