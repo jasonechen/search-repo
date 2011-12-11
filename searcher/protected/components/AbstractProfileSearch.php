@@ -72,7 +72,7 @@ abstract class AbstractProfileSearch
             
         'profile_type' => array(  
           'type' => 'linkedStaticProperty',
-           'linkedStaticProperty' => '$staticFieldValue = BasicProfile::$ProfileTypeArray;',  
+           'linkedStaticProperty' => 'BasicProfile::$ProfileTypeArray;',  
             ),
             
 //        'education' => array(  // we could link search attribute with any class static property

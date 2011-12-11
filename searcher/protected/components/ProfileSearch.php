@@ -275,7 +275,7 @@ class ProfileSearch extends AbstractProfileSearch
         {
             if(strpos(strtolower($value), $this->searchQuery) !== FALSE)
             {
-                $this->criteria->compare($fieldKey, $key, true, 'OR');
+                $this->criteria->compare($fieldKey, $key, false, 'OR');
                 $this->modifyOrder($field);
             }
         }
