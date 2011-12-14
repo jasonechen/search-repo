@@ -40,18 +40,23 @@ class IntegerSlider extends AbstractModifier
                 {
                     $this->object->criteria->condition .= ' AND(t.' . $this->key . ' BETWEEN '
                                                                  . $this->requestArray[$this->requestVariable][$this->key . 'Min'] . ' AND '
-                                                                 . $this->requestArray[$this->requestVariable][$this->key . 'Max'] .') ';
+                                                                 . $this->requestArray[$this->requestVariable][$this->key . 'Max']
+                                                                 . $this->getNullQueryExpression() .
+                                                          ') ';
                 }
                 else
                 {
                     $this->object->criteria->condition .= ' (t.' . $this->key . ' BETWEEN '
                                                                  . $this->requestArray[$this->requestVariable][$this->key . 'Min'] . ' AND '
-                                                                 . $this->requestArray[$this->requestVariable][$this->key . 'Max'] .') ';
+                                                                 . $this->requestArray[$this->requestVariable][$this->key . 'Max']
+                                                                 . $this->getNullQueryExpression() .
+                                                          ') ';
                 }
             }
         }
         else
         {
+
             // in case of not-empty configuration for this modifier
 
             if(!empty($config['useAnotherModel']) && !empty($config['anotherModelAttribute'])  && empty($config['useRelation']))
@@ -97,11 +102,11 @@ class IntegerSlider extends AbstractModifier
 
                     if(!empty($this->object->criteria->condition))
                     {
-                        $this->object->criteria->condition .= ' AND (' . $addedCondition .') ';
+                        $this->object->criteria->condition .= ' AND (' . $addedCondition . $this->getNullQueryExpression(true) . ') ';
                     }
                     else
                     {
-                            $this->object->criteria->condition .= ' (' . $addedCondition .') ';
+                        $this->object->criteria->condition .= ' (' . $addedCondition . $this->getNullQueryExpression(true) . ') ';
                     }
                 }
             }
@@ -128,11 +133,11 @@ class IntegerSlider extends AbstractModifier
 
                 if(!empty($this->object->criteria->condition))
                 {
-                    $this->object->criteria->condition .= ' AND (' . $addedCondition .') ';
+                    $this->object->criteria->condition .= ' AND (' . $addedCondition . $this->getNullQueryExpression(true) . ') ';
                 }
                 else
                 {
-                    $this->object->criteria->condition .= ' (' . $addedCondition .') ';
+                    $this->object->criteria->condition .= ' (' . $addedCondition . $this->getNullQueryExpression(true) .') ';
                 }
             }
             else
@@ -146,13 +151,17 @@ class IntegerSlider extends AbstractModifier
                     {
                         $this->object->criteria->condition .= ' AND(' . $this->key . ' BETWEEN '
                                                                      . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Min'], 'Min') . ' AND '
-                                                                     . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Max']) .') ';
+                                                                     . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Max'])
+                                                                     . $this->getNullQueryExpression() .
+                                                                ') ';
                     }
                     else
                     {
                         $this->object->criteria->condition .= ' (' . $this->key . ' BETWEEN '
                                                                      . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Min'],  'Min') . ' AND '
-                                                                     . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Max']) .') ';
+                                                                     . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Max'])
+                                                                     . $this->getNullQueryExpression() .
+                                                                ') ';
                     }
                 }
             }
@@ -181,6 +190,26 @@ class IntegerSlider extends AbstractModifier
             return $this->config['valueCorrelation'][$index];
         }
         return $index;
+    }
+
+    /**
+     * Method that allows adding IS NULL part of query to our CDbCriteria
+     * @param bool $useRelation - whether to use related model attribute or not
+     * @return string
+     */
+
+    private function getNullQueryExpression($useRelation = false)
+    {
+        $column = ($useRelation) ? $this->config['mainModelAttribute'] : $this->key;
+
+        // Does we allow NULL in SQL QUERY?
+
+        if(!empty($this->config['allowNull']))
+        {
+            return ' OR ' . $column . ' IS NULL';
+        }
+
+        return '';
     }
 }
 

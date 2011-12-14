@@ -51,7 +51,7 @@ class FilterProfileSearch extends AbstractProfileSearch
         'race_id' => array(
             'type' => 'DropDownList',
         ),
-        'SAT' => array(
+        /*'SAT' => array(
             'type' => 'IntegerSlider',
             'config' => array(
                 'defaultMinValue' => 0,
@@ -72,7 +72,7 @@ class FilterProfileSearch extends AbstractProfileSearch
                 ),
                 'mainModelAttribute' => 'user_id',
             ),
-        ),
+        ),*/
         'num_scores' => array(
             'type' => 'IntegerSlider',
             'config' => array(
@@ -122,6 +122,7 @@ class FilterProfileSearch extends AbstractProfileSearch
                     4 => '4',
                     5 => '5',
                 ),
+                'allowNull' => true,
             ),
         ),
 //      'education' => array(

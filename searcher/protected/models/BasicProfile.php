@@ -409,8 +409,11 @@ class BasicProfile extends ProfileActiveRecord
         
         public static function getProfileTypeName($indexVal)
 	{
-   
-            return BasicProfile::$ProfileTypeArray[$indexVal];
+            if(isset(BasicProfile::$ProfileTypeArray[$indexVal]))
+            {
+                return BasicProfile::$ProfileTypeArray[$indexVal];
+            }
+            return 'N/A';
 	}
         public static function getStateName($data)
         {
