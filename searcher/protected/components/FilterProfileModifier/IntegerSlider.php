@@ -27,146 +27,226 @@ class IntegerSlider extends AbstractModifier
             return $this->object->criteria;
         }
 
-        // in case of empty configuration for this modifier
-        
-        if(empty($config))
+        if(!empty($config['useAnotherModel']) && !empty($config['anotherModelAttribute'])  && empty($config['useRelation']))
         {
-            if(is_numeric($this->requestArray[$this->requestVariable][$this->key . 'Min']) &&
-               is_numeric($this->requestArray[$this->requestVariable][$this->key . 'Max']))
+            $this->modifyCriteriaByAnotherModelAttribute($config);
+        }
+        elseif(!empty($config['useAnotherModel']) && !empty($config['useRelation']))
+        {
+            $this->modifyCriteriaByRelation($config);
+        }
+        else
+        {
+            $this->modifyCriteriaDirectlyByRequestedValue();
+        }
+
+        return $this->object->criteria;
+    }
+
+    /**
+     * This is the most simple case
+     * We adjust main criteria by using $_POST or $_GET values directly
+     * without using relationships or another models
+     *
+     * For example, we could use with avg_profile_rating column from BasicProfile model
+     * We select records which have avg_profile_rating between Min and Max values that come from slider in form
+     */
+
+    private function modifyCriteriaDirectlyByRequestedValue()
+    {
+        if(is_numeric($this->requestArray[$this->requestVariable][$this->key . 'Min']) && is_numeric($this->requestArray[$this->requestVariable][$this->key . 'Max']))
+        {
+            // adjusting search criteria of out CDbCriteria
+
+            if(!empty($this->object->criteria->condition))
             {
-                // adjusting search criteria of out CDbCriteria
-                
-                if(!empty($this->object->criteria->condition))
+                $this->object->criteria->condition .= ' AND(' . $this->key . ' BETWEEN '
+                    . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Min'], 'Min') . ' AND '
+                    . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Max'])
+                    . $this->getNullQueryExpression() .
+                    ') ';
+            }
+            else
+            {
+                $this->object->criteria->condition .= ' (' . $this->key . ' BETWEEN '
+                    . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Min'],  'Min') . ' AND '
+                    . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Max'])
+                    . $this->getNullQueryExpression() .
+                    ') ';
+            }
+        }
+    }
+
+    /**
+     * More difficult case
+     * We adjust main criteria by using the relationship defined in BasicProfile
+     *
+     * @param $config
+     */
+
+    private function modifyCriteriaByRelation($config)
+    {
+        $addedCondition = $this->createCondition($config, true);
+
+        $this->applyCondition($addedCondition);
+    }
+
+    /**
+     * More difficult case
+     * We adjust main criteria by using result of query to another model connected with main model
+     *
+     * As an example:
+     *
+     * Adjusting by SAT sum - we select those BasicProfile records that have
+     * specified attribute lying between values from $_POST or $_GET
+     *
+     * For SAT sum we select those records that have
+     * (SAT_Math + SAT_Critical_Read + SAT_Writing) in table ScoreProfile between values that come
+     * from $_POST variables. These $_POST variables come from form slider
+     *
+     * @param $config
+     */
+
+    private function modifyCriteriaByAnotherModelAttribute($config)
+    {
+        $addedCondition = $this->createCondition($config, false);
+
+        $this->applyCondition($addedCondition);
+    }
+
+    /**
+     * Universal function for creating condition that we add to main model condition
+     *
+     * If $useRelation == true we use relationship defined in Main Model (BasicProfile as an example)
+     * to add additional conditional to Main Model Criteria
+     *
+     * If $useRelation == false we use results of querying to another model (ScoreProfile as an example)
+     * to add additional conditional to Main Model Criteria
+     *
+     * @param $config
+     * @param boolean $useRelation - whether to use or not relations
+     * @return string
+     */
+
+    private function createCondition($config, $useRelation)
+    {
+        $addedCondition = '';
+
+        if($useRelation)
+        {
+            $anotherModel = $config['useAnotherModel']::model()->findAll();
+
+            foreach ($anotherModel as $aModel)
+            {
+                if ($aModel->$config['useRelation'] >= $this->getMinRequestValue() && $aModel->$config['useRelation'] <= $this->getMaxRequestValue())
                 {
-                    $this->object->criteria->condition .= ' AND(t.' . $this->key . ' BETWEEN '
-                                                                 . $this->requestArray[$this->requestVariable][$this->key . 'Min'] . ' AND '
-                                                                 . $this->requestArray[$this->requestVariable][$this->key . 'Max']
-                                                                 . $this->getNullQueryExpression() .
-                                                          ') ';
-                }
-                else
-                {
-                    $this->object->criteria->condition .= ' (t.' . $this->key . ' BETWEEN '
-                                                                 . $this->requestArray[$this->requestVariable][$this->key . 'Min'] . ' AND '
-                                                                 . $this->requestArray[$this->requestVariable][$this->key . 'Max']
-                                                                 . $this->getNullQueryExpression() .
-                                                          ') ';
+                    $addedCondition .= 't.' . $config['mainModelAttribute'] . ' = "' . $aModel->$config['anotherModelAttribute'] . '" OR ';
                 }
             }
         }
         else
         {
+            $anotherModel = $this->constructAnotherModel($config);
 
-            // in case of not-empty configuration for this modifier
+            // constructing criteria condition of main table model
 
-            if(!empty($config['useAnotherModel']) && !empty($config['anotherModelAttribute'])  && empty($config['useRelation']))
+            if (!empty($anotherModel))
             {
-                $anotherModelCriteria = new CDbCriteria();
-                $anotherModelCondition = '';
-
-                if(is_array($config['anotherModelAttribute']))
+                foreach ($anotherModel as $aModel)
                 {
-                    foreach($config['anotherModelAttribute'] as $fields)
-                    {
-                        $anotherModelCondition .= $fields . ' + ';
-                    }
-
-                    // constructing criteria condition of related table model
-
-                    $anotherModelCondition = substr($anotherModelCondition, 0, -2);
-                    $anotherModelCondition .= 'BETWEEN ' . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Min']);
-                    $anotherModelCondition .= ' AND ' . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Max']);
-
-                    // modifying criteria of related table model
-
-                    $anotherModelCriteria->condition = $anotherModelCondition;
-                    $anotherModel = $config['useAnotherModel']::model()->findAll($anotherModelCriteria);
-
-                    // constructing criteria condition of main table model
-
-                    if(!empty($anotherModel))
-                    {
-                        $addedCondition = '';
-                        foreach($anotherModel as $aModel)
-                        {
-                            $addedCondition .= 't.' . $config['mainModelAttribute'] . ' = "' . $aModel->$config['mainModelAttribute'] .  '" OR ';
-                        }
-                        $addedCondition = substr($addedCondition, 0, -3);
-                    }
-                    else
-                    {
-                        $addedCondition = $config['mainModelAttribute'] . ' = 0';
-                    }
-
-                    // modifying criteria of main table model
-
-                    if(!empty($this->object->criteria->condition))
-                    {
-                        $this->object->criteria->condition .= ' AND (' . $addedCondition . $this->getNullQueryExpression(true) . ') ';
-                    }
-                    else
-                    {
-                        $this->object->criteria->condition .= ' (' . $addedCondition . $this->getNullQueryExpression(true) . ') ';
-                    }
-                }
-            }
-            elseif(!empty($config['useAnotherModel']) && !empty($config['useRelation']))
-            {
-                $anotherModel = $config['useAnotherModel']::model()->findAll();
-
-                $min = $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Min']);
-                $max = $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Max']);
-
-                $addedCondition = '';
-
-                foreach($anotherModel as $aModel)
-                {
-                    if($aModel->$config['useRelation'] >= $min && $aModel->$config['useRelation'] <= $max)
-                    {
-                        $addedCondition .= 't.' . $config['mainModelAttribute'] . ' = "' . $aModel->$config['anotherModelAttribute'] .  '" OR ';
-                    }
-                }
-
-                $addedCondition = substr($addedCondition, 0, -3);
-
-                // modifying criteria of main table model
-
-                if(!empty($this->object->criteria->condition))
-                {
-                    $this->object->criteria->condition .= ' AND (' . $addedCondition . $this->getNullQueryExpression(true) . ') ';
-                }
-                else
-                {
-                    $this->object->criteria->condition .= ' (' . $addedCondition . $this->getNullQueryExpression(true) .') ';
+                    $addedCondition .= 't.' . $config['mainModelAttribute'] . ' = "' . $aModel->$config['mainModelAttribute'] . '" OR ';
                 }
             }
             else
             {
-                if(is_numeric($this->requestArray[$this->requestVariable][$this->key . 'Min']) &&
-                   is_numeric($this->requestArray[$this->requestVariable][$this->key . 'Max']))
-                {
-                    // adjusting search criteria of out CDbCriteria
-
-                    if(!empty($this->object->criteria->condition))
-                    {
-                        $this->object->criteria->condition .= ' AND(' . $this->key . ' BETWEEN '
-                                                                     . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Min'], 'Min') . ' AND '
-                                                                     . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Max'])
-                                                                     . $this->getNullQueryExpression() .
-                                                                ') ';
-                    }
-                    else
-                    {
-                        $this->object->criteria->condition .= ' (' . $this->key . ' BETWEEN '
-                                                                     . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Min'],  'Min') . ' AND '
-                                                                     . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Max'])
-                                                                     . $this->getNullQueryExpression() .
-                                                                ') ';
-                    }
-                }
+                $addedCondition = $config['mainModelAttribute'] . ' = 0';
             }
         }
-        return $this->object->criteria;
+
+        if(strpos($addedCondition, '= 0') === FALSE)
+        {
+            $addedCondition = substr($addedCondition, 0, -3);
+        }
+
+        return $addedCondition;
+    }
+
+    /**
+     * We use this method while constructing new condition for
+     * case in which we are querying another model to modify main model criteria
+     *
+     * It returns model instance of another model
+     *
+     * @param $config
+     * @return CActiveRecord
+     */
+
+    private function constructAnotherModel($config)
+    {
+        $anotherModelCriteria  = new CDbCriteria();
+        $anotherModelCondition = '';
+
+        if (is_array($config['anotherModelAttribute']))
+        {
+            foreach ($config['anotherModelAttribute'] as $fields)
+            {
+                $anotherModelCondition .= $fields . ' + ';
+            }
+        }
+        else
+        {
+            $anotherModelCondition = $config['anotherModelAttribute'] . ' ';
+        }
+
+        // constructing criteria condition of related table model
+
+        $anotherModelCondition = substr($anotherModelCondition, 0, -2);
+        $anotherModelCondition .= 'BETWEEN ' . $this->getMinRequestValue();
+        $anotherModelCondition .= ' AND ' . $this->getMaxRequestValue();
+
+        // modifying criteria of related table model
+
+        $anotherModelCriteria->condition = $anotherModelCondition;
+        $anotherModel                    = $config['useAnotherModel']::model()->findAll($anotherModelCriteria);
+
+        return $anotherModel;
+    }
+
+    /**
+     * Getting Minimal value from $_POST or $_GET request (using slider for example)
+     * @return string
+     */
+
+    private function getMinRequestValue()
+    {
+        return $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Min']);
+    }
+
+    /**
+     * Getting Maximal value from $_POST or $_GET request (using slider for example)
+     * @return string
+     */
+
+    private function getMaxRequestValue()
+    {
+        return $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Max']);
+    }
+
+    /**
+     * Applying newly created condition to Main Model Criteria (Criteria for BasicProfile for example)
+     * @param string $addedCondition
+     */
+
+    private function applyCondition($addedCondition)
+    {
+        if (!empty($this->object->criteria->condition))
+        {
+            $this->object->criteria->condition .= ' AND (' . $addedCondition . $this->getNullQueryExpression(true) . ') ';
+        }
+        else
+        {
+            $this->object->criteria->condition .= ' (' . $addedCondition . $this->getNullQueryExpression(true) . ') ';
+        }
     }
 
     /**
