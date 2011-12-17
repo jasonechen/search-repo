@@ -314,9 +314,9 @@ abstract class AbstractProfileSearch
      * @return string
      */
 
-    protected function filterIncomingSearchQuery($searchQuery)
+    public static function filterIncomingSearchQuery($searchQuery)
     {
-        return strip_tags(trim(strtolower($searchQuery)));
+        return htmlspecialchars(strip_tags(trim(strtolower($searchQuery))));
     }
 
     /**
@@ -327,6 +327,10 @@ abstract class AbstractProfileSearch
     {
         foreach($this->additionalSearchModifierClasses as $class)
         {
+            /**
+             * @var AbstractProfileSearch $object
+             */
+
             Yii::import('application.components.' . $class);
             $object = new $class($this->searchQuery);
             $object->setCriteria($this->criteria);

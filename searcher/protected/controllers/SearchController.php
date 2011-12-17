@@ -12,11 +12,11 @@ class SearchController extends Controller
 	{
         if(isset($_GET['search_q']))
         {
-            $_SESSION['search_q'] = $_GET['search_q'];
+            $_SESSION['search_q'] = AbstractProfileSearch::filterIncomingSearchQuery($_GET['search_q']);
         }
         if(isset($_POST['search_q']))
         {
-            $_SESSION['search_q'] = $_POST['search_q'];
+            $_SESSION['search_q'] = AbstractProfileSearch::filterIncomingSearchQuery($_POST['search_q']);
         }
 
         if(isset($_GET['pageSize']))
@@ -57,11 +57,13 @@ class SearchController extends Controller
             $valid = true;
         }
 
-		$this->render('index', array(
-                                 'viewStyle' => $viewStyle,
-                                 'valid' => $valid,
-                                 'dataProvider' => $dataProvider,
-                                 'model' => $model,
-                               ));
+		$this->render('index',
+            array(
+                 'viewStyle' => $viewStyle,
+                 'valid' => $valid,
+                 'dataProvider' => $dataProvider,
+                 'model' => $model,
+            )
+        );
 	}
 }
