@@ -60,7 +60,7 @@ class IntegerSlider extends AbstractModifier
 
             if(!empty($this->object->criteria->condition))
             {
-                $this->object->criteria->condition .= ' AND(' . $this->key . ' BETWEEN '
+                $this->object->criteria->condition .= ' AND(' . $this->getColumn() . ' BETWEEN '
                     . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Min'], 'Min') . ' AND '
                     . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Max'])
                     . $this->getNullQueryExpression() .
@@ -68,7 +68,7 @@ class IntegerSlider extends AbstractModifier
             }
             else
             {
-                $this->object->criteria->condition .= ' (' . $this->key . ' BETWEEN '
+                $this->object->criteria->condition .= ' (' . $this->getColumn() . ' BETWEEN '
                     . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Min'],  'Min') . ' AND '
                     . $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Max'])
                     . $this->getNullQueryExpression() .
@@ -291,6 +291,14 @@ class IntegerSlider extends AbstractModifier
 
         return '';
     }
-}
 
+    private function getColumn()
+    {
+        if(isset($this->config['expression']))
+        {
+            return $this->config['expression'];
+        }
+        return $this->key;
+    }
+}
 ?>

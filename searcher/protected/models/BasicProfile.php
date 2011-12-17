@@ -146,7 +146,8 @@ class BasicProfile extends ProfileActiveRecord
                                     'joinType'=>'INNER JOIN',
                                     'on'=>'t.user_id=purchased_profile_id'),
             'ratings' => array(self::HAS_MANY, 'Rating', 'user_id', 'order' => 'create_time DESC'),
-            'averageRating' => array(self::STAT, 'Rating', 'user_id', 'select' => 'AVG(rating)')
+            'averageRating' => array(self::STAT, 'Rating', 'user_id', 'select' => 'AVG(rating)'),
+            'scoreProfile' => array(self::HAS_ONE, 'ScoreProfile', 'user_id'),
 		);
 	}
 
