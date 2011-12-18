@@ -61,9 +61,8 @@ abstract class AbstractProfileSearch
             'field' => 'state',
             'throughModel' => 'States',
             'throughAttribute' => 'name',
-        ),    
-            
-            'ethnicity' => array(
+        ),
+        'ethnicity' => array(
             'type' => 'relationship',
             'field' => 'ethnic_origin',
             'throughModel' => 'EthnicType',
@@ -124,6 +123,7 @@ abstract class AbstractProfileSearch
     public $sortableCriterias = array(
         'firstUniversity',
         'race',
+        'scoreProfile',
         'user' => array(
             'with' => array(
                 'personalProfile' =>
@@ -314,9 +314,9 @@ abstract class AbstractProfileSearch
      * @return string
      */
 
-    protected function filterIncomingSearchQuery($searchQuery)
+    public static function filterIncomingSearchQuery($searchQuery)
     {
-        return strip_tags(trim(strtolower($searchQuery)));
+        return htmlspecialchars(strip_tags(trim(strtolower($searchQuery))));
     }
 
     /**
@@ -327,6 +327,10 @@ abstract class AbstractProfileSearch
     {
         foreach($this->additionalSearchModifierClasses as $class)
         {
+            /**
+             * @var AbstractProfileSearch $object
+             */
+
             Yii::import('application.components.' . $class);
             $object = new $class($this->searchQuery);
             $object->setCriteria($this->criteria);
@@ -402,14 +406,60 @@ abstract class AbstractProfileSearch
         }
     }
 
+    /**
+     * Function that applies filters defined by $this->filters array to model criteria
+     */
+
     protected function addFilters()
     {
+        // since $this doesn't work in closures before PHP 5.4.0 we have to use this hack
+
+        $reference_variable = $this;
+
+        $changeCriteria = function($sqlAttribute, $attribute, $exact = true) use (&$reference_variable)
+        {
+            if($exact)
+            {
+                $reference_variable->criteria->condition =
+                    str_replace(
+                        ') OR (', ') OR (' . $sqlAttribute . ' = "' . $attribute . '" AND ',
+                        $reference_variable->criteria->condition
+                    );
+                if(strpos($reference_variable->criteria->condition, ') OR (') === FALSE)
+                {
+                    $reference_variable->criteria->condition .= ' AND ' . $sqlAttribute . ' = "' . $attribute . '"';
+                }
+            }
+            else
+            {
+                $reference_variable->criteria->condition =
+                    str_replace(
+                        ') OR (', ') OR (' . $sqlAttribute . ' LIKE "%' . $attribute . '%" AND ',
+                        $reference_variable->criteria->condition
+                    );
+                if(strpos($reference_variable->criteria->condition, ') OR (') === FALSE)
+                {
+                    $reference_variable->criteria->condition .= ' AND ' . $sqlAttribute . ' LIKE "%' . $attribute . '%"';
+                }
+            }
+        };
+
         if(isset($_GET['BasicProfile']))
         {
+
+            /**
+             * Just a little pre-filtering of data received from user
+             */
+
             foreach($_GET['BasicProfile'] as $key => $value)
             {
                 $_GET[$key] = strip_tags($value);
             }
+
+            /*
+             * going through all defined filters
+             */
+
             foreach($this->filters as $filter)
             {
                 $attribute = $_GET['BasicProfile'][$filter['attribute']];
@@ -420,11 +470,43 @@ abstract class AbstractProfileSearch
 
                     if(!$filter['exact'])
                     {
-                        $this->criteria->addCondition($filter['sqlAttribute'] . ' LIKE "%' . $attribute . '%"');
+                        /**
+                         * Adjusting of criteria condition using closure defined previously
+                         */
+
+                        $changeCriteria($filter['sqlAttribute'], $attribute, false);
+
+                        /**
+                         * Adjusting criteria WITH condition directly without using of closure
+                         */
+
+                        foreach($this->criteria->with as $withKey => $with)
+                        {
+                            if(!empty($with['condition']) && !is_numeric($withKey))
+                            {
+                                $this->criteria->with[$withKey]['condition'] .= ' AND ' . $filter['sqlAttribute'] . ' LIKE "%' . $attribute . '%"';
+                            }
+                        }
                     }
                     else
                     {
-                        $this->criteria->addCondition($filter['sqlAttribute'] . ' = "' . $attribute . '"');
+                        /**
+                         * Adjusting of criteria condition using closure defined previously
+                         */
+
+                        $changeCriteria($filter['sqlAttribute'], $attribute, true);
+
+                        /**
+                         * Adjusting criteria WITH condition directly without using of closure
+                         */
+
+                        foreach($this->criteria->with as $withKey => $with)
+                        {
+                            if(!empty($with['condition']) && !is_numeric($withKey))
+                            {
+                                $this->criteria->with[$withKey]['condition'] .= ' AND ' . $filter['sqlAttribute'] . ' = "' . $attribute . '"';
+                            }
+                        }
                     }
                 }
             }

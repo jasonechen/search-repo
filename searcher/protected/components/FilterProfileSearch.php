@@ -41,13 +41,8 @@ class FilterProfileSearch extends AbstractProfileSearch
         'gender' => array(
             'type' => 'CheckboxList',
         ),
-        'state' => array(
+        'states.id' => array(
             'type' => 'DropDownList',
-            'config' => array(
-                'useAnotherModel' => 'PersonalProfile',
-                'anotherModelAttribute' => 'state',
-                'mainModelAttribute' => 'user_id',
-            ),
         ),
         'profile_type' => array(
             'type' => 'DropDownList',
@@ -55,7 +50,7 @@ class FilterProfileSearch extends AbstractProfileSearch
         'race_id' => array(
             'type' => 'DropDownList',
         ),
-        'SAT' => array(
+        /*'SAT' => array(
             'type' => 'IntegerSlider',
             'config' => array(
                 'defaultMinValue' => 0,
@@ -75,6 +70,22 @@ class FilterProfileSearch extends AbstractProfileSearch
                     5 => '2400',
                 ),
                 'mainModelAttribute' => 'user_id',
+            ),
+        ),*/
+        'SAT' => array(
+            'type' => 'IntegerSlider',
+            'config' => array(
+                'expression' => 'scoreProfile.SAT_Math + scoreProfile.SAT_Critical_Read + scoreProfile.SAT_Writing',
+                'defaultMinValue' => 0,
+                'defaultMaxValue' => 5,
+                'valueCorrelation' => array(
+                    0 => '600',
+                    1 => '1000',
+                    2 => '1300',
+                    3 => '1800',
+                    4 => '2100',
+                    5 => '2400',
+                ),
             ),
         ),
         'num_scores' => array(
@@ -126,6 +137,7 @@ class FilterProfileSearch extends AbstractProfileSearch
                     4 => '4',
                     5 => '5',
                 ),
+                'allowNull' => true,
             ),
         ),
 //      'education' => array(

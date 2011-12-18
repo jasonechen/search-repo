@@ -1,3 +1,10 @@
+<?php
+    /**
+     * @var CActiveForm $form
+     * @var BasicProfile $model
+     */
+?>
+
 <div class="form">
 
     <?php
@@ -23,7 +30,11 @@
 
             <div class="row">
                 <?php echo $form->labelEx($model, 'state'); ?>
-                <?php echo $form->dropDownList($model, 'state', States::getAllStates(), array('prompt' => 'Choose state'));
+                <?php
+                    echo CHtml::dropDownList('FilterForm[states.id]',
+                        (isset($_GET['FilterForm']['states.id']) ? ($_GET['FilterForm']['states.id']) : ''),
+                        States::getAllStates(),
+                        array('prompt' => 'Choose state'));
                 ?>
             </div>
 

@@ -219,7 +219,7 @@ class ProfileSearch extends AbstractProfileSearch
                     foreach($this->searchAndQueries as $query)
                     if($searchStringArrayItem == $query)
                     {
-                        $this->addEnumCondition(array($synonym), $fieldKey, 'OR', 'AND');
+                        $this->addEnumCondition(array($synonym), $fieldKey, 'AND', 'AND');
                     }
                 }
             }

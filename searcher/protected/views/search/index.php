@@ -85,6 +85,8 @@ if($valid)
             'filter' => States::getAllStates(),
         ),
         array(
+            'name' => 'avg_profile_rating',
+            'filter' => array('1' => '1', '2' => '2', '3' => 3, '4' => 4, '5' => 5),
             'header' => 'User Rating',
             'value'=>'!empty($data->avg_profile_rating) ? round($data->avg_profile_rating, 2) : "N/A"',
         ),
