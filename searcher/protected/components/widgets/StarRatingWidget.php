@@ -23,6 +23,7 @@ class StarRatingWidget extends CWidget
      * @var boolean $smallStars - whether we are using small stars for widget or not
      * @var string $cssClassName - class name for widget, needed in some cases
      * @var boolean $noStartingRate - if we are not going to set initial stars, set this = true
+     * @var boolean $showOnlyComments - whether to show only comments from users or not (without start-rating widget)
      *
      */
 
@@ -37,6 +38,7 @@ class StarRatingWidget extends CWidget
     public $smallStars = false;
     public $cssClassName = 'jRating';
     public $noStartingRate = false;
+    public $showOnlyComments = false;
 
     protected $_starRatingObject;
     protected $_data;
@@ -52,10 +54,12 @@ class StarRatingWidget extends CWidget
         $this->_data = array();
         
 
-        if($this->noStartingRate){
+        if($this->noStartingRate)
+        {
             $this->_data['averageRating'] = 0;
         }
-        else{
+        else
+        {
             $this->_data['averageRating'] = round($this->_starRatingObject->model->avg_profile_rating, 2);
         }
 
@@ -88,19 +92,20 @@ class StarRatingWidget extends CWidget
         $this->registerClientScript();
 
         $this->render('star-rating/widget',
-                      array(
-                          'user_id' => $this->user_id,
-                          'data' => $this->_data,
-                          'enableComments' => $this->enableComments,
-                          'enableCommentsId' => $this->enableCommentsId,
-                          'enableCommentsSubmitId' => $this->enableCommentsSubmitId,
-                          'isDisabled' => $this->isDisabled,
-                          'phpPath' => $this->phpPath,
-                          'forUser' => $this->forUser,
-                          'byUser' => $this->byUser,
-                          'smallStars' => $this->smallStars,
-                          'cssClassName' => $this->cssClassName,
-                      )
+            array(
+                 'user_id' => $this->user_id,
+                 'data' => $this->_data,
+                 'showOnlyComments' => $this->showOnlyComments,
+                 'enableComments' => $this->enableComments,
+                 'enableCommentsId' => $this->enableCommentsId,
+                 'enableCommentsSubmitId' => $this->enableCommentsSubmitId,
+                 'isDisabled' => $this->isDisabled,
+                 'phpPath' => $this->phpPath,
+                 'forUser' => $this->forUser,
+                 'byUser' => $this->byUser,
+                 'smallStars' => $this->smallStars,
+                 'cssClassName' => $this->cssClassName,
+            )
         );
     }
 

@@ -106,7 +106,18 @@
         </div> 
         <?php endif; ?>  
 <?php $this->endWidget(); ?>
-    <div><br></br></div>
+    <div><br/><br/></div>
  </div>
 </div>
-
+<div class="clearfix"></div>
+<?php
+    $this->widget('application.components.widgets.StarRatingWidget',
+        array(
+             'cssClassName' => 'jRatingForViewedUser',
+             'showOnlyComments' => true,
+             'user_id' => $buyProfileForm->profile_id,
+             'enableComments' => true,
+             'isDisabled' => true,
+        )
+    );
+?>
