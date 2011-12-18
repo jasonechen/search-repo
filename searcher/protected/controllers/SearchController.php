@@ -10,6 +10,9 @@ class SearchController extends Controller
 
 	public function actionIndex()
 	{
+        $uri = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $_SESSION['search_uri'] = $uri;
+
         if(isset($_GET['search_q']))
         {
             $_SESSION['search_q'] = AbstractProfileSearch::filterIncomingSearchQuery($_GET['search_q']);

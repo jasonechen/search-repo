@@ -214,14 +214,23 @@ class ProfileController extends Controller
   
                     }
 
-		}       
-                                
+		}
+
+        $searchUri = '';
+
+        if(!empty($_SESSION['search_uri']))
+        {
+            $searchUri = $_SESSION['search_uri'];
+        }
        
-		$this->render('viewProfile',array(
-			'buyProfileForm'=>$buyProfileForm,
-                        'creditModel'=>$creditModel,
-                        'basicProfile'=>$basicProfile,
-                        ));
+		$this->render('viewProfile',
+            array(
+                 'buyProfileForm' => $buyProfileForm,
+                 'creditModel' => $creditModel,
+                 'basicProfile' => $basicProfile,
+                 'searchUri' => $searchUri,
+            )
+        );
 	}
 
 	public function actionViewPurchProfile($profileID=null)

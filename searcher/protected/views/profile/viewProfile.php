@@ -4,6 +4,12 @@
 //$this->setViewProfileMenu($buyProfileForm->profile_id);
 ?>
 
+    <?php if(!empty($searchUri)): ?>
+
+        <a href="<?php echo $searchUri; ?>">Back to Search Results</a>
+
+    <?php endif; ?>
+
 <div class="span-26"> <br/></div>
     
 
