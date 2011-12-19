@@ -108,28 +108,6 @@ if($valid)
 }
 ?>
 
-<script type="text/javascript">
-    /*$(document).ready(function() {
-        $(".yiiPager a").live('click', function() {
-                setTimeout(function()
-                {
-                    $(".jRating").jRating( {
-                        phpPath: '<?php echo Yii::app()->controller->createUrl('rating/index');?>',
-                        csrfToken: '<?php echo Yii::app()->getRequest()->getCsrfToken(); ?>',
-                        isDisabled: true,
-                        type:'small',
-                        length : 5,
-                        bigStarsPath: '/search-repo/searcher/assets/770ea427/jquery/icons/stars.png',
-                        smallStarsPath: '/search-repo/searcher/assets/770ea427/jquery/icons/small.png',
-                        rateMax: 5,
-                        step: true
-                    });
-                }, 1500);
-            }
-        );
-    });*/
-</script>
-
 <style type="text/css">
     .pager {
         clear: both;
