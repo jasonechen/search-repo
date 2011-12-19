@@ -11,6 +11,7 @@
      * @var boolean $smallStars
      * @var array $data
      * @var boolean $showOnlyComments
+     * @var boolean $enableCListViewReactivation
      */
 ?>
 
@@ -20,28 +21,54 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $(".<?php echo $cssClassName; ?>").jRating( {
-                phpPath: '<?php echo $phpPath; ?>',
-                csrfToken: '<?php echo Yii::app()->getRequest()->getCsrfToken(); ?>',
-                <?php if($enableComments): ?>
-                    enableComments: true,
-                    enableCommentsId: '<?php echo $enableCommentsId; ?>',
-                    enableCommentsSubmitId: '<?php echo $enableCommentsSubmitId; ?>',
-                    forUser: '<?php echo $forUser; ?>',
-                    byUser: '<?php echo $byUser; ?>',
-                <?php endif; ?>
-                <?php if($isDisabled): ?>
-                    isDisabled: true,
-                <?php endif; ?>
-                <?php if($smallStars): ?>
-                    type:'small',
-                <?php endif; ?>
-                length : 5,
-                bigStarsPath: '<?php echo $data['bigStarsPath']; ?>',
-                smallStarsPath: '<?php echo $data['smallStarsPath']; ?>',
-                rateMax: 5,
-                step: true
-            });
+            var ratingFunc = function() {
+                $(".<?php echo $cssClassName; ?>").jRating( {
+
+                    phpPath: '<?php echo $phpPath; ?>',
+                    csrfToken: '<?php echo Yii::app()->getRequest()->getCsrfToken(); ?>',
+
+                    <?php if($enableComments): ?>
+
+                        enableComments: true,
+                        enableCommentsId: '<?php echo $enableCommentsId; ?>',
+                        enableCommentsSubmitId: '<?php echo $enableCommentsSubmitId; ?>',
+                        forUser: '<?php echo $forUser; ?>',
+                        byUser: '<?php echo $byUser; ?>',
+
+                    <?php endif; ?>
+
+                    <?php if($isDisabled): ?>
+
+                        isDisabled: true,
+
+                    <?php endif; ?>
+
+                    <?php if($smallStars): ?>
+
+                        type:'small',
+
+                    <?php endif; ?>
+
+                    length : 5,
+                    bigStarsPath: '<?php echo $data['bigStarsPath']; ?>',
+                    smallStarsPath: '<?php echo $data['smallStarsPath']; ?>',
+                    rateMax: 5,
+                    step: true
+                });
+            };
+
+            ratingFunc();
+
+            <?php if($enableCListViewReactivation): ?>
+
+                $(".yiiPager a").live('click', function() {
+                    setTimeout(function()
+                    {
+                        ratingFunc();
+                    }, 1500);
+                });
+
+            <?php endif; ?>
         });
     </script>
 

@@ -37,6 +37,7 @@
                               'enableComments' => false,
                               'isDisabled' => true,
                               'smallStars' => true,
+                              'enableCListViewReactivation' => true,
                           )
             );
         ?>

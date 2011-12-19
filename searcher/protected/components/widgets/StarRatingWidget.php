@@ -39,6 +39,7 @@ class StarRatingWidget extends CWidget
     public $cssClassName = 'jRating';
     public $noStartingRate = false;
     public $showOnlyComments = false;
+    public $enableCListViewReactivation = false;
 
     protected $_starRatingObject;
     protected $_data;
@@ -105,6 +106,7 @@ class StarRatingWidget extends CWidget
                  'byUser' => $this->byUser,
                  'smallStars' => $this->smallStars,
                  'cssClassName' => $this->cssClassName,
+                 'enableCListViewReactivation' => $this->enableCListViewReactivation,
             )
         );
     }
@@ -119,14 +121,16 @@ class StarRatingWidget extends CWidget
 	{
             $assets = dirname(__FILE__) . '/views/star-rating/assets';
             $baseUrl = Yii::app()->assetManager->publish($assets);
-            if(is_dir($assets)){
+            if(is_dir($assets))
+            {
                 Yii::app()->clientScript->registerCoreScript('jquery');
                 Yii::app()->clientScript->registerCssFile($baseUrl . '/jquery/jRating.jquery.css');
-		Yii::app()->clientScript->registerScriptFile($baseUrl . '/jquery/jRating.jquery.js', CClientScript::POS_HEAD);
+		        Yii::app()->clientScript->registerScriptFile($baseUrl . '/jquery/jRating.jquery.js', CClientScript::POS_HEAD);
                 $this->_data['bigStarsPath'] = $baseUrl . '/jquery/icons/stars.png';
                 $this->_data['smallStarsPath'] = $baseUrl . '/jquery/icons/small.png';
             }
-            else if(!is_dir($assets)){
+            else if(!is_dir($assets))
+            {
                 throw new Exception('Star Rating Widget - Error: Couldn\'t find assets to publish.');
             }
 	}
