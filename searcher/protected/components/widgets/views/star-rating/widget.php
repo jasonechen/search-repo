@@ -72,7 +72,7 @@
         });
     </script>
 
-<?php else: ?>
+<?php endif; ?>
 
     <?php if($enableComments): ?>
         <br/>
@@ -101,4 +101,3 @@
 
     <?php endif; ?>
 
-<?php endif; ?>
