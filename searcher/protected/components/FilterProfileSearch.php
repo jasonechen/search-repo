@@ -12,10 +12,6 @@ Yii::import('application.components.FilterProfileModifier.FilterProfileModifierF
 
 class FilterProfileSearch extends AbstractProfileSearch
 {
-    
-    /*public $additionalSearchModifierClasses = array(
-        'ProfileSearch'
-    );    */
     /**
      * @var string $requestMethod - method that is used for filtering query ($_GET or $_POST)
      */
@@ -183,7 +179,6 @@ class FilterProfileSearch extends AbstractProfileSearch
     public function runSearch()
     {
         $this->modifyDatabaseCriteriaAccordingToValuesFromFilterForm();
-        //$this->invokeAdditionalSearchModifiers();
     }
 
     /**

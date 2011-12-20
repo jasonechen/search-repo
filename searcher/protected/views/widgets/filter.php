@@ -2,9 +2,9 @@
     /**
      * @var CActiveForm $form
      * @var BasicProfile $model
+     * @var string $initialSearchQuery
      */
 ?>
-
 <div class="form">
 
     <?php
@@ -16,15 +16,19 @@
     ));
     ?>
         <?php echo $form->hiddenField($model,'first_university_id'); ?>
+        <input type="hidden" value="" name="search_q" id="search-q-secondary">
     
         <div class="clear"></div>
         <div class="filtercheckform">
             <div class="row">
                 <?php echo $form->labelEx($model, 'gender'); ?>
-                <?php echo $form->checkBoxList($model, 'gender', array(
-                                                                         'M' => 'Male',
-                                                                         'F' => 'Female',
-                                                                    ));
+                <?php
+                    echo $form->checkBoxList($model, 'gender',
+                        array(
+                             'M' => 'Male',
+                             'F' => 'Female',
+                        )
+                    );
                 ?>
             </div>
 
@@ -221,11 +225,20 @@
         </div>
 
         <div class="row">
-            <?php echo CHtml::submitButton('Search', array('name' => 'submit-button'));?>
-            <?php echo CHtml::submitButton('Clear', array('name' => 'clear-button'));?>
+            <?php echo CHtml::submitButton('Search', array('name' => 'submit-button', 'id' => 'filter-bar-submit'));?>
+            <?php echo CHtml::submitButton('Clear', array('name' => 'clear-button', 'id' => 'filter-bar-clear'));?>
         </div>
 
     <?php $this->endWidget(); ?>
 
 
 </div>
+
+<?php
+    Yii::app()->clientScript->registerScript(
+        'click-submit-button',
+        '$("#filter-bar-submit").click(function() {
+            $("#search-q-secondary").val($("#search_q").val());
+        });'
+    );
+?>

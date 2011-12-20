@@ -83,6 +83,8 @@ class ProfileSearch extends AbstractProfileSearch
     {
         $this->criteria = new CDbCriteria();
         $_SESSION['search_q'] = '';
+        $_GET['FilterForm'] = array();
+        $_SESSION['FilterForm'] = array();
         Yii::app()->controller->redirect(Yii::app()->controller->createUrl('search/index'));
         Yii::app()->end();
     }    

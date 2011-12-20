@@ -9,9 +9,11 @@
 				'title' => 'Refine search',
 			));*/
             
-			$this->renderPartial('//widgets/filter', array(
-                                                       'model' => $this->filterModel
-                                                     ));
+			$this->renderPartial('//widgets/filter',
+                array(
+                     'model' => $this->filterModel,
+                )
+            );
 			$this->endWidget();
 		?>
 		</div><!-- sidebar -->
