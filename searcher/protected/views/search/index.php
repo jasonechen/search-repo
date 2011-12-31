@@ -54,7 +54,7 @@ if($valid)
                 'nickname',
                 array(
                     'name'=>'firstUniversity',
-                    'value'=>'$data->firstUniversity->name',
+                    'value'=>'$data->getFirstUniversityName()',
                     'header'=>'College',
                 ),
                 array(

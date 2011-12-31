@@ -145,21 +145,9 @@ class ApProfile extends ProfileActiveRecord
                     if (($scoreProfile->ACT_Writing!==NULL) && ($scoreProfile->ACT_Writing!=="")) ++$numScores;
                     if (($scoreProfile->ACT_Composite!==NULL) && ($scoreProfile->ACT_Composite!=="")) ++$numScores;
                 }
-                if($basicProfile===null)
-                {                
+                if($basicProfile===null){               
                         $basicProfile=new BasicProfile;
-                        $basicProfile->user_id = $myID;
-                        $basicProfile->first_university_id = 1;
-                        $basicProfile->curr_university_id = 1;
-                        $basicProfile->num_academics = 0;
-                        $basicProfile->num_extracurriculars = 0;
-                        $basicProfile->num_sports = 0;
-                        $basicProfile->num_competitions = 0;
-                        $basicProfile->num_essays = 0;
-                        $basicProfile->profile_type = 0;
-                        $basicProfile->l1ForSale = 0;
-                        $basicProfile->l2ForSale = 0;
-                        $basicProfile->l3ForSale = 0;
+                        $basicProfile->initialize($myID);
                 }
            
                 $numAps = $this->countByAttributes(array('user_id'=>$myID));
@@ -189,6 +177,13 @@ class ApProfile extends ProfileActiveRecord
                 return parent::afterDelete();
         //return true;
         }
+		
+        public static function getAPByUser()
+        {
+                $myID = Yii::app()->user->id;	
+                $ApArr = ApProfile::model()->findAll('user_id =:id', array(':id'=>$myID));
+                return $ApArr;
+	 }
 }
 
 

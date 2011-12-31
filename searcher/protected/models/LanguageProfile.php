@@ -144,18 +144,7 @@ class LanguageProfile extends ProfileActiveRecord
                 if($basicProfile===null)
                 {                
                         $basicProfile=new BasicProfile;
-                        $basicProfile->user_id = $myID;
-                        $basicProfile->first_university_id = 1;
-                        $basicProfile->curr_university_id = 1;
-                        $basicProfile->num_academics = 0;
-                        $basicProfile->num_extracurriculars = 0;
-                        $basicProfile->num_sports = 0;
-                        $basicProfile->num_competitions = 0;
-                        $basicProfile->num_essays = 0;
-                        $basicProfile->profile_type = 0;
-                        $basicProfile->l1ForSale = 0;
-                        $basicProfile->l2ForSale = 0;
-                        $basicProfile->l3ForSale = 0;
+                        $basicProfile->initialize($myID);
                 }
            
                 $numAps = ApProfile::model()->countByAttributes(array('user_id'=>$myID));
@@ -184,6 +173,21 @@ class LanguageProfile extends ProfileActiveRecord
 
                 return parent::afterDelete();
         //return true;
-        }    
+        }   
+
+		
+	   public static function getLangIdById() 
+        { 
+			$myID = Yii::app()->user->id;	
+			$languageIdArr = LanguageProfile::model()->findAll('user_id =:id', array(':id'=>$myID));
+			return $languageIdArr;
+        }
+		
+		public function fluencylevelById($id){
+		
+			$FluencyArr = LanguageProfile::model()->findByPk($id);
+			return  $FluencyArr->fluency;
+		}
+	 
  	
 }

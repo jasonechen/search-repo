@@ -185,8 +185,8 @@ class UserController extends Controller
 
 		if($basicProfile===null){                
                         $basicProfile = new basicProfile;                        
-                        $basicProfile->first_university_id = 1;
-                        $basicProfile->curr_university_id = 1;
+                        $basicProfile->first_university_id = 0;
+                        $basicProfile->curr_university_id = 0;
                         $basicProfile->num_academics = 0;
                         $basicProfile->num_extracurriculars = 0;
                         $basicProfile->num_sports = 0;
