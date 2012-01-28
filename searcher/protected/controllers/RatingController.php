@@ -30,13 +30,13 @@ class RatingController extends Controller
             }
             elseif(empty($_POST['rate']))
             {
-                $this->_endApp('No rate provided', true);
+                $this->_endApp('No rating provided', true);
             }
             elseif(isset($_POST['action']) && $_POST['action'] == 'rating')
             {
                 $this->_insertRating();
                 $this->_setCookieAfterVote();
-                $this->_endApp('Thank you for your vote');
+                $this->_endApp('Rating submitted');
             }
         }
 	}

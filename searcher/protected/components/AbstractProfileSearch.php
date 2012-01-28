@@ -330,7 +330,6 @@ abstract class AbstractProfileSearch
             /**
              * @var AbstractProfileSearch $object
              */
-
             Yii::import('application.components.' . $class);
             $object = new $class($this->searchQuery);
             $object->setCriteria($this->criteria);

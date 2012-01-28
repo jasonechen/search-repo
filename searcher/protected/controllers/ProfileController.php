@@ -126,7 +126,6 @@ class ProfileController extends Controller
                                                                             'purchased_profile_id'=>"$profileID",));                                
                 $buyProfileForm->fillInStatus($mapProfileStudent);
 
- 
                 $creditModel = $this->loadCreditModel($userID);
 
  		if(isset($_POST['BuyProfileForm']))
@@ -143,7 +142,6 @@ class ProfileController extends Controller
                         /* Check to see if there are enough credits */
                         /* If a purchase was made */
                             
-                              
                               $creditModel = $this->loadCreditModel($userID);
                               $curCredits = $creditModel->buy_credits;
                               $totalCreditsNeeded = 0;
@@ -1957,6 +1955,25 @@ class ProfileController extends Controller
             return $access;
         }
         
+        
+        protected function getProfileAccessArray($profileID){
+            $userID = Yii::app()->user->id;
+            
+            $mapProfileStudent=MapProfileStudent::model()->findByPk(array("user_id"=>$userID,"purchased_profile_id"=>$profileID));
+
+            if($mapProfileStudent!==null){    
+                $outAccessArray = $mapProfileStudent->getAccessArray();
+             }
+             else{
+                 $outAccessArray = array('l1'=>0,
+                         'l2'=>0,
+                         'l3'=>0,
+                         'owner'=>0,
+                        );
+             }
+             return $outAccessArray;
+        }
+            
         static public function getProfilePrice($id, $inLevel){
             $outPrice = 999;
             switch ($inLevel){

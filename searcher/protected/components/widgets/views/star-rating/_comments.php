@@ -1,5 +1,4 @@
-
-    <?php $this->beginWidget('zii.widgets.CPortlet', array('title' => 'Ratings for this user')); ?>
+    <?php $this->beginWidget('zii.widgets.CPortlet', array('title' => 'Profile Ratings')); ?>
 
     <ul>
         <?php foreach($comments as $comment): ?>

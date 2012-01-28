@@ -20,7 +20,7 @@ class UserIdentity extends CUserIdentity
         
 	public function authenticate()
 	{
-                $user=User::model()->findByAttributes(array('username'=>$this->username));
+                $user=User::model()->findByAttributes(array('username'=>$this->username,'active'=>1));
 
                 if($user===null)
                 { 
@@ -54,4 +54,47 @@ class UserIdentity extends CUserIdentity
         {
                 return $this->_id;
         }
+		
+		
+		
+		/*
+	 * autoLogin needs only username , 
+	 * This is used in User Registration Activation Link
+	 * when user Click the activation link , it turns logged in By using  username . 
+	 * Only Difference Between authenticate and autologin is Password checking
+	*/	
+		
+		public function autoLogin(){
+			
+			  $user=User::model()->findByAttributes(array('username'=>$this->username,'active'=>1));
+
+                if($user===null)
+                { 
+                        $this->errorCode=self::ERROR_USERNAME_INVALID;    
+                } 
+                else 
+
+                { 
+//                  if($user->password!==$this->password) 
+					$this->_id = $user->id; 
+					$this->setState('FirstName',$user->FirstName);
+					$this->setState('TransType',$user->transType);
+					$this->setState('SchoolType',$user->schoolType);
+					
+					
+					if(null===$user->last_login_time){
+							$lastLogin = time();                             
+					} 
+					else {
+							$lastLogin = strtotime($user->last_login_time); 
+					} 
+					$this->setState('lastLoginTime', $lastLogin); 
+					$this->errorCode=self::ERROR_NONE;
+	
+                }
+                return !$this->errorCode;
+
+						
+		}
+
 }

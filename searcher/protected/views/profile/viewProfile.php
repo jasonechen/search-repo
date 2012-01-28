@@ -9,7 +9,6 @@
         <a href="<?php echo $searchUri; ?>">Back to Search Results</a>
 
     <?php endif; ?>
-
 <div class="span-26"> <br/></div>
     
 
@@ -112,7 +111,7 @@
         </div> 
         <?php endif; ?>  
 <?php $this->endWidget(); ?>
-    <div><br/><br/></div>
+    <div><br></br></div>
  </div>
 </div>
 <div class="clearfix"></div>

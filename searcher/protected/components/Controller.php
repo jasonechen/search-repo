@@ -28,7 +28,6 @@ class Controller extends CController
     {
         $this->filterModel = new FilterForm();
         $this->searchConsistency();
-
         if(isset($_GET['FilterForm']))
         {
             $this->filterModel->setAttributes($_GET['FilterForm']);
@@ -55,7 +54,7 @@ class Controller extends CController
         }
     }
 
-    /**
+   /**
          * Here we coordinate left filter bar conditions and main bar conditions
          * We use sessions and $_GET['FilterForm'] variables
          */

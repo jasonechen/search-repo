@@ -88,7 +88,7 @@ class BasicProfile extends ProfileActiveRecord
         public static function getGender($indexVal)
 	{
    
-            return (  array_key_exists($indexVal, BasicProfile::$GenderArray) ? BasicProfile::$GenderArray[$indexVal]: 'NA');
+        return (  array_key_exists($indexVal, BasicProfile::$GenderArray) ? BasicProfile::$GenderArray[$indexVal]: 'NA');
 	}
         
 	public static function model($className=__CLASS__)
