@@ -1,4 +1,10 @@
-<div class="view" style="float:left;width:155px;height:170px;cursor:pointer;" onclick="location.href 
+<?php
+    /**
+     * @var BasicProfile $data
+     */
+?>
+
+<div class="view" style="float:left;width:155px;height:170px;cursor:pointer;" onclick="location.href
                                 = '<?php echo $this->createUrl('/profile/viewProfile', 
                                       array('profileID' => $data->user_id
                               )); ?>';">
@@ -15,7 +21,7 @@
 //        }
     ?>
     <div style="font-size: 11px"><strong>
-	    <?php echo CHtml::encode($data->getFirstUniversityName()); ?></strong> 
+	    <?php echo CHtml::encode($data->getFirstUniversityName()); ?></strong>
         <br>    </br>
         <strong><?php echo CHtml::encode($data->getAttributeLabel('nickname')); ?>:</strong>
 	    <?php echo CHtml::encode($data->nickname); ?>
