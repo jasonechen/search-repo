@@ -115,6 +115,13 @@
  </div>
 </div>
 <div class="clearfix"></div>
+
+<?php $this->beginWidget('zii.widgets.CPortlet', array('title' => 'Overall Rating')); ?>
+
+    <?php echo($basicProfile->avg_profile_rating); ?>
+
+<?php $this->endWidget(); ?>
+
 <?php
     $this->widget('application.components.widgets.StarRatingWidget',
         array(
