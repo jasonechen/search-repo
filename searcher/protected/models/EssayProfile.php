@@ -97,17 +97,7 @@ class EssayProfile extends ProfileActiveRecord
             if($basicProfile===null)
             {                
                     $basicProfile=new BasicProfile;
-                    $basicProfile->user_id = $myID;
-                    $basicProfile->first_university_id = 1;
-                    $basicProfile->curr_university_id = 1;
-                    $basicProfile->num_scores = 0;
-                    $basicProfile->num_aps = 0;
-                    $basicProfile->num_sat2s = 0;
-                    $basicProfile->num_competitions = 0;
-                    $basicProfile->num_sports = 0;
-                    $basicProfile->num_academics = 0;
-                    $basicProfile->num_extracurriculars = 0;
-                    $basicProfile->profile_type = 0;
+                    $basicProfile->initialize($myID);
             }
 
             $basicProfile->num_essays = $numEssays;

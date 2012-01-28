@@ -1,7 +1,7 @@
 
 <ul> University Info:
-    <li> Current University: <?php echo $basicProfile->currUniversity->name ?></li>
-     <li> First University: <?php echo $basicProfile->firstUniversity->name ?></li>
+    <li> Current University: <?php echo $basicProfile->getCurrUniversityName(); ?></li>
+     <li> First University: <?php echo $basicProfile->getFirstUniversityName(); ?></li>
 </ul>
 
 <p> Race: <?php echo $basicProfile->race->name ?> </p>

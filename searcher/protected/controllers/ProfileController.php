@@ -394,9 +394,9 @@ class ProfileController extends Controller
 		if($basicProfile===null)
                 {                
                         $basicProfile=new BasicProfile;
-                        $basicProfile->first_university_id = 1;
-                        $basicProfile->curr_university_id = 1;
-                        $basicProfile->highschool_id = 1;
+                        $basicProfile->first_university_id = 0;
+                        $basicProfile->curr_university_id = 0;
+                        $basicProfile->highschool_id = 0;
                         $basicProfile->num_academics = 0;
                         $basicProfile->num_extracurriculars = 0;
                         $basicProfile->num_sports = 0;
@@ -411,9 +411,9 @@ class ProfileController extends Controller
 
                 }
                 else{
-                        $basicProfile->curr_university_name = $basicProfile->currUniversity->name;
-                        $basicProfile->first_university_name = $basicProfile->firstUniversity->name;
-                        $basicProfile->high_school_name = $basicProfile->hsName->name;
+                        $basicProfile->curr_university_name = $basicProfile->getCurrUniversityName();
+                        $basicProfile->first_university_name = $basicProfile->getFirstUniversityName();
+                        $basicProfile->high_school_name = $basicProfile->getHighSchoolName();
                         
                 }
 		// Uncomment the following line if AJAX validation is needed
@@ -484,6 +484,12 @@ class ProfileController extends Controller
                             else if ($tempArray['None']==1){
                                 $personalProfile->legacy_indirect = 'N';
                             }                       
+                        }
+                        if ($basicProfile->race_id == ""){
+                            $basicProfile->race_id = NULL;
+                        }
+                        if ($personalProfile->religion_id == ""){
+                            $personalProfile->religion_id = NULL;
                         }
                         $valid = $personalProfile->validate();                  
                         $valid = $basicProfile->validate()  && $valid;
@@ -613,11 +619,8 @@ class ProfileController extends Controller
                         'academicProfile'=>$academicProfile,
 		));
 
-               
-
-
 	                
-                }
+        }
 
 
 	public function actionModSat2()
@@ -1981,10 +1984,10 @@ class ProfileController extends Controller
                      $outPrice = 1;
                     break;
                 case 2:
-                     $outPrice = 3;
+                     $outPrice = 2;
                     break;
                 case 3:
-                     $outPrice = 5;                       
+                     $outPrice = 2;                       
                     break;
             }
            return $outPrice;

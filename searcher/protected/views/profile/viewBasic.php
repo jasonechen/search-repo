@@ -8,8 +8,8 @@ $this->setViewProfileMenu($profileID);
 
 ?>
 
-<h1>View Profile # <?php echo $profileID; ?></h1>
-<h2>Basic Info</h2>
+<h2>Profile # <?php echo $profileID; ?>: Basic Info</h2>
+
 
 <?php
    

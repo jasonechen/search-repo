@@ -44,12 +44,20 @@ class BasicProfile extends ProfileActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * @return BasicProfile the static model class
 	 */
-         public $first_university_name;
-         public $curr_university_name;
-         public $other_university_name;
-         public $high_school_name;
-         public $stateName;
-         
+    public $first_university_name;
+    public $curr_university_name;
+    public $other_university_name;
+    public $high_school_name;
+    public $stateName;
+
+     public static $HighSchoolTypeArray 
+          = array('PUB'=>'Public',
+                    'PRN'=>'Private Non-Religious',
+                    'PRR'=>'Private Religious',
+                    'HOM'=>'Home-schooled',
+                    'CHR'=>'Charter',
+                    'OTH'=>'Other');         
+
         public static $SATRangeArray 
           = array("NA","2310 to 2400","2210 to 2300","2110 to 2200",
               "2010 to 2100","1910 to 2000","1810 to 1900",
@@ -76,7 +84,7 @@ class BasicProfile extends ProfileActiveRecord
                  14=>'Skater',
                  15=>'Goth/Punk',
                  16=>'Gym Rat',
-                 17=>'Rich Kid', 
+                 17=>'Preppie', 
                );
 
         public static $GenderArray
@@ -87,9 +95,13 @@ class BasicProfile extends ProfileActiveRecord
         
         public static function getGender($indexVal)
 	{
+
    
-        return (  array_key_exists($indexVal, BasicProfile::$GenderArray) ? BasicProfile::$GenderArray[$indexVal]: 'NA');
-	}
+
+            return (  array_key_exists($indexVal, BasicProfile::$GenderArray) ? BasicProfile::$GenderArray[$indexVal]: 'NA');
+
+	}     
+
         
 	public static function model($className=__CLASS__)
 	{
@@ -119,6 +131,7 @@ class BasicProfile extends ProfileActiveRecord
 			array('isTransfer, gender, race_id', 'length', 'max'=>1),
 			array('highSchoolType', 'length', 'max'=>3),
 			array('musical_instrument_id', 'length', 'max'=>2),
+                        array('first_university_name, curr_university_name', 'length', 'max'=>100),
 			array('nickname, create_time, update_time', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -135,20 +148,20 @@ class BasicProfile extends ProfileActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'race' => array(self::BELONGS_TO, 'RaceType', 'race_id'),
-			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
-			'firstUniversity' => array(self::BELONGS_TO, 'UniversityName', 'first_university_id'),
-			'currUniversity' => array(self::BELONGS_TO, 'UniversityName', 'curr_university_id'),
-            'hsName' => array(self::BELONGS_TO, 'HighschoolName', 'highschool_id'),
-            'purchasedProfile' => array(self::HAS_MANY, 'MapProfileStudent', '',
-//                                    'params'=>array(":userID"=>Yii::app()->user->id),
-//                                    'params'=>array(":userID"=>"$userID"),
-                                    'joinType'=>'INNER JOIN',
-                                    'on'=>'t.user_id=purchased_profile_id'),
-            'ratings' => array(self::HAS_MANY, 'Rating', 'user_id', 'order' => 'create_time DESC'),
-            'averageRating' => array(self::STAT, 'Rating', 'user_id', 'select' => 'AVG(rating)'),
-            'scoreProfile' => array(self::HAS_ONE, 'ScoreProfile', 'user_id'),
-		);
+                    'race' => array(self::BELONGS_TO, 'RaceType', 'race_id'),
+                    'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+                    'firstUniversity' => array(self::BELONGS_TO, 'UniversityName', 'first_university_id'),
+                    'currUniversity' => array(self::BELONGS_TO, 'UniversityName', 'curr_university_id'),
+                    'hsName' => array(self::BELONGS_TO, 'HighschoolName', 'highschool_id'),
+                    'purchasedProfile' => array(self::HAS_MANY, 'MapProfileStudent', '',
+                    //                                    'params'=>array(":userID"=>Yii::app()->user->id),
+                    //                                    'params'=>array(":userID"=>"$userID"),
+                        'joinType'=>'INNER JOIN',
+                        'on'=>'t.user_id=purchased_profile_id'),
+                    'ratings' => array(self::HAS_MANY, 'Rating', 'user_id', 'order' => 'create_time DESC'),
+                    'averageRating' => array(self::STAT, 'Rating', 'user_id', 'select' => 'AVG(rating)'),
+                    'scoreProfile' => array(self::HAS_ONE, 'ScoreProfile', 'user_id'),
+                    );
 	}
 
 	/**
@@ -184,10 +197,27 @@ class BasicProfile extends ProfileActiveRecord
 			'create_user_id' => 'Create User',
 			'update_time' => 'Update Time',
 			'update_user_id' => 'Update User',
-            'stateName' => 'State',
+			'stateName' => 'State',
 		);
 	}
 
+        public function initialize($inID)
+        {
+                $this->user_id = $inID;
+                $this->first_university_id = 0;
+                $this->curr_university_id = 0;
+                $this->num_academics = 0;
+                $this->num_extracurriculars = 0;
+                $this->num_sports = 0;
+                $this->num_competitions = 0;
+                $this->num_essays = 0;
+                $this->profile_type = 0;
+                $this->l1ForSale = 0;
+                $this->l2ForSale = 0;
+                $this->l3ForSale = 0;
+
+        }
+        
         public function getProfileData()
         {
                 $criteria=new CDbCriteria;
@@ -318,6 +348,21 @@ class BasicProfile extends ProfileActiveRecord
              return $universityArray;
 
 
+        }
+        
+        public function getFirstUniversityName()
+        {
+            return (empty($this->first_university_id) ? "" : $this->firstUniversity->name);
+        }
+        
+        public function getCurrUniversityName()
+        {
+            return (empty($this->curr_university_id) ? "" : $this->currUniversity->name);
+        }
+        
+        public function getHighSchoolName()
+        {
+            return (empty($this->highschool_id) ? "" : $this->hsName->name);
         }
 
         public function getNameUniversityOptions()
@@ -455,59 +500,9 @@ class BasicProfile extends ProfileActiveRecord
             }
             return $buyerStatusArray;
             
-        }        
-	public function associateUserToRole($role, $userID)
-	{
-		$sql = "INSERT INTO tbl_map_profile_student (user_id, purchased_profile_id, role) VALUES (:projectId, :userId, :role)";
-		$command = Yii::app()->db->createCommand($sql);
-		$command->bindValue(":projectId", $this->id, PDO::PARAM_INT);
-		$command->bindValue(":userId", $userId, PDO::PARAM_INT);
-		$command->bindValue(":role", $role, PDO::PARAM_STR);
-		return $command->execute();
-	}
-	
+        }
+        
 
-	public function removeUserFromRole($role, $userId)
-	{
-		$sql = "DELETE FROM tbl_project_user_role WHERE project_id=:projectId AND user_id=:userId AND role=:role";
-		$command = Yii::app()->db->createCommand($sql);
-		$command->bindValue(":projectId", $this->id, PDO::PARAM_INT);
-		$command->bindValue(":userId", $userId, PDO::PARAM_INT);
-		$command->bindValue(":role", $role, PDO::PARAM_STR);
-		return $command->execute(); 
-	}
-	
-
-	public function isUserInRole($role)
-	{
-		$sql = "SELECT role FROM tbl_project_user_role WHERE project_id=:projectId AND user_id=:userId AND role=:role";
-		$command = Yii::app()->db->createCommand($sql);
-		$command->bindValue(":projectId", $this->id, PDO::PARAM_INT);
-		$command->bindValue(":userId", Yii::app()->user->getId(), PDO::PARAM_INT);
-		$command->bindValue(":role", $role, PDO::PARAM_STR);
-		return $command->execute()==1 ? true : false;		
-	}
-	
-	
-
-	public function associateUserToProject($user)
-	{
-		$sql = "INSERT INTO tbl_project_user_assignment (project_id, user_id) VALUES (:projectId, :userId)";
-		$command = Yii::app()->db->createCommand($sql);
-		$command->bindValue(":projectId", $this->id, PDO::PARAM_INT);
-		$command->bindValue(":userId", $user->id, PDO::PARAM_INT);
-		return $command->execute();    
-	} 
-	
-	public function isUserInProject($user) 
-	{
-		$sql = "SELECT user_id FROM tbl_project_user_assignment WHERE project_id=:projectId AND user_id=:userId";
-		$command = Yii::app()->db->createCommand($sql);
-		$command->bindValue(":projectId", $this->id, PDO::PARAM_INT);
-		$command->bindValue(":userId", $user->id, PDO::PARAM_INT);
-		return $command->execute()==1 ? true : false;
-	}
-	     
 /**
 * Suggests a list of existing values matching the specified keyword.
 * @param string the keyword to be matched
