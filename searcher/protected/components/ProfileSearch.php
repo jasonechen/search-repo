@@ -24,6 +24,12 @@ class ProfileSearch extends AbstractProfileSearch
     public function getDataProvider()
     {
         /**
+         * Appropriate ordering of result
+         */
+
+        $this->criteria->order = 'firstUniversity.name, states.name ASC';
+
+        /**
          * We use sorting capabilities
          * for appropriate sorting of columns by clicking on column name
          *
