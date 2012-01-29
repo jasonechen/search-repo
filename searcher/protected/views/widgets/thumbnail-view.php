@@ -4,10 +4,17 @@
      */
 ?>
 
-<div class="view" style="float:left;width:155px;height:170px;cursor:pointer;" onclick="location.href
-                                = '<?php echo $this->createUrl('/profile/viewProfile', 
-                                      array('profileID' => $data->user_id
-                              )); ?>';">
+<div class="view<?php if($data->isPurchased()) echo ' purchased'; ?>" style="float:left;width:155px;height:170px;cursor:pointer;"
+     onclick="location.href = '<?php echo (($data->isPurchased())
+        ? $this->createUrl('/profile/ViewPurchProfile',
+                    array('profileID' => $data->user_id
+                    )
+                )
+        : $this->createUrl('/profile/viewProfile',
+            array('profileID' => $data->user_id
+            )
+        )
+    ); ?>';">
 	<?php
         // in case we have image for concrete profile
 //        if(file_exists(Yii::getPathOfAlias('webroot') . '/images/avatar/' . $data->profile_type . '.gif'))
@@ -22,7 +29,7 @@
     ?>
     <div style="font-size: 11px"><strong>
 	    <?php echo CHtml::encode($data->getFirstUniversityName()); ?></strong>
-        <br>    </br>
+        <br><br>
         <strong><?php echo CHtml::encode($data->getAttributeLabel('nickname')); ?>:</strong>
 	    <?php echo CHtml::encode($data->nickname); ?>
 	    <br />

@@ -161,6 +161,11 @@ div.view
 	border: 1px solid #95F3BC;
 }
 
+div.purchased
+{
+    border:1px solid grey;
+}
+
 div.breadcrumbs
 {
 	font-size: 0.9em;

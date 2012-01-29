@@ -94,7 +94,8 @@ if($valid)
                 array(
                     'class'=>'CButtonColumn',
                     'template' => '{view}',
-                    'viewButtonUrl'=>'Yii::app()->createUrl("/profile/viewProfile", array("profileID" => $data->user_id))',
+                    'viewButtonUrl'=>'$data->isPurchased() ?  Yii::app()->createUrl("/profile/viewPurchProfile", array("profileID" => $data->user_id))
+                    : Yii::app()->createUrl("/profile/viewProfile", array("profileID" => $data->user_id))',
                 ),
             ),
         ));

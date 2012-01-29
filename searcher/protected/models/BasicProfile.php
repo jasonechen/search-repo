@@ -341,6 +341,29 @@ class BasicProfile extends ProfileActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    /**
+     * We use this method for purpose of knowing whether this profile was purchased by currently logged user or not
+     * @return bool - whether it was purchased or not
+     */
+
+    public function isPurchased()
+    {
+        $criteria = new CDbCriteria();
+
+        $criteria->with = array('purchasedProfile');
+        $criteria->together = true;
+        $criteria->params = array(":userID" => $this->user_id, ":byUserID" => Yii::app()->user->id);
+
+        $criteria->condition = "purchasedProfile.user_id = :byUserID AND purchasedProfile.purchased_profile_id = :userID";
+
+        if(sizeof(self::model()->find($criteria)) > 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
         
         public function getUniversityOptions() 
         { 
