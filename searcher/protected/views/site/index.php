@@ -1,119 +1,194 @@
 <?php $this->pageTitle=Yii::app()->name; ?>
 
-<div class="container">
-    <div class="span-26" >
-
-    </div> </div> 
-  <div class="container">
-                   <br> 
-  	<div class="span-16 colborder">
-            
-            
-  	<?php 
-        
-    $this->widget('application.extensions.nivoslider.ENivoSlider', array(
-        'htmlOptions'=>array('style'=>'width: 570px; height: 395px;'),
-            'images'=>array( //@array images with images arrays.
-       
-    //    array('src'=>'path/to/image'), //only display image.
-//        array('src'=>'path/to/image', 'caption'=>''), //display image and nivo slider caption.
-   //     array('src'=>'path/to/image', 'url'=>array('')), //display image with link.
-       // array('src'=>Yii::app()->request->baseUrl.'/images/body.gif', 'url'=> array('site/learnmore')),
-    //    array('src'=>Yii::app()->request->baseUrl.'/images/body2.gif', 'url'=> array('site/learnmore')),
-        array('src'=>Yii::app()->request->baseUrl.'/images/body3.gif', 'url'=> array('site/learnmore')),
-   //     array('src'=>Yii::app()->request->baseUrl.'/images/body4.gif', 'url'=> array('site/learnmore')),
-  //     array('src'=>Yii::app()->request->baseUrl.'/images/body5.gif', 'url'=> array('site/learnmore')),
- //       array('src'=>'path/to/image', 'url'=>array(''), 'caption'=>''), //display image with nivo slider caption and link reference.
-        ),
-    )
-);     
-    //    $image= CHtml::image(Yii::app()->request->baseURL. '/images/body2.gif'); 
-   //     echo Chtml::link($image, array('site/learnmore')) ?>
-            
-            <br><br/>
-         
-         <h3 class="caps">
-              TITLE DESCRIPTION
-          </h3>
-          <p>
-              DESCRIPTION 
-          </p>
-          
-          <center>
-              
-      <?php $signup= CHtml::button('Sign Up Now!');
-              echo CHtml::link($signup, array('user/create')) ?></center>
-      </div> 
-  	
-  	<div class="span-9 last"> <br> <br>            
-
-
-<?php 
-        $this->widget('ext.pixelmatrix.EUniform'); 
-        $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'login-form',
-	'enableClientValidation'=>true,
-	'clientOptions'=>array(
-		'validateOnSubmit'=>true,
-	),
-)); ?>
-
-	
-
-	<div class="span-6 last">
-            <b>	Username</b>
-		<?php echo $form->textField($model1,'username'); ?>
-            <err>   <?php echo $form->error($model1,'username'); ?></err>
-	</div>
-        <div class="span-26"> <br>  </div>  <!-- row spacer*/ -->    
-	<div class="span-6 last">
-	<b>	Password</b>
-		<?php echo $form->passwordField($model1,'password'); ?>
-        <err>	<?php echo $form->error($model1,'password'); ?></err>
-	</div>
-
-	<div class="span-6 last">
-		<?php echo $form->checkBox($model1,'rememberMe'); ?>
-		<?php echo $form->label($model1,'rememberMe'); ?>
-		<?php echo $form->error($model1,'rememberMe'); ?>
-	</div>
-        <div class="span-26"> <br>  </div>  <!-- row spacer*/ -->    
-	<div class="span-5 last">
-		<?php echo CHtml::submitButton('Login'); ?>
-	</div>
-          <div class="span-26"> <br>  </div>  <!-- row spacer*/ -->         
-    <h7> <div class="span-5 last">
-                <?php echo CHtml::link("Forgot your password?",array('site/page','view'=>'underConstruction')); ?>
-	</div>
-        
-        <div class="span-5 last">
-                <?php echo CHtml::link("New? Create an Account!",array('user/create')); ?><br></br>
-	</div> </h7>
-
-    <?php $this->endWidget(); ?>
-    
-   
-    <div class="span-8">
-         <hr/>
-      <h8>HEADER BOX TITLE </h8>
-     <p>  TEXT TEXTTEXT TEXTTEXT TEXTTEXT TEXTTEXT TEXTTEXT TEXTTEXT TEXTTEXT TEXTTEXT TEXTTEXT TEXTTEXT TEXTTEXT TEXT
-     </p>
-     <center>
-      <?php $signup= CHtml::button('Learn More');
-              echo CHtml::link($signup, array('site/page','view'=>'learn_more_contributors'))?>
-      </div> </center>
-    </div>
-    
-  </div>
-      
-      
-
-          
-      <div class="span-8 last">
-      
-      
-      </div>
-                  <div class="span-26"> <br> <br> </div>  <!-- row spacer*/ -->
-
-
-	
+	<div id="main" class="span-24">
+		<div class="students-block span-24">
+			<div class="map-box">
+				<img class="map" src="images/img-map.png" alt="image description" />
+				<div class="promo-text">
+					<h2>Helping you <span>prepare</span></h2>
+					<p>for the process</p>
+					<div class="btn-signup"> <?php echo CHtml::link("Sign Up Now!",array('user/create')) ?> </div>
+				</div>
+				<div class="place-box" style="right:428px; top:55px;">
+					<div class="hold">
+						<div class="frame">
+							<div class="box">
+								<a href="#"><img class="photo" src="images/img1-photo.png" alt="image description" /></a>
+								<div class="info">
+									<h3><a href="#">Rick Doe</a></h3>
+									<address>
+										<span>University X</span>
+										<span>Male</span>
+										<span>NY, NY</span>
+									</address>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="place-box box2" style="right:329px; top:124px;">
+					<div class="hold">
+						<div class="frame">
+							<div class="box">
+								<a href="#"><img class="photo" src="images/img2-photo.png" alt="image description" /></a>
+								<div class="info">
+									<h3><a href="#">Jack Doe</a></h3>
+									<address>
+										<span>University X</span>
+										<span>Male</span>
+										<span>NY, NY</span>
+									</address>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="place-box box3" style="right:153px; top:83px;">
+					<div class="hold">
+						<div class="frame">
+							<div class="box">
+								<a href="#"><img class="photo" src="images/img3-photo.png" alt="image description" /></a>
+								<div class="info">
+									<h3><a href="#">Michael Doe</a></h3>
+									<address>
+										<span>University X</span>
+										<span>Male</span>
+										<span>NY, NY</span>
+									</address>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="place-box box4" style="right:35px; top:51px;">
+					<div class="hold">
+						<div class="frame">
+							<div class="box">
+								<a href="#"><img class="photo" src="images/img4-photo.png" alt="image description" /></a>
+								<div class="info">
+									<h3><a href="#">John Doe</a></h3>
+									<address>
+										<span>University X</span>
+										<span>Male</span>
+										<span>NY, NY</span>
+									</address>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="place-box box5" style="right:72px; top:190px;">
+					<div class="hold">
+						<div class="frame">
+							<div class="box">
+								<a href="#"><img class="photo" src="images/img5-photo.png" alt="image description" /></a>
+								<div class="info">
+									<h3><a href="#">John Doe</a></h3>
+									<address>
+										<span>University X</span>
+										<span>Male</span>
+										<span>NY, NY</span>
+									</address>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="info-tabs">
+				<div class="holder">
+					<div class="frame">
+						<div class="applying">
+							<h3>Applying to School?</h3>
+							<p>a little brief about this tab will goes here <br />Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />Quisque felis enim, pellentesque vitae suscipit eu.</p>
+						</div>
+						<div class="current">
+							<h3>Current Student?</h3>
+							<p>a little brief about this tab will goes here <br />Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />Quisque felis enim, pellentesque vitae suscipit eu.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="profile-blocks span-24">
+			<h2>Featured Profile</h2>
+			<div class="holder span-24">
+				<div class="span-6">
+					<div class="profile-box">
+						<div class="hold">
+							<div class="frame">
+								<div class="box">
+									<div class="photo"><a href="#"><img src="images/img6-photo.png" alt="image description" /></a></div>
+									<div class="info">
+										<h3><a href="#">John Doe</a></h3>
+										<address>
+											<span>University X</span>
+											<span>Male</span>
+											<span>NY, NY</span>
+										</address>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="span-6">
+					<div class="profile-box">
+						<div class="hold">
+							<div class="frame">
+								<div class="box">
+									<div class="photo"><a href="#"><img src="images/img6-photo.png" alt="image description" /></a></div>
+									<div class="info">
+										<h3><a href="#">John Doe</a></h3>
+										<address>
+											<span>University X</span>
+											<span>Male</span>
+											<span>NY, NY</span>
+										</address>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="span-6">
+					<div class="profile-box">
+						<div class="hold">
+							<div class="frame">
+								<div class="box">
+									<div class="photo"><a href="#"><img src="images/img6-photo.png" alt="image description" /></a></div>
+									<div class="info">
+										<h3><a href="#">John Doe</a></h3>
+										<address>
+											<span>University X</span>
+											<span>Male</span>
+											<span>NY, NY</span>
+										</address>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="span-6 last">
+					<div class="profile-box">
+						<div class="hold">
+							<div class="frame">
+								<div class="box">
+									<div class="photo"><a href="#"><img src="images/img6-photo.png" alt="image description" /></a></div>
+									<div class="info">
+										<h3><a href="#">John Doe</a></h3>
+										<address>
+											<span>University X</span>
+											<span>Male</span>
+											<span>NY, NY</span>
+										</address>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
