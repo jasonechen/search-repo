@@ -96,12 +96,9 @@ class BasicProfile extends ProfileActiveRecord
         public static function getGender($indexVal)
 	{
 
-   
-
             return (  array_key_exists($indexVal, BasicProfile::$GenderArray) ? BasicProfile::$GenderArray[$indexVal]: 'NA');
 
 	}     
-
         
 	public static function model($className=__CLASS__)
 	{
@@ -124,8 +121,10 @@ class BasicProfile extends ProfileActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-
-			array('highSchoolType nickname, user_id, curr_university_id, num_scores, num_aps, num_sat2s, num_competitions, num_sports, num_academics, num_extracurriculars, num_essays, profile_type', 'required'),
+			//basic rules 
+			array('highSchoolType,nickname, user_id, curr_university_id, profile_type', 'required'),
+			array('race_id, gender', 'required','on'=>'demogr'),						
+			//array('race_id, gender, highSchoolType nickname, user_id, curr_university_id, num_scores, num_aps, num_sat2s, num_competitions, num_sports, num_academics, num_extracurriculars, num_essays, profile_type', 'required'),
 			array('first_university_id, curr_university_id, highschool_id, sat_I_score_range, num_scores, num_aps, num_sat2s, num_competitions, num_sports, num_academics, num_extracurriculars, num_essays, avg_profile_rating, l1ForSale, l2ForSale, l3ForSale, profile_type', 'numerical', 'integerOnly'=>true),
 			array('user_id, create_user_id, update_user_id', 'length', 'max'=>10),
 			array('isTransfer, gender, race_id', 'length', 'max'=>1),
@@ -197,7 +196,7 @@ class BasicProfile extends ProfileActiveRecord
 			'create_user_id' => 'Create User',
 			'update_time' => 'Update Time',
 			'update_user_id' => 'Update User',
-			'stateName' => 'State',
+			'stateName' => 'Home State',
 		);
 	}
 
@@ -206,16 +205,29 @@ class BasicProfile extends ProfileActiveRecord
                 $this->user_id = $inID;
                 $this->first_university_id = 0;
                 $this->curr_university_id = 0;
+                $this->highschool_id = 0;
                 $this->num_academics = 0;
                 $this->num_extracurriculars = 0;
                 $this->num_sports = 0;
                 $this->num_competitions = 0;
                 $this->num_essays = 0;
-                $this->profile_type = 0;
+                $this->num_scores = 0;
+                $this->num_aps = 0;
+                $this->num_sat2s = 0;
+                $this->num_subjects = 0;
+                $this->num_competitions = 0;
+                $this->num_awards = 0;
+                $this->num_activities = 0;
+                $this->num_music = 0;
+                $this->num_volunteer = 0;
+                $this->num_work = 0;
+                $this->num_research = 0;
+                $this->num_summer = 0;
+                $this->num_other = 0;
                 $this->l1ForSale = 0;
                 $this->l2ForSale = 0;
                 $this->l3ForSale = 0;
-
+            
         }
         
         public function getProfileData()

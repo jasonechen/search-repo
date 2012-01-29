@@ -39,26 +39,49 @@ div.form
 }
 
 div.form input
-{width: 110px;}
+{
+    width: 110px;
+}
+
+div.form input[type=checkbox]
+{
+    width: 20px;
+}
+
+div.filtercheckform input[type=checkbox] + label
+{
+    padding-left: 25px;
+}
 
 div.checkform input
-{
-    
-    width: 40px;}
+{   
+    width: 40px;
+}
 
 div.filtercheckform input
 {
     
-    width: 30px;}
+    width: 30px;
+}
 
 div.filtercheckform label
 {
     font-size: 0.8em;
     font-weight: normal;
+    padding-bottom: 0px;
     }
 
+
+    
 div.wform input
-{width: 350px;}
+{
+    width: 350px;
+}
+
+div.mform input
+{
+    width: 150px;
+}
 
 div.form textarea,
 div.form select
@@ -75,6 +98,7 @@ div.form fieldset
 }
 input[type=radio] + label, input[type=checkbox] + label
 {  font-size: 0.8em;
+   
         
     /*display:inline !important; }*/
 }
@@ -203,7 +227,7 @@ filtercheckform .range-age-div {
 
 div.form input[type=checkbox] {
     float: left;
-    margin: -1px 4px 2px 2px;
+    margin: -3px -3px 1px 1px;
 }
 
 div.form input[type=radio] {
@@ -212,21 +236,86 @@ div.form input[type=radio] {
 
 }
 
-.form .row {
-    padding-bottom: 8px;
+.filtercheckform .row {
+    padding-bottom: 6px;
+}
+
+.form .thinrow {
+    padding-bottom: 6px;
 }
 
 .filtercheckform .checkbox-label {
     float: left;
     text-align: right;
+    
 }
 
 .filtercheckform .checkbox-input {
     float: left;
+    
 }
 
 /* LEFT FILTER BAR END */
 
-.grid-view .filters select {
-    width: 70px !important;
+/*
+
+	For Profile Forms add and Remove button
+
+*/
+
+div.add
+{
+	cursor: pointer;
+	background-color:#D2F4D3;	
+	width: 150px;
+	padding: 2px;
+	border: 1px solid #009933;
+	color: #009933;
+	text-align: center;
+	
 }
+
+div.remove
+{	
+	cursor: pointer;
+    background-color:#D2F4D3;	
+	width: 60px;
+	padding: 1px;	
+	border: 1px solid #009933;
+	color: #009933;
+	text-align: center;
+	
+}
+div.removeRow
+{	
+	cursor: pointer;
+        background-color:#D2F4D3;	
+	width: 60px;
+	padding: 1px;	
+	border: 1px solid #009933;
+	color: #009933;
+	text-align: center;
+	
+}
+div.addRow
+{	
+	cursor: pointer;
+         background-color:#D2F4D3;	
+	width: 130px;
+	padding: 1px;	
+	border: 1px solid #009933;
+	color: #009933;
+	text-align: center;
+	
+}
+/*
+	For profile Forms Sub heading
+
+*/
+
+.sub-head-profile{
+font-size:18px;
+font-weight:bold;
+line-height:50px;
+}
+

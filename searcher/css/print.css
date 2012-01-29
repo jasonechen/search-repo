@@ -24,6 +24,29 @@ blockquote {margin:1.5em;padding:1em;font-style:italic;font-size:.9em;}
 .small {font-size:.9em;}
 .large {font-size:1.1em;}
 .quiet {color:#999;}
+#footer .phone,
+#footer .email{display:block;}
+.social-col,
+.nav-col,
+.students-block .map-box .map,
+.form-search,
+.nav-bar,
+.btn-signup,
 .hide {display:none;}
+.place-box,
+.profile-box{
+	width:100%;
+	overflow:hidden;
+}
+.place-box .photo,
+.profile-box .photo{
+	float:left;
+	margin-right:20px;
+}
+.place-box .info,
+.profile-box .info{
+	height:1%;
+	overflow:hidden;
+}
 a:link, a:visited {background:transparent;font-weight:700;text-decoration:underline;}
 a:link:after, a:visited:after {content:" (" attr(href) ")";font-size:90%;}

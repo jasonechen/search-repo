@@ -1,10 +1,21 @@
-body
+html{background:#d3d3d3;}
+body{
+	background:#fff url(../images/bg-body.png) repeat-x;
+	font:12px/16px Arial, Helvetica, sans-serif;
+	color:#666;
+}
+
+
+
+
+
+/*body
 {
 	margin: 0;
 	padding: 0;
 	color: #555;
 	font: normal 10pt Arial,Helvetica,sans-serif;
-	background: white;
+	background-color: transparent;
         line-height: 135%;
 }
 
@@ -15,26 +26,26 @@ body
 	background: white;
 	/*border: 1px solid #C9E0ED;*/
 }
-
+/*
 #header
 {
 	margin: 0;
 	padding: 0;
 	border-top: 3px solid #30AB59;
 }
-
+*/
 #content
 {
-    padding: 20px;
+    padding: 10px;
 }
 
 #sidebar
 {
 	padding: 20px 20px 20px 0;
 }
-
+/*
 #footer
-{	background: #DFE3DE;
+{	background: #F2F6F2;
 	padding: 0;
 	margin: 0;
 	font: normal 8pt Arial,Helvetica,sans-serif;
@@ -42,9 +53,9 @@ body
 	border-top: 2px solid #C9E0ED;
 }
 
-#footerbody /*footer background color and font */
+#footerbody /*footer background color and font *//*
 {
-    background: #F2F6F2;
+    background-color: #F2F6F2;
     text-align: left;
     font: normal 9pt Arial,Helvetica,sans-serif;
     text-decoration:none;
@@ -52,21 +63,26 @@ body
     
 }
 
-#fcathead /*footer category font*/
+#fcathead /*footer category font*//*
 {
     padding-top: 15px;
     font: bold 9pt Arial,Helvetica,sans-serif;
     
      
 }
+
 #logo
 {
 	padding: 10px 20px;
 	font-size: 100%;
 }
 
-
-
+.placeholder
+{
+    font: italic;
+    color: #aaa;
+}
+*/
 /*
 #mainmenu
 {
@@ -152,13 +168,16 @@ div.flash-success a
 div.form .rememberMe label
 {
 	display: inline;
+        padding-left: 5px;
+        
 }
 
 div.view
 {
-	padding: 10px;
-	margin: 10px 5px 10px 0;
-	border: 1px solid #95F3BC;
+	padding: 5px;
+	margin: 8px 10px 10px 0;
+	/*border: 1px solid #95F3BC;*/
+        background-color: #e7ffe7;
 }
 
 div.purchased
@@ -177,13 +196,13 @@ div.breadcrumbs span
 	font-weight: bold;
 }
 
-div.search-form
+/*div.search-form
 {
 	padding: 10px;
 	margin: 10px 0;
 	background: #2D8E2A;
 }
-
+*/
 .portlet
 {
 
@@ -288,3 +307,46 @@ background: #EFEFEF;
 {
     background-color:#EFF4FA;
 }
+
+/* begin grid style */
+table.dataGrid
+{
+	background: white;
+	border-collapse: collapse;
+}
+
+table.dataGrid th, table.dataGrid td
+{
+	border: 1px white solid;
+	padding: 5px;
+	vertical-align: top;
+}
+
+table.dataGrid th
+{
+/*	border: 1px #D5E3F5 solid; */
+	background: #f5f3e5;
+        font-size: 13px;
+        color: black;
+        font-weight: normal;
+	text-align: left;
+}
+
+table.dataGrid th.label
+{
+	width: 120px;
+}
+
+table.dataGrid tr
+{
+        font-size: 12px;
+	width: 120px;
+}
+
+table.dataGrid td.nowrap
+{
+	white-space: nowrap;
+}
+/* end of grid style */
+
+

@@ -63,7 +63,7 @@ class ProfileController extends Controller
              ),
              'suggestHighschool'=>array(
                 'class'=>'ext.actions.XSuggestAction',
-                'modelName'=>'HighschoolName',
+                'modelName'=>'HighSchoolName',
                 'methodName'=>'suggest',
                    ),
                 
@@ -88,7 +88,7 @@ class ProfileController extends Controller
                                 'loadOtherSchoolAdmit','DeleteOtherSchoolAdmit', 'deleteMusic', 'deleteVolunteer','deleteWork','loadMusic','loadVolunteer','loadWork',   
                                 'loadSummer','deleteSummer','loadResearch','deleteResearch','loadOther','deleteOther',
                                 'modScoreTabs','modAcademicTabs', 'loadAward','deleteAward',
-                                'browseMine','viewBasic', 'viewPurchProfile', 'viewScores','viewOther','viewEssays',
+                                'browseMine','viewBasic', 'viewPurchProfile', 'viewScores','viewAcademics','viewExtracurriculars','viewEssays','viewAll',
                                 ),
 
 				'users'=>array('@'),
@@ -196,7 +196,8 @@ class ProfileController extends Controller
                                         $creditModel->save();
                                         $buyProfileForm->fillInStatus($mapProfileStudent);
                                         Yii::app()->user->setFlash('buyProfileSuccess',"Purchased with credits!" );
-                                        $this->redirect(array('viewPurchProfile','profileID'=>$profileID)); 
+                                        $this->redirect(array('viewAll','profileID'=>$profileID)); 
+										//$this->redirect(array('viewPurchProfile','profileID'=>$profileID)); 
                                     }
                               }
                             
@@ -320,20 +321,159 @@ class ProfileController extends Controller
                         ));
 	}        
         
+        
+	public function actionViewAll($profileID)
+	{	
+            $this->layout = 'column2-purch-prof';
+            $profileAccessArray = $this->getProfileAccessArray($profileID);
+            $basicProfile=BasicProfile::model()->findByPk($profileID);
+            if($profileAccessArray['l1']==1) {
+                $personalProfile=PersonalProfile::model()->findByPk($profileID);    
+                $otherSchoolAdmitProfileArray=OtherSchoolAdmitProfile::model()->findAllByAttributes(array('user_id'=>$profileID));
+                $languageProfileArray=LanguageProfile::model()->findAllByAttributes(array('user_id'=>$profileID));
+
+                $scoreProfile=ScoreProfile::model()->findByPk($profileID);
+                if ($scoreProfile != NULL) $scoreProfile->calcTotalSAT();
+                ($basicProfile->num_sat2s > 0) ? 
+                            $sat2ProfileArray=Sat2Profile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $sat2ProfileArray = null;
+                ($basicProfile->num_aps > 0) ? 
+                    $apProfileArray=ApProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $apProfileArray = null;
+                
+                $academicProfile=AcademicProfile::model()->findByPk($profileID);
+                $numberFormatter = new CNumberFormatter(Yii::app()->locale);
+                ($basicProfile->num_subjects > 0) ? 
+                            $subjectProfileArray=SubjectProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $subjectProfileArray = null;
+                ($basicProfile->num_competitions > 0) ? 
+                            $competitionProfileArray=CompetitionProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $competitionProfileArray = null;
+                ($basicProfile->num_awards > 0) ? 
+                            $awardProfileArray=AwardProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $awardProfileArray = null;
+            }
+            else{
+                $personalProfile=null;    
+                $otherSchoolAdmitProfileArray=null;
+                $languageProfileArray=null;
+                $scoreProfile = null;
+                $sat2ProfileArray = null;
+                $apProfileArray = null;
+                $academicProfile=null;
+                $numberFormatter = new CNumberFormatter(Yii::app()->locale);
+                $subjectProfileArray = null;
+                $competitionProfileArray = null;
+                $awardProfileArray = null;
+            }
+            if($profileAccessArray['l2']==1) {
+                ($basicProfile->num_activities > 0) ? 
+                            $activityProfileArray=ActivityProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $activityProfileArray = null;
+                ($basicProfile->num_sports > 0) ? 
+                            $sportProfileArray=SportProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $sportProfileArray = null;
+                ($basicProfile->num_music > 0) ? 
+                            $musicProfileArray=MusicProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $musicProfileArray = null;
+                ($basicProfile->num_volunteer > 0) ? 
+                            $volunteerProfileArray=VolunteerProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $volunteerProfileArray = null;
+                ($basicProfile->num_work > 0) ? 
+                            $workProfileArray=WorkProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $workProfileArray = null;
+                ($basicProfile->num_research > 0) ? 
+                            $researchProfileArray=ResearchProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $researchProfileArray = null;
+                ($basicProfile->num_summer > 0) ? 
+                            $summerProfileArray=SummerProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $summerProfileArray = null;
+                ($basicProfile->num_other > 0) ? 
+                            $otherProfileArray=OtherProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $otherProfileArray = null;                
+            }
+            else{
+                $activityProfileArray = null;
+                $sportProfileArray = null;
+                $musicProfileArray = null;
+                $volunteerProfileArray = null;
+                $workProfileArray = null;
+                $researchProfileArray = null;
+                $summerProfileArray = null;
+                $otherProfileArray = null;                
+            }
+            if($profileAccessArray['l3']==1) {                   
+                ($basicProfile->num_essays > 0) ? 
+                    $essayProfileArray=EssayProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                    : $essayProfileArray = null;   
+            }
+            else{
+                $essayProfileArray = null;   
+            }
+            //added this code
+            $userID = Yii::app()->user->id;
+            $buyProfileForm = new BuyProfileForm;
+            $buyProfileForm->basicProfile = $basicProfile;
+            $buyProfileForm->profile_id = $profileID;
+            $buyProfileForm->buyer_id = $userID;
+
+            $mapProfileStudent = MapProfileStudent::model()->findByPk(array('user_id'=>"$userID",
+                                                                        'purchased_profile_id'=>"$profileID",));                                
+            $buyProfileForm->fillInStatus($mapProfileStudent);
+            $ratingModel = Rating::model()->findByAttributes(array('user_id' => $profileID, 'create_user_id' => Yii::app()->user->id));
+            $disableRating = ($ratingModel !== null) ? true : false;
+            // Not sure why strings do not work here */
+            $profileCookieID = $profileID;
+//            echo Yii::log("profileCookieID: ".CVarDumper::dumpAsString($profileCookieID),'error');
+            $this->render('viewAll',array(
+                                    'profileID'=>$profileID,
+                                    'profileCookieID'=>$profileCookieID,
+                                    'profileAccessArray'=>$profileAccessArray,
+                                    'basicProfile'=>$basicProfile,
+                                    'personalProfile'=>$personalProfile,
+                                    'otherSchoolAdmitProfileArray'=>$otherSchoolAdmitProfileArray,
+                                    'languageProfileArray' => $languageProfileArray,
+                                    'scoreProfile'=>$scoreProfile,
+                                    'sat2ProfileArray'=>$sat2ProfileArray,
+                                    'apProfileArray'=>$apProfileArray,
+                                    'academicProfile'=>$academicProfile,
+                                    'subjectProfileArray'=>$subjectProfileArray,
+                                    'competitionProfileArray'=>$competitionProfileArray,
+                                    'awardProfileArray'=>$awardProfileArray,
+                                    'numberFormatter'=>$numberFormatter,
+                                    'activityProfileArray'=>$activityProfileArray,
+                                    'sportProfileArray'=>$sportProfileArray,
+                                    'musicProfileArray'=>$musicProfileArray,
+                                    'volunteerProfileArray'=>$volunteerProfileArray,
+                                    'workProfileArray'=>$workProfileArray,
+                                    'researchProfileArray'=>$researchProfileArray,
+                                    'summerProfileArray'=>$summerProfileArray,
+                                    'otherProfileArray'=>$otherProfileArray,   
+                                    'essayProfileArray'=>$essayProfileArray,
+                                    'buyProfileForm'=>$buyProfileForm,
+                                    'disableRating' => $disableRating,
+                                    ));
+                
+	}
+        
 	public function actionViewBasic($profileID)
 	{	
                 if(!($this->checkProfileAccess($profileID, 1))) {
                     throw new CHttpException(403,'You have not purchased access to this!');
                 }      
                 $basicProfile=BasicProfile::model()->findByPk($profileID);
-                $personalProfile=PersonalProfile::model()->findByPk($profileID);                                         
+                $personalProfile=PersonalProfile::model()->findByPk($profileID);    
+                $otherSchoolAdmitProfileArray=OtherSchoolAdmitProfile::model()->findAllByAttributes(array('user_id'=>$profileID));
+                $languageProfileArray=LanguageProfile::model()->findAllByAttributes(array('user_id'=>$profileID));
+                
 		$this->render('viewBasic',array(
                                         'profileID'=>$profileID,
                                         'basicProfile'=>$basicProfile,
-                                        'personalProfile'=>$personalProfile));
+                                        'personalProfile'=>$personalProfile,
+                                        'otherSchoolAdmitProfileArray'=>$otherSchoolAdmitProfileArray,
+                                        'languageProfileArray' => $languageProfileArray,
+                                        ));
                 
-
- 
 	}
  
  	public function actionViewScores($profileID)
@@ -342,12 +482,15 @@ class ProfileController extends Controller
                 if(!($this->checkProfileAccess($profileID, 1))) {
                     throw new CHttpException(403,'You have not purchased access to this!');
                 }        
-                                
+                $basicProfile=BasicProfile::model()->findByPk($profileID);                
                 $scoreProfile=ScoreProfile::model()->findByPk($profileID);
-                
-                $sat2ProfileArray=Sat2Profile::model()->findAllByAttributes(array('user_id'=>$profileID));
-                
-                $apProfileArray=ApProfile::model()->findAllByAttributes(array('user_id'=>$profileID));
+                $scoreProfile->calcTotalSAT();
+                ($basicProfile->num_sat2s > 0) ? 
+                            $sat2ProfileArray=Sat2Profile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $sat2ProfileArray = null;
+                ($basicProfile->num_aps > 0) ? 
+                    $apProfileArray=ApProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $apProfileArray = null;
 //                 echo Yii::log("Sat2ProfileArray: ".CVarDumper::dumpAsString(count($sat2ProfileArray)),'error');
 		$this->render('viewScores',array(
                         'profileID'=>$profileID,
@@ -357,54 +500,97 @@ class ProfileController extends Controller
                     ));
 	}       
 
-	public function actionViewOther($profileID)
+        public function actionViewAcademics($profileID)
+	{	
+                if(!($this->checkProfileAccess($profileID, 1))) {
+                    throw new CHttpException(403,'You have not purchased access to this!');
+                }
+                
+                $basicProfile=BasicProfile::model()->findByPk($profileID);
+                $academicProfile=AcademicProfile::model()->findByPk($profileID);
+                $numberFormatter = new CNumberFormatter(Yii::app()->locale);
+                ($basicProfile->num_subjects > 0) ? 
+                            $subjectProfileArray=SubjectProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $subjectProfileArray = null;
+                ($basicProfile->num_competitions > 0) ? 
+                            $competitionProfileArray=CompetitionProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $competitionProfileArray = null;
+                ($basicProfile->num_awards > 0) ? 
+                            $awardProfileArray=AwardProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $awardProfileArray = null;
+                
+              
+		$this->render('viewAcademics',array(
+                        'profileID'=>$profileID,
+                        'academicProfile'=>$academicProfile,
+                        'subjectProfileArray'=>$subjectProfileArray,
+                        'competitionProfileArray'=>$competitionProfileArray,
+                        'awardProfileArray'=>$awardProfileArray,
+                        'numberFormatter'=>$numberFormatter,
+                    ));
+                unset($numberFormatter);
+	}
+        
+	public function actionViewExtracurriculars($profileID)
 	{	
                 if(!($this->checkProfileAccess($profileID, 2))) {
                     throw new CHttpException(403,'You have not purchased access to this!');
-                }            
-		$this->render('view',$this->loadModels($id));
+                }        
                 
-                
-                $basicProfile = $this->loadBasic($id);
-                
-                $buyProfileForm = new BuyProfileForm;
-                $buyProfileForm->basicProfile = $basicProfile;
-                $buyProfileForm->profile_id = $id;
-                $buyProfileForm->buyer_id = Yii::app()->user->id;
-                $buyProfileForm->fillInStatus();
-                
-                $creditModel = $this->loadCreditModel($id);
-                                
-                
-		$this->render('viewBasic',array(
-			'buyProfileForm'=>$buyProfileForm,
-                        'creditModel'=>$creditModel,
-                        ));
+                $basicProfile=BasicProfile::model()->findByPk($profileID);
+                ($basicProfile->num_activities > 0) ? 
+                            $activityProfileArray=ActivityProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $activityProfileArray = null;
+                ($basicProfile->num_sports > 0) ? 
+                            $sportProfileArray=SportProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $sportProfileArray = null;
+                ($basicProfile->num_music > 0) ? 
+                            $musicProfileArray=MusicProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $musicProfileArray = null;
+                ($basicProfile->num_volunteer > 0) ? 
+                            $volunteerProfileArray=VolunteerProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $volunteerProfileArray = null;
+                ($basicProfile->num_work > 0) ? 
+                            $workProfileArray=WorkProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $workProfileArray = null;
+                ($basicProfile->num_research > 0) ? 
+                            $researchProfileArray=ResearchProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $researchProfileArray = null;
+                ($basicProfile->num_summer > 0) ? 
+                            $summerProfileArray=SummerProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $summerProfileArray = null;
+                ($basicProfile->num_other > 0) ? 
+                            $otherProfileArray=OtherProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $otherProfileArray = null;
+
+		$this->render('viewExtracurriculars',array(
+                        'profileID'=>$profileID,
+                        'activityProfileArray'=>$activityProfileArray,
+                        'sportProfileArray'=>$sportProfileArray,
+                        'musicProfileArray'=>$musicProfileArray,
+                        'volunteerProfileArray'=>$volunteerProfileArray,
+                        'workProfileArray'=>$workProfileArray,
+                        'researchProfileArray'=>$researchProfileArray,
+                        'summerProfileArray'=>$summerProfileArray,
+                        'otherProfileArray'=>$otherProfileArray,                        
+                    ));
 	}
         
-	public function actionViewEssays($id)
+	public function actionViewEssays($profileID)
 	{	
-                if(!($this->checkProfileAccess($id, 3))) {
-                    throw new CHttpException(403,'You are not authorized to perform this action.');
-                }            
-		$this->render('view',$this->loadModels($id));
+                if(!($this->checkProfileAccess($profileID, 3))) {
+                    throw new CHttpException(403,'You have not purchased access to this!');
+                }        
+                $basicProfile=BasicProfile::model()->findByPk($profileID);
+                ($basicProfile->num_essays > 0) ? 
+                            $essayProfileArray=EssayProfile::model()->findAllByAttributes(array('user_id'=>$profileID))
+                            : $essayProfileArray = null;                
                 
                 
-                $basicProfile = $this->loadBasic($id);
-                
-                $buyProfileForm = new BuyProfileForm;
-                $buyProfileForm->basicProfile = $basicProfile;
-                $buyProfileForm->profile_id = $id;
-                $buyProfileForm->buyer_id = Yii::app()->user->id;
-                $buyProfileForm->fillInStatus();
-                
-                $creditModel = $this->loadCreditModel($id);
-                                
-                
-		$this->render('viewBasic',array(
-			'buyProfileForm'=>$buyProfileForm,
-                        'creditModel'=>$creditModel,
-                        ));
+		$this->render('viewEssays',array(
+                        'profileID'=>$profileID,
+                        'essayProfileArray'=>$essayProfileArray,
+                    ));
 	}
         
 	public function actionModBasic()
@@ -446,24 +632,9 @@ class ProfileController extends Controller
                 }
                 
                 $basicProfile=BasicProfile::model()->findByPk($myID);
-		if($basicProfile===null)
-                {                
+		if($basicProfile===null){                
                         $basicProfile=new BasicProfile;
-                        $basicProfile->first_university_id = 0;
-                        $basicProfile->curr_university_id = 0;
-                        $basicProfile->highschool_id = 0;
-                        $basicProfile->num_academics = 0;
-                        $basicProfile->num_extracurriculars = 0;
-                        $basicProfile->num_sports = 0;
-                        $basicProfile->num_competitions = 0;
-                        $basicProfile->num_essays = 0;
-                        $basicProfile->num_scores = 0;
-                        $basicProfile->num_aps = 0;
-                        $basicProfile->num_sat2s = 0;
-                        $basicProfile->l1ForSale = 0;
-                        $basicProfile->l2ForSale = 0;
-                        $basicProfile->l3ForSale = 0;
-
+                        $basicProfile->initialize($myID); 
                 }
                 else{
                         $basicProfile->curr_university_name = $basicProfile->getCurrUniversityName();
@@ -1691,7 +1862,8 @@ class ProfileController extends Controller
             $this->menu=array(
                 array('label'=>'Basic', 'url'=>array('viewBasic','profileID'=>$id)),
                 array('label'=>'Scores', 'url'=>array('viewScores','profileID'=>$id)),
-                array('label'=>'Other Info', 'url'=>array('viewOther','profileID'=>$id)),
+                array('label'=>'Academics', 'url'=>array('viewAcademics','profileID'=>$id)),
+                array('label'=>'Extracurriculars', 'url'=>array('viewExtracurriculars','profileID'=>$id)),
                 array('label'=>'Essays', 'url'=>array('viewEssays','profileID'=>$id)),
             );
         }

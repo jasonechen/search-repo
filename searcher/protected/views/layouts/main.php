@@ -14,147 +14,141 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/fancy-type/screen.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/wizard.css" />	
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery-ui.css" />	
+	
+	<script type="text/javascript" src="js/main.js"></script>
         <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
+        <title><?php echo CHtml::encode($this->pageTitle); ?></title>
+</head>       
+    <body>	
 
+<div class="container">
+	<div id="header" class="span-26">
+		<div class="nav-bar span-26">
+			
         
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
-        
-        <table width="1300" height="50" cellspacing="10" >   <tr><td width="10"></td><td width="165" valign="top" align="center">
-   <?php  $image= CHtml::image(Yii::app()->request->baseURL. '/images/logo_big.gif'); 
-        echo Chtml::link($image, array('/site/index')) ?>
-         </td><td width="475" valign="bottom">
-             <?php $this->beginWidget('zii.widgets.CPortlet'); ?>
-        <?php
-            $search_q = '';
-            if(isset($_SESSION['search_q']))
-            {
-                $search_q = strip_tags($_SESSION['search_q']);
-            }
-            $this->renderPartial('//widgets/search-form', array(
-                                                               'search_q' => $search_q
-                                                          )
-            );
-        ?>
-    <?php $this->endWidget(); ?>
-        
-         </td><td width="700" valign="center">
-        
-        
-                <div style="float:right">
-            
-		<?php 
+                   	
+                    <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=site/login" class="btn-login">Login</a>
+                    
+                    <div class="top-nav">
+                            
+                             <?php 
                  $this->widget('ext.emenu.Emenu',array(
                      	'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/indexFinder'), 
-                                    'items'=>array(
+				array('label'=>'Home', 'url'=>array('/site/indexFinder'),'visible'=>Yii::app()->user->isGuest), 
+                                /*    'items'=>array(
                                         array('label'=>'Learn More', 'url'=>array('/site/learnmore')),
                                         array('label'=>'FAQ', 'url'=>array('site/page', 'view'=>'FAQ')),
                                         array('label'=>'Press/Media', 'url'=>array('site/page', 'view'=>'press_media')),
                                         array('label'=>'About Us', 'url'=>array('/site/page', 'view'=>'about')),
                                         array('label'=>'Jobs', 'url'=>array('site/page', 'view'=>'jobs')),
                                         ),
-                                    ),
+                                    ),*/
                             	array('label'=>'Sign Up', 'url'=>array('/user/create'),'visible'=>Yii::app()->user->isGuest),
  //                             array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
 //				array('label'=>'Contact', 'url'=>array('/site/contact')),
-				array('label'=>'My Account', 'url'=>array('/user/account'), 'visible'=>!Yii::app()->user->isGuest),
-                                array('label'=>'Manage My Profile', 'url'=>array('/profile/modBasic'), 'visible'=>!Yii::app()->user->isGuest),
-                                array('label'=>'Browse Profiles', 'url'=>array('/search/index'), 'visible'=>!Yii::app()->user->isGuest),
-                                array('label'=>'My Profiles', 'url'=>array('/profile/browseMine'), 'visible'=>!Yii::app()->user->isGuest),
-				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
+				array('label'=>'My Account', 'url'=>array('/user/account'), 'visible'=>!Yii::app()->user->isGuest,
+                                    'items'=>array(
+                                    array('label'=>'My Profile', 'url'=>array('/profile/modBasic')),
+                                    array('label'=>'Settings', 'url'=>array('/profile/modBasic')),
+                                        ),
+                                        ),
+                                
+                                array('label'=>'Purchased Profiles', 'url'=>array('/profile/browseMine'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Logout ('.Yii::app()->user->getState('FirstName').')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
 			),
 		)); ?> 
-	
-            </div>
-         </td></tr></table>
+			</div>
+		</div>
+		<div class="span-26">
+			<div class="span-7">
+				<h1 class="logo"><?php echo CHtml::link("Home",array('site/indexFinder')); ?></h1>
+			</div>
+			<div class="span-19 last">
+				
+		             <?php $this->beginWidget('zii.widgets.CPortlet'); ?>
+                                    <?php
+                                        $search_q = '';
+                                        if(isset($_SESSION['search_q']))
+                                        {
+                                            $search_q = strip_tags($_SESSION['search_q']);
+                                        }
+                                        $this->renderPartial('//widgets/search-form', array(
+                                                                                           'search_q' => $search_q
+                                                                                      )
+                                        );
+                                    ?>
+                                <?php $this->endWidget(); ?>
+						
+					
+			</div>
+		</div>
+	</div>
 
 
-</head>
-
-<body>
-
-     <div class="container">       
-        
+    
+    <div class="span-26">        
           
-
-	<?php echo $content; ?>
-</div>      
-         
-
-
-
-<div id="footerbody">
-    <hr> 
-    <div class="container">
-                   
-                       
-            <div class="span-4">
-                <fthd> Meceve.com </fthd>  <br>
-              <?php echo CHtml::link("Home",array('site/indexFinder')); ?> <br>
-             <?php echo CHtml::link("About Us",array('site/page', 'view'=>'about')); ?><br>
-             <?php echo CHtml::link("Learn More",array('site/learnmore')); ?><br>
-             <?php echo CHtml::link("FAQ",array('site/page', 'view'=>'FAQ')); ?><br>
-              <?php echo CHtml::link("Press/Media",array('site/page', 'view'=>'press_media')); ?><br>
-              <?php echo CHtml::link("Jobs",array('site/page', 'view'=>'jobs')); ?> <br>
-                           
-            </div>
-          <div class="span-4">
-              <fthd>Help/Support </fthd> <br>
-              <?php echo CHtml::link("Contact Us",array('site/contact')); ?><br>
-              <?php echo CHtml::mailto("support@meceve.com",'support@meceve.com'); ?>
-                         
-            </div>
-            
-           <div class="span-4">
-              
-               <fthd>Legal</fthd>  <br>
-              <?php echo CHtml::link("Terms and Conditions",array('site/page', 'view'=>'terms_conditions')); ?><br>
-              <?php echo CHtml::link("Privacy Policy",array('site/page', 'view'=>'privacy_policy')); ?><br>
-              <?php echo CHtml::link("TrustE Certified",array('site/index')); ?>
-              </div>
-            
-            <div class="span-4 last">
-              <fthd> Community  </fthd> <br>  
-              <?php echo CHtml::link("Blog",array('site/index')); ?><br>
-             <?php echo CHtml::link("Forums",array('site/index')); ?>
+<?php echo $content; ?>
+    
+    </div>
+</div>         
         
-              
-            </div>
-            
 
-         <div class="span-26"><br><br/></div>
-         
-         <div class="span-4"><br><br/></div>
-            <div class="span-10 pull-4">
-                                 
-                <ftnt>     Copyright &copy; <?php echo date('Y'); ?> by Meceve Inc. All Rights Reserved.</ftnt><br/>
-		           
-            </div>
-           
-             <div class="span-9 last push-2" style="align:right"> 
-                
-               <?php $this->widget('application.extensions.social.social', array(
-    'style'=>'horizontal', 
-        'networks' => array(
-        'twitter'=>array(
-            'data-via'=>'', //http://twitter.com/#!/YourPageAccount if exists else leave empty
-            ), 
-        'googleplusone'=>array(
-            "size"=>"medium",
-            "annotation"=>"bubble",
-        ), 
-        'facebook'=>array(
-            'href'=>'https://www.facebook.com/your_facebook_page',//asociate your page http://www.facebook.com/page 
-            'action'=>'recommend',//recommend, like
-            'colorscheme'=>'light',
-            'width'=>'120px',
-            )
-        )
-));?> 
-                </div><!-- page -->
-         <div class="span-26"><br><br/></div>
-        </div>    
+
+    
+<div id="footer">
+	<div class="container">
+		<div class="info-box">
+			<h4>HAVE A QUESTION? <br /><span>CONTACT US</span></h4>
+			<span class="phone">+12 3456 789</span>
+			<span class="email"><a href="mailto:&#105;&#110;&#102;&#111;&#064;&#099;&#114;&#111;&#119;&#100;&#112;&#114;&#101;&#112;&#046;&#099;&#111;&#109;">&#105;&#110;&#102;&#111;&#064;&#099;&#114;&#111;&#119;&#100;&#112;&#114;&#101;&#112;&#046;&#099;&#111;&#109;</a></span>
+		</div>
+		<div class="nav-col">
+			<ul class="nav">
+				<li><?php echo CHtml::link("Home",array('site/indexFinder')); ?></li>
+				<li><?php echo CHtml::link("Learn More",array('site/learnmore')); ?></li>
+				<li><?php echo CHtml::link("About Us",array('site/page', 'view'=>'about')); ?></li>
+				<li><?php echo CHtml::link("FAQ", array('site/page', 'view'=>'FAQ')); ?></li>
+			</ul>
+		</div>
+		<div class="nav-col">
+			<ul class="nav">
+				<li><?php echo CHtml::link("Login",array('site/login')); ?></li>
+				<li><?php echo CHtml::link("Privacy Policy",array('site/page', 'view'=>'privacy_policy')); ?></li>
+				<li><?php echo CHtml::link("Terms and Conditions",array('site/page', 'view'=>'terms_conditions')); ?></li>
+                                <li><?php echo CHtml::link("Contact",array('site/contact')); ?></li>
+			</ul>
+		</div>
+		<div class="social-col">
+			<ul class="social-networks">
+				<li>
+					<a href="#">
+						<img src="images/ico-facebook.png" alt="image description" />
+						<span>Facebook</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<img src="images/ico-twitter.png" alt="image description" />
+						<span>Twitter</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<img src="images/ico-google.png" alt="image description" />
+						<span>Google +</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="text-box">
+			<strong class="logo"><?php echo CHtml::link("CrowdPrep",array('site/indexFinder')); ?></strong>
+			<p>Copyright &copy; 2011, Crowdprep.All Rights Reserved.</p>
+		</div>
+	</div>
 </div>
 </body>
 </html>
+

@@ -5,7 +5,6 @@
      * @var string $initialSearchQuery
      */
 ?>
-
 <div class="form">
 
     <?php
@@ -22,45 +21,45 @@
         <div class="clear"></div>
         <div class="filtercheckform">
             <div class="row">
-                <?php echo $form->labelEx($model, 'gender'); ?>
+                <div style="padding-bottom: 6px"> <?php echo $form->labelEx($model, 'gender'); ?> </div>
                 <?php
-                    echo $form->checkBoxList($model, 'gender',
-                        array(
+					echo $form->checkBoxList($model, 'gender', 
+						array(
                              'M' => 'Male',
                              'F' => 'Female',
                         )
-                    );
+					);
                 ?>
             </div>
 
             <div class="row">
-                <?php echo $form->labelEx($model, 'state'); ?>
+                <?php echo $form->labelEx($model, 'state', array('label'=>'Home State')); ?>
                 <?php
                     echo CHtml::dropDownList('FilterForm[states.id]',
                         (isset($_GET['FilterForm']['states.id']) ? ($_GET['FilterForm']['states.id']) : ''),
                         States::getAllStates(),
-                        array('prompt' => 'Choose state'));
+                        array('prompt' => '-Choose state-'));
                 ?>
             </div>
 
             <div class="row">
                 <?php echo $form->labelEx($model, 'profile_type'); ?>
                 
-                <?php echo $form->dropDownList($model, 'profile_type', BasicProfile::$ProfileTypeArray, array('prompt' => 'Choose Profile Type'));
+                <?php echo $form->dropDownList($model, 'profile_type', BasicProfile::$ProfileTypeArray, array('prompt' => '-Choose Profile Type-'));
                 ?>
             </div>
 
             <div class="row">
                 <?php echo $form->labelEx($model, 'race_id', array('label' => 'Ethnicity')); ?>
                 
-                <?php echo $form->dropDownList($model, 'race_id', RaceType::getTypes(), array('prompt' => 'Select Race'));
+                <?php echo $form->dropDownList($model, 'race_id', RaceType::getTypes(), array('prompt' => '-Select Race-'));
                 ?>
             </div>
 
             <div class="row">
 
-                <?php echo $form->labelEx($model, 'SAT', array('label' => 'SAT I Combined Score')); ?>
-                <br/>
+                <div style="padding-bottom: 7px">      <?php echo $form->labelEx($model, 'SAT', array('label' => 'SAT I Combined Score')); ?></div>
+                
 
                 <?php $this->widget('zii.widgets.jui.CJuiSliderInput', array(
                     'model' => $model,
@@ -99,8 +98,10 @@
 
             <div class="row">
 
-                <?php echo $form->labelEx($model, 'num_scores', array('label' => '# of Test Scores')); ?>
-                <br/>
+                <div style="padding-bottom: 7px">              
+                  <?php echo $form->labelEx($model, 'num_scores', array('label' => '# of Test Scores')); ?>
+                </div>
+                
 
                 <?php $this->widget('zii.widgets.jui.CJuiSliderInput', array(
                     'model' => $model,
@@ -138,9 +139,9 @@
             </div>
 
             <div class="row">
-
+<div style="padding-bottom: 7px">  
                 <?php echo $form->labelEx($model, 'num_extracurriculars', array('label' => '# of Extracurriculars')); ?>
-                <br/>
+</div>
 
                 <?php $this->widget('zii.widgets.jui.CJuiSliderInput', array(
                     'model' => $model,
@@ -179,9 +180,9 @@
 
 
             <div class="row">
-
+<div style="padding-bottom: 7px"> 
                 <?php echo $form->labelEx($model, 'avg_profile_rating', array('label' => 'Average Rating')); ?>
-                <br/>
+</div>
 
                 <?php $this->widget('zii.widgets.jui.CJuiSliderInput', array(
                     'model' => $model,

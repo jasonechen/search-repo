@@ -16,10 +16,10 @@
 <div class="span-9"> 
 
 
-<table style="border: 1px grey solid; cellpadding:10px; " width="360" height="320" cellspacing="20" >
+<table class="roundedTable" style="border: 1px grey solid; cellpadding:5px;" width="330" height="270" cellspacing="0" >
 
     <thead style="background-color: #327e04;font-size: 18px; font-weight:bold; color: white">
-    <td colspan="2"  style="text-align:center">   <?php echo CHtml::image(Yii::app()->request->baseURL. '/images/avatar/nerd.gif') ?>Profile # <?php echo $buyProfileForm->profile_id; ?>: <?php echo $basicProfile->nickname; ?></td></thead>
+    <td colspan="2"  style="text-align:center">  Profile # <?php echo $buyProfileForm->profile_id; ?>: <?php echo $basicProfile->nickname; ?></td></thead>
     <tbody style="font-size:12px">
     <tr><td colspan="2" style="text-align:center; font-weight:bold"><?php echo $basicProfile->currUniversity->name; ?></td> </tr>
     <tr><td colspan="2" style="text-align:center;font-weight:bold"> <?php echo BasicProfile::getProfileTypeName($basicProfile->profile_type); ?></td>  </tr> 
@@ -34,6 +34,7 @@
 
 </table>
         </div>
+
 <div class="span-17 last">
 
 
@@ -56,7 +57,7 @@
 
 
 
-<table border="1" width="670" height="140" cellspacing="10">
+<table border="1" width="575" height="140" cellspacing="10">
 
     <thead style="background-color: #f5f3e5;font-size: 13px; font-weight: normal; color: black"><tr><td>Level</td>  <td>Personal</td>  <td>Scores</td> <td>Extracurriculars</td><td> Essays</td> <td>Credits</td><td>BUY</td></tr></thead>
     <tbody style="font-size:12px"><tr><td>Scores </td><td style="text-align:center"> X</td>  <td style="text-align:center">X</td>  <td></td> <td></td><td><?php echo "".$buyProfileForm->getStatusText($buyProfileForm->l1Status,1);?></td><td><?php echo $form->checkBox($buyProfileForm,'buyL1',array('disabled'=>$buyProfileForm->l1Disabled)); ?></td></tr>
@@ -65,13 +66,9 @@
 
 </table>
 
-<hr>
 <div class="span-11"><br>   </div>                 
 	<div class="span-6 last">
-          <div id="viewProfPurchTot">
-            <p>  Total: 0 credits.</p>
-
-	</div> 
+	</div>
 
 		<?php echo CHtml::submitButton('Purchase',array('id'=>'viewProfileSubmit')); ?><br></br>
 
@@ -91,13 +88,7 @@
 //    'itemView'=>'_post',   // refers to the partial view named '_post'
  ?>
    
-                
-		<?php echo $form->hiddenField($buyProfileForm,'l1Price'); ?>
-		<?php echo $form->hiddenField($buyProfileForm,'l2Price'); ?>
-		<?php echo $form->hiddenField($buyProfileForm,'l3Price'); ?>
-
-
-
+     
 
         <?php if(Yii::app()->user->hasFlash('buyProfileSuccess')):?> 
         <div class="successMessage"> 
@@ -133,3 +124,4 @@
         )
     );
 ?>
+<br></br><br></br>
