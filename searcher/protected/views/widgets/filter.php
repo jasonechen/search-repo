@@ -5,6 +5,7 @@
      * @var string $initialSearchQuery
      */
 ?>
+
 <div class="form">
 
     <?php

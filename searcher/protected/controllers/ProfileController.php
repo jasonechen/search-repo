@@ -220,6 +220,8 @@ class ProfileController extends Controller
         {
             $searchUri = $_SESSION['search_uri'];
         }
+
+        $this->setRecentProfiles($profileID);
        
 		$this->render('viewProfile',
             array(
@@ -230,6 +232,51 @@ class ProfileController extends Controller
             )
         );
 	}
+
+    /**
+     * Method that is used for setting up array of recently viewed profiles
+     * We use cookie for this purpose
+     * @param $profileID
+     * @param int $maxSize
+     */
+
+    private function setRecentProfiles($profileID, $maxSize = 5)
+    {
+        $oldProfiles = (isset(Yii::app()->request->cookies['recent_profiles'])) ? Yii::app()->request->cookies['recent_profiles']->value : array();
+
+        /**
+         * Here we are searching for value of current profile ID in already existed cookie
+         * And if we found it than we are not adding anything to array of recently viewed profiles
+         */
+
+        if(array_search($profileID, $oldProfiles) !== FALSE)
+        {
+            $newProfile = array();
+        }
+        else
+        {
+            $newProfile = array($profileID);
+        }
+
+        /**
+         * We are going to view only 5 recently viewed profiles that's why we are limiting the result
+         */
+
+        if(sizeof($oldProfiles) >= $maxSize && !empty($newProfile))
+        {
+            array_pop($oldProfiles);
+        }
+
+        $newArray = CMap::mergeArray($newProfile, $oldProfiles);
+
+        /**
+         * Setting up new cookie value
+         */
+
+        $cookie = new CHttpCookie('recent_profiles', $newArray);
+        $cookie->expire = time() + 60 * 60 * 24 * 180;
+        Yii::app()->request->cookies['recent_profiles'] = $cookie;
+    }
 
 	public function actionViewPurchProfile($profileID=null)
 	{	
