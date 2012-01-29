@@ -246,12 +246,18 @@ class ProfileController extends Controller
 
         /**
          * Here we are searching for value of current profile ID in already existed cookie
-         * And if we found it than we are not adding anything to array of recently viewed profiles
+         * And if we found it than we swap first element and this element
          */
 
-        if(array_search($profileID, $oldProfiles) !== FALSE)
+        if(($pos = array_search($profileID, $oldProfiles)) !== FALSE)
         {
             $newProfile = array();
+
+            // swap 2 elements
+
+            $tmp = $oldProfiles[0];
+            $oldProfiles[0] = $profileID;
+            $oldProfiles[$pos] = $tmp;
         }
         else
         {
@@ -303,6 +309,8 @@ class ProfileController extends Controller
 
         $ratingModel = Rating::model()->findByAttributes(array('user_id' => $profileID, 'create_user_id' => Yii::app()->user->id));
         $disableRating = ($ratingModel !== null) ? true : false;
+
+        $this->setRecentProfiles($profileID);
        
 		$this->render('viewPurchProfile',array(
 			'buyProfileForm'=>$buyProfileForm,
