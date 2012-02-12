@@ -4,7 +4,7 @@
      */
 ?>
 
-<div class="view<?php if($data->isPurchased()) echo ' purchased'; ?>" style="float:left;width:155px;height:170px;cursor:pointer;"
+<div class="view<?php if($data->isPurchased()) echo ' purchased'; ?> search-thumbnail-box"
      onclick="location.href = '<?php echo (($data->isPurchased())
         ? $this->createUrl('/profile/ViewAll',
                     array('profileID' => $data->user_id

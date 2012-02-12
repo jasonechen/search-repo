@@ -178,6 +178,9 @@ div.view
 	margin: 8px 10px 10px 0;
 	/*border: 1px solid #95F3BC;*/
         background-color: #e7ffe7;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
 }
 
 div.purchased
@@ -349,4 +352,53 @@ table.dataGrid td.nowrap
 }
 /* end of grid style */
 
+/* start of new styled search results top bar */
 
+div#content {
+    position: relative;
+}
+
+.list-view .summary {
+    margin: 0;
+    position: absolute;
+    text-align: left;
+    top: 0;
+}
+
+.list-view .items {
+    padding-top: 10px;
+}
+
+.grid-view .summary {
+    margin: 0;
+    position: absolute;
+    text-align: left;
+    top: 0;
+}
+
+.search-bar-page-size {
+    text-align: right;
+}
+
+.search-thumbnail-box {
+    float: left;
+    width: 167px;
+    height: 170px;
+    cursor: pointer;
+    margin: 8px 5px 10px 5px !important;
+}
+
+.search-bar-grey {
+    background: #EFEFEF;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    margin:10px 0;
+    padding:10px;
+}
+
+.search-bar-view-style {
+    float: right;
+}
+
+/* end of new styled search results top bar */

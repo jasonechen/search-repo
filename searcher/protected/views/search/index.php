@@ -3,109 +3,56 @@
      * @var boolean $valid
      * @var CActiveDataProvider $dataProvider
      * @var BasicProfile $model
+     * @var string $viewStyle
+     * @var int $pageSize
+     * @var string $pageSizeUrl
+     * @var string $viewStyleUrl
      */
 ?>
 
-<div>
-    Items per page:
-    <a href="http://<?php echo $_SERVER['HTTP_HOST'] . preg_replace('/&pageSize=\d\d/', '', $_SERVER['REQUEST_URI']); ?>&pageSize=12">12</a>
-    <a href="http://<?php echo $_SERVER['HTTP_HOST'] . preg_replace('/&pageSize=\d\d/', '', $_SERVER['REQUEST_URI']); ?>&pageSize=24">24</a>
-    <a href="http://<?php echo $_SERVER['HTTP_HOST'] . preg_replace('/&pageSize=\d\d/', '', $_SERVER['REQUEST_URI']); ?>&pageSize=36">36</a>
-    <a href="http://<?php echo $_SERVER['HTTP_HOST'] . preg_replace('/&pageSize=\d\d/', '', $_SERVER['REQUEST_URI']); ?>&pageSize=48">48</a>
-</div>
-<div>
-    Choose View Style:
-
+<div class="search-bar-page-size">
     <?php
-        $viewStyle = 'thumbnail';
-        if(isset($_SESSION['viewStyle']))
-        {
-            $viewStyle = $_SESSION['viewStyle'];
-        }
+        $this->renderPartial('/widgets/items-per-page',
+            array(
+                 'pageSize' => $pageSize,
+                 'pageSizeUrl' => $pageSizeUrl,
+            )
+        );
     ?>
+</div>
 
-    <?php if($viewStyle == 'thumbnail'): ?>
-
-        Thumbnail
-        <a href="http://<?php echo $_SERVER['HTTP_HOST'] . preg_replace('/&viewStyle=\d/', '', $_SERVER['REQUEST_URI']); ?>&viewStyle=1">Grid</a>
-
-    <?php endif; ?>
-
-    <?php if($viewStyle == 'grid'): ?>
-
-        <a href="http://<?php echo $_SERVER['HTTP_HOST'] . preg_replace('/&viewStyle=\d/', '', $_SERVER['REQUEST_URI']); ?>&viewStyle=0">Thumbnail</a>
-        Grid
-
-    <?php endif; ?>
+<div class="search-bar-grey clearfix">
+    <div class="search-bar-view-style">
+        <?php
+            $this->renderPartial('/widgets/view-style',
+                array(
+                     'viewStyle' => $viewStyle,
+                     'viewStyleUrl' => $viewStyleUrl,
+                )
+            );
+        ?>
+    </div>
 </div>
 <?php
 if($valid)
 {
     if($viewStyle == 'grid')
     {
-  
-     $this->widget('zii.widgets.grid.CGridView',
-         array(
-            'id'=>'profile-grid',
-            'dataProvider'=>$dataProvider,
-            'filter'=>$model,
-            'columns'=>array(
-                'user_id',
-                'nickname',
-                array(
-                    'name'=>'firstUniversity',
-                    'value'=>'$data->getFirstUniversityName()',
-                    'header'=>'College',
-                ),
-                array(
-                    'name' => 'gender',
-                    'filter' => array('M' => 'Male', 'F' => 'Female'),
-                    'value' => '$data->gender',
-                ),
-                array(
-                    'name'=>'race',
-                    'filter' => $model->getNameRaceOptions(),
-                    'value'=>'($data->race !== NULL)? $data->race->name : "NA"', //Need to deal with nulls here
-                ),
-                array(
-                    'name'=>'sat_I_score_range',
-                    'value'=>'BasicProfile::getSATRange($data->sat_I_score_range)', //Need to deal with nulls here
-                    'filter' => BasicProfile::$SATRangeArray,
-                ),
-                'num_scores:number:# Scores',
-                'num_academics:number:# Academics',
-                'num_extracurriculars:number:# Extracurriculars',
-                array(
-                    'name'=>'profile_type',
-                    'filter' => BasicProfile::$ProfileTypeArray,
-                    'value'=>'BasicProfile::getProfileTypeName($data->profile_type)', //Need to deal with nulls here
-                ),
-                array(
-                    'name'=>'stateName',
-                    'value'=>'BasicProfile::getStateName($data)',
-                    'filter' => States::getAllStates(),
-                ),
-                array(
-                    'name' => 'avg_profile_rating',
-                    'filter' => array('1' => '1', '2' => '2', '3' => 3, '4' => 4, '5' => 5),
-                    'header' => 'User Rating',
-                    'value'=>'!empty($data->avg_profile_rating) ? round($data->avg_profile_rating, 2) : "N/A"',
-                ),
-                array(
-                    'class'=>'CButtonColumn',
-                    'template' => '{view}',
-                    'viewButtonUrl'=>'$data->isPurchased() ?  Yii::app()->createUrl("/profile/viewPurchProfile", array("profileID" => $data->user_id))
-                    : Yii::app()->createUrl("/profile/viewProfile", array("profileID" => $data->user_id))',
-                ),
-            ),
-        ));
+        $this->renderPartial('/widgets/grid-view',
+            array(
+                 'dataProvider' => $dataProvider,
+                 'model' => $model,
+            )
+        );
     }
     else
     {
-        $this->widget('zii.widgets.CListView', array(
-            'dataProvider' => $dataProvider,
-            'itemView' => '/widgets/thumbnail-view',
-        ));
+        $this->widget('zii.widgets.CListView',
+            array(
+                 'dataProvider' => $dataProvider,
+                 'itemView' => '/widgets/thumbnail-view',
+            )
+        );
     }
 }
 else
@@ -114,7 +61,7 @@ else
 }
 ?>
 
-<br></br><br></br>
+<br/><br/>
 
 <style type="text/css">
     .pager {

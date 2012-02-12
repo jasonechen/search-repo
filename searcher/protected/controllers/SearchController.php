@@ -9,7 +9,13 @@ class SearchController extends Controller
 
 	public $layout = '//layouts/column2-search';
 
+    private $pageSize;
     private $viewStyle;
+
+    /**
+     * @var ProfileSearch $profiles
+     */
+
     private $profiles;
     private $dataProvider;
     private $model;
@@ -28,6 +34,9 @@ class SearchController extends Controller
 		$this->render('index',
             array(
                  'viewStyle' => $this->viewStyle,
+                 'pageSize' => $this->pageSize,
+                 'pageSizeUrl' => 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/&pageSize=\d\d/', '', $_SERVER['REQUEST_URI']) . '&pageSize=',
+                 'viewStyleUrl' => 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/&viewStyle=\d/', '', $_SERVER['REQUEST_URI']). '&viewStyle=',
                  'valid' => $this->valid,
                  'dataProvider' => $this->dataProvider,
                  'model' => $this->model,
@@ -96,6 +105,8 @@ class SearchController extends Controller
         {
             $_SESSION['pageSize'] = intval($_GET['pageSize']);
         }
+
+        $this->pageSize = $_SESSION['pageSize'];
     }
 
     /**
