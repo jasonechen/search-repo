@@ -185,7 +185,11 @@ div.view
 
 div.purchased
 {
-    border:1px solid grey;
+    width: 177px;
+    border: 1px solid grey;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
 div.breadcrumbs
