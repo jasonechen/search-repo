@@ -16,6 +16,12 @@ class ProfileSearch extends AbstractProfileSearch
         'FilterProfileSearch'
     );
 
+    public $sorts = array(
+        0 => 'firstUniversity.name',
+        1 => 'states.name ASC',
+        2 => 't.gender ASC',
+    );
+
     /**
 	 * This method is used in presentation layer to return CActiveDataProvider for GridView / ListView widget
      * @return CActiveDataProvider $provider;
@@ -27,7 +33,7 @@ class ProfileSearch extends AbstractProfileSearch
          * Appropriate ordering of result
          */
 
-        $this->criteria->order = 'firstUniversity.name, states.name ASC';
+        $this->criteria->order = $this->sorts[$_SESSION['sortBy']];
 
         /**
          * We use sorting capabilities

@@ -405,4 +405,29 @@ div#content {
     float: right;
 }
 
+.search-bar-sort-by {
+    float: left;
+}
+
+.search-bar-sort-by .phrase {
+    float: left;
+    padding-top: 5px;
+}
+
+.sort-by-button {
+    display: block;
+    float: right;
+    padding: 5px;
+    margin: 0 6px;
+    background: #cccccc;
+    color: #fff;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+.sort-by-button.active {
+    background: #70a543;
+}
+
 /* end of new styled search results top bar */

@@ -11,6 +11,7 @@ class SearchController extends Controller
 
     private $pageSize;
     private $viewStyle;
+    private $sortBy;
 
     /**
      * @var ProfileSearch $profiles
@@ -28,6 +29,7 @@ class SearchController extends Controller
 
         $this->setPageSize();
         $this->setViewStyle();
+        $this->setSortBy();
 
         $this->initProfileSearch();
 
@@ -35,8 +37,10 @@ class SearchController extends Controller
             array(
                  'viewStyle' => $this->viewStyle,
                  'pageSize' => $this->pageSize,
+                 'sortBy' => $this->sortBy,
                  'pageSizeUrl' => 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/&pageSize=\d\d/', '', $_SERVER['REQUEST_URI']) . '&pageSize=',
                  'viewStyleUrl' => 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/&viewStyle=\d/', '', $_SERVER['REQUEST_URI']). '&viewStyle=',
+                 'sortByUrl' => 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/&sortBy=\d/', '', $_SERVER['REQUEST_URI']). '&sortBy=',
                  'valid' => $this->valid,
                  'dataProvider' => $this->dataProvider,
                  'model' => $this->model,
@@ -107,6 +111,25 @@ class SearchController extends Controller
         }
 
         $this->pageSize = $_SESSION['pageSize'];
+    }
+
+    /**
+     * Setting selected sort by option
+     */
+
+    private function setSortBy()
+    {
+        if(isset($_GET['sortBy']))
+        {
+            $_SESSION['sortBy'] = intval($_GET['sortBy']);
+        }
+
+        $this->sortBy = 0;
+
+        if(isset($_SESSION['sortBy']))
+        {
+            $this->sortBy = $_SESSION['sortBy'];
+        }
     }
 
     /**

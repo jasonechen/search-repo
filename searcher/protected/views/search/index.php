@@ -5,8 +5,10 @@
      * @var BasicProfile $model
      * @var string $viewStyle
      * @var int $pageSize
+     * @var int $sortBy
      * @var string $pageSizeUrl
      * @var string $viewStyleUrl
+     * @var string $sortByUrl
      */
 ?>
 
@@ -22,6 +24,16 @@
 </div>
 
 <div class="search-bar-grey clearfix">
+    <div class="search-bar-sort-by">
+        <?php
+            $this->renderPartial('/widgets/sort-by',
+                array(
+                     'sortBy' => $sortBy,
+                     'sortByUrl' => $sortByUrl,
+                )
+            );
+        ?>
+    </div>
     <div class="search-bar-view-style">
         <?php
             $this->renderPartial('/widgets/view-style',
