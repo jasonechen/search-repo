@@ -362,29 +362,29 @@ div#content {
     position: relative;
 }
 
-.list-view .summary {
+#search-results .list-view .summary {
     margin: 0;
     position: absolute;
     text-align: left;
     top: 0;
 }
 
-.list-view .items {
+#search-results .list-view .items {
     padding-top: 10px;
 }
 
-.grid-view .summary {
+#search-results .grid-view .summary {
     margin: 0;
     position: absolute;
     text-align: left;
     top: 0;
 }
 
-.search-bar-page-size {
+#search-results .search-bar-page-size {
     text-align: right;
 }
 
-.search-thumbnail-box {
+#search-results .search-thumbnail-box {
     float: left;
     width: 167px;
     height: 170px;
@@ -392,7 +392,7 @@ div#content {
     margin: 8px 5px 10px 5px !important;
 }
 
-.search-bar-grey {
+#search-results .search-bar-grey {
     background: #EFEFEF;
     border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -401,20 +401,20 @@ div#content {
     padding:10px;
 }
 
-.search-bar-view-style {
+#search-results .search-bar-view-style {
     float: right;
 }
 
-.search-bar-sort-by {
+#search-results .search-bar-sort-by {
     float: left;
 }
 
-.search-bar-sort-by .phrase {
+#search-results .search-bar-sort-by .phrase {
     float: left;
     padding-top: 5px;
 }
 
-.sort-by-button {
+#search-results .sort-by-button {
     display: block;
     float: right;
     padding: 5px;
@@ -426,7 +426,7 @@ div#content {
     -moz-border-radius: 5px;
 }
 
-.sort-by-button.active {
+#search-results .sort-by-button.active {
     background: #70a543;
 }
 

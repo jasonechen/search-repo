@@ -11,69 +11,70 @@
      * @var string $sortByUrl
      */
 ?>
+<div id="search-results">
+    <div class="search-bar-page-size">
+        <?php
+            $this->renderPartial('/widgets/items-per-page',
+                array(
+                     'pageSize' => $pageSize,
+                     'pageSizeUrl' => $pageSizeUrl,
+                )
+            );
+        ?>
+    </div>
 
-<div class="search-bar-page-size">
+    <div class="search-bar-grey clearfix">
+        <div class="search-bar-sort-by">
+            <?php
+                $this->renderPartial('/widgets/sort-by',
+                    array(
+                         'sortBy' => $sortBy,
+                         'sortByUrl' => $sortByUrl,
+                    )
+                );
+            ?>
+        </div>
+        <div class="search-bar-view-style">
+            <?php
+                $this->renderPartial('/widgets/view-style',
+                    array(
+                         'viewStyle' => $viewStyle,
+                         'viewStyleUrl' => $viewStyleUrl,
+                    )
+                );
+            ?>
+        </div>
+    </div>
     <?php
-        $this->renderPartial('/widgets/items-per-page',
-            array(
-                 'pageSize' => $pageSize,
-                 'pageSizeUrl' => $pageSizeUrl,
-            )
-        );
-    ?>
-</div>
-
-<div class="search-bar-grey clearfix">
-    <div class="search-bar-sort-by">
-        <?php
-            $this->renderPartial('/widgets/sort-by',
-                array(
-                     'sortBy' => $sortBy,
-                     'sortByUrl' => $sortByUrl,
-                )
-            );
-        ?>
-    </div>
-    <div class="search-bar-view-style">
-        <?php
-            $this->renderPartial('/widgets/view-style',
-                array(
-                     'viewStyle' => $viewStyle,
-                     'viewStyleUrl' => $viewStyleUrl,
-                )
-            );
-        ?>
-    </div>
-</div>
-<?php
-if($valid)
-{
-    if($viewStyle == 'grid')
+    if($valid)
     {
-        $this->renderPartial('/widgets/grid-view',
-            array(
-                 'dataProvider' => $dataProvider,
-                 'model' => $model,
-            )
-        );
+        if($viewStyle == 'grid')
+        {
+            $this->renderPartial('/widgets/grid-view',
+                array(
+                     'dataProvider' => $dataProvider,
+                     'model' => $model,
+                )
+            );
+        }
+        else
+        {
+            $this->widget('zii.widgets.CListView',
+                array(
+                     'dataProvider' => $dataProvider,
+                     'itemView' => '/widgets/thumbnail-view',
+                )
+            );
+        }
     }
     else
     {
-        $this->widget('zii.widgets.CListView',
-            array(
-                 'dataProvider' => $dataProvider,
-                 'itemView' => '/widgets/thumbnail-view',
-            )
-        );
+        echo '<br/><br/>You didn\'t enter any search criteria. Please enter some terms or select some criteria.';
     }
-}
-else
-{
-    echo '<br/><br/>You didn\'t enter any search criteria. Please enter some terms or select some criteria.';
-}
-?>
+    ?>
 
-<br/><br/>
+    <br/><br/>
+</div>
 
 <style type="text/css">
     .pager {
