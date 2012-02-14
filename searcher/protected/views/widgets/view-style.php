@@ -6,7 +6,7 @@
 ?>
 
 
-    <select>
+    <select onchange="this.options[this.selectedIndex].onclick()">
 
         <?php if($viewStyle == 'thumbnail'): ?>
 
