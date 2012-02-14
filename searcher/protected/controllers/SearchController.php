@@ -105,12 +105,21 @@ class SearchController extends Controller
 
     private function setPageSize()
     {
+        $this->pageSize = 12;
+
         if(isset($_GET['pageSize']))
         {
-            $_SESSION['pageSize'] = intval($_GET['pageSize']);
+            $this->pageSize = intval($_GET['pageSize']);
+        }
+        else
+        {
+            if(isset($_SESSION['pageSize']))
+            {
+                $this->pageSize = $_SESSION['pageSize'];
+            }
         }
 
-        $this->pageSize = $_SESSION['pageSize'];
+        $_SESSION['pageSize'] = $this->pageSize;
     }
 
     /**
@@ -119,17 +128,21 @@ class SearchController extends Controller
 
     private function setSortBy()
     {
-        if(isset($_GET['sortBy']))
-        {
-            $_SESSION['sortBy'] = intval($_GET['sortBy']);
-        }
-
         $this->sortBy = 0;
 
-        if(isset($_SESSION['sortBy']))
+        if(isset($_GET['sortBy']))
         {
-            $this->sortBy = $_SESSION['sortBy'];
+            $this->sortBy = intval($_GET['sortBy']);
         }
+        else
+        {
+            if(isset($_SESSION['sortBy']))
+            {
+                $this->sortBy = $_SESSION['sortBy'];
+            }
+        }
+
+        $_SESSION['sortBy'] = $this->sortBy;
     }
 
     /**
