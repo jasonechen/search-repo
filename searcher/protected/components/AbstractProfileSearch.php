@@ -320,6 +320,56 @@ abstract class AbstractProfileSearch
     }
 
     /**
+     * @static
+     * @return array
+     */
+
+    public static function restoreSearchSession()
+    {
+        $result = array();
+
+        $id = '';
+        $name = '';
+
+        if(isset($_SESSION['search_first_university_id']))
+        {
+            $id = $_SESSION['search_first_university_id'];
+            $model = UniversityName::model()->findByPk($id);
+
+            if(!empty($model))
+            {
+                $name = $model->name;
+            }
+            else
+            {
+                $id = '';
+                $name = '';
+            }
+        }
+
+        if(isset($_SESSION['search_first_university_name']))
+        {
+            $name = $_SESSION['search_first_university_name'];
+            $model = UniversityName::model()->findByAttributes(array('name' => $name));
+
+            if(!empty($model))
+            {
+                $id = $model->id;
+            }
+            else
+            {
+                $id = '';
+                $name = '';
+            }
+        }
+
+        $result['id'] = $id;
+        $result['name'] = $name;
+
+        return $result;
+    }
+
+    /**
      * @return void
      */
 

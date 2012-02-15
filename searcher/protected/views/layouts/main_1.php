@@ -62,23 +62,19 @@
 				<h1 class="logo"><?php echo CHtml::link("Home",array('site/indexFinder')); ?></h1>
 			</div>
 			<div class="span-19 last">
-				
-		             <?php $this->beginWidget('zii.widgets.CPortlet'); ?>
-                                    <?php
-                                        $search_q = '';
-                                        if(isset($_SESSION['search_q']))
-                                        {
-                                            $search_q = strip_tags($_SESSION['search_q']);
-                                        }
-                                        $this->renderPartial('//widgets/search-form', array(
-                                                                                           'search_q' => $search_q
-                                                                                      )
-                                        );
-                                    ?>
-                                <?php $this->endWidget(); ?>
-						
-					
-			</div>
+                <?php $this->beginWidget('zii.widgets.CPortlet'); ?>
+                    <?php
+                        $sSession = AbstractProfileSearch::restoreSearchSession();
+
+                        $this->renderPartial('//widgets/search-form',
+                            array(
+                                 'search_first_university_id' => $sSession['id'],
+                                 'search_first_university_name' => $sSession['name'],
+                            )
+                        );
+                    ?>
+                <?php $this->endWidget(); ?>
+            </div>
 		</div>
 	</div>
 

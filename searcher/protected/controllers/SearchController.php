@@ -54,9 +54,9 @@ class SearchController extends Controller
 
     private function initProfileSearch()
     {
-        if(isset($_SESSION['search_q']))
+        if(isset($_SESSION['search_first_university_id']))
         {
-            $this->profiles = ProfileSearch::factory($_SESSION['search_q']);
+            $this->profiles = ProfileSearch::factory($_SESSION['search_first_university_id']);
         }
         else
         {
@@ -78,14 +78,24 @@ class SearchController extends Controller
 
     private function filterSearchQuery()
     {
-        if(isset($_GET['search_q']))
+        if(isset($_GET['search_first_university_id']))
         {
-            $_SESSION['search_q'] = AbstractProfileSearch::filterIncomingSearchQuery($_GET['search_q']);
+            $_SESSION['search_first_university_id'] = AbstractProfileSearch::filterIncomingSearchQuery($_GET['search_first_university_id']);
         }
 
-        if(isset($_POST['search_q']))
+        if(isset($_POST['search_first_university_id']))
         {
-            $_SESSION['search_q'] = AbstractProfileSearch::filterIncomingSearchQuery($_POST['search_q']);
+            $_SESSION['search_first_university_id'] = AbstractProfileSearch::filterIncomingSearchQuery($_POST['search_first_university_id']);
+        }
+
+        if(isset($_GET['search_first_university_name']))
+        {
+            $_SESSION['search_first_university_name'] = AbstractProfileSearch::filterIncomingSearchQuery($_GET['search_first_university_name']);
+        }
+
+        if(isset($_POST['search_first_university_name']))
+        {
+            $_SESSION['search_first_university_name'] = AbstractProfileSearch::filterIncomingSearchQuery($_POST['search_first_university_name']);
         }
     }
 
