@@ -2,6 +2,30 @@
 
 class SiteController extends Controller
 {
+    /**
+     * @return array action filters
+     */
+
+    public function filters()
+    {
+        return array(
+            'clearSearchPersistance',
+        );
+    }
+
+    /**
+     * Method for clearing of search persistance
+     * Eg., we don't want to show previously typed in value on home page
+     * @param CFilterChain $filterChain
+     */
+
+    public function filterClearSearchPersistance($filterChain)
+    {
+        Controller::clearSearchPersistance();
+
+        $filterChain->run();
+    }
+
 	/**
 	 * Declares class-based actions.
 	 */

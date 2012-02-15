@@ -15,8 +15,22 @@ class ProfileController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
+            'clearSearchPersistance',
 		);
 	}
+
+    /**
+     * Method for clearing of search persistance
+     * Eg., we don't want to show previously typed in value on home page
+     * @param CFilterChain $filterChain
+     */
+
+    public function filterClearSearchPersistance($filterChain)
+    {
+        Controller::clearSearchPersistance();
+
+        $filterChain->run();
+    }
 
 	/** 
 	 * Specifies the access control rules.

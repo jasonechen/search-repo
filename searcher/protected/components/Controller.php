@@ -28,6 +28,7 @@ class Controller extends CController
     {
         $this->filterModel = new FilterForm();
         $this->searchConsistency();
+
         if(isset($_GET['FilterForm']))
         {
             $this->filterModel->setAttributes($_GET['FilterForm']);
@@ -55,20 +56,34 @@ class Controller extends CController
     }
 
    /**
-         * Here we coordinate left filter bar conditions and main bar conditions
-         * We use sessions and $_GET['FilterForm'] variables
-         */
+    * Here we coordinate left filter bar conditions and main bar conditions
+    * We use sessions and $_GET['FilterForm'] variables
+    */
 
-        private function searchConsistency()
+    private function searchConsistency()
+    {
+        if(isset($_GET['FilterForm']))
         {
-            if(isset($_GET['FilterForm']))
-            {
-                $_SESSION['FilterForm'] = $_GET['FilterForm'];
-            }
-            if(!empty($_SESSION['FilterForm']) && !isset($_GET['FilterForm']))
-            {
-                $_GET['FilterForm'] = $_SESSION['FilterForm'];
-            }
+            $_SESSION['FilterForm'] = $_GET['FilterForm'];
         }
 
+        if(!empty($_SESSION['FilterForm']) && !isset($_GET['FilterForm']))
+        {
+            $_GET['FilterForm'] = $_SESSION['FilterForm'];
+        }
+    }
+
+    /**
+     * Method for clearing of search persistance
+     * Eg., we don't want to show previously typed in value on home page
+     * @static
+     *
+     */
+
+    public static function clearSearchPersistance()
+    {
+        $_SESSION['search_first_university_name'] = '';
+        $_GET['FilterForm'] = array();
+        $_SESSION['FilterForm'] = array();
+    }
 }

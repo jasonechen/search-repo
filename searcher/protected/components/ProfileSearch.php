@@ -94,13 +94,13 @@ class ProfileSearch extends AbstractProfileSearch
     public function clearSearchCriteria()
     {
         $this->criteria = new CDbCriteria();
-        $_SESSION['search_first_university_id'] = '';
+        $_SESSION['search_first_university_name'] = '';
         $_GET['FilterForm'] = array();
         $_SESSION['FilterForm'] = array();
         Yii::app()->controller->redirect(Yii::app()->controller->createUrl('search/index'));
         Yii::app()->end();
-    }    
-    
+    }
+
     /**
      * Modifies search criteria according to search Query
      * @return void
@@ -127,6 +127,7 @@ class ProfileSearch extends AbstractProfileSearch
                 $this->modifyDatabaseCriteriaIfFieldHasTypeOfEnum($key, $value);
             }
         }*/
+        echo $this->searchQuery;
         $this->criteria->condition = 'firstUniversity.id = ' . $this->searchQuery;
         if(empty($this->criteria->condition))
         {
