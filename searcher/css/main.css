@@ -41,7 +41,7 @@ body{
 
 #sidebar
 {
-	padding: 20px 20px 20px 0;
+	padding: 0px 15px 15px 0;
 }
 /*
 #footer
@@ -183,13 +183,22 @@ div.view
     -moz-border-radius: 10px;
 }
 
+div.cartview
+{
+	padding: 5px;
+	margin: 8px 10px 10px 0;
+	border: 1px solid #95F3BC;
+        
+}
+
 div.purchased
 {
     width: 177px;
-    border: 1px solid grey;
+    background-color: #C9E0ED;
+  /*  border: 1px solid grey;*
     box-sizing: border-box;
     -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
+    -webkit-box-sizing: border-box;*/
 }
 
 div.breadcrumbs
@@ -223,17 +232,18 @@ background: #EFEFEF;
 .portlet-decoration /*this is the tiny little vertical line in the background of the menu bar box */
 {
 	padding: 3px 8px;
-	background: #D2F4D3;
-	border-left: 5px solid #2D8E2A;
+        background: #659E45;
+	/*border-left: px solid #2D8E2A;*/
+        
 }
 
 .portlet-title /*this is the font title of the menu bar box */
 {
-	font-size: 11px;
+	font-size: 13px;
 	font-weight: bold;
-	padding: 0;
-	margin: 0;
-	color: #2D8E2A;
+	padding: 2px;
+	margin: 0px;
+	color: white;
 }
 
 .portlet-content /*this is the background color of the menu box below the title of the menu*/
@@ -288,12 +298,12 @@ background: #EFEFEF;
 
 .operations li a /*this is where you edit the fonts inside the menu bar */
 {
-	font: 11px Arial;
-	color: #2D8E2A;
+	font: 12px Arial;
+	color: #659E45;
     
 	display: block;
-	padding: 2px 0 2px 8px;
-	line-height: 15px;
+	padding: 2px 0 2px 2px;
+	line-height: 18px;
 	text-decoration: none;
         	
 }
@@ -303,16 +313,25 @@ background: #EFEFEF;
 	color: #2D8E2A;
           
 }
+.operations li.active a
+{
+	color: #30AB59;
+	background-color:#EFF4FA;
+	text-decoration:none;
+}
+
 
 .operations li a:hover
 {
-	background-color: #95F3BC;
+    background-color: #eaeaea;
         
 }
 
 .operations ul li.active a
 {
-    background-color:#EFF4FA;
+	color: #30AB59;
+	background-color:#EFF4FA;
+	text-decoration:none;
 }
 
 /* begin grid style */
