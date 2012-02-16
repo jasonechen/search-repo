@@ -127,7 +127,6 @@ class ProfileSearch extends AbstractProfileSearch
                 $this->modifyDatabaseCriteriaIfFieldHasTypeOfEnum($key, $value);
             }
         }*/
-        echo $this->searchQuery;
         $this->criteria->condition = 'firstUniversity.id = ' . $this->searchQuery;
         if(empty($this->criteria->condition))
         {
