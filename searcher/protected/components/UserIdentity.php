@@ -35,6 +35,7 @@ class UserIdentity extends CUserIdentity
                         } 
                         else  { 
                             $this->_id = $user->id; 
+                            $this->setState('usertype',$user->usertype);
                             $this->setState('FirstName',$user->FirstName);
                             $this->setState('TransType',$user->transType);
                             $this->setState('SchoolType',$user->schoolType);
@@ -48,6 +49,7 @@ class UserIdentity extends CUserIdentity
                             $this->errorCode=self::ERROR_NONE;
                         }
                 }
+				
                 return !$this->errorCode;
         }
         public function getId()
@@ -67,31 +69,42 @@ class UserIdentity extends CUserIdentity
 		public function autoLogin(){
 			
 			  $user=User::model()->findByAttributes(array('username'=>$this->username,'active'=>1));
+			  
+			  /*print '<pre>';
+			  print_r($user);exit;*/
 
                 if($user===null)
                 { 
+				
                         $this->errorCode=self::ERROR_USERNAME_INVALID;    
                 } 
                 else 
 
                 { 
-//                  if($user->password!==$this->password) 
+				
+//                if($user->password!==$this->password) 
 					$this->_id = $user->id; 
+                     $this->setState('usertype',$user->usertype);
 					$this->setState('FirstName',$user->FirstName);
 					$this->setState('TransType',$user->transType);
 					$this->setState('SchoolType',$user->schoolType);
 					
 					
 					if(null===$user->last_login_time){
-							$lastLogin = time();                             
+							$lastLogin = time();      
+							
 					} 
 					else {
+						
 							$lastLogin = strtotime($user->last_login_time); 
 					} 
 					$this->setState('lastLoginTime', $lastLogin); 
 					$this->errorCode=self::ERROR_NONE;
+					
+					
 	
                 }
+				
                 return !$this->errorCode;
 
 						

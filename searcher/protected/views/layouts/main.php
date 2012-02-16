@@ -25,40 +25,26 @@
 
 <div class="container">
 	<div id="header" class="span-26">
-		<div class="nav-bar span-26">
-			
-        
-                   	
-                    <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=site/login" class="btn-login">Login</a>
+		<div class="nav-bar span-26">       
+                   <?php echo CHtml::link('Login', '#',array('
+                                    onclick'=>'$("#loginbox").dialog("open"); return false;',
+                                    'class'=>'btn-login',
+                        )); 
+				   ?>
+				   <?php $this->renderPartial('application.views.site.loginpopup'); ?>              
                     
                     <div class="top-nav">
+<ul class='dd_menu'>
+<li><?php echo CHtml::link("Home",array('/site/indexFinder')); ?>
+
+</li>
+<li><?php echo CHtml::link("Sign Up",array('user/create')); ?>
+	
+	
+</li>
+</ul>
+                        
                             
-                             <?php 
-                 $this->widget('ext.emenu.Emenu',array(
-                     	'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/indexFinder'),'visible'=>Yii::app()->user->isGuest), 
-                                /*    'items'=>array(
-                                        array('label'=>'Learn More', 'url'=>array('/site/learnmore')),
-                                        array('label'=>'FAQ', 'url'=>array('site/page', 'view'=>'FAQ')),
-                                        array('label'=>'Press/Media', 'url'=>array('site/page', 'view'=>'press_media')),
-                                        array('label'=>'About Us', 'url'=>array('/site/page', 'view'=>'about')),
-                                        array('label'=>'Jobs', 'url'=>array('site/page', 'view'=>'jobs')),
-                                        ),
-                                    ),*/
-                            	array('label'=>'Sign Up', 'url'=>array('/user/create'),'visible'=>Yii::app()->user->isGuest),
- //                             array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-//				array('label'=>'Contact', 'url'=>array('/site/contact')),
-				array('label'=>'My Account', 'url'=>array('/user/account'), 'visible'=>!Yii::app()->user->isGuest,
-                                    'items'=>array(
-                                    array('label'=>'My Profile', 'url'=>array('/profile/modBasic')),
-                                    array('label'=>'Settings', 'url'=>array('/profile/modBasic')),
-                                        ),
-                                        ),
-                                
-                                array('label'=>'Purchased Profiles', 'url'=>array('/profile/browseMine'), 'visible'=>!Yii::app()->user->isGuest),
-				array('label'=>'Logout ('.Yii::app()->user->getState('FirstName').')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
-			),
-		)); ?> 
 			</div>
 		</div>
 		<div class="span-26">

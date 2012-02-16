@@ -155,18 +155,27 @@ class ProfileController extends Controller
                         if ($purchaseArray['isPurchase']){
                         /* Check to see if there are enough credits */
                         /* If a purchase was made */
-                            
+                             $creditsSpentArray = array(
+                                 'l1Credits'=>0,
+                                 'l2Credits'=>0,
+                                 'l3Credits'=>0,);
                               $creditModel = $this->loadCreditModel($userID);
                               $curCredits = $creditModel->buy_credits;
                               $totalCreditsNeeded = 0;
                               if ($purchaseArray['l1Purchase']){
-                                  $totalCreditsNeeded += ProfileController::getProfilePrice($profileID, 1);
+                                  $l1CreditPrice= ProfileController::getProfilePrice($profileID, 1);
+                                  $totalCreditsNeeded += $l1CreditPrice;
+                                  $creditsSpentArray['l1Credits'] = $l1CreditPrice; 
                               }
                               if ($purchaseArray['l2Purchase']){
-                                  $totalCreditsNeeded += ProfileController::getProfilePrice($profileID, 2);
+                                  $l2CreditPrice= ProfileController::getProfilePrice($profileID, 2);
+                                  $totalCreditsNeeded += $l2CreditPrice;
+                                  $creditsSpentArray['l2Credits'] = $l2CreditPrice; 
                               } 
                               if ($purchaseArray['l3Purchase']){
-                                  $totalCreditsNeeded += ProfileController::getProfilePrice($profileID, 3);
+                                  $l3CreditPrice= ProfileController::getProfilePrice($profileID, 3);
+                                  $totalCreditsNeeded += $l3CreditPrice;
+                                  $creditsSpentArray['l3Credits'] = $l3CreditPrice; 
                               } 
                               echo Yii::log("totalCreditsNeeded: ".CVarDumper::dumpAsString($totalCreditsNeeded),'error');   
                               echo Yii::log("curCredits: ".CVarDumper::dumpAsString($curCredits),'error');   
@@ -206,9 +215,11 @@ class ProfileController extends Controller
                                     if ($mapProfileStudent->save(true)){
 //
                                         $creditModel = $this->loadCreditModel($userID);
+                                        User::addSellerView($purchaseArray,$creditsSpentArray,$creditModel->avg_price,$userID,$profileID);
                                         $creditModel->buy_credits -= $totalCreditsNeeded;
                                         $creditModel->save();
                                         $buyProfileForm->fillInStatus($mapProfileStudent);
+                                        
                                         Yii::app()->user->setFlash('buyProfileSuccess',"Purchased with credits!" );
                                         $this->redirect(array('viewAll','profileID'=>$profileID)); 
 										//$this->redirect(array('viewPurchProfile','profileID'=>$profileID)); 
@@ -338,7 +349,7 @@ class ProfileController extends Controller
         
 	public function actionViewAll($profileID)
 	{	
-            $this->layout = 'column2-purch-prof';
+            $this->layout = 'column2';
             $profileAccessArray = $this->getProfileAccessArray($profileID);
             $basicProfile=BasicProfile::model()->findByPk($profileID);
             if($profileAccessArray['l1']==1) {
@@ -2167,6 +2178,7 @@ class ProfileController extends Controller
                     $model->buy_credits = 0;
                     $model->sell_credits = 0;
                     $model->user_id = $id;
+                    $model->avg_price = 0;
                     $model->save(true);
                 }			
 		return $model;
@@ -2234,5 +2246,43 @@ class ProfileController extends Controller
            return $outPrice;
         }
         
-}
 
+
+        public function setAdminMenu()
+        {
+            $myTransType = Yii::app()->user->getState('TransType');
+
+            if ($myTransType === 'B'){
+    
+        $this->menu=array(
+               /* array('label'=>'Account Summary', 'url'=>array('user/BuyerAccountSum')),
+                array('label'=>'Purchased Profiles', 'url'=>array('browseMine')),
+                array('label'=>'Credit Balance', 'url'=>array('user/indexBuyer')),
+                array('label'=>'Settings', 'url'=>array('user/indexBuyer')),  */
+             array('label'=>'Account Summary', 'url'=>array('user/BuyerAccountSum')),
+                array('label'=>'Purchased Profiles', 'url'=>array('profile/browseMine')),
+                array('label'=>'Buy Credits', 'url'=>array('user/Credits')),
+                array('label'=>'Settings', 'url'=>array('user/Settings')),
+                array('label'=>'Purchased Details', 'url'=>array('user/PurchasedDetails')),
+               // array('label'=>'Credit Balance', 'url'=>array('user/Credits')),
+            );
+            }
+        else if ($myTransType === 'S'){ 
+         $this->menu=array(
+                array('label'=>'Account Summary', 'url'=>array('user/indexSeller')),         
+                array('label'=>'Earnings', 'url'=>array('user/Earnings')),
+                array('label'=>'Profile Wizard', 'url'=>array('basic')),
+                array('label'=>'My Profile', 'url'=>array('modBasic')),
+                array('label'=>'Referrals', 'url'=>array('refer/index')),
+                array('label'=>'Profile Validation', 'url'=>array('user/Validate')),
+                array('label'=>'Consultation', 'url'=>array('user/Consult')),
+                array('label'=>'Settings', 'url'=>array('user/Settings')),
+                
+            );
+            }
+         else{
+         }
+            
+           
+        }
+ }

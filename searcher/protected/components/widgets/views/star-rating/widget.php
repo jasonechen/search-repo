@@ -80,10 +80,11 @@
         <?php if(!$showOnlyComments): ?>
 
             <div class="form">
-                <div class="row">
-                    <label for="rating-comment">Your comment to user rating</label>
-                    <input type="text" id="rating-comment"/>
-                    <input type="submit" id="rating-submit" value="Submit your vote" style="font-size:11px;"/>
+                <div class="row buttons">
+                    <label for="rating-comment">Comments</label>
+                    <input type="text" id="rating-comment" size="70px"/>
+                    <br>
+                    <input type="submit" id="rating-submit" value="Submit rating" style="font-size:11px;"/>
                 </div>
             </div>
 

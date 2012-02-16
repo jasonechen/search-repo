@@ -1,3 +1,6 @@
+<!--This PAGE WILL BE REMOVED AFTER PAYPAL FUNCTIONALITY IS FINISHED -->
+
+
 <div class="form">
 
 <p>
@@ -6,17 +9,13 @@
 </p>
     
 <?php 
-        $this->widget('ext.pixelmatrix.EUniform'); //formatting widget for drop down box
+       // $this->widget('ext.pixelmatrix.EUniform'); //formatting widget for drop down box
         $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'buyerAdmin-form',
 	'enableAjaxValidation'=>false,
 )); ?>
 
-        <div class="row">
-  
-		<?php echo "You have ".$creditModel->buy_credits." credits available."; ?>
 
-                </div>
 <br></br>
 	<div class="row">
   

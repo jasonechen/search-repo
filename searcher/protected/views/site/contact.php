@@ -5,7 +5,7 @@ $this->pageTitle=Yii::app()->name . ' - Contact Us';
 );
 */?>
 
-<h1>Contact Us</h1>
+<h2>Contact Us</h2>
 
 <?php if(Yii::app()->user->hasFlash('contact')): ?>
 
@@ -26,6 +26,7 @@ If you have business inquiries or other questions, please fill out the following
 	'enableClientValidation'=>true,
 	'clientOptions'=>array(
 		'validateOnSubmit'=>true,
+                'validateOnChange'=>false,
 	),
 )); ?>
 
@@ -79,3 +80,4 @@ If you have business inquiries or other questions, please fill out the following
 </div><!-- form -->
 
 <?php endif; ?>
+<br></br><br></br>

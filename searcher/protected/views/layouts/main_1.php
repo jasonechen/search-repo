@@ -29,34 +29,54 @@
                     <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=site/logout" class="btn-login">Logout</a>
                     <div class="top-nav">
                             
-                             <?php 
-                 $this->widget('ext.emenu.Emenu',array(
-                     	'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/indexFinder'),'visible'=>Yii::app()->user->isGuest), 
-                                /*    'items'=>array(
-                                        array('label'=>'Learn More', 'url'=>array('/site/learnmore')),
-                                        array('label'=>'FAQ', 'url'=>array('site/page', 'view'=>'FAQ')),
-                                        array('label'=>'Press/Media', 'url'=>array('site/page', 'view'=>'press_media')),
-                                        array('label'=>'About Us', 'url'=>array('/site/page', 'view'=>'about')),
-                                        array('label'=>'Jobs', 'url'=>array('site/page', 'view'=>'jobs')),
-                                        ),
-                                    ),*/
-                            	array('label'=>'Sign Up', 'url'=>array('/user/create'),'visible'=>Yii::app()->user->isGuest),
- //                             array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-//				array('label'=>'Contact', 'url'=>array('/site/contact')),
-				array('label'=>'My Account', 'url'=>array('/user/account'), 'visible'=>!Yii::app()->user->isGuest,
-                                    'items'=>array(
-                                    array('label'=>'My Profile', 'url'=>array('/profile/modBasic')),
-                                    array('label'=>'Settings', 'url'=>array('/profile/modBasic')),
-                                        ),
-                                        ),
-                                
-                                array('label'=>'Purchased Profiles', 'url'=>array('/profile/browseMine'), 'visible'=>!Yii::app()->user->isGuest),
+<ul class='dd_menu'>
+<li>
+               <?php 
+                
+                $myTransType = Yii::app()->user->getState('TransType');
 
-			),
-		)); ?> 
-			</div>
-		</div>
+            if ($myTransType === 'B'):
+                 echo CHtml::link("My Account",array('user/BuyerAccountSum'));                                                            
+            
+            else: 
+                echo CHtml::link("My Account",array('user/indexSeller'));          
+                
+                endif; 
+                ?>
+
+	<ul>
+            <li><?php echo CHtml::link("My Profile",array('profile/modBasic')); ?></li>
+            <li><?php echo CHtml::link("Profile Wizard",array('profileinfo/basic')); ?></li>
+            <li>
+                <?php 
+                
+                $myTransType = Yii::app()->user->getState('TransType');
+
+            if ($myTransType === 'B'):
+                 echo CHtml::link("Settings",array('user/BuyerAccountSum'));                                                            
+            
+            else: 
+                echo CHtml::link("Settings",array('user/indexSeller'));          
+                
+                endif; 
+                ?>
+            </li>
+	</ul>
+</li>
+    
+<li><?php   if ($myTransType === 'B'):
+
+    echo CHtml::link("Purchased Profiles",array('profile/browseMine')); 
+    endif;
+    ?>
+
+	
+</li>
+
+</ul>
+                        
+        </div>
+    </div>
 		<div class="span-26">
 			<div class="span-7">
 				<h1 class="logo"><?php echo CHtml::link("Home",array('site/indexFinder')); ?></h1>

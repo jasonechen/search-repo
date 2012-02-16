@@ -50,7 +50,20 @@ class SiteController extends Controller
             $this->render('learnmore');
         }
         
-
+        public function actionCreateConfirm()
+        {
+            $this->layout = 'column2';
+            $this->render('createConfirm');
+        }
+        
+        public function actionCreateStudentConfirm()
+        {
+            $this->layout = 'column2';
+            $this->render('createStudentConfirm');
+        }
+        
+        
+        
         
         public function actionIndexFinder()
         {
@@ -62,7 +75,7 @@ class SiteController extends Controller
                 $myTransType = $myUser->getState('TransType');
 
                 if ($myTransType === 'B'){
-                     $this->redirect(array('user/indexBuyer'));                                                            
+                     $this->redirect(array('user/BuyerAccountSum'));                                                            
                 }
                 else if ($myTransType === 'S'){
                     $this->redirect(array('user/indexSeller'));      
@@ -97,7 +110,7 @@ class SiteController extends Controller
                                 $myTransType = Yii::app()->user->getState('TransType');
                          
                                 if ($myTransType === 'B'){
-                                     $this->redirect(array('user/indexBuyer'));                                                            
+                                     $this->redirect(array('user/BuyerAccountSum'));                                                            
                                 }
                                 else if ($myTransType === 'S'){
                                     $this->redirect(array('user/indexSeller'));      
@@ -181,7 +194,7 @@ class SiteController extends Controller
                                 $myTransType = Yii::app()->user->getState('TransType');
 
                                 if ($myTransType === 'B'){
-                                     $this->redirect(array('user/indexBuyer'));                                                            
+                                     $this->redirect(array('user/BuyerAccountSum'));                                                            
                                 }
                                 else if ($myTransType === 'S'){
                                     $this->redirect(array('user/indexSeller'));      
@@ -193,7 +206,8 @@ class SiteController extends Controller
                         }
 		}
 		// display the login form
-		$this->render('login',array('model'=>$model));
+		//$this->render('login',array('model'=>$model));
+		$this->render('loginpopup',array('model'=>$model));
 	}
 
 	/**
@@ -206,4 +220,77 @@ class SiteController extends Controller
                 Yii::app()->user->setState('TransType',0);
 		$this->redirect(Yii::app()->homeUrl);
 	}
+	
+	
+	/*
+	 * user click the registration link , registration is activated 
+	 	
+	*/
+	
+	public function actionActivate(){
+		
+		// get Key and Id
+		$key = Yii::app()->request->getParam('key');
+		$id  = base64_decode(Yii::app()->request->getParam('id'));
+		// Create Instance For User 
+		$model = new User;
+		
+		/*
+		 * Check the Condition  Userid and activation key and Created time is before two weeks		
+		*/				
+		$user = User::model()->find('id=:ID and activationkey=:AK and create_time >= subdate(curdate(), interval 14 day) ',
+		array(':ID'=>$id,':AK'=>$key));
+		// Check this is Valid Link
+		if(empty($user)){
+		// if this is not valid URL render invalid link 
+			$this->render('invalidlink');			
+		}else{
+			//  remove the activation KEY
+			$user->activationkey = '';
+			// set the user Active
+			$user->active = 1;
+			$user->save();
+			User::updateRoyalty($id);
+			// Login the User 	  
+			// create auto login form 
+			$mod = new AutoLoginForm;
+	 	  	$this->render('autologin',array('model'=>$mod,'id'=>$user->id));			
+			
+		}
+	}
+	
+	
+	/*
+	*  this function used to auto login
+	*  id is posted , and sent to autologin  
+	*/
+	public function actionContinue(){		
+		// get the user id from  autologin	
+		$model=new AutoLoginForm;
+		$model->attributes=$_POST['AutoLoginForm'];	
+		// find the user name by user id 
+		$user =User::model()->findByPk($model->id);	
+		// create identity 		
+		$identity=new UserIdentity($user->username,'');
+		if($identity->autoLogin()){
+		// autologin 
+				Yii::app()->user->login($identity);
+				$myTransType = Yii::app()->user->getState('TransType');			
+			if ($myTransType === 'B'){
+				$this->redirect(array('user/indexBuyer'));                                                            
+			}
+			else if ($myTransType === 'S'){
+				$this->redirect(array('/profileinfo/basic'));      
+			}
+			else{
+				$this->redirect(array('user/admin'));
+			}
+			
+		}
+		
+	}
+	public function actionTest(){
+		
+		$this->render('_cjui');
+	}	
 }

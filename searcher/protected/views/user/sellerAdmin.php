@@ -8,7 +8,7 @@ $this->setAdminMenu();
 
 ?>
 
-<h1>Manage Seller Account</h1>
+<h2>My Account</h2>
 
 <?php echo $this->renderPartial('_sellerAdmin', array(
         			'model'=>$model,

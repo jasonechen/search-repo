@@ -6,13 +6,45 @@
 </p>
     
 <?php 
-        $this->widget('ext.pixelmatrix.EUniform'); //formatting widget for drop down box
+      //  $this->widget('ext.pixelmatrix.EUniform'); //formatting widget for drop down box
         $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'sellerAdmin-form',
 	'enableAjaxValidation'=>false,
 )); ?>
 
-   
+<br>
+
+<table width="300" height="50" >
+      <col width="75px" />
+      <col width="175px" />          
+      <col width="50px" />          
+    <tbody style="font-size:12px">
+            <tr>
+                <td>     
+                    Username:
+                </td>
+                <td>
+                    <?php echo $model->username; ?>
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Password: 
+                </td>
+                <td>
+                    <?php echo CHtml::link('Click to Reset Password', array('Forgotpassword/UserReset')) ?>
+                </td>
+            </tr>
+            <tr>   </tr>
+        </tbody>
+    </table>
+
+<br>
+
+<h3>Ratings</h3>
         <div class="row">
   
 		<?php 
@@ -27,14 +59,12 @@
         </div>
 
 <br></br>
-        <div class="row">
-  
-		<?php echo "You have earned ".$creditModel->sell_credits." credits total."; ?>
-
-        </div>
 
 
-<div class="span-24"> <br>  </div>
+
+<br>
+<h3>Settings</h3>
+<div class="span-24">  </div>
 	<div class="span-24">
 		<?php echo $form->labelEx($basicProfile,'l1ForSale',array('label'=>'Publish Level 1 Profile')); ?>
 		<?php echo $form->dropDownList($basicProfile,'l1ForSale',
@@ -67,3 +97,7 @@
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+<br><br/>
+
+
+<br></br><br></br><br></br>

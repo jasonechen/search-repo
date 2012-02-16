@@ -40,17 +40,105 @@ div.form
 
 div.form input
 {
-    width: 110px;
+ /*   width: 110px;*/
 }
 
-div.form input[type=checkbox]
+div.loginform input
+{
+    width: 220px;
+    height: 30px;
+    font-size: 1.6em;
+    font-weight: normal;
+}
+
+div.loginform input[type=checkbox]
+{
+  width: 30px;
+  float: left;
+  margin-bottom: -4px;
+  height: 11px;
+}
+
+div.loginform .btn
+{
+    	margin:0;
+	padding:0 0 4px;
+	float:left;
+	width:94px;
+	height:36px;
+	font:bold 14px/34px Arial, Helvetica, sans-serif;
+	color:#fff;
+	text-align:center;
+	cursor:pointer;
+	text-transform:uppercase;
+	background:url(../images/sprites.png) no-repeat -510px 0;
+	border:0; 
+}
+
+div.loginform input.error,
+div.passwordform input.error
+{
+    
+    
+}
+
+
+div.passwordform input
+{
+    width: 260px;
+    height: 30px;
+    font-size: 1.6em;
+     font-weight: normal;
+}
+
+div.registerform input
+{
+    width: 220px;
+    height: 30px;
+    font-size: 1.6em;
+    font-weight: normal;
+ 
+  
+}
+
+div.registerform label
+{
+  font: normal 10pt Arial;
+  display: inline;
+  line-height: 3.0;
+}
+
+div.registerform input[type=checkbox]
+{
+  width: 30px;
+  float: left;
+  margin-bottom: -10px;
+  height: 14px;
+}
+
+
+div.registerform div.error label,
+div.registerform label.error,
+div.registerform span.error
+{
+font-size:0.8em;font-weight:bold; color:#FF0000;margin-bottom:1.5em;font-style:italic;
+}
+
+
+
+div.profileform input[type=checkbox]
 {
     width: 20px;
+    padding-bottom: 10px;
 }
+
+
+
 
 div.filtercheckform input[type=checkbox] + label
 {
     padding-left: 25px;
+      font-size: 1.0em;
 }
 
 div.checkform input
@@ -66,7 +154,8 @@ div.filtercheckform input
 
 div.filtercheckform label
 {
-    font-size: 0.8em;
+    display: block;
+    font-size: 1.1em;
     font-weight: normal;
     padding-bottom: 0px;
     }
@@ -97,19 +186,18 @@ div.form fieldset
     -moz-border-radius:7px;
 }
 input[type=radio] + label, input[type=checkbox] + label
-{  font-size: 0.8em;
+{  font-size: 0.9em;
    
         
     /*display:inline !important; }*/
 }
-div.form label
+/*div.form label
 {
 	font: normal 9pt Arial;
-        /*font-weight: bold;*/
-	/* font-size: 0.8em;*/
+        
 	display: block;
 }
-
+*/
 div.form .row
 {
 	margin: 5px 0;
@@ -132,7 +220,7 @@ div.form span.required
 	color: red;
 }
 
-div.form div.error label,
+div.form div.error label:first-child,
 div.form label.error,
 div.form span.error
 {
@@ -158,8 +246,8 @@ div.form input.success
 div.form textarea.success,
 div.form select.success
 {
-	background: #E6EFC2;
-	border-color: #C6D880;
+	/*background: #E6EFC2;
+	border-color: #C6D880;*/
 }
 
 
@@ -225,12 +313,12 @@ filtercheckform .range-age-div {
    text-align: center;
 }
 
-div.form input[type=checkbox] {
+div.filtercheckform input[type=checkbox] {
     float: left;
     margin: -3px -3px 1px 1px;
 }
 
-div.form input[type=radio] {
+div.filtercheckform input[type=radio] {
     float: left;
     margin: -1px 4px 2px 2px;
 

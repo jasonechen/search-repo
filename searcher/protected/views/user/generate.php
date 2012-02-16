@@ -10,8 +10,34 @@ $this->pageTitle=Yii::app()->name . ' - Generate';
           $(window.location).attr('href', 'http://localhost/testit/index.php?r=user/fillInMapInfo');
 
     }
+    function redirectUni() {
+          $(window.location).attr('href', 'http://localhost/testit/index.php?r=user/readUniversity');
+
+    }
+    function redirectHS() {
+          $(window.location).attr('href', 'http://localhost/testit/index.php?r=user/readHS');
+
+    }
+    function fillTotal() {
+          $(window.location).attr('href', 'http://localhost/testit/index.php?r=user/fillTotal');
+
+    }
+    
+    function deleteRandom() {
+          $(window.location).attr('href', 'http://localhost/testit/index.php?r=user/deleteRandom');
+
+    }
+    function generateRandom() {
+          $(window.location).attr('href', 'http://localhost/testit/index.php?r=user/generateRandom');
+
+    }
 //
     $('#tempFillButton').click(redirect);
+    $('#readUniButton').click(redirectUni);
+    $('#readHSButton').click(redirectHS);
+        $('#fillTotalButton').click(fillTotal);
+        $('#deleteRandomButton').click(deleteRandom);
+        $('#generateRandomButton').click(generateRandom);
 ////    $('#PersonalProfile_alumni_connections_1').click(checkCorrect);
 ////    $('#PersonalProfile_alumni_connections_2').click(checkCorrect);
 ////    $('#PersonalProfile_alumni_connections_3').click(checkCorrect);
@@ -26,30 +52,34 @@ $this->pageTitle=Yii::app()->name . ' - Generate';
 
 <br></br>
 <br></br>
-<h1>Generate profiles</h1>
 
-<div class="form">
-<?php 
-  $this->widget('ext.pixelmatrix.EUniform'); 
-  $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'generate-form',
-	'enableClientValidation'=>true,
-	'clientOptions'=>array(
-		'validateOnSubmit'=>true,
-	),
-)); ?>
-	<?php echo $form->errorSummary($model); ?>
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+<h1>Read universities into db</h1>
+	<?php echo CHtml::button("Read",array('id'=>'readUniButton')); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'number',array('label'=>'Number of random profiles to generate')); ?>
-		<?php echo $form->textField($model,'number'); ?>
+<br></br>
+<br></br>
 
-	</div>
+<h1>Read high schools into db</h1>
+	<?php echo CHtml::button("Read",array('id'=>'readHSButton')); ?>
 
-	<div class="row buttons">
-		<?php echo CHtml::submitButton('Generate'); ?>
-	</div>
+<br></br>
+<br></br>
+
+<h1>Fill totals</h1>
+	<?php echo CHtml::button("Fill",array('id'=>'fillTotalButton')); ?>
+
+<br></br>
+<br></br>
+
+<h1>Generate 10 random profiles</h1>
+	<?php echo CHtml::button("Generate 10 random profiles",array('id'=>'generateRandomButton')); ?>
+
+<br></br>
+<br></br>
+
+<h1>Delete random profiles</h1>
+	<?php echo CHtml::button("Delete all random profiles",array('id'=>'deleteRandomButton')); ?>
+
 <br></br>
 <br></br>
 
@@ -57,6 +87,5 @@ $this->pageTitle=Yii::app()->name . ' - Generate';
         <div class="successMessage"> 
         <?php echo Yii::app()->user->getFlash('generateSuccess'); ?> 
         </div> <?php endif; ?>   
-        
-<?php $this->endWidget(); ?>
+
 </div><!-- form -->
