@@ -17,7 +17,11 @@
 
 <?php if(!$showOnlyComments): ?>
 
-    <div class="<?php echo $cssClassName; ?>" data="<?php echo $data['averageRating']; ?>_1"></div>
+    <?php if($data['averageRating']): ?>
+
+        <div class="<?php echo $cssClassName; ?>" data="<?php echo $data['averageRating']; ?>_1"></div>
+
+    <?php endif; ?>
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -91,13 +95,18 @@
         <?php endif; ?>
 
         <br/>
-        <?php if ($data['ratingObject'] !== NULL) $this->render('star-rating/_comments',
-            array(
-                 'comments' => $data['ratingObject'],
-                 'bigStarsPath' => $data['bigStarsPath'],
-                 'smallStarsPath' => $data['smallStarsPath'],
-            )
-        );
+
+        <?php
+            if ($data['ratingObject'] !== NULL)
+            {
+                $this->render('star-rating/_comments',
+                    array(
+                         'comments' => $data['ratingObject'],
+                         'bigStarsPath' => $data['bigStarsPath'],
+                         'smallStarsPath' => $data['smallStarsPath'],
+                    )
+                );
+            }
         ?>
 
     <?php endif; ?>
