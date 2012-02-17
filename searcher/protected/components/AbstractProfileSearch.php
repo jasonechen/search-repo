@@ -316,7 +316,7 @@ abstract class AbstractProfileSearch
 
     public static function filterIncomingSearchQuery($searchQuery)
     {
-        return htmlspecialchars(strip_tags(trim(strtolower($searchQuery))));
+        return htmlspecialchars(strip_tags(trim($searchQuery)));
     }
 
     /**
