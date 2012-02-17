@@ -88,32 +88,34 @@ class ProfileController extends Controller
                 )
              );
            }
-           
-        public function accessRules()
+
+    public function accessRules()
 	{
 		return array(
-
-			array('allow',  
-				'actions'=>array('index',
-                                'deleteSubject','deleteSat2','deleteSport','deleteAp','deleteExtracurricular',
-                                'deleteCompetition','deleteEssay','viewEssay',
-                                'modBasic','modLang','loadLang','DeleteLang', 'modScores','modSubjects','modSat2','modSports','modAp','modExtracurriculars',
-                                'modCompetitions','modEssays','suggestUniversity','suggestHighschool','suggestLanguage',
-                                'loadOtherSchoolAdmit','DeleteOtherSchoolAdmit', 'deleteMusic', 'deleteVolunteer','deleteWork','loadMusic','loadVolunteer','loadWork',   
-                                'loadSummer','deleteSummer','loadResearch','deleteResearch','loadOther','deleteOther',
-                                'modScoreTabs','modAcademicTabs', 'loadAward','deleteAward',
-                                'browseMine','viewBasic', 'viewPurchProfile', 'viewScores','viewAcademics','viewExtracurriculars','viewEssays','viewAll',
-                                ),
-
-				'users'=>array('@'),
+            array(
+                'allow',
+				'actions' => array(
+                    'index', 'deleteSubject', 'deleteSat2', 'deleteSport', 'deleteAp', 'deleteExtracurricular',
+                    'deleteCompetition', 'deleteEssay', 'viewEssay',
+                    'modBasic', 'modLang', 'loadLang', 'DeleteLang', 'modScores', 'modSubjects', 'modSat2', 'modSports', 'modAp', 'modExtracurriculars',
+                    'modCompetitions', 'modEssays', 'suggestUniversity', 'suggestHighschool', 'suggestLanguage',
+                    'loadOtherSchoolAdmit', 'DeleteOtherSchoolAdmit', 'deleteMusic', 'deleteVolunteer', 'deleteWork', 'loadMusic', 'loadVolunteer', 'loadWork',
+                    'loadSummer', 'deleteSummer', 'loadResearch', 'deleteResearch', 'loadOther', 'deleteOther',
+                    'modScoreTabs', 'modAcademicTabs', 'loadAward', 'deleteAward',
+                    'browseMine', 'viewBasic', 'viewPurchProfile', 'viewScores', 'viewAcademics', 'viewExtracurriculars', 'viewEssays', 'viewAll',
+                ),
+                'users' => array('@'),
 			),
-                        array('allow',  // allow authenticated profiles to perform 'index' and 'view' and 'update' actions
-				'actions'=>array('viewProfile','browse',
-                                ),
-				'users'=>array('*'),
+            array(
+                'allow',
+				'actions' => array(
+                    'viewProfile', 'browse', 'suggestUniversity',
+                ),
+				'users' => array('*'),
 			),
-			array('deny',  // deny all profiles
-				'users'=>array('*'),
+			array(
+                'deny',
+				'users' => array('*'),
 			),
 		);
 	}
