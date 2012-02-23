@@ -121,6 +121,15 @@ class FilterProfileSearch extends AbstractProfileSearch
                 'value' => '0',
             ),
         ),
+        'verified' => array(
+            'type' => 'CheckboxList',
+            ),
+        
+        'consultValue' => array(
+            'type' => 'CheckboxList',
+            ),
+        
+        
         'avg_profile_rating' => array(
             'type' => 'IntegerSlider',
             'config' => array(

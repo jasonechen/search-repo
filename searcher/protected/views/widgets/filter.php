@@ -221,14 +221,25 @@
             </div>
 
             <div class="row">
-                <?php echo $form->checkBoxList($model, 'verified', array('1' => 'Verified'));?>
+                <?php echo $form->checkBoxList($model, 'verified', array('Y' => 'Verified'));?>
+            </div>
+            
+            <div class="row">
+                <?php echo $form->checkBoxList($model, 'consultValue', array('1' => 'Phone Consultations'));?>
             </div>
             
         </div>
-
-        <div class="row">
+        <div class="container">
+        <div class="span-3">
+            <div class="buttons">
             <?php echo CHtml::submitButton('Search', array('name' => 'submit-button', 'id' => 'filter-bar-submit'));?>
+            </div>
+        </div>
+        <div class="span-2 last"> 
+            <div class="pbuttons">
             <?php echo CHtml::submitButton('Clear', array('name' => 'clear-button', 'id' => 'filter-bar-clear'));?>
+            </div>
+         </div>
         </div>
 
     <?php $this->endWidget(); ?>
