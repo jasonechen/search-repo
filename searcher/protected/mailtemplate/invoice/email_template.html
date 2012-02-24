@@ -1,0 +1,84 @@
+<html>
+<head>
+	<title>Your order</title>
+</head>
+ <body bgcolor="#FFFFFF">
+ <table width="95%" align="center">
+ <tr>
+	<td>
+	<h2>#Merchant_name#</h2>
+	<table width=100% border="0" cellspacing="0" cellpadding="1">
+		<tr>
+			<td><font face="Arial" size=2><b>Order ID: </b> #ShopperID#</font></td>
+			<td align=right><font face="Arial" size=2><b>INVOICE</b></font>&nbsp;&nbsp;&nbsp;</td>
+		</tr>
+		<tr><td colspan="2"><font face="Arial" size=2><b>Date:</b> #Date#</font></td></tr>
+		<tr><td colspan="2"><font face="Arial" size=2><b>Payment by:</b> #Pay_Method#</font></td></tr>
+		<tr><td colspan="2">&nbsp;</td></tr>
+		<tr>
+			<td width=50%><font face="Arial" size=2><b>Invoice to:</b><br>#Inv_name#</font></td>
+			
+		</tr>
+		<tr><td><font face="Arial" size=2>#Inv_addr1#</font></td></tr>
+		
+		<tr><td><font face="Arial" size=2>#Inv_state# #Inv_zip#</font></td></tr>
+		<!--<tr><td><font face="Arial" size=2>#Inv_country#</font></td></tr>-->
+		
+		<tr><td colspan="2">&nbsp;</td></tr>
+	</table>
+	
+	</td>
+</tr>
+ <tr>
+	<td>
+	
+	<table width=100% border=0 cellpadding=3 cellspacing=0>
+		<tr>
+		<td width=12% align=center bgcolor=#555555><font face="Arial" size=2 color=white><b>Quantity</b></font></td>
+		<td width=56% bgcolor=#555555><font face="Arial" size=2 color=white><b>Product</b></font></td>
+		<td width=16% align=right bgcolor=#555555><font face="Arial" size=2 color=white><b>Price</b></font></td>
+		<td width=16% align=right bgcolor=#555555><font face="Arial" size=2 color=white><b>Amount</b></font></td>
+		</tr>
+		 
+		
+		<tr><td colspan="4"><hr size=1></td></tr>
+		<tr>
+		<td align=center><font face="Arial" size=2><b>#qty#</b></font></td>
+		<td align=left><font face="Arial" size=2><b>#Product#</b></font></td>
+		<td align=left><font face="Arial" size=2><b>Voucher</b></font></td>
+		<td align=right><font face="Arial" size=2>- #Voucher_value#</font></td>
+		</tr>
+		<tr>
+		<td colspan=2></td>
+		<td align=left><font face="Arial" size=2><b>Discount</b></font></td>
+		<td align=right><font face="Arial" size=2>- #Discount_value#</font></td>
+		</tr>				
+		<tr>
+		<td colspan=2></td>
+		<td align=left><font face="Arial" size=2><b>Shipping</b></font></td>
+		<td align=right><font face="Arial" size=2>#Shipping_value#</font></td>
+		</tr> 
+		
+		<tr>
+		<td colspan=2></td>
+		<td align=left><font face="Arial" size=2><b>Tax</b></font></td>
+		<td align=right><font face="Arial" size=2>#Tax_value#</font></td>
+		</tr>
+		
+		<tr><td colspan=4><hr size=1></td></tr>
+		
+		<tr>
+		<td colspan=2></td>
+		<td align=left><font face="Arial" size=2><b>TOTAL</b></font></td>
+		<td align=right><font face="Arial" size=2>#Total_value#</font></td>
+		</tr>
+	
+	</table>	
+	
+	
+	
+	</td>
+</tr>
+</table>
+  </body>
+</html>

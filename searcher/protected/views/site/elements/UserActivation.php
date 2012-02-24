@@ -1,0 +1,1 @@
+<p>Please click link to complete registration.</p><br/> 
