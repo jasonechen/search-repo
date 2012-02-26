@@ -331,6 +331,12 @@ abstract class AbstractProfileSearch
         $id = '';
         $name = '';
 
+        if(Yii::app()->controller->id != 'search' && Yii::app()->controller->id != 'rating')
+        {
+            Controller::clearSearchPersistance();
+            return null;
+        }
+
         if(isset($_SESSION['search_first_university_id']))
         {
             $id = $_SESSION['search_first_university_id'];
