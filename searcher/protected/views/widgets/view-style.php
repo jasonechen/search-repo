@@ -5,8 +5,8 @@
      */
 ?>
 
-
-    <select onchange="this.options[this.selectedIndex].onclick()">
+    <label for="view-style-selector">View:</label>
+    <select onchange="this.options[this.selectedIndex].onclick()" id="view-style-selector">
 
         <?php if($viewStyle == 'thumbnail'): ?>
 
