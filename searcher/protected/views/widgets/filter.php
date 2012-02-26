@@ -20,14 +20,15 @@
     
         <div class="clear"></div>
         <div class="filtercheckform">
-            <div class="row">
+            <div class="row row-gender clearfix">
                 <div style="padding-bottom: 6px"> <?php echo $form->labelEx($model, 'gender'); ?> </div>
                 <?php
 					echo $form->checkBoxList($model, 'gender', 
 						array(
                              'M' => 'Male',
                              'F' => 'Female',
-                        )
+                        ),
+                        array('separator' => '')
 					);
                 ?>
             </div>
