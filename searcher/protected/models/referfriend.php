@@ -30,7 +30,7 @@ class ReferFriend extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id,email0', 'required'),		
+			array('user_id', 'required'),		
 			array('email1,email2,email3,email4,email5,email6,email7,email8,email9,email0','email'),
 			array('friend_email','unique'),
 		);

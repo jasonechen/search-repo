@@ -15,6 +15,22 @@
  */
 class AcademicProfile extends CActiveRecord
 {
+        public static $ClassRankArray
+          = array('1'=>'Top 1%',
+                '2'=>'Top 5%',
+                '3'=>'Top 10%',
+                '4'=>'Top 20%',
+                '5'=>'Top 25%',
+                '6'=>'Top 50%', 
+                '7'=>'50%-75%',
+                '8'=>'Bottom 25%',);
+        
+        public static $NationalMeritArray
+            = array(
+                'N'=>'Commended',
+                'S'=>'Outstanding',
+                'M'=>'Semifinalist',
+                'F'=>'Finalist');
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return AcademicProfile the static model class
@@ -41,7 +57,10 @@ class AcademicProfile extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id', 'required'),
-			array('GPA_unweight, GPA_weight', 'numerical'),
+			array('GPA_unweight, GPA_weight', 'numerical', 'min'=>0),                        
+                        array('class_rank_num,  class_size', 'numerical', 'integerOnly'=>true, 'min'=>1),
+                        array('class_rank_num,  class_size', 'numerical', 'integerOnly'=>true, 'min'=>1),                    
+                        array('class_rank_num,  class_size', 'length', 'max'=>4),
 			array('user_id', 'length', 'max'=>10),
 			array('national_Merit, class_rank_num, class_size, GPA_unweight, GPA_weight', 'length', 'max'=>4),
                         array('GPA_unweight,GPA_weight,class_rank_num, class_rank_percent','safe'),

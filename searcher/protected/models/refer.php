@@ -21,7 +21,7 @@ class Refer extends CFormModel
 	{ 
 		return array(
 			// name, email, subject and body are required  
-			array('email1', 'required'),
+			
 			array('email1,email2,email3,email4,email5,email6,email7,email8,email9,email10', 'email'),
 			
 			

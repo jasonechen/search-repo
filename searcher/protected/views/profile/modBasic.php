@@ -16,7 +16,7 @@ $this->widget('zii.widgets.jui.CJuiTabs', array(
         'Basic'=>$this->renderPartial('_personal', array('basicProfile'=>$basicProfile,'personalProfile'=>$personalProfile),true),
         'Demographics'=>$this->renderPartial('_demographics', array('basicProfile'=>$basicProfile,'personalProfile'=>$personalProfile),true),
         'University'=>$this->renderPartial('_university', array('basicProfile'=>$basicProfile,'personalProfile'=>$personalProfile),true),
-        'Other Admittances'=>$this->renderPartial('_schooladmits', array('otherschooladmitProfile'=>$otherschooladmitProfile),true),    
+        'Other Admittances'=>$this->renderPartial('_schooladmits', array('otherschooladmitProfile'=>$otherschooladmitProfile),true),
         'Languages'=>$this->renderPartial('_languages', array('languageProfile'=>$languageProfile),true),         
     ),
     'options'=>array(

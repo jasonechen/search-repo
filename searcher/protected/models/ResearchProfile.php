@@ -19,9 +19,7 @@
  */
 class ResearchProfile extends ProfileActiveRecord
 {
-    
- 
-       
+      
         public static $HoursArray
           = array(
                   1=>'0-5',
@@ -63,7 +61,7 @@ class ResearchProfile extends ProfileActiveRecord
         }
             
             
-             
+          /* Note that this code is not really that efficient - better to use relations here */   
              public static function convertField($inCode)
         {
             $majorArray = CHtml::listData(MajorType::model()->findAll(), 'id', 'name');
@@ -118,6 +116,7 @@ class ResearchProfile extends ProfileActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
                         'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+                        'major' => array(self::BELONGS_TO, 'MajorType', 'field'),
 		);
 	}
 
@@ -171,9 +170,34 @@ class ResearchProfile extends ProfileActiveRecord
 		));
 	}
     
-        function getMajorOptions() 
+        public function getMajorOptions() 
         { 
              $majorArray = CHtml::listData(MajorType::model()->findAll(), 'id', 'name');
              return $majorArray;
-        }     
+        }
+		
+	 public static function getResearchByUser() 
+        { 
+			$myID = Yii::app()->user->id;	
+			$testArr = ResearchProfile::model()->findAll('user_id =:id', array(':id'=>$myID));
+			return $testArr;
+        }	     
+        
+        protected function afterSave()
+        {
+
+                $this->updateExtracurricularTotals();
+
+                return parent::afterSave();
+        //return true;
+        }
+        
+        protected function afterDelete()
+        {
+
+                $this->updateExtracurricularTotals();
+
+                return parent::afterDelete();
+        //return true;
+        }
 }

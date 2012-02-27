@@ -132,55 +132,56 @@ class SportProfile extends ProfileActiveRecord
         public static function convertLeader($inCode)
         {
             $myReturnValue = "";
-            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=8) && ($inCode >0)) {
+            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=5) && ($inCode >0)) {
                 $myReturnValue = SportProfile::$LeadershipArray[$inCode];
             }
             return $myReturnValue;
         }   
     
-               public static function convertLevel($inCode)
+        public static function convertLevel($inCode)
         {
             $myReturnValue = "";
-            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=8) && ($inCode >0)) {
+            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=3) && ($inCode >0)) {
                 $myReturnValue = SportProfile::$LevelArray[$inCode];
             }
             return $myReturnValue;
         }
-               public static function convertIndivRank($inCode)
+        
+        public static function convertIndivRank($inCode)
         {
             $myReturnValue = "";
-            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=20) && ($inCode >0)) {
+            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=18) && ($inCode >0)) {
                 $myReturnValue = SportProfile::$IndivRankArray[$inCode];
             }
             return $myReturnValue;
         }
-               public static function convertTeamRank($inCode)
+        
+        public static function convertTeamRank($inCode)
         {
             $myReturnValue = "";
-            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=20) && ($inCode >0)) {
+            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=15) && ($inCode >0)) {
                 $myReturnValue = SportProfile::$TeamRankArray[$inCode];
             }
             return $myReturnValue;
         }
-               public static function convertOtherRecog($inCode)
+        
+        public static function convertOtherRecog($inCode)
         {
             $myReturnValue = "";
-            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=20) && ($inCode >0)) {
+            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=21) && ($inCode >0)) {
                 $myReturnValue = SportProfile::$OtherRecogArray[$inCode];
             }
             return $myReturnValue;
         }
         
-           public static function convertYears($inCode)
+        public static function convertYears($inCode)
         {
             $myReturnValue = "";
-            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=20) && ($inCode >0)) {
+            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=14) && ($inCode >0)) {
                 $myReturnValue = SportProfile::$YearParticipateArray[$inCode];
             }
             return $myReturnValue;
-        }
-        
-        
+        }       
         
         public static function model($className=__CLASS__)
 	{
@@ -294,31 +295,26 @@ class SportProfile extends ProfileActiveRecord
         protected function afterSave()
         {
 
-                $myID = Yii::app()->user->id;
-                $basicProfile=BasicProfile::model()->findByPk($myID);
-                $numSports = $this->countByAttributes(array('user_id'=>$myID));
+            $this->updateExtracurricularTotals();
 
-                if($basicProfile===null)
-                {                
-                        $basicProfile=new BasicProfile;
-                        $basicProfile->user_id = $myID;
-                        $basicProfile->first_university_id = 1;
-                        $basicProfile->curr_university_id = 1;
-                        $basicProfile->num_scores = 0;
-                        $basicProfile->num_aps = 0;
-                        $basicProfile->num_sat2s = 0;
-                        $basicProfile->num_extracurriculars = 0;
-                        $basicProfile->num_competitions = 0;
-                        $basicProfile->num_academics = 0;
-                        $basicProfile->num_essays = 0;
-                        $basicProfile->profile_type = 0;
-                }
-
-                $basicProfile->num_sports  = $numSports;
-                $basicProfile->save(true);
-
-                return parent::afterValidate();
+            return parent::afterSave();
         //return true;
+        }
+        
+        protected function afterDelete()
+        {
+
+            $this->updateExtracurricularTotals();
+
+            return parent::afterDelete();
+        //return true;
+        }
+		
+	 public static function getSportsByUser() 
+        { 
+			$myID = Yii::app()->user->id;	
+			$SportsArr = SportProfile::model()->findAll('user_id =:id', array(':id'=>$myID));
+			return $SportsArr;
         }
 }
 

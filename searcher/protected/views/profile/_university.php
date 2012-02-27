@@ -30,26 +30,37 @@
                         $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
                         'model'=>$basicProfile,
                         'attribute'=>'curr_university_name',
-//                        'id'=>'curr_university_id',
+                        'id'=>'curr_univ_id',
                         'name'=>'curr_university_id',
                         'source'=>$this->createURL('profile/suggestUniversity'),
                          // additional javascript options for the autocomplete plugin
                         'options'=>array(
-                            'minLength'=>'2',
+                            'minLength'=>'3',
                             'select'=>"js:function(event, ui) {
                                     $('#BasicProfile_curr_university_id').val(ui.item['id']);
                                 }"
                             ),
                         'htmlOptions'=>array(
-                            'style'=>'height:18px;width:220px'
+                            'style'=>'height:18px;width:300px',
+                         //   'value'=>'Enter Current University',
+                            'onClick' => 'document.getElementById("curr_univ_id").value=""'
                             ),
                 )); ?>
             
 		<?php echo $form->error($basicProfile,'curr_university_id'); ?>
 	</div>
       
-        <div class="row"> <br>  </div>
+        <div class="row"> <br>  
+        
+        <?php echo $form->radioButtonList($basicProfile,'early_regular',
+                                        array (0=>'Early Admissions', 1=>'Regular Admissions')); ?>
+        
+        
+        
+        
+        </div>
 	
+        
         <div class="checkboxform row">
 		<?php echo $form->labelEx($basicProfile,'isTransfer',array('label'=>'Transfer student?')); ?>
 		<?php echo $form->dropDownList($basicProfile,'isTransfer',
@@ -62,18 +73,20 @@
                         $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
                         'model'=>$basicProfile,
                         'attribute'=>'first_university_name',
-//                        'id'=>'first_university_id',
+                        'id'=>'first_univ_id',
                         'name'=>'first_university_id',
                         'source'=>$this->createURL('profile/suggestUniversity'),
                          // additional javascript options for the autocomplete plugin
                         'options'=>array(
-                            'minLength'=>'2',
+                            'minLength'=>'3',
                             'select'=>"js:function(event, ui) {
                                     $('#BasicProfile_first_university_id').val(ui.item['id']);
                                 }"
                             ),
                         'htmlOptions'=>array(
-                            'style'=>'height:18px;width:220px'
+                            'style'=>'height:18px;width:300px',
+                            //'value'=>'Enter First University Attended',
+                            'onClick' => 'document.getElementById("first_univ_id").value=""'
                             ),
                 )); ?>
                 

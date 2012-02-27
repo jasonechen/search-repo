@@ -109,7 +109,7 @@ class ProfileController extends Controller
             array(
                 'allow',
 				'actions' => array(
-                    'viewProfile', 'browse', 'suggestUniversity',
+                    'viewProfile', 'LearnMoreCredits', 'browse', 'suggestUniversity',
                 ),
 				'users' => array('*'),
 			),
@@ -1786,6 +1786,18 @@ class ProfileController extends Controller
                 
 	}
         
+        public function actionLearnMoreCredits()
+	{
+ 	$dataProvider = Credit::model()->findAll();
+	
+
+
+            
+            $this->render('learnmore_credits', array('dataProvider'=>$dataProvider))
+		;
+                
+	}
+        
 	public function actionDeleteCompetition($id)
 	{
 //		if(Yii::app()->request->isPostRequest)
@@ -2265,7 +2277,7 @@ class ProfileController extends Controller
                 array('label'=>'Purchased Profiles', 'url'=>array('profile/browseMine')),
                 array('label'=>'Buy Credits', 'url'=>array('user/Credits')),
                 array('label'=>'Settings', 'url'=>array('user/Settings')),
-                array('label'=>'Purchased Details', 'url'=>array('user/PurchasedDetails')),
+                array('label'=>'Order History', 'url'=>array('user/PurchasedDetails')),
                // array('label'=>'Credit Balance', 'url'=>array('user/Credits')),
             );
             }
@@ -2276,7 +2288,7 @@ class ProfileController extends Controller
                 array('label'=>'Profile Wizard', 'url'=>array('basic')),
                 array('label'=>'My Profile', 'url'=>array('modBasic')),
                 array('label'=>'Referrals', 'url'=>array('refer/index')),
-                array('label'=>'Profile Validation', 'url'=>array('user/Validate')),
+                array('label'=>'Profile Verification', 'url'=>array('user/Validate')),
                 array('label'=>'Consultation', 'url'=>array('user/Consult')),
                 array('label'=>'Settings', 'url'=>array('user/Settings')),
                 
@@ -2285,6 +2297,6 @@ class ProfileController extends Controller
          else{
          }
             
-           
+
         }
  }

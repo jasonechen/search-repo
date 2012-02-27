@@ -1,4 +1,4 @@
-<?php 	$this->progressbar(); ?>
+<?php 	$this->progressbar('Personalinfo','basic'); ?>
 <div class="sub-head-profile">Personal Info - Basic </div>
 <div class="container">
 <div class="form">
@@ -50,11 +50,21 @@
                                                                'CHR'=>'Charter',
                                                                'OTH'=>'Other'),array('prompt'=>'Select School Type')); ?>
 
+
+        <br></br>   
+        <?php echo $form->labelEx($personalProfile,'country_reside', array('label'=>'Home Country ')); ?>
+        <?php echo $form->dropDownList($personalProfile,'country_reside',$personalProfile->getCitizenshipOptions(),array('prompt'=>'Select Home Country')); ?>
+        <?php echo $form->error($personalProfile,'country_reside'); ?>        
         
 
+<br></br>
+        <?php echo $form->labelEx($personalProfile,'city', array('label'=>'Home Town/City')); ?>
+        <?php echo $form->textField($personalProfile,'city'); ?>
+        <?php echo $form->error($personalProfile,'city'); ?>        
 
-        <br></br>       
-        <?php echo $form->labelEx($personalProfile,'state'); ?>
+
+<br></br>        
+        <?php echo $form->labelEx($personalProfile,'state', array('label'=>'Home State')); ?>
         <?php echo $form->dropDownList($personalProfile,'state', $personalProfile->getState(),array('prompt'=>'Select State')); ?>
         <?php echo $form->error($personalProfile,'state'); ?>
 <br></br>
@@ -65,7 +75,7 @@
        <div class="span-26"> <br>  </div>
 
        <div class="span-6 last"> 
-		<?php echo $form->labelEx($personalProfile,'date_of_birth'); ?>
+		<?php echo $form->labelEx($personalProfile,'date_of_birth',array('label'=>'Date of Birth (mm/dd/yyyy)')); ?>
 		<?php echo $form->textField($personalProfile,'date_of_birth'); ?>
 		<?php echo $form->error($personalProfile,'date_of_birth'); ?>
 	</div>
@@ -87,3 +97,4 @@
         		<?php echo CHtml::hiddenField('test3'); ?>
 </div><!-- form -->
 </div>
+<br></br><br></br>

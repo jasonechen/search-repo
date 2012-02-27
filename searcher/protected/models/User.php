@@ -45,6 +45,7 @@ class User extends MCVActiveRecord
         public $verifyCode;
         public $isNewPassword;
         public $termagree;
+        public $seller_earnings;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -73,23 +74,26 @@ class User extends MCVActiveRecord
             // NOTE: you should only define rules for those attributes that
             // will receive user inputs.
             return array(
-                        array('email, username, password_unhash', 'required', 'on' => 'register'),
+                        array('FirstName, LastName, email, username, password_unhash', 'required', 'on' => 'register'),
                         array('usertype', 'numerical', 'integerOnly'=>true),
-                        array('email, username, password_unhash', 'length', 'max'=>256),
-                        array('email,username', 'unique', 'on' => 'register'),
+                        array('email, email_paypal, username, password_unhash', 'length', 'max'=>256),
+                        array('email_paypal, email, username', 'unique', 'on' => 'register'),
+			array('email_paypal, email','email'),
                         array('FirstName, LastName, idName', 'length', 'max'=>50),
                         array('hs_profile_status', 'length', 'max'=>1),
                         array('create_user_id, update_user_id', 'length', 'max'=>10),
-                        array('transType,schoolType,verifyCode,termagree, password_unhash, password_unhash_repeat','safe'),
+                        array('checkpay, email_paypal, transType,schoolType,verifyCode,termagree, password_unhash, password_unhash_repeat','safe'),
                         array('username','unsafe', 'on' => 'oldPassword, newPassword'),
                         // Use CCompareValidator for the password
                         array('password_unhash','compare'),
+						// for resendRegistrationLink
+				array('email','required','on' => 'registrationlink'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, usertype, transType, schoolType, email, username, FirstName, LastName, idName, hs_profile_status, last_login_time, create_time, create_user_id, update_time, update_user_id', 'safe', 'on'=>'search'),	
                         array('password_unhash','ext.validators.EPasswordStrength', 'min'=>7, 'on' => 'register, newPassword'),
                         array('verifyCode', 'captcha', 'allowEmpty'=>!CCaptcha::checkRequirements(),'on' =>'register'),
-                        array('termagree', 'required', 'requiredValue'=>1, 'on' => 'register'),
+                        array('termagree', 'required', 'requiredValue'=>1, 'on' => 'register','message'=>'Please check the box to agree to the Terms and Conditions'),
                 );
 	}
 
@@ -153,7 +157,8 @@ class User extends MCVActiveRecord
 			'FirstName' => 'First Name',
 			'LastName' => 'Last Name',
                         'verifyCode'=>'Verification Code',
-                        'termagree'=>'I agree to Meceve\'s'
+                        'termagree'=>'I agree to CrowdPrep\'s Terms and Conditions',
+                        'email_paypal' => 'Paypal Email'
 		);
 	}
 
@@ -190,7 +195,6 @@ class User extends MCVActiveRecord
 	}
 
         protected function afterValidate()
-
         {
  
             parent::afterValidate();
@@ -208,4 +212,124 @@ class User extends MCVActiveRecord
         {
             return hash("sha512",$value);
         }
+        
+        public static function addSellerView($inPurchaseArray,$inCreditArray,$inAvgPrice,$inBuyerID,$inSellerID)
+        {
+            /*Get the royalty */
+            $royalty=SellerCurrRoyalty::model()->findByAttributes(array('user_id' => $inSellerID));
+            if ($royalty === null ){               
+                $royalty = User::updateRoyalty($inSellerID);
+            }
+            if ($inPurchaseArray['l1Purchase']){
+                $sellerCurrView = new SellerCurrView;
+                $sellerCurrView->user_id = $inSellerID;
+                $sellerCurrView->buyer_id = $inBuyerID;
+                $sellerCurrView->trans_type = 1;
+                $sellerCurrView->usedRoyalty = $royalty->L1_royalty;
+                $sellerCurrView->payment = $inCreditArray['l1Credits']*$inAvgPrice * $royalty->L1_royalty;
+                $sellerCurrView->purchase_date = new CDbExpression('NOW()');
+                $sellerCurrView->save(false);
+            }
+            if ($inPurchaseArray['l2Purchase']){
+                $sellerCurrView = new SellerCurrView;
+                $sellerCurrView->user_id = $inSellerID;
+                $sellerCurrView->buyer_id = $inBuyerID;
+                $sellerCurrView->trans_type = 2;
+                $sellerCurrView->usedRoyalty = $royalty->L2_inc_royalty;
+                $sellerCurrView->payment = $inCreditArray['l2Credits']*$inAvgPrice * $royalty->L2_inc_royalty;
+                $sellerCurrView->purchase_date = new CDbExpression('NOW()');
+                $sellerCurrView->save(false);
+            }
+            if ($inPurchaseArray['l3Purchase']){
+                $sellerCurrView = new SellerCurrView;
+                $sellerCurrView->user_id = $inSellerID;
+                $sellerCurrView->buyer_id = $inBuyerID;
+                $sellerCurrView->trans_type = 3;
+                $sellerCurrView->usedRoyalty = $royalty->L3_inc_royalty;
+                $sellerCurrView->payment = $inCreditArray['l3Credits']*$inAvgPrice * $royalty->L3_inc_royalty;
+                $sellerCurrView->purchase_date = new CDbExpression('NOW()');
+                $sellerCurrView->save(false);
+            }
+            
+            
+        }
+        public static function updateRoyalty($inID)
+        {
+            /* Check for current royalty */
+            /* If it exists - archive it */
+            /* If it doesn't exist - create a new one */
+            /* Then calculate royalty */
+            $currRoyalty=SellerCurrRoyalty::model()->findByAttributes(array('user_id' => $inID));
+            if($currRoyalty!==null){
+                $histRoyalty = new SellerHistRoyalty;
+                $histRoyalty->user_id = $inID;
+                $histRoyalty->L1_royalty = $currRoyalty->L1_royalty;
+                $histRoyalty->L2_inc_royalty = $currRoyalty->L2_inc_royalty;
+                $histRoyalty->L3_inc_royalty = $currRoyalty->L3_inc_royalty;
+                $histRoyalty->date_modified = $currRoyalty->date_modified;
+                $histRoyalty->date_archived = new CDbExpression('NOW()'); 
+                        
+                $histRoyalty->save(false);
+                
+            }
+            else{
+                $currRoyalty = new SellerCurrRoyalty;
+            }
+            $currRoyalty->user_id = $inID;
+            $currRoyalty->L1_royalty = 0.20;
+            $currRoyalty->L2_inc_royalty = 0.275;
+            $currRoyalty->L3_inc_royalty = 0.35;
+            
+            /* Check for exclusive */
+            $exclusive=Exclusive::model()->findByAttributes(array('user_id' => $inID));
+            if($exclusive !== null){
+                if ($exclusive->exclusiveValue == 1){
+                    $currRoyalty->L1_royalty += 0.1;
+                    $currRoyalty->L2_inc_royalty += 0.1;
+                    $currRoyalty->L3_inc_royalty += 0.1;
+                }
+            }
+            /* Check for verified */
+            $basicProfile=BasicProfile::model()->findByPk($inID);
+            if($basicProfile!==null){
+                if ($basicProfile->verified == 'Y'){
+                    $currRoyalty->L1_royalty += 0.1;
+                    $currRoyalty->L2_inc_royalty += 0.1;
+                    $currRoyalty->L3_inc_royalty += 0.1;
+                }
+            }
+            
+            /* Check for referrals */
+            $connection = Yii::app()->db;
+            $sql = "SELECT count(user_id) as theCount FROM tbl_refer_friends where user_id = :userID and active = 1";
+            $command = $connection->createCommand($sql);
+            $command->bindParam(":userID",$inID);
+            $theReader = $command->query();
+            $theResult = $theReader->read();
+//            $theReader->bindColumn('theCount',$numProfiles[0]);
+            $numActiveReferrals = $theResult['theCount'];
+            if ($numActiveReferrals > 0){
+                if ($numActiveReferrals > 10) $numActiveReferrals = 10;
+                    $currRoyalty->L1_royalty += (0.005*$numActiveReferrals);
+                    $currRoyalty->L2_inc_royalty += (0.005*$numActiveReferrals);
+                    $currRoyalty->L3_inc_royalty += (0.005*$numActiveReferrals);          
+            }
+            $currRoyalty->date_modified = new CDbExpression('NOW()'); 
+            
+            $currRoyalty->save(false);
+            return $currRoyalty;      
+        }        
+        
+//        public static function archiveSellerView($inID)
+//        {      
+//        }        
+        
+        public static function defaultAvgPrice()
+        {
+            return 2;
+        }
+        
+
+
+        
 }

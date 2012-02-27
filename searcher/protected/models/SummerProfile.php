@@ -22,22 +22,22 @@ class SummerProfile extends ProfileActiveRecord
 	 * @return SummerProfile the static model class
 	 */
 
-public static $SummerTypeArray
-         = array(
-            1=>'Arts/Media',
-            2=>'Classes',
-            3=>'Day Camp',
-            4=>'Internship',
-            5=>'Job',
-            6=>'Outdoor ',
-            7=>'Religious Program',
-            8=>'Research',
-            9=>'Sports Lessons/League',
-            10=>'Travel',
-            11=>'Volunteer',
-            12=>'Writing',
-            13=>'Other',
-    );
+    public static $SummerTypeArray
+             = array(
+                1=>'Arts/Media',
+                2=>'Classes',
+                3=>'Day Camp',
+                4=>'Internship',
+                5=>'Job',
+                6=>'Outdoor ',
+                7=>'Religious Program',
+                8=>'Research',
+                9=>'Sports Lessons/League',
+                10=>'Travel',
+                11=>'Volunteer',
+                12=>'Writing',
+                13=>'Other',
+        );
 
        
         public static $SummerDateArray
@@ -158,5 +158,30 @@ public static $SummerTypeArray
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	public static function getSummerByUser() 
+	{ 
+	    $myID = Yii::app()->user->id;	
+	    $testArr = SummerProfile::model()->findAll('user_id =:id', array(':id'=>$myID));
+	    return $testArr;
+	}
+	
+	protected function afterSave()
+	{
+	
+	    $this->updateExtracurricularTotals();
+	
+	    return parent::afterSave();
+	//return true;
+	}
+	
+	protected function afterDelete()
+	{
+	
+	    $this->updateExtracurricularTotals();
+	
+	    return parent::afterDelete();
+	//return true;
 	}
 }

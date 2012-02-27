@@ -136,7 +136,7 @@ class MusicProfile extends ProfileActiveRecord
     public static function convertMusic($inCode)
         {
             $myReturnValue = "";
-            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=45) && ($inCode >0)) {
+            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=42) && ($inCode >0)) {
                 $myReturnValue = MusicProfile::$MusicArray[$inCode];
             }
             return $myReturnValue;
@@ -145,7 +145,7 @@ class MusicProfile extends ProfileActiveRecord
     public static function convertYears($inCode)
         {
             $myReturnValue = "";
-            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=20) && ($inCode >0)) {
+            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=14) && ($inCode >0)) {
                 $myReturnValue = MusicProfile::$YearParticipateArray[$inCode];
             }
             return $myReturnValue;
@@ -154,7 +154,7 @@ class MusicProfile extends ProfileActiveRecord
         public static function convertLevel($inCode)
         {
             $myReturnValue = "";
-            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=8) && ($inCode >0)) {
+            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=4) && ($inCode >0)) {
                 $myReturnValue = MusicProfile::$LevelArray[$inCode];
             }
             return $myReturnValue;
@@ -162,7 +162,7 @@ class MusicProfile extends ProfileActiveRecord
          public static function convertSchoolMusic($inCode)
         {
             $myReturnValue = "";
-            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=8) && ($inCode >0)) {
+            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=4) && ($inCode >0)) {
                 $myReturnValue = MusicProfile::$SchoolMusicArray[$inCode];
             }
             return $myReturnValue;
@@ -180,7 +180,7 @@ class MusicProfile extends ProfileActiveRecord
          public static function convertExtMusic($inCode)
         {
             $myReturnValue = "";
-            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=8) && ($inCode >0)) {
+            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=7) && ($inCode >0)) {
                 $myReturnValue = MusicProfile::$ExtMusicArray[$inCode];
             }
             return $myReturnValue;
@@ -283,4 +283,28 @@ class MusicProfile extends ProfileActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	 public static function getMusicByUser() 
+        { 
+			$myID = Yii::app()->user->id;	
+			$testArr = MusicProfile::model()->findAll('user_id =:id', array(':id'=>$myID));
+			return $testArr;
+        }
+        protected function afterSave()
+        {
+
+            $this->updateExtracurricularTotals();
+
+            return parent::afterSave();
+        //return true;
+        }
+        
+        protected function afterDelete()
+        {
+
+            $this->updateExtracurricularTotals();
+
+            return parent::afterDelete();
+        //return true;
+        }
 }

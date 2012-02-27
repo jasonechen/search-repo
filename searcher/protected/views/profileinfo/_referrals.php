@@ -32,7 +32,7 @@
 		<?php 
 				echo Yii::app()->user->getFlash('referSuccess'); 
 				echo '<br/>';
-				echo CHtml::htmlButton('Ok',array('onclick'=>'window.location="index.php?r=profileinfo/congratulation"')); 
+				echo CHtml::Button('Ok',array('onclick'=>'window.location="index.php?r=profileinfo/congratulation"')); 
 				$this->endWidget('zii.widgets.jui.CJuiDialog');
 		?>
 	</div> 
@@ -46,12 +46,11 @@
 </div>	
 <?php } ?>	
 
-	<div class="row buttons">
-	<?php echo CHtml::submitButton('Send Referral Email'); ?>
+
             <br></br><br></br>
-<?php $this->endWidget(); ?>
+
 	
-        </div>
+       
        <div class="span-3">
 	
             <div class="pbuttons">
@@ -59,12 +58,11 @@
 		            </div>
         </div>
         <div class="span-3 last">
-            <div class="buttons">
-
-	   <?php $skip= CHtml::submitButton('Finish');
-    echo CHtml::link($skip, array('profileinfo/congratulation')) ?>
+	<div class="buttons">
+	<?php echo CHtml::submitButton('Finish'); ?>
             </div>  
 </div>
         </div>
 </div>
 <br></br><br></br>
+<?php $this->endWidget(); ?>

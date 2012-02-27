@@ -17,8 +17,6 @@
  */
 class OtherProfile extends ProfileActiveRecord
 {
-
-
         
         public static $YearParticipateArray
           = array(
@@ -29,11 +27,8 @@ class OtherProfile extends ProfileActiveRecord
                     5=>'10th Grade',
                     6=>'11th Grade',
                     7=>'12th Grade',
-
                );
-    
-
-        
+         
        public static function convertYears($inCode)
         {
             $myReturnValue = "";
@@ -42,11 +37,7 @@ class OtherProfile extends ProfileActiveRecord
             }
             return $myReturnValue;
         }
-                
-    
-    
-    
-    
+                   
         /**
 	 * Returns the static model of the specified AR class.
 	 * @return OtherProfile the static model class
@@ -141,4 +132,28 @@ class OtherProfile extends ProfileActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	public static function getOtherByUser() 
+        { 
+			$myID = Yii::app()->user->id;	
+			$testArr = OtherProfile::model()->findAll('user_id =:id', array(':id'=>$myID));
+			return $testArr;
+        }
+        protected function afterSave()
+        {
+
+            $this->updateExtracurricularTotals();
+
+            return parent::afterSave();
+        //return true;
+        }
+        
+        protected function afterDelete()
+        {
+
+            $this->updateExtracurricularTotals();
+
+            return parent::afterDelete();
+        //return true;
+        }
 }

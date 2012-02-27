@@ -8,42 +8,37 @@
 	
 	<tfoot> 				
 	<tr >  
-	<td  colspan="4"> 
-	<div class="add"><?php echo Yii::t('ui','New');?></div>
+	<td  colspan="3"> 
+	<div class="add" style="margin:5px 0;"><?php echo Yii::t('ui','Add Other Activity');?></div>
 	<textarea class="template" rows="0"  cols="0" style="display:none;">	
 		
 		<tr class="templateContent">  	
 			<td>			
-				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3">
+				<table width="600"   height="70" style="border:#459E00 1px solid; background:#D2F4D3;padding:10px;">
 					<thead class="templateHead"> 
-						<td><?php echo $form->labelEx($otherProfile,'name',array('label'=>'Other Activity')); ?></td>
-						<td><?php echo $form->labelEx($otherProfile,'year_begin',array('label'=>'From')); ?></td>
+						<td><?php echo $form->label($otherProfile,'name',array('label'=>'Other Activity')); ?></td>
+						<td><?php echo $form->label($otherProfile,'year_begin',array('label'=>'From')); ?></td>
+                        <td><?php echo $form->label($otherProfile,'year_end',array('label'=>'To')); ?></td>
+						<td><?php echo $form->label($otherProfile,'comments',array('label'=>'Description')); ?></td>
 					</thead>					
 					<tr>
 						<td><?php echo CHtml::textField('OtherProfile[{0}][name]','',array('class'=>'req')); ?>
 							<?php $this->ErrorDiv('OtherProfile_{0}_nameError','Name'); ?>
 						</td>
-						<td><?php echo CHtml::dropdownList('OtherProfile[{0}][year_begin]','',OtherProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year','class'=>'req')); ?>
-							<?php $this->ErrorDiv('OtherProfile_{0}_year_beginError','From'); ?>
-						</td> 						
+						<td><?php echo CHtml::dropdownList('OtherProfile[{0}][year_begin]','',OtherProfile::$YearParticipateArray,array('prompt'=>'Begin Year','class'=>'req from')); ?>
+							<?php $this->ErrorDiv('OtherProfile_0_year_beginError','From'); ?>
+						</td> 	
+                                                <td><?php echo CHtml::dropdownList('OtherProfile[{0}][year_end]','',OtherProfile::$YearParticipateArray,array('prompt'=>'End Year','class'=>'req to')); ?>
+							<?php $this->ErrorDiv('OtherProfile_0_year_endError','To'); ?>
+						</td>
+						<td><?php echo CHtml::textField('OtherProfile[{0}][comments]','',array('size'=>80,'maxlength'=>70)); ?></td>
 					</tr>
 					
-					<thead class="templateHead">
-						<td><?php echo $form->labelEx($otherProfile,'year_end',array('label'=>'To')); ?></td>
-						<td><?php echo $form->labelEx($otherProfile,'comments',array('label'=>'Description')); ?></td>
-					</thead>					
-
-					<tr >
-						<td><?php echo CHtml::dropdownList('OtherProfile[{0}][year_end]','',OtherProfile::$YearParticipateArray,array('prompt'=>'Enter End Year','class'=>'req')); ?>
-							<?php $this->ErrorDiv('OtherProfile_{0}_year_endError','To'); ?>
-						</td>
-						<td><?php echo CHtml::textField('OtherProfile[{0}][comments]','',array('size'=>80,'maxlength'=>100)); ?></td>
-					</tr>
-
-					<br/>
+                                        </br>
 				</table>
 										
-			<td> 
+			<td>&nbsp;</td>							
+			<td class="remove">
 			<input type="hidden" class="rowIndex" value="{0}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -64,36 +59,31 @@
 			
 					<tr class="templateContent">  	
 			<td>			
-				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3">
+				<table width="600"   height="70" style="border:#459E00 1px solid; background:#D2F4D3;padding:10px;">
 					<thead class="templateHead"> 
-						<td><?php echo $form->labelEx($otherProfile,'name',array('label'=>'Other Activity')); ?></td>
-						<td><?php echo $form->labelEx($otherProfile,'year_begin',array('label'=>'From')); ?></td>
+						<td><?php echo $form->label($otherProfile,'name',array('label'=>'Other Activity')); ?></td>
+						<td><?php echo $form->label($otherProfile,'year_begin',array('label'=>'From')); ?></td>
+                                                <td><?php echo $form->labelEx($otherProfile,'year_end',array('label'=>'To')); ?></td>
+						<td><?php echo $form->label($otherProfile,'comments',array('label'=>'Description')); ?></td>
 					</thead>					
 					<tr>
 						<td><?php echo CHtml::textField('OtherProfile[{'.$i.'}][name]',$extra[$i]->name,array('class'=>'req')); ?>
 							<?php $this->ErrorDiv('OtherProfile_'.$i.'_nameError','Name'); ?>
 						</td>
-						<td><?php echo CHtml::dropdownList('OtherProfile[{'.$i.'}][year_begin]',$extra[$i]->year_begin,OtherProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year','class'=>'req')); ?>
+						<td><?php echo CHtml::dropdownList('OtherProfile[{'.$i.'}][year_begin]',$extra[$i]->year_begin,OtherProfile::$YearParticipateArray,array('prompt'=>'Begin Year','class'=>'req from')); ?>
 								<?php $this->ErrorDiv('OtherProfile_'.$i.'_year_beginError','From'); ?>
-						</td> 						
-					</tr>
-					
-					<thead class="templateHead">
-						<td><?php echo $form->labelEx($otherProfile,'year_end',array('label'=>'To')); ?></td>
-						<td><?php echo $form->labelEx($otherProfile,'comments',array('label'=>'Description')); ?></td>
-					</thead>					
-
-					<tr >
-						<td><?php echo CHtml::dropdownList('OtherProfile[{'.$i.'}][year_end]',$extra[$i]->year_end,OtherProfile::$YearParticipateArray,array('prompt'=>'Enter End Year','class'=>'req')); ?>
+						</td> 	
+                                             <td><?php echo CHtml::dropdownList('OtherProfile[{'.$i.'}][year_end]',$extra[$i]->year_end,OtherProfile::$YearParticipateArray,array('prompt'=>'End Year','class'=>'req to')); ?>
 							<?php $this->ErrorDiv('OtherProfile_'.$i.'_year_endError','To'); ?>
 						</td>
-						<td><?php echo CHtml::textField('OtherProfile[{'.$i.'}][comments]',$extra[$i]->comments,array('size'=>80,'maxlength'=>100)); ?></td>
+						<td><?php echo CHtml::textField('OtherProfile[{'.$i.'}][comments]',$extra[$i]->comments,array('size'=>80,'maxlength'=>70)); ?></td>   
 					</tr>
 
 					<br/>
 				</table>
 										
-			<td> 
+			<td>&nbsp;</td>							
+			<td class="remove">
 			<input type="hidden" class="rowIndex" value="{<?php print $i; ?>}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -104,36 +94,32 @@
 	<?php }else { ?>	
 			<tr class="templateContent">  	
 			<td>			
-				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3">
+				<table width="600"   height="70" style="border:#459E00 1px solid; background:#D2F4D3;padding:10px;">
 					<thead class="templateHead"> 
-						<td><?php echo $form->labelEx($otherProfile,'name',array('label'=>'Other Activity')); ?></td>
-						<td><?php echo $form->labelEx($otherProfile,'year_begin',array('label'=>'From')); ?></td>
+						<td><?php echo $form->label($otherProfile,'name',array('label'=>'Other Activity')); ?></td>
+						<td><?php echo $form->label($otherProfile,'year_begin',array('label'=>'From')); ?></td>
+                        <td><?php echo $form->label($otherProfile,'year_end',array('label'=>'To')); ?></td>
+						<td><?php echo $form->label($otherProfile,'comments',array('label'=>'Description')); ?></td>
 					</thead>					
 					<tr>
 						<td><?php echo CHtml::textField('OtherProfile[{0}][name]','',array('class'=>'req')); ?>
 							<?php $this->ErrorDiv('OtherProfile_0_nameError','Name'); ?>
 						</td>
-						<td><?php echo CHtml::dropdownList('OtherProfile[{0}][year_begin]','',OtherProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year','class'=>'req')); ?>
+						<td><?php echo CHtml::dropdownList('OtherProfile[{0}][year_begin]','',OtherProfile::$YearParticipateArray,array('prompt'=>'Begin Year','class'=>'req from')); ?>
 							<?php $this->ErrorDiv('OtherProfile_0_year_beginError','From'); ?>
 						</td> 						
-					</tr>
-					
-					<thead class="templateHead">
-						<td><?php echo $form->labelEx($otherProfile,'year_end',array('label'=>'To')); ?></td>
-						<td><?php echo $form->labelEx($otherProfile,'comments',array('label'=>'Description')); ?></td>
-					</thead>					
-
-					<tr >
-						<td><?php echo CHtml::dropdownList('OtherProfile[{0}][year_end]','',OtherProfile::$YearParticipateArray,array('prompt'=>'Enter End Year','class'=>'req')); ?>
+                                           <td><?php echo CHtml::dropdownList('OtherProfile[{0}][year_end]','',OtherProfile::$YearParticipateArray,array('prompt'=>'End Year','class'=>'req to')); ?>
 							<?php $this->ErrorDiv('OtherProfile_0_year_endError','To'); ?>
 						</td>
-						<td><?php echo CHtml::textField('OtherProfile[{0}][comments]','',array('size'=>80,'maxlength'=>100)); ?></td>
+						<td><?php echo CHtml::textField('OtherProfile[{0}][comments]','',array('size'=>80,'maxlength'=>70)); ?></td>     
 					</tr>
+					
 
 					<br/>
 				</table>
 										
-			<td> 
+			<td>&nbsp;</td>							
+			<td class="remove">
 			<input type="hidden" class="rowIndex" value="{0}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -149,3 +135,4 @@
 </div><!-- form -->
 </div>
 </div>
+<br></br>

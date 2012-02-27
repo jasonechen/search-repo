@@ -1,5 +1,5 @@
 <?php 	
-	$this->progressbar(); 
+	$this->progressbar('EC','clubs'); 
 	$this->IncludeJsDynamicrows(); 
 ?>
 <div class="sub-head-profile">Extracurriculars - Clubs </div>
@@ -9,6 +9,7 @@
         <div class="successMessage"> 
         <?php echo Yii::app()->user->getFlash('activitySuccess'); ?> 
         </div> <?php endif; ?> 
+	<div class="span-18 last">
     <div class="form">
     
 <?php 
@@ -23,17 +24,19 @@
 	
 	<tfoot> 				
 	<tr >  
-	<td  colspan="4"> 
-	<div class="add"><?php echo Yii::t('ui','New');?></div>
+	<td  colspan="3"> 
+	<div class="add" style="margin:5px 0;"><?php echo Yii::t('ui','Add Another Club');?></div>
 	<textarea class="template" rows="0" cols="0" style="display:none;"> 	
 		
 		<tr class="templateContent">   	
 			<td>			
-				<table width="200"  height="100" style="border:#459E00 1px solid; background:#D2F4D3">
+				<table width="100"  height="100" style="border:#459E00 1px solid; background:#D2F4D3;padding:8px;">
 					<thead class="templateHead"> 
-						<td><?php echo $form->labelEx($activityProfile,'name',array('label'=>'Name')); ?> </td>
-						<td><?php echo $form->labelEx($activityProfile,'activity_type_id',array('label'=>'Club Type')); ?></td>						
-						<td><?php echo $form->labelEx($activityProfile,'leadership',array('label'=>'Leadership')); ?></td>
+						<td><?php echo $form->label($activityProfile,'name',array('label'=>'Name')); ?> </td>
+						<td><?php echo $form->label($activityProfile,'activity_type_id',array('label'=>'Club Type')); ?></td>						
+                        <td><?php echo $form->label($activityProfile,'year_participate_begin',array('label'=>'From')); ?></td>
+						<td><?php echo $form->label($activityProfile,'year_participate_end',array('label'=>'To')); ?></td>
+                        <td><?php echo $form->label($activityProfile,'leadership',array('label'=>'Leadership')); ?></td>
 						<td></td>					
 					</thead>
 					
@@ -46,32 +49,33 @@
 						 <?php echo CHtml::dropDownList('ActivityProfile[{0}][activity_type_id]','', $activityProfile->getActivityTypeOptions(),array('prompt'=>'Club Type','class'=>'req')); ?>
 						 <?php $this->ErrorDiv('ActivityProfile_{0}_activity_type_idError','Type'); ?>
 						</td>
-						<td><?php echo CHtml::dropDownList('ActivityProfile[{0}][leadership]','', ActivityProfile::$LeadershipArray,array('prompt'=>'Leadership Position')); ?></td>
+                                                	<td><?php echo CHtml::dropdownList('ActivityProfile[{0}][year_participate_begin]','',ActivityProfile::$YearParticipateArray,array('prompt'=>'Begin Year','class'=>'req from')); ?>
+							 <?php $this->ErrorDiv('ActivityProfile_{0}_year_participate_beginError','From'); ?>
+						</td>						
+						<td><?php echo CHtml::dropdownList('ActivityProfile[{0}][year_participate_end]','',ActivityProfile::$YearParticipateArray,array('prompt'=>'End Year','class'=>'req to')); ?>
+							 <?php $this->ErrorDiv('ActivityProfile_{0}_year_participate_endError','To'); ?>
+						</td>
+						<td><?php echo CHtml::dropDownList('ActivityProfile[{0}][leadership]','', ActivityProfile::$LeadershipArray,array('prompt'=>'Enter Position')); ?></td>
 						<td></td>
 					</tr>
 					<thead class="templateHead">
-						<td><?php echo $form->labelEx($activityProfile,'year_participate_begin',array('label'=>'From')); ?></td>
-						<td><?php echo $form->labelEx($activityProfile,'year_participate_end',array('label'=>'To')); ?></td>
-						<td><?php echo $form->labelEx($activityProfile,'hours_per_week',array('label'=>'Hours/Week')); ?></td>					
-					</thead>					
+						
+						<td><?php echo $form->label($activityProfile,'hours_per_week',array('label'=>'Hours/Week')); ?></td>					
+                        <td><?php echo $form->label($activityProfile,'comments',array('label'=>'Comments')); ?></td>
+                                        </thead>					
 					<tr>
-						<td><?php echo CHtml::dropdownList('ActivityProfile[{0}][year_participate_begin]','',ActivityProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year')); ?></td>						
-						<td><?php echo CHtml::dropdownList('ActivityProfile[{0}][year_participate_end]','',ActivityProfile::$YearParticipateArray,array('prompt'=>'Enter End Year')); ?></td>
-						<td> <?php echo CHtml::dropDownList('ActivityProfile[{0}][hours_per_week]','', ActivityProfile::$HoursArray,array('prompt'=>'Enter Hours Spent per Week')); ?></td>
 					
+						<td> <?php echo CHtml::dropDownList('ActivityProfile[{0}][hours_per_week]','', ActivityProfile::$HoursArray,array('prompt'=>'Enter Hrs')); ?></td>
+							<td colspan="4"><?php echo CHtml::textField('ActivityProfile[{0}][comments]','',array('size'=>100,'maxlength'=>100)); ?></td>
 						
 					</tr>
-					<thead>
-							<td><?php echo $form->labelEx($activityProfile,'comments',array('label'=>'Notes')); ?></td>
-					</thead>
-					<tr>
-							<td colspan="4"><?php echo CHtml::textField('ActivityProfile[{0}][comments]','',array('size'=>150,'maxlength'=>100)); ?></td>
-					</tr>
+
 					<!--GIve the Break to for Space between each table-->
 					<br/>
 				</table>
 										
-			<td> 
+			<td>&nbsp;</td>							
+			<td class="remove"> 
 			<input type="hidden" class="rowIndex" value="{0}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -92,11 +96,13 @@
 				
 					<tr class="templateContent">  	
 			<td>			
-				<table width="200"  height="100" style="border:#459E00 1px solid; background:#D2F4D3">
+				<table width="100"  height="100" style="border:#459E00 1px solid; background:#D2F4D3;padding:8px;">
 					<thead class="templateHead">
-						<td><?php echo $form->labelEx($activityProfile,'name',array('label'=>'Name')); ?> </td>
-						<td><?php echo $form->labelEx($activityProfile,'activity_type_id',array('label'=>'Club Type')); ?></td>						
-						<td><?php echo $form->labelEx($activityProfile,'leadership',array('label'=>'Leadership')); ?></td>
+						<td><?php echo $form->label($activityProfile,'name',array('label'=>'Name')); ?> </td>
+						<td><?php echo $form->label($activityProfile,'activity_type_id',array('label'=>'Club Type')); ?></td>						
+						<td><?php echo $form->label($activityProfile,'year_participate_begin',array('label'=>'From')); ?></td>
+						<td><?php echo $form->label($activityProfile,'year_participate_end',array('label'=>'To')); ?></td>
+                        <td><?php echo $form->label($activityProfile,'leadership',array('label'=>'Leadership')); ?></td>
 						<td></td>					
 					</thead>
 					
@@ -108,32 +114,32 @@
 						<td> <?php echo CHtml::dropDownList('ActivityProfile[{'.$i.'}][activity_type_id]',$activity[$i]->activity_type_id, $activityProfile->getActivityTypeOptions(),array('prompt'=>'Club Type','class'=>'req')); ?>
 						 <?php $this->ErrorDiv('ActivityProfile_'.$i.'_activity_type_idError','Type'); ?>
 						</td>
-						<td><?php echo CHtml::dropDownList('ActivityProfile[{'.$i.'}][leadership]',$activity[$i]->leadership, ActivityProfile::$LeadershipArray,array('prompt'=>'Leadership Position')); ?></td>
+						<td><?php echo CHtml::dropdownList('ActivityProfile[{'.$i.'}][year_participate_begin]',$activity[$i]->year_participate_begin,ActivityProfile::$YearParticipateArray,array('prompt'=>'Begin Year','class'=>'req  from')); ?>
+							<?php $this->ErrorDiv('ActivityProfile_'.$i.'_year_participate_beginError','From'); ?>
+						</td>						
+						<td><?php echo CHtml::dropdownList('ActivityProfile[{'.$i.'}][year_participate_end]',$activity[$i]->year_participate_end,ActivityProfile::$YearParticipateArray,array('prompt'=>'End Year','class'=>'req to')); ?>
+							 <?php $this->ErrorDiv('ActivityProfile_'.$i.'_year_participate_endError','To'); ?>
+						</td>
+                                                
+						<td><?php echo CHtml::dropDownList('ActivityProfile[{'.$i.'}][leadership]',$activity[$i]->leadership, ActivityProfile::$LeadershipArray,array('prompt'=>'Position')); ?></td>
 						<td></td>
 					</tr>
 					<thead class="templateHead">
-						<td><?php echo $form->labelEx($activityProfile,'year_participate_begin',array('label'=>'From')); ?></td>
-						<td><?php echo $form->labelEx($activityProfile,'year_participate_end',array('label'=>'To')); ?></td>
-						<td><?php echo $form->labelEx($activityProfile,'hours_per_week',array('label'=>'Hours/Week')); ?></td>					
-					</thead>					
+						<td><?php echo $form->label($activityProfile,'hours_per_week',array('label'=>'Hours/Week')); ?></td>					
+						<td><?php echo $form->label($activityProfile,'comments',array('label'=>'Comments')); ?></td>
+                                        </thead>					
 					<tr>
-						<td><?php echo CHtml::dropdownList('ActivityProfile[{'.$i.'}][year_participate_begin]',$activity[$i]->year_participate_begin,ActivityProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year')); ?></td>						
-						<td><?php echo CHtml::dropdownList('ActivityProfile[{'.$i.'}][year_participate_end]',$activity[$i]->year_participate_end,ActivityProfile::$YearParticipateArray,array('prompt'=>'Enter End Year')); ?></td>
-						<td> <?php echo CHtml::dropDownList('ActivityProfile[{'.$i.'}][hours_per_week]',$activity[$i]->hours_per_week, ActivityProfile::$HoursArray,array('prompt'=>'Enter Hours Spent per Week')); ?></td>
-					
+						<td> <?php echo CHtml::dropDownList('ActivityProfile[{'.$i.'}][hours_per_week]',$activity[$i]->hours_per_week, ActivityProfile::$HoursArray,array('prompt'=>'Hours/Week')); ?></td>
+                                                 <td colspan="4"><?php echo CHtml::textField('ActivityProfile[{'.$i.'}][comments]',$activity[$i]->comments,array('size'=>100,'maxlength'=>100)); ?></td>
 						
 					</tr>
-					<thead>
-							<td><?php echo $form->labelEx($activityProfile,'comments',array('label'=>'Notes')); ?></td>
-					</thead>
-					<tr>
-							<td colspan="4"><?php echo CHtml::textField('ActivityProfile[{'.$i.'}][comments]',$activity[$i]->comments,array('size'=>150,'maxlength'=>100)); ?></td>
-					</tr>
+
 					<!--GIve the Break to for Space between each table-->
-					<br/>
+					</br>
 				</table>
 										
-			<td> 
+			<td>&nbsp;</td>							
+			<td class="remove"> 
 			<input type="hidden" class="rowIndex" value="{<?php print $i; ?>}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -145,11 +151,13 @@
 		
 			<tr class="templateContent">  	
 			<td>			
-				<table width="200"  height="100" style="border:#459E00 1px solid; background:#D2F4D3">
+				<table width="100"  height="100" style="border:#459E00 1px solid; background:#D2F4D3;padding:8px;">
 					<thead class="templateHead"> 
-						<td><?php echo $form->labelEx($activityProfile,'name',array('label'=>'Name')); ?> </td>
-						<td><?php echo $form->labelEx($activityProfile,'activity_type_id',array('label'=>'Club Type')); ?></td>						
-						<td><?php echo $form->labelEx($activityProfile,'leadership',array('label'=>'Leadership')); ?></td>
+						<td><?php echo $form->label($activityProfile,'name',array('label'=>'Name')); ?> </td>
+						<td><?php echo $form->label($activityProfile,'activity_type_id',array('label'=>'Club Type')); ?></td>						
+						<td><?php echo $form->label($activityProfile,'year_participate_begin',array('label'=>'From')); ?></td>
+						<td><?php echo $form->label($activityProfile,'year_participate_end',array('label'=>'To')); ?></td>				                                              
+						<td><?php echo $form->label($activityProfile,'leadership',array('label'=>'Leadership')); ?></td>
 						<td></td>					
 					</thead>
 					
@@ -162,32 +170,32 @@
 						 <?php echo CHtml::dropDownList('ActivityProfile[{0}][activity_type_id]','', $activityProfile->getActivityTypeOptions(),array('prompt'=>'Club Type','class'=>'req')); ?>
 						  <?php $this->ErrorDiv('ActivityProfile_0_activity_type_idError','Type'); ?>
 						</td>
-						<td><?php echo CHtml::dropDownList('ActivityProfile[{0}][leadership]','', ActivityProfile::$LeadershipArray,array('prompt'=>'Leadership Position')); ?></td>
+						<td><?php echo CHtml::dropdownList('ActivityProfile[{0}][year_participate_begin]','',ActivityProfile::$YearParticipateArray,array('prompt'=>'Begin Year','class'=>'req from')); ?>
+							 <?php $this->ErrorDiv('ActivityProfile_{0}_year_participate_beginError','From'); ?>
+						</td>						
+						<td><?php echo CHtml::dropdownList('ActivityProfile[{0}][year_participate_end]','',ActivityProfile::$YearParticipateArray,array('prompt'=>'End Year','class'=>'req to')); ?>
+							 <?php $this->ErrorDiv('ActivityProfile_{0}_year_participate_endError','To'); ?>
+						</td>
+                                                
+						<td><?php echo CHtml::dropDownList('ActivityProfile[{0}][leadership]','', ActivityProfile::$LeadershipArray,array('prompt'=>'Position')); ?></td>
 						<td></td>
 					</tr>
 					<thead class="templateHead">
-						<td><?php echo $form->labelEx($activityProfile,'year_participate_begin',array('label'=>'From')); ?></td>
-						<td><?php echo $form->labelEx($activityProfile,'year_participate_end',array('label'=>'To')); ?></td>
-						<td><?php echo $form->labelEx($activityProfile,'hours_per_week',array('label'=>'Hours/Week')); ?></td>					
-					</thead>					
+						<td><?php echo $form->label($activityProfile,'hours_per_week',array('label'=>'Hours/Week')); ?></td>	
+                                                <td><?php echo $form->labelEx($activityProfile,'comments',array('label'=>'Comments')); ?></td>	
+                                        </thead>					
 					<tr>
-						<td><?php echo CHtml::dropdownList('ActivityProfile[{0}][year_participate_begin]','',ActivityProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year')); ?></td>						
-						<td><?php echo CHtml::dropdownList('ActivityProfile[{0}][year_participate_end]','',ActivityProfile::$YearParticipateArray,array('prompt'=>'Enter End Year')); ?></td>
-						<td> <?php echo CHtml::dropDownList('ActivityProfile[{0}][hours_per_week]','', ActivityProfile::$HoursArray,array('prompt'=>'Enter Hours Spent per Week')); ?></td>
-					
+						<td> <?php echo CHtml::dropDownList('ActivityProfile[{0}][hours_per_week]','', ActivityProfile::$HoursArray,array('prompt'=>'Hours/Week')); ?></td>
+						<td colspan="4"><?php echo CHtml::textField('ActivityProfile[{0}][comments]','',array('size'=>100,'maxlength'=>100)); ?></td>
 						
 					</tr>
-					<thead>
-							<td><?php echo $form->labelEx($activityProfile,'comments',array('label'=>'Notes')); ?></td>
-					</thead>
-					<tr>
-							<td colspan="4"><?php echo CHtml::textField('ActivityProfile[{0}][comments]','',array('size'=>150,'maxlength'=>100)); ?></td>
-					</tr>
+	
 					<!--GIve the Break to for Space between each table-->
 					<br/>
 				</table>
 										
-			<td> 
+			<td>&nbsp;</td>							
+			<td class="remove"> 
 			<input type="hidden" class="rowIndex" value="{0}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -198,14 +206,24 @@
 	</tbody>
 	
 	</table>
+<br></br>
+        <div class="span-3">
+	
+            <div class="pbuttons">
+		<?php echo CHtml::Button('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/ap"')); ?>
+		            </div>
+        </div>
+        <div class="span-3 last">
+            <div class="buttons">
 
-	<div class="row buttons">
-		<?php echo CHtml::htmlButton('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/ap"')); ?>
 		<?php echo CHtml::submitButton('Next'); ?>
 	</div>
 
-
+ </div>
   
 <?php $this->endWidget(); ?>
         </div>
 </div>
+</div>
+
+<br></br><br></br>

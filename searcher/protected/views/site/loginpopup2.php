@@ -1,5 +1,5 @@
 <div class="demo_box">
-    <div class="errorMessage">
+        <div class="errorMessage">
         <?php
         if(@$msg)
         {
@@ -9,9 +9,9 @@
         ?>
     </div>
 	<?php
-	
+
 		$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-			'id'=>'loginbox',
+			'id'=>'loginpop',
 			// additional javascript options for the dialog plugin
 			'options'=>array(
 				'title'=>'Login',
@@ -19,12 +19,14 @@
 				'modal'=>true,
 				'width'=>'400px',
 				'height'=>'350',
-                'resizable'=>false,
+                                'resizable'=>false,
 				
 			),
-		));
-		$model=new LoginForm;
+		));		
+                $model=new LoginForm;
 		$this->renderPartial('application.views.site.login',array('model'=>$model));
-		$this->endWidget('zii.widgets.jui.CJuiDialog');
-	?>
-</div>
+                $this->endWidget('zii.widgets.jui.CJuiDialog');
+        ?>
+</div>      
+       
+

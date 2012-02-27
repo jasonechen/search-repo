@@ -1,6 +1,6 @@
 <?php 	
 $this->IncludeJsDynamicrows(); 
-$this->progressbar();
+$this->progressbar('EC','music');
 ?>
 <div class="sub-head-profile">Extracurriculars - Music </div>
 <div class="container">
@@ -28,18 +28,18 @@ $this->progressbar();
 	
 	<tfoot> 				
 	<tr >  
-	<td  colspan="4"> 
-	<div class="add"><?php echo Yii::t('ui','New');?></div>
+	<td  colspan="3"> 
+	<div class="add" style="margin:5px 0;"><?php echo Yii::t('ui','Add Music Activity   ');?></div>
 	<textarea class="template" rows="0"  cols="0" style="display:none;">	
 		
 		<tr class="templateContent">  	
 			<td>			
-				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3">
+				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3;padding:10px;">
 					<thead class="templateHead">
-						<td> <?php echo $form->labelEx($musicProfile,'music',array('label'=>'Music Activity')); ?></td>
-						<td><?php echo $form->labelEx($musicProfile,'level',array('label'=>'Level')); ?> </td>
-						<td><?php echo $form->labelEx($musicProfile,'year_begin',array('label'=>'From')); ?> </td>
-						<td><?php echo $form->labelEx($musicProfile,'year_end',array('label'=>'To')); ?> </td>
+						<td> <?php echo $form->label($musicProfile,'music',array('label'=>'Music Activity')); ?></td>
+						<td><?php echo $form->label($musicProfile,'level',array('label'=>'Level')); ?> </td>
+						<td><?php echo $form->label($musicProfile,'year_begin',array('label'=>'From')); ?> </td>
+						<td><?php echo $form->label($musicProfile,'year_end',array('label'=>'To')); ?> </td>
 					</thead>					
 					<tr> 
 						<td><?php echo CHtml::dropDownList('MusicProfile[{0}][music]','', MusicProfile::$MusicArray,array('prompt'=>'Select Musical Activity','class'=>'req')); ?> 
@@ -48,19 +48,19 @@ $this->progressbar();
 						<td><?php echo CHtml::dropdownList('MusicProfile[{0}][level]','',MusicProfile::$LevelArray,array('prompt'=>'Enter Proficiency','class'=>'req')); ?>
 							<?php $this->ErrorDiv('MusicProfile_{0}_levelError','level'); ?>
 						 </td>
-						<td><?php echo CHtml::dropdownList('MusicProfile[{0}][year_begin]','',MusicProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year','class'=>'req')); ?> 
+						<td><?php echo CHtml::dropdownList('MusicProfile[{0}][year_begin]','',MusicProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year','class'=>'req from')); ?> 
 							<?php $this->ErrorDiv('MusicProfile_{0}_year_beginError','From'); ?>
 						</td>
-						<td><?php echo CHtml::dropdownList('MusicProfile[{0}][year_end]','',MusicProfile::$YearParticipateArray,array('prompt'=>'Enter End Year','class'=>'req')); ?>
+						<td><?php echo CHtml::dropdownList('MusicProfile[{0}][year_end]','',MusicProfile::$YearParticipateArray,array('prompt'=>'Enter End Year','class'=>'req to')); ?>
 							<?php $this->ErrorDiv('MusicProfile_{0}_year_endError','To'); ?>
 						 </td>						
 					</tr>
 					
 					<thead class="templateHead">
-						<td><?php echo $form->labelEx($musicProfile,'school_orchband'); ?></td>
-						<td><?php echo $form->labelEx($musicProfile,'school_leader'); ?></td>
-						<td><?php echo $form->labelEx($musicProfile,'ext_orchband'); ?></td>
-						<td><?php echo $form->labelEx($musicProfile,'ext_leader'); ?></td>
+						<td><?php echo $form->label($musicProfile,'school_orchband'); ?></td>
+						<td><?php echo $form->label($musicProfile,'school_leader'); ?></td>
+						<td><?php echo $form->label($musicProfile,'ext_orchband'); ?></td>
+						<td><?php echo $form->label($musicProfile,'ext_leader'); ?></td>
 					</thead>						
 
 					<tr >
@@ -71,7 +71,7 @@ $this->progressbar();
 					</tr>
 
 					<thead>
-						<td><?php echo $form->labelEx($musicProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
+						<td><?php echo $form->label($musicProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
 					</thead>
 					<tr>
 					<td><?php echo CHtml::textField('MusicProfile[{0}][comments]','',array('size'=>80,'maxlength'=>100)); ?></td>
@@ -79,8 +79,8 @@ $this->progressbar();
 					<!--GIve the Break to for Space between each table-->
 					<br/>
 				</table>
-										
-			<td> 
+			<td>&nbsp;</td>									
+			<td class="remove"> 
 			<input type="hidden" class="rowIndex" value="{0}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -101,12 +101,12 @@ $this->progressbar();
 				
 					<tr class="templateContent">  	
 			<td>			
-				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3">
+				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3;padding:10px;">
 					<thead class="templateHead">
-						<td> <?php echo $form->labelEx($musicProfile,'music',array('label'=>'Music Activity')); ?></td>
-						<td><?php echo $form->labelEx($musicProfile,'level',array('label'=>'Level')); ?> </td>
-						<td><?php echo $form->labelEx($musicProfile,'year_begin',array('label'=>'From')); ?> </td>
-						<td><?php echo $form->labelEx($musicProfile,'year_end',array('label'=>'To')); ?> </td>
+						<td> <?php echo $form->label($musicProfile,'music',array('label'=>'Music Activity')); ?></td>
+						<td><?php echo $form->label($musicProfile,'level',array('label'=>'Level')); ?> </td>
+						<td><?php echo $form->label($musicProfile,'year_begin',array('label'=>'From')); ?> </td>
+						<td><?php echo $form->label($musicProfile,'year_end',array('label'=>'To')); ?> </td>
 					</thead>					
 					<tr> 
 						<td><?php echo CHtml::dropDownList('MusicProfile[{'.$i.'}][music]',$music[$i]->music, MusicProfile::$MusicArray,array('prompt'=>'Select Musical Activity','class'=>'req')); ?> 
@@ -117,20 +117,20 @@ $this->progressbar();
 								<?php $this->ErrorDiv('MusicProfile_'.$i.'_levelError','level'); ?>
 
 						</td>
-						<td><?php echo CHtml::dropdownList('MusicProfile[{'.$i.'}][year_begin]',$music[$i]->year_begin,MusicProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year','class'=>'req')); ?>
+						<td><?php echo CHtml::dropdownList('MusicProfile[{'.$i.'}][year_begin]',$music[$i]->year_begin,MusicProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year','class'=>'req from')); ?>
 							<?php $this->ErrorDiv('MusicProfile_'.$i.'_year_beginError','From'); ?>
 
 						 </td>
-						<td><?php echo CHtml::dropdownList('MusicProfile[{'.$i.'}][year_end]',$music[$i]->year_end,MusicProfile::$YearParticipateArray,array('prompt'=>'Enter End Year','class'=>'req')); ?> 
+						<td><?php echo CHtml::dropdownList('MusicProfile[{'.$i.'}][year_end]',$music[$i]->year_end,MusicProfile::$YearParticipateArray,array('prompt'=>'Enter End Year','class'=>'req to')); ?> 
 							<?php $this->ErrorDiv('MusicProfile_'.$i.'_year_endError','To'); ?>
 						</td>						
 					</tr>
 					
 					<thead class="templateHead">
-						<td><?php echo $form->labelEx($musicProfile,'school_orchband'); ?></td>
-						<td><?php echo $form->labelEx($musicProfile,'school_leader'); ?></td>
-						<td><?php echo $form->labelEx($musicProfile,'ext_orchband'); ?></td>
-						<td><?php echo $form->labelEx($musicProfile,'ext_leader'); ?></td>
+						<td><?php echo $form->label($musicProfile,'school_orchband'); ?></td>
+						<td><?php echo $form->label($musicProfile,'school_leader'); ?></td>
+						<td><?php echo $form->label($musicProfile,'ext_orchband'); ?></td>
+						<td><?php echo $form->label($musicProfile,'ext_leader'); ?></td>
 					</thead>						
 
 					<tr >
@@ -141,7 +141,7 @@ $this->progressbar();
 					</tr>
 
 					<thead>
-						<td><?php echo $form->labelEx($musicProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
+						<td><?php echo $form->label($musicProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
 					</thead>
 					<tr>
 					<td><?php echo CHtml::textField('MusicProfile[{'.$i.'}][comments]',$music[$i]->comments,array('size'=>80,'maxlength'=>100)); ?></td>
@@ -150,7 +150,8 @@ $this->progressbar();
 					<br/>
 				</table>
 										
-			<td> 
+			<td>&nbsp;</td>									
+			<td class="remove">
 			<input type="hidden" class="rowIndex" value="{<?php print $i; ?>}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -162,12 +163,12 @@ $this->progressbar();
 	
 			<tr class="templateContent">  	
 			<td>			
-				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3">
+				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3;padding:10px;">
 					<thead class="templateHead">
-						<td> <?php echo $form->labelEx($musicProfile,'music',array('label'=>'Music Activity')); ?></td>
-						<td><?php echo $form->labelEx($musicProfile,'level',array('label'=>'Level')); ?> </td>
-						<td><?php echo $form->labelEx($musicProfile,'year_begin',array('label'=>'From')); ?> </td>
-						<td><?php echo $form->labelEx($musicProfile,'year_end',array('label'=>'To')); ?> </td>
+						<td> <?php echo $form->label($musicProfile,'music',array('label'=>'Music Activity')); ?></td>
+						<td><?php echo $form->label($musicProfile,'level',array('label'=>'Level')); ?> </td>
+						<td><?php echo $form->label($musicProfile,'year_begin',array('label'=>'From')); ?> </td>
+						<td><?php echo $form->label($musicProfile,'year_end',array('label'=>'To')); ?> </td>
 					</thead>					
 					<tr> 
 						<td><?php echo CHtml::dropDownList('MusicProfile[{0}][music]','', MusicProfile::$MusicArray,array('prompt'=>'Select Musical Activity','class'=>'req')); ?>
@@ -178,20 +179,20 @@ $this->progressbar();
 							<?php $this->ErrorDiv('MusicProfile_0_levelError','level'); ?>
 
 						 </td>
-						<td><?php echo CHtml::dropdownList('MusicProfile[{0}][year_begin]','',MusicProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year','class'=>'req')); ?> 
+						<td><?php echo CHtml::dropdownList('MusicProfile[{0}][year_begin]','',MusicProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year','class'=>'req from')); ?> 
 							<?php $this->ErrorDiv('MusicProfile_0_year_beginError','From'); ?>
 
 						</td>
-						<td><?php echo CHtml::dropdownList('MusicProfile[{0}][year_end]','',MusicProfile::$YearParticipateArray,array('prompt'=>'Enter End Year','class'=>'req')); ?>
+						<td><?php echo CHtml::dropdownList('MusicProfile[{0}][year_end]','',MusicProfile::$YearParticipateArray,array('prompt'=>'Enter End Year','class'=>'req to')); ?>
 							<?php $this->ErrorDiv('MusicProfile_0_year_endError','To'); ?>
 						 </td>						
 					</tr>
 					
 					<thead class="templateHead">
-						<td><?php echo $form->labelEx($musicProfile,'school_orchband'); ?></td>
-						<td><?php echo $form->labelEx($musicProfile,'school_leader'); ?></td>
-						<td><?php echo $form->labelEx($musicProfile,'ext_orchband'); ?></td>
-						<td><?php echo $form->labelEx($musicProfile,'ext_leader'); ?></td>
+						<td><?php echo $form->label($musicProfile,'school_orchband'); ?></td>
+						<td><?php echo $form->label($musicProfile,'school_leader'); ?></td>
+						<td><?php echo $form->label($musicProfile,'ext_orchband'); ?></td>
+						<td><?php echo $form->label($musicProfile,'ext_leader'); ?></td>
 					</thead>						
 
 					<tr >
@@ -202,7 +203,7 @@ $this->progressbar();
 					</tr>
 
 					<thead>
-						<td><?php echo $form->labelEx($musicProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
+						<td><?php echo $form->label($musicProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
 					</thead>
 					<tr>
 					<td><?php echo CHtml::textField('MusicProfile[{0}][comments]','',array('size'=>80,'maxlength'=>100)); ?></td>
@@ -210,8 +211,8 @@ $this->progressbar();
 					<!--GIve the Break to for Space between each table-->
 					<br/>
 				</table>
-										
-			<td> 
+			<td>&nbsp;</td>									
+			<td class="remove"> 
 			<input type="hidden" class="rowIndex" value="{0}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -222,17 +223,25 @@ $this->progressbar();
 	</tbody>
 	
 	</table>
+<br></br>
+     <div class="span-3">
+	
+            <div class="pbuttons">
+		<?php  echo CHtml::Button('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/sports"')); ?>
 
-	<div class="row buttons">
-		<?php  echo CHtml::htmlButton('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/Musics"')); ?>
+		            </div>
+        </div>
+        <div class="span-3 last">
+            <div class="buttons">
+
 		<?php echo CHtml::submitButton('Next'); ?>
 	</div>
-
-
-
+        
+        </div>
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
 </div>
     </div>
 </div>
+<br></br><br></br>

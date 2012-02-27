@@ -25,25 +25,24 @@ class SubjectProfile extends ProfileActiveRecord
 	 * @return SubjectProfile the static model class
 	 */
         public static $YearArray
-          = array(0=>'Freshman',
-                  1=>'Sophomore',
-                 2=>'Junior',
-                 3=>'Senior',
-                 4=>'After 4th year',
+          = array(1=>'Freshman',
+                  2=>'Sophomore',
+                 3=>'Junior',
+                 4=>'Senior',
+                 
                );
 
-      
-        
         public static $HonorsArray
-          = array(0=>'',
+          = array(
                   1=>'Honors',
-                 2=>'AP',
+                  2=>'AP',
+                  3=>'College'
                );
         
         public static function convertYear($inYear)
         {
             $myReturnValue = "";
-            if (($inYear !=="") && ($inYear !==NULL) && ($inYear <=4) && ($inYear >=0)) {
+            if (($inYear !=="") && ($inYear !==NULL) && ($inYear <=4) && ($inYear >=1)) {
                 $myReturnValue = SubjectProfile::$YearArray[$inYear];
             }
             return $myReturnValue;
@@ -53,7 +52,7 @@ class SubjectProfile extends ProfileActiveRecord
         public static function convertHonors($inHonors)
         {
             $myReturnValue = "";
-            if (($inHonors !=="") && ($inHonors !==NULL) && ($inHonors <=2) && ($inHonors >=0)) {
+            if (($inHonors !=="") && ($inHonors !==NULL) && ($inHonors <=3) && ($inHonors >=1)) {
                 $myReturnValue = SubjectProfile::$HonorsArray[$inHonors];
             }
             return $myReturnValue;
@@ -154,36 +153,33 @@ class SubjectProfile extends ProfileActiveRecord
         protected function afterSave()
         {
 
-                $myID = Yii::app()->user->id;
-                $basicProfile=BasicProfile::model()->findByPk($myID);
-                $numSubjects = $this->countByAttributes(array('user_id'=>$myID));
+                $this->updateAcademicTotals();
 
-                if($basicProfile===null)
-                {                
-                        $basicProfile=new BasicProfile;
-                        $basicProfile->user_id = $myID;
-                        $basicProfile->first_university_id = 1;
-                        $basicProfile->curr_university_id = 1;
-                        $basicProfile->num_scores = 0;
-                        $basicProfile->num_aps = 0;
-                        $basicProfile->num_sat2s = 0;
-                        $basicProfile->num_extracurriculars = 0;
-                        $basicProfile->num_sports = 0;
-                        $basicProfile->num_competitions = 0;
-                        $basicProfile->num_essays = 0;
-                        $basicProfile->profile_type = 0;
-                }
-
-                $basicProfile->num_academics  = $numSubjects;
-                $basicProfile->save(true);
-
-                return parent::afterValidate();
+                return parent::afterSave();
         //return true;
         }
-            function getSubject() 
+        
+        protected function afterDelete()
+        {
+
+                $this->updateAcademicTotals();
+
+                return parent::afterDelete();
+        //return true;
+        }
+        
+        public function getSubject() 
         { 
              $subjectArray = CHtml::listData(SubjectType::model()->findAll(), 'id', 'name');
              return $subjectArray;
         }
+        
+        public static function getSubjectById() 
+        { 
+			$myID = Yii::app()->user->id;	
+			$SubjectArr = SubjectProfile::model()->findAll('user_id =:id', array(':id'=>$myID));
+			return $SubjectArr;
+        }
+			
         
 }

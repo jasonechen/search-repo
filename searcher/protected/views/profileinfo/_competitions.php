@@ -1,8 +1,9 @@
 <?php 	
-$this->progressbar(); 
+$this->progressbar('Academics','competitions'); 
 $this->IncludeJsDynamicrows(); ?>
 <div class="sub-head-profile">Academics - Competitions</div>
 <div class="container">
+<div class="span-18 last">
 <div class="form">
     
                    
@@ -16,17 +17,17 @@ $this->IncludeJsDynamicrows(); ?>
 
 
 
-	<table class="templateFrame grid" cellspacing="0">
+	<table class="templateFrame grid" cellspacing="10"  style='table-layout:fixed'>
 	
 	<!--Start Table HEader -->
 	<thead class="templateHead">
 		<tr>
-			<td><?php echo $form->labelEx($competitionProfile,'name_of_competition',array('label'=>'Name')); ?></td>
-			<td><?php echo $form->labelEx($competitionProfile,'region'); ?></td>
-			<td><?php echo $form->labelEx($competitionProfile,'year',array('label'=>'Year')); ?> </td>
-			<td><?php echo $form->labelEx($competitionProfile,'rank_or_score'); ?> </td>
-			<td><?php echo $form->labelEx($competitionProfile,'num_competitors'); ?> </td>
-			<td><?php echo $form->labelEx($competitionProfile,'comments',array('label'=>'Description')); ?></td>
+			<td><?php echo $form->label($competitionProfile,'name_of_competition',array('label'=>'Name')); ?></td>
+			<td><?php echo $form->label($competitionProfile,'region'); ?></td>
+			<td><?php echo $form->label($competitionProfile,'year',array('label'=>'Year')); ?> </td>
+			<td><?php echo $form->label($competitionProfile,'rank_or_score'); ?> </td>
+			<td><?php echo $form->label($competitionProfile,'num_competitors'); ?> </td>
+			<td><?php echo $form->label($competitionProfile,'comments',array('label'=>'Description')); ?></td>
 		</tr>
 		
 	</thead>	
@@ -37,7 +38,7 @@ $this->IncludeJsDynamicrows(); ?>
 	<tfoot> 				
 	<tr >  
 	<td  colspan="4"> 
-	<div class="add"><?php echo Yii::t('ui','New');?></div>
+	<div class="add"><?php echo Yii::t('ui','Add Competition');?></div>
 	<textarea class="template" rows="0" cols="0" style="display:none;">	
 		
 		<tr class="templateContent">  	
@@ -69,7 +70,7 @@ $this->IncludeJsDynamicrows(); ?>
 			</td>
 			<td>
 		<?php //echo $form->labelEx($competitionProfile,'comments',array('label'=>'Description')); ?>
-		<?php echo CHtml::textField('CompetitionProfile[{0}][comments]','',array('size'=>80,'maxlength'=>100)); ?>
+		<?php echo CHtml::textField('CompetitionProfile[{0}][comments]','',array('size'=>40,'maxlength'=>100)); ?>
 		<?php // echo $form->error($competitionProfile,'comments'); ?>
 			</td>
 							
@@ -88,7 +89,7 @@ $this->IncludeJsDynamicrows(); ?>
 	</tfoot>
 	<!--End Table Content -->
 	
-	<!--Appended Rows addeded Here -->
+	<!--Appended Rows added Here -->
 	<tbody class="templateTarget">
 	<?php
 	
@@ -127,7 +128,7 @@ $this->IncludeJsDynamicrows(); ?>
 			</td>
 			<td>
 		<?php //echo $form->labelEx($competitionProfile,'comments',array('label'=>'Description')); ?>
-		<?php echo CHtml::textField('CompetitionProfile[{'.$i.'}][comments]',$compt[$i]->comments,array('size'=>80,'maxlength'=>100)); ?>
+		<?php echo CHtml::textField('CompetitionProfile[{'.$i.'}][comments]',$compt[$i]->comments,array('size'=>40,'maxlength'=>100)); ?>
 		<?php //echo $form->error($competitionProfile,'comments'); ?>
 			</td>
 							
@@ -168,7 +169,7 @@ $this->IncludeJsDynamicrows(); ?>
 			</td>
 			<td>
 		<?php //echo $form->labelEx($competitionProfile,'comments',array('label'=>'Description')); ?>
-		<?php echo CHtml::textField('CompetitionProfile[{0}][comments]','',array('size'=>80,'maxlength'=>100)); ?>
+		<?php echo CHtml::textField('CompetitionProfile[{0}][comments]','',array('size'=>40,'maxlength'=>100)); ?>
 		<?php // echo $form->error($competitionProfile,'comments'); ?>
 			</td>
 							
@@ -182,14 +183,25 @@ $this->IncludeJsDynamicrows(); ?>
 	</tbody>
 	
 	</table>
+<br></br>
+        <div class="span-3">
+	
+            <div class="pbuttons">
+		<?php echo CHtml::Button('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/subjects"')); ?>
+	    </div>
+        </div>
+        <div class="span-3 last">
+            <div class="buttons">
 
-	<div class="row buttons">
-		<?php echo CHtml::htmlButton('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/subjects"')); ?>
+
 		<?php echo CHtml::submitButton('Next'); ?>
-	</div>
+            </div>
+        </div>
 
 	
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
 </div>
+    </div>
+<br></br><br></br>

@@ -1,4 +1,8 @@
-<div class="container"><p>Congratulations, you have finished filling your profile.  If you would like to refer other people to Meceve.com, <br/>please Click <a href="index.php?r=refer">HERE</a></p>
+<div class="container">
+    <br></br>
+    
+    <h3>Congratulations, you have finished! </h3>
+    
 
-
+    <br></br><br></br><br></br><br></br>
 </div>

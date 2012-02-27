@@ -26,18 +26,13 @@
 		<?php echo $form->labelEx($academicProfile,'class_rank_num'); ?>
 		<?php echo $form->textField($academicProfile,'class_rank_num'); ?>
 		<?php echo $form->error($academicProfile,'class_rank_num'); ?>
-<br></br>
+                <br></br>
                 <?php echo $form->labelEx($academicProfile,'class_rank_percent'); ?>
-		<?php echo $form->dropDownList($academicProfile,'class_rank_percent',   array('1'=>'Top 1%',
-                                                                 '2'=>'Top 5%',
-                                                                 '3'=>'Top 10%',
-                                                               '4'=>'Top 20%',
-                                                               '5'=>'Top 25%',
-                                                               '6'=>'Top 50%', '7'=>'50%-75%','8'=>'Bottom 25%'),array('prompt'=>'Class Rank Percentile')); ?>
+		<?php echo $form->dropDownList($academicProfile,'class_rank_percent', 
+                                               AcademicProfile::$ClassRankArray,
+                                               array('prompt'=>'Class Rank Percentile')); ?>
 		<?php echo $form->error($academicProfile,'class_rank_percent'); ?>
-                
-                
-                
+                                
                 <br></br>
 		<?php echo $form->labelEx($academicProfile,'class_size'); ?>
 		<?php echo $form->textField($academicProfile,'class_size'); ?>

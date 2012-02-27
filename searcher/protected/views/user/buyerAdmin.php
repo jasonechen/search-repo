@@ -20,7 +20,7 @@ $this->setAdminMenu();
 
 
     <div class="row">
-          <?php echo "You have ".$creditModel->buy_credits." credits available."; ?>
+          <?php echo "You have " ?> <b> <?php echo $creditModel->buy_credits ?> </b> <?php echo " credits available."; ?>
     </div>    
     <br></br>
    

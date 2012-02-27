@@ -1,5 +1,5 @@
 <?php 	
-$this->progressbar();
+$this->progressbar('Personalinfo','admittance');
 $this->IncludeJsDynamicrows(); 
 ?>
 <div class="container">
@@ -15,7 +15,7 @@ $this->IncludeJsDynamicrows();
 	'htmlOptions'=>array('onsubmit'=>'return validationSA(this);')
 )); ?>
 
-<?php  $this->renderPartial('_shooladmittance',array('otherschooladmitProfile'=>$otherschooladmitProfile,'form'=>$form));  ?>
+<?php  $this->renderPartial('_schooladmittance',array('otherschooladmitProfile'=>$otherschooladmitProfile,'form'=>$form));  ?>
 
 <?php $this->endWidget(); ?>
 

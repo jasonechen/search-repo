@@ -8,11 +8,11 @@ $this->pageTitle=Yii::app()->name . ' - Reset password';
 		'enableClientValidation'=>true,
 		'clientOptions'=>array(
 		'validateOnSubmit'=>true,
-		
+		'validateOnChange'=>false,    
 		),
 	));
  ?>
- <h1>Reset  password</h1>
+ <h2>Reset Password</h2>
  
 	<div class="row">
 		<?php echo $form->labelEx($model,'password_unhash'); ?>

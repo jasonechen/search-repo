@@ -176,7 +176,7 @@ class SiteController extends Controller
 	{
 		$this->layout = 'column2';
                 $model=new LoginForm;
-
+                $msg = 0;
 		// if it is ajax validation request
 		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
 		{
@@ -192,22 +192,41 @@ class SiteController extends Controller
 			if($model->validate() && $model->login()){
 //				$this->redirect(Yii::app()->user->returnUrl);
                                 $myTransType = Yii::app()->user->getState('TransType');
-
-                                if ($myTransType === 'B'){
-                                     $this->redirect(array('user/BuyerAccountSum'));                                                            
-                                }
-                                else if ($myTransType === 'S'){
-                                    $this->redirect(array('user/indexSeller'));      
-                                }
-                                else{
+                                $utype = Yii::app()->user->getState('usertype');
+                                $myID = Yii::app()->user->id;
+                                $uLogHistry = new UserLogHistory();
+                               $logsts = $uLogHistry->checkLogStatus($myID);
+                               //$logsts=1;
+                               if($logsts)
+                               {
+                                   $uLogHistry->afterLogin($myID);
+                                    if ($myTransType === 'B'){
+                                         $this->redirect(array('user/BuyerAccountSum'));                                                            
+                                    }
+                                    else if ($myTransType === 'S'){
+                                        $this->redirect(array('user/indexSeller'));      
+                                    }
+                                    else if($utype==1){
+                                    
                                     $this->redirect(array('user/admin'));
-                                }
+                                } 
+                                
+                               }
+                               else
+                               {
+                                   $msg=1;
+                                   Yii::app()->user->setState('TransType',0);
+                                    Yii::app()->user->logout();
+                                    Yii::app()->user->setState('TransType',0);
+                               }
+                                
+                               
 
                         }
 		}
 		// display the login form
 		//$this->render('login',array('model'=>$model));
-		$this->render('loginpopup',array('model'=>$model));
+		$this->render('loginpopup',array('model'=>$model,'msg'=>$msg));
 	}
 
 	/**
@@ -215,7 +234,10 @@ class SiteController extends Controller
 	 */
 	public function actionLogout()
 	{
-                            Yii::app()->user->setState('TransType',0);
+            $uLogHistry = new UserLogHistory();
+             $myID = Yii::app()->user->id;
+             $uLogHistry->afterLogout($myID);
+                Yii::app()->user->setState('TransType',0);
 		Yii::app()->user->logout();
                 Yii::app()->user->setState('TransType',0);
 		$this->redirect(Yii::app()->homeUrl);

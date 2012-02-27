@@ -13,64 +13,63 @@
 
     
        
-<div class="column">
-        <?php echo $form->labelEx($verifyProfile,'ref1_name',array('label'=>'Reference 1 Name')); ?>
+<table width=600px" height="150px" >
+    <col width="100px" />
+    <col width="150px" />
+    <col width="150px" />
+    <col width="150px" />
+      <tr>
+          <td></td>
+          <td>Name</td>
+          <td>Contact Info</td>
+          <td>Description</td>
+      </tr>
+      <tr>
+          <td>Reference 1</td>
+          <td>        
         <?php echo $form->textField($verifyProfile,'ref1_name'); ?>
         <?php echo $form->error($verifyProfile,'ref1_name'); ?>
-  </div>            
-   <div class="column">     
-        <?php echo $form->labelEx($verifyProfile,'ref1_contact',array('label'=>'Reference 1 Contact')); ?>
+          </td>
+          <td>
         <?php echo $form->textField($verifyProfile,'ref1_contact'); ?>
         <?php echo $form->error($verifyProfile,'ref1_contact'); ?>
-  </div>            
-   <div class="row">           
-        
-        <?php echo $form->labelEx($verifyProfile,'ref1_desc',array('label'=>'Reference 1 Description')); ?>
+          </td>
+          <td>
         <?php echo $form->textField($verifyProfile,'ref1_desc'); ?>
         <?php echo $form->error($verifyProfile,'ref1_desc'); ?>
-                    
-</div>        
-    <br>
-
-<div class="column">
-        <?php echo $form->labelEx($verifyProfile,'ref2_name',array('label'=>'Reference 2 Name')); ?>
+          </td>              
+      </tr>
+        <tr>
+          <td>Reference 2</td>
+          <td>        
         <?php echo $form->textField($verifyProfile,'ref2_name'); ?>
         <?php echo $form->error($verifyProfile,'ref2_name'); ?>
- </div>            
-   <div class="column">               
-        
-        <?php echo $form->labelEx($verifyProfile,'ref2_contact',array('label'=>'Reference 2 Contact')); ?>
+          </td>
+          <td>
         <?php echo $form->textField($verifyProfile,'ref2_contact'); ?>
         <?php echo $form->error($verifyProfile,'ref2_contact'); ?>
-   </div>            
-   <div class="row">           
-              
-        
-        <?php echo $form->labelEx($verifyProfile,'ref2_desc',array('label'=>'Reference 2 Description')); ?>
+          </td>
+          <td>
         <?php echo $form->textField($verifyProfile,'ref2_desc'); ?>
         <?php echo $form->error($verifyProfile,'ref2_desc'); ?>
-                    
-</div>
-     <br>
-  <div class="column">
-        <?php echo $form->labelEx($verifyProfile,'ref3_name',array('label'=>'Reference 3 Name')); ?>
+          </td>              
+      </tr>         
+      <tr>
+          <td> Reference 3</td>
+          <td>        
         <?php echo $form->textField($verifyProfile,'ref3_name'); ?>
         <?php echo $form->error($verifyProfile,'ref3_name'); ?>
- </div>            
-   <div class="column">              
-        
-        <?php echo $form->labelEx($verifyProfile,'ref3_contact',array('label'=>'Reference 3 Contact')); ?>
+          </td>
+          <td>
         <?php echo $form->textField($verifyProfile,'ref3_contact'); ?>
         <?php echo $form->error($verifyProfile,'ref3_contact'); ?>
-       </div>            
-   <div class="row">           
-                  
-        
-        <?php echo $form->labelEx($verifyProfile,'ref3_desc',array('label'=>'Reference 3 Description')); ?>
+          </td>
+          <td>
         <?php echo $form->textField($verifyProfile,'ref3_desc'); ?>
         <?php echo $form->error($verifyProfile,'ref3_desc'); ?>
-                    
-</div>  
+          </td>              
+      </tr>
+</table>
     
     
     

@@ -1,7 +1,8 @@
 
 
-<h2>Create your student account, fill out your profile!
-    </br></h2>
+<h2>Sign Up: Student Contributors </h2>
+<h3> <i>Create your account, fill out your profile!/i>
+    </br></h3>
 <?php if($successRegistration){ ?>
 	<style type="text/css">		
 	.container {   

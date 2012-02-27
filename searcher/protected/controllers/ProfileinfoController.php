@@ -1885,7 +1885,7 @@ if(isset($_POST['ActivityProfile'])  || isset($_POST['ResearchProfile']) || isse
 
    public function actionConsult(){		
 		
-        print     $myID = Yii::app()->user->id;
+          $myID = Yii::app()->user->id;
 			
 			$consult = Consult::model()->find('user_id=:user_id',array(':user_id'=>$myID));			
 			
@@ -1996,9 +1996,9 @@ if(isset($_POST['ActivityProfile'])  || isset($_POST['ResearchProfile']) || isse
         public function actionExclusivity()
         {		
 		
-        print     $myID = Yii::app()->user->id;
+            $myID = Yii::app()->user->id;
 			
-			$exclusive = Exclusive::model()->find('user_id=:user_id',array(':user_id'=>$myID));			
+	$exclusive = Exclusive::model()->find('user_id=:user_id',array(':user_id'=>$myID));			
 			
 			if($exclusive == null){
 	            $exclusive = new Exclusive;
@@ -2027,7 +2027,7 @@ if(isset($_POST['ActivityProfile'])  || isset($_POST['ResearchProfile']) || isse
 {			
 		$this->formStatus('summary');
 			
-		$this->render('_summary');
+		$this->render('_summary', array(''));
 		
     }      
     

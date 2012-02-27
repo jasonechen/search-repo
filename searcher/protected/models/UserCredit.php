@@ -46,7 +46,7 @@ class UserCredit extends CActiveRecord
 			array('user_id', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('user_id, buy_credits, sell_credits', 'safe', 'on'=>'search'),
+			array('user_id, buy_credits, sell_credits, avg_price', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -93,4 +93,20 @@ class UserCredit extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+	public function incrementBuyCredits($inNumCredits, $inDollarPurchase)
+	{
+	
+	    $newNumberOfCredits = $inNumCredits + $this->buy_credits;
+	    $newTotal = $inDollarPurchase + ($this->avg_price * $this->buy_credits);
+	    $this->buy_credits = $newNumberOfCredits;
+	    if ($newNumberOfCredits >= 1){
+	        $this->avg_price = $newTotal/$newNumberOfCredits;
+	    }
+	    else{
+	        $this->avg_price = 0;
+	    }
+	}
+      
+      
 }

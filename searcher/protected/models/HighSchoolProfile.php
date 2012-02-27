@@ -15,7 +15,7 @@
  * @property string $update_user_id
  *
  * The followings are the available model relations:
- * @property HighschoolName $highSchool
+ * @property HighSchoolName $highSchool
  * @property User $user
  */
 class HighSchoolProfile extends ProfileActiveRecord
@@ -104,7 +104,7 @@ class HighSchoolProfile extends ProfileActiveRecord
 	}
         
        public function suggest($keyword,$limit=20)
-            {
+       {
                 $models=$this->findAll(array(
                     'condition'=>'name LIKE :keyword',
                     'order'=>'name',
@@ -120,9 +120,10 @@ class HighSchoolProfile extends ProfileActiveRecord
                     'type'=>$model->type, // return values from autocomplete
 
                 );
-                }
+        }
             return $suggest;
     }
+
 
     /**
 * @return array for dropdown (attr1 => attr2)
@@ -131,5 +132,5 @@ public function getOptions()
 {
 return CHtml::listData($this->findAll(),'id','name','type');
 }
-    
+       
 }

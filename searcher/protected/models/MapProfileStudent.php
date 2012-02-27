@@ -112,4 +112,16 @@ class MapProfileStudent extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function getAccessArray(){
+
+            return array('l1'=>$this->l1_purchased,
+                         'l2'=>$this->l2_purchased,
+                         'l3'=>$this->l3_purchased,
+                         'owner'=>$this->isOwner,
+                        );
+   
+                   
+        }
+        
 }

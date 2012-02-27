@@ -41,7 +41,7 @@
         {
             if($('#search_first_university_id').val() == '')
             {
-                alert("You should select one of universities from database");
+                alert("Please select a university to search");
                 return false;
             }
         });*/

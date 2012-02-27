@@ -44,24 +44,7 @@
                 endif; 
                 ?>
 
-	<ul>
-            <li><?php echo CHtml::link("My Profile",array('profile/modBasic')); ?></li>
-            <li><?php echo CHtml::link("Profile Wizard",array('profileinfo/basic')); ?></li>
-            <li>
-                <?php 
-                
-                $myTransType = Yii::app()->user->getState('TransType');
-
-            if ($myTransType === 'B'):
-                 echo CHtml::link("Settings",array('user/BuyerAccountSum'));                                                            
-            
-            else: 
-                echo CHtml::link("Settings",array('user/indexSeller'));          
-                
-                endif; 
-                ?>
-            </li>
-	</ul>
+    
 </li>
     
 <li><?php   if ($myTransType === 'B'):
@@ -156,7 +139,7 @@
 			</ul>
 		</div>
 		<div class="text-box">
-			<strong class="logo"><a href="#">CrowdPrep</a></strong>
+	<strong class="logo"><?php echo CHtml::link("CrowdPrep",array('site/indexFinder')); ?></strong>
 			<p>Copyright &copy; 2011, Crowdprep.All Rights Reserved.</p>
 		</div>
 	</div>

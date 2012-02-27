@@ -1,4 +1,4 @@
-<h2>Academics</h2>
+
 
 <?php
     if ($academicProfile!==null){

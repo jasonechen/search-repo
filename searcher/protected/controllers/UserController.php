@@ -60,7 +60,7 @@ class UserController extends Controller
 /*These need to be fixed so only the self user can run these operations */                    
 			array('allow',  
 				'actions'=>array('index','view','update','browse','indexSeller','indexBuyer','account',
-                                                  'Credits', 'Settings', 'Consult', 'Validate', 'Earnings', 'BuyerAccountSum','PurchasedDetails', 'PaypalChange'),
+                                                  'Credits', 'Learnmore', 'Settings', 'Consult', 'Validate', 'Earnings', 'BuyerAccountSum','PurchasedDetails', 'PaypalChange','Viewinvoice','Successpage'),
 				'users'=>array('@'),
 			),
 			array('allow',  
@@ -457,12 +457,40 @@ class UserController extends Controller
                             //                             $this->redirect(array('indexSeller',)); 
                             $this->redirect(array('indexSeller',));  
                         }
-		}               
+		}
+                
+                            
+			
+	$exclusive = Exclusive::model()->find('user_id=:user_id',array(':user_id'=>$myID));			
+			
+			if($exclusive == null){
+	            $exclusive = new Exclusive;
+			}
+			
+			
+            if(isset($_POST['Exclusive'])){
+                $exclusive->attributes = $_POST['Exclusive'];
+                $exclusive->user_id = $myID ;			
+                //print $_POST['Exclusive']['exclusiveValue'];exit;
+                $exclusive->exclusiveValue = $_POST['Exclusive']['exclusiveValue'];
+                // Check whether Check box is checked or Not			
+                $valid = $exclusive->validate();	
+                if ($valid){
+                    $exclusive->save(true);
+
+                    // Set this Form Completed 
+                  //  NEED TO FIX THIS TO  $this->formStatus('exclusivity');
+                    $this->redirect(array('IndexSeller'));  
+                }
+            }
+          
+         
+    
                 
 		$this->render('sellerAdmin',array(
 			'model'=>$model,
                         'creditModel'=>$creditModel,
-                        'basicProfile'=>$basicProfile,
+                        'basicProfile'=>$basicProfile, 'exclusive'=>$exclusive
 		));
 	}   
 	/**
@@ -862,7 +890,7 @@ class UserController extends Controller
                 array('label'=>'Purchased Profiles', 'url'=>array('profile/browseMine')),
                 array('label'=>'Credit Balance', 'url'=>array('Credits')),
                 array('label'=>'Settings', 'url'=>array('Settings')),                
-                array('label'=>'Purchased Details', 'url'=>array('PurchasedDetails')),
+                array('label'=>'Order History', 'url'=>array('PurchasedDetails')),
             );
             }
         else if ($myTransType === 'S'){ 
@@ -872,7 +900,7 @@ class UserController extends Controller
                 array('label'=>'Profile Wizard', 'url'=>array('profileinfo/basic')),
                 array('label'=>'My Profile', 'url'=>array('profile/modBasic')),
                 array('label'=>'Referrals', 'url'=>array('refer/index')),
-                array('label'=>'Profile Validation', 'url'=>array('Validate')),
+                array('label'=>'Profile Verification', 'url'=>array('Validate')),
                 array('label'=>'Consultation', 'url'=>array('Consult')),
                 array('label'=>'Settings', 'url'=>array('Settings')),
                 
@@ -941,19 +969,34 @@ class UserController extends Controller
                }
         }
         
-        public function actionConsult()
-        {
-            
-            $this->render('_seller_consult');
-            
-        }
         
         public function actionValidate()
         {
-            
-            $this->render('_seller_validate');
-            
+     
+	   		
+            $myID = Yii::app()->user->id;
+            $verifyProfile=VerifyProfile::model()->findByPk($myID);
+                         
+            if($verifyProfile===null){    
+                $verifyProfile=new VerifyProfile;
+            }
+            if(isset($_POST['VerifyProfile'])){
+			
+                $verifyProfile->attributes=$_POST['VerifyProfile'];
+
+                $valid = $verifyProfile->validate()/* && $valid*/;
+                if ($valid){                       
+                    $verifyProfile->save(true);
+                    // Set this Form Completed                     
+                    $this->redirect(array('validate',));   
+                }
+
+                    
+            }      
+            $this->render('_seller_validate',array('verifyProfile'=>$verifyProfile));	
         }
+            
+        
         
         public function actionEarnings()
         {
@@ -1214,7 +1257,7 @@ class UserController extends Controller
             $qty = 1;
             if(@$_GET['data']['msg']==1)
             {
-             $msg = "You have successfully purchased ".$_GET['cvalue']." Credits <br/>";
+             $msg = "You have successfully purchased ".$_GET['data']['cvalue']." Credits <br/>";
              $qty=$_GET['data']['qty'];
              $credits= $_GET['data']['cvalue'];
             }
@@ -1222,4 +1265,77 @@ class UserController extends Controller
             $data = array('msg'=>$msg,'qty'=>$qty,'credits'=>$credits);
             $this->render('success',$data);
     }
+	 public function actionViewinvoice($id)
+    {
+         $model=  OrderPaymentModel::model()->findByPk($id);
+         $data= array('model'=>$model);
+         $this->render('invoice',$data);
+    }
+    
+    	 public function actionLearnmore()
+    {
+                  
+         $this->render('_learnconsult');
+    }
+    
+    
+       public function actionConsult(){		
+		
+          $myID = Yii::app()->user->id;
+			
+		$consult = Consult::model()->find('user_id=:user_id',array(':user_id'=>$myID));			
+			
+			if($consult == null){
+	            $consult = new Consult;
+			}
+		
+		if(isset($_POST['Consult'])){
+			$consult->attributes	=	$_POST['Consult'];
+			$consult->user_id = $myID ;			
+			//print $_POST['Exclusive']['consultValue'];exit;
+			$consult->consultValue = $_POST['Consult']['consultValue'];
+			// Check whether Check box is checked or Not			
+			$valid = $consult->validate();	
+			if ($valid){
+				$consult->save(true);
+				// Set this Form Completed 
+				
+				$this->redirect(array('consult'));  
+			}
+		}
+		$this->render('_seller_consult',array('consult'=>$consult));
+		
+		
+    }
+    
+         public function actionExclusivity()
+        {		
+		
+            $myID = Yii::app()->user->id;
+			
+	$exclusive = Exclusive::model()->find('user_id=:user_id',array(':user_id'=>$myID));			
+			
+			if($exclusive == null){
+	            $exclusive = new Exclusive;
+			}
+			
+			
+            if(isset($_POST['Exclusive'])){
+                $exclusive->attributes = $_POST['Exclusive'];
+                $exclusive->user_id = $myID ;			
+                //print $_POST['Exclusive']['exclusiveValue'];exit;
+                $exclusive->exclusiveValue = $_POST['Exclusive']['exclusiveValue'];
+                // Check whether Check box is checked or Not			
+                $valid = $exclusive->validate();	
+                if ($valid){
+                    $exclusive->save(true);
+
+                    // Set this Form Completed 
+                    $this->formStatus('exclusivity');
+                    $this->redirect(array('exclusivity'));  
+                }
+            }
+            $this->render('exclusive',array('exclusive'=>$exclusive));
+        } 
+    
 }

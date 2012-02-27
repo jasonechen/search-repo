@@ -1,4 +1,4 @@
-<h2>Extracurriculars</h2>
+
 
 <?php
     if ($activityProfileArray!==null){

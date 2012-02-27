@@ -10,10 +10,19 @@ class ForgotPasswordController extends Controller
 	public function actionIndex(){	
 	
 		 $model=new ForgotPassword;
-	 	 $this->render('fogotpassword',array('model'=>$model));		
+	 	 $this->render('forgotpassword',array('model'=>$model));		
 	
 	}
-	
+	public function accessRules()
+	{
+		return array(
+/*These need to be fixed so only the self user can run these operations */                    
+			array('allow',  
+				'actions'=>array('Usernewpassword'),
+				'users'=>array('@'),
+			),
+                    );
+        }
 	/**
 	 * This is to send the email reset link for the user's email
 	 * if the email exist , password reset link will send , if not exist shows error
@@ -22,7 +31,7 @@ class ForgotPasswordController extends Controller
     public function actionSendmaillink(){
 		
 		$model=new ForgotPassword;
-		$model->attributes=$_POST['ForgotPassword'];
+		$model->attributes=@$_POST['ForgotPassword'];
 		$mail = new Sendmail;	
 		
 		
@@ -32,8 +41,8 @@ class ForgotPasswordController extends Controller
 			// if not exist shows error
 			if(empty($user)){		
 				// set flash message - Mail does not exist
-				Yii::app()->user->setFlash('passworlinksenterror','Email does not exist');
-				$this->render('fogotpassword',array('model'=>$model));		
+				Yii::app()->user->setFlash('passworlinksenterror','Your email address does not exist.  Please try again.');
+				$this->render('forgotpassword',array('model'=>$model));		
 			}else{
 				
 				// if email exists , generate a link
@@ -55,7 +64,7 @@ class ForgotPasswordController extends Controller
 				$mail->send($model->email,'Reset your password',$body);
 				 // set flash message - link sent 
 				 Yii::app()->user->setFlash('passworlinksent',
-				 "An email has been sent to that address.  If there are other issues, send an email to support@meceve.com" );
+				 "An email with a link has been sent to the submitted address. If you have other issues, please send an email to support@crowdprep.com" );
 				 $this->render('_success',array('model'=>$model));
 				
 			}
@@ -98,7 +107,7 @@ class ForgotPasswordController extends Controller
 			$id  = base64_decode(Yii::app()->request->getParam('id'));		 
 			// Reset 
 			$model->password_unhash = "";
-            $model->password_unhash_repeat = "";
+                        $model->password_unhash_repeat = "";
 			
 			$this->render('reset',array('model'=>$model,'id'=>$id));
 			
@@ -109,6 +118,7 @@ class ForgotPasswordController extends Controller
 	  * save new password 
 	  * and auto login
 	 */
+
 	 public function actionSavenewpassword(){				
 		$model=new ForgotPassword;
 		$model->setScenario('reset');	
@@ -124,24 +134,64 @@ class ForgotPasswordController extends Controller
 		
 	}
 	
-	/*
+
+         public function actionUserReset(){
+                $this->layout = 'column2';
+  		$id = Yii::app()->user->id;
+		// Create Instance For User 
+		$model = new User;				
+		 	
+			 $model=new ForgotPassword;
+			 // set scenerio reset to match the rules
+			 $model->setScenario('reset');			 		 
+		 
+			// Reset 
+			$model->password_unhash = "";
+                        $model->password_unhash_repeat = "";
+
+			$this->render('reset_user',array('model'=>$model,'id'=>$id));
+			
+		}
+	 
+	 	 
+
+         public function actionUsernewpassword(){				
+		$model=new ForgotPassword;
+		$model->setScenario('reset');	
+		$model->attributes=$_POST['ForgotPassword'];
+		$user =User::model()->findByPk($model->id);
+		$user->password =  $user->encrypt($model->password_unhash);					
+                $user->save();			
+	
+				// create auto login form 
+		$mod = new AutologinForm;
+	   	$this->render('autologin_user',array('model'=>$mod,'id'=>$user->id));
+	}
+
+   	/*
 	*  this function used to auto login
 	*  id is posted , and sent to autologin  
-	*/
+	*/         
+               
+         
+
 	public function actionLogin(){		
 		// get the user id from  autologin	
 		$model=new AutologinForm;
-		$model->attributes=$_POST['AutologinForm'];	
+		$model->attributes=@$_POST['AutoLoginForm'];	
+		
 		// find the user name by user id 
-		$user =User::model()->findByPk($model->id);	
+		$user =User::model()->findByPk($model->id);			
+		
 		// create identity 		
 		$identity=new UserIdentity($user->username,'');
+				
 		if($identity->autoLogin()){
 		// autologin 
 				Yii::app()->user->login($identity);
 				$myTransType = Yii::app()->user->getState('TransType');			
 			if ($myTransType === 'B'){
-				$this->redirect(array('user/indexBuyer'));                                                            
+				$this->redirect(array('user/BuyerAccountSum'));                                                            
 			}
 			else if ($myTransType === 'S'){
 				$this->redirect(array('user/indexSeller'));      
@@ -154,4 +204,42 @@ class ForgotPasswordController extends Controller
 		
 	}
 	
+	public function actionTest(){
+		$this->render('_success');
+	}
+	
+               public function setAdminMenu()
+        {
+            $myTransType = Yii::app()->user->getState('TransType');
+
+            if ($myTransType === 'B'){
+    
+        $this->menu=array(
+                array('label'=>'Account Summary', 'url'=>array('user/BuyerAccountSum')),
+                array('label'=>'Purchased Profiles', 'url'=>array('profile/browseMine')),
+                array('label'=>'Credit Balance', 'url'=>array('user/Credits')),
+                array('label'=>'Settings', 'url'=>array('user/Settings')),                
+                array('label'=>'Purchased Details', 'url'=>array('user/PurchasedDetails')),
+            );
+            }
+        else if ($myTransType === 'S'){ 
+         $this->menu=array(
+                array('label'=>'Account Summary', 'url'=>array('user/indexSeller')),         
+                array('label'=>'Earnings', 'url'=>array('user/Earnings')),
+                array('label'=>'Profile Wizard', 'url'=>array('profileinfo/basic')),
+                array('label'=>'My Profile', 'url'=>array('profile/modBasic')),
+                array('label'=>'Referrals', 'url'=>array('refer/index')),
+                array('label'=>'Profile Validation', 'url'=>array('user/Validate')),
+                array('label'=>'Consultation', 'url'=>array('user/Consult')),
+                array('label'=>'Settings', 'url'=>array('user/Settings')),
+                
+            );
+            }
+         else{
+         }
+            
+           
+        }
+        
+        
 }

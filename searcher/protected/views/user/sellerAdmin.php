@@ -13,4 +13,5 @@ $this->setAdminMenu();
 <?php echo $this->renderPartial('_sellerAdmin', array(
         			'model'=>$model,
                                 'creditModel'=>$creditModel,
-                                'basicProfile'=>$basicProfile,)); ?>
+                                'basicProfile'=>$basicProfile,
+                                'exclusive'=>$exclusive)); ?>

@@ -85,7 +85,7 @@ class ReferController extends Controller
                 array('label'=>'Profile Wizard', 'url'=>array('profileinfo/basic')),
                 array('label'=>'My Profile', 'url'=>array('profile/modBasic')),
                 array('label'=>'Referrals', 'url'=>array('refer/index')),
-                array('label'=>'Profile Validation', 'url'=>array('user/Validate')),
+                array('label'=>'Profile Verification', 'url'=>array('user/Validate')),
                 array('label'=>'Consultation', 'url'=>array('user/Consult')),
                 array('label'=>'Settings', 'url'=>array('user/Settings')),
                 

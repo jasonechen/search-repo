@@ -24,11 +24,11 @@
  * @property integer $white_count
  * @property string $type
  */
-class HighschoolName extends CActiveRecord
+class HighSchoolName extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return HighschoolName the static model class
+	 * @return HighSchoolName the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -54,7 +54,7 @@ class HighschoolName extends CActiveRecord
 			array('id, name', 'required'),
 			array('id, zip_code, phone_num, locale_code, male_count, female_count, nativeam_count, asian_count, black_count, hispanic_count, white_count', 'numerical', 'integerOnly'=>true),
 			array('name, street', 'length', 'max'=>100),
-			array('city', 'length', 'max'=>30),
+			array('city', 'length', 'max'=>60),
 			array('state, type', 'length', 'max'=>2),
 			array('student_count, teacher_count, stud_teach_ratio', 'length', 'max'=>5),
 			// The following rule is used by search().

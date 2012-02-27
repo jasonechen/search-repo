@@ -5,10 +5,13 @@
     );
 
     Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery.cookie.js');
-
+$this->setAdminMenu();
 ?>
 
-<h2>View Profile # <?php echo $profileID; ?></h2>
+<?php echo CHtml::link('<--Back to Purchased Profiles', array('profile/browseMine')); ?>
+<br></br>
+
+<h2>Profile # <?php echo $profileID; ?></h2>
 
 Overall Rating: <br/>
 <?php
@@ -38,8 +41,8 @@ Overall Rating: <br/>
                                 'title' => 'Rate Profile',
                                 'autoOpen' => false,
                                 'modal' => true,
-                                'width' => 550,
-                                'height' => 470,
+                                'width' => 500,
+                                'height' => 250,
                             ),
                        )
         );

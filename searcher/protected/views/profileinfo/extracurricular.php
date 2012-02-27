@@ -1,5 +1,6 @@
-<?php 	$this->progressbar(); ?>
-<div class="sub-head-profile">Extra Curricular </div>
+<?php 	$this->progressbar('EC','extracurricular'); ?>
+<div class="sub-head-profile">Other Extracurricular Activities </div>
+<p><i> Check box to add </i></p>
 <?php 	
 	$this->IncludeJsDynamicrows(); 
 	Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/common.js');
@@ -14,25 +15,6 @@
 )); ?>	
 	
 		
-	<!--Volunteer-->
-	<div class="cpanel">
-		<?php echo CHtml::checkBox('g2', $volunteerCheck, array('id'=>'group4')); ?>
-		<?php echo CHtml::label(Yii::t('ui','Volunteer'),'group2'); ?>
-		<div class="cpanelContent">
-			<?php $this->renderPartial('_volunteer',array('volunteerProfile'=>$volunteerProfile,'form'=>$form)); ?>		
-		</div><!-- cpanelContent -->
-	</div><!-- cpanel -->
-	<!--End Volunteer-->
-	
-	<!--Work-->
-	<div class="cpanel">
-		<?php echo CHtml::checkBox('g2', $workCheck, array('id'=>'group5')); ?>
-		<?php echo CHtml::label(Yii::t('ui','Work'),'group2'); ?>
-		<div class="cpanelContent">
-			<?php $this->renderPartial('_work',array('workProfile'=>$workProfile,'form'=>$form)); ?>		
-		</div><!-- cpanelContent -->
-	</div><!-- cpanel -->
-	<!--End work-->
 	
 	<!--Research-->
 	<div class="cpanel">
@@ -57,20 +39,28 @@
 	<!--other-->
 	<div class="cpanel">
 		<?php echo CHtml::checkBox('g2', $otherCheck, array('id'=>'group8')); ?>
-		<?php echo CHtml::label(Yii::t('ui','Extra'),'group2'); ?>
+		<?php echo CHtml::label(Yii::t('ui','Other Activities'),'group2'); ?>
 		<div class="cpanelContent">
 			<?php $this->renderPartial('_extracurr_other',array('otherProfile'=>$otherProfile,'form'=>$form)); ?>		
 		</div><!-- cpanelContent -->
 	</div><!-- cpanel -->
 	<!--End other-->
 	
+	<br></br>
+        <div class="span-3">
 	
-	<div class="row buttons">
-		<?php echo CHtml::htmlButton('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/music"')); ?>
+            <div class="pbuttons">
+		<?php echo CHtml::Button('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/volunteer"')); ?>
+		            </div>
+        </div>
+        <div class="span-3 last">
+            <div class="buttons">
+
 		<?php echo CHtml::submitButton('Next'); ?>
 	</div>
-
+        </div>
 
 <?php $this->endWidget(); ?>
 
 
+<br></br><br></br>

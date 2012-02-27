@@ -48,7 +48,8 @@ class EssayProfile extends ProfileActiveRecord
 			array('user_id', 'required'),
 			array('user_id, create_user_id, update_user_id', 'length', 'max'=>10),
 			array('name, size', 'length', 'max'=>20),
-			array('mime', 'length', 'max'=>50),
+			//array('mime', 'length', 'max'=>50),
+			array('mime','file'),
 			array('data, create_time, update_time', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -94,8 +95,7 @@ class EssayProfile extends ProfileActiveRecord
             $basicProfile=BasicProfile::model()->findByPk($myID);
             $numEssays = $this->countByAttributes(array('user_id'=>$myID));
   
-            if($basicProfile===null)
-            {                
+            if($basicProfile===null){                
                     $basicProfile=new BasicProfile;
                     $basicProfile->initialize($myID);
             }
@@ -106,4 +106,11 @@ class EssayProfile extends ProfileActiveRecord
             return parent::afterValidate();
     //return true;
     }
+	
+	 public static function getEssayByUser() 
+        { 
+            $myID = Yii::app()->user->id;	
+            $testArr = EssayProfile::model()->findAll('user_id =:id', array(':id'=>$myID));
+            return $testArr;
+        }
 }

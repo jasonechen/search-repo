@@ -5,7 +5,7 @@
 		
 	*/
 
-	class PersonalInfoController extends Controller{
+	class PersonalinfoController extends Controller{
 	
 	
 		public function index(){
@@ -14,26 +14,11 @@
 		
 		public function actionBasic(){
 		// Basic model
-			//$basicmodel = new BasicPersonalInfo;
+			//$basicmodel = new BasicPersonalinfo;
 			
 			
 			$basicProfile= new BasicProfile;
-			$basicProfile->user_id = 62;			
-			$basicProfile->first_university_id = 1;
-			$basicProfile->curr_university_id = 1;
-			$basicProfile->highschool_id = 1;
-			$basicProfile->num_academics = 0;
-			$basicProfile->num_extracurriculars = 0;
-			$basicProfile->num_sports = 0;
-			$basicProfile->num_competitions = 0;
-			$basicProfile->num_essays = 0;
-			$basicProfile->num_scores = 0;
-			$basicProfile->num_aps = 0;
-			$basicProfile->num_sat2s = 0;
-			$basicProfile->l1ForSale = 0;
-			$basicProfile->l2ForSale = 0;
-			$basicProfile->l3ForSale = 0;
-			
+			$basicProfile->initialize(62);
 			
 			 print '<pre>';
 			

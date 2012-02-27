@@ -31,43 +31,23 @@
     
 	
 		<?php echo $form->labelEx($scoreProfile,'SAT_Essay',array('label'=>'SAT I Essay')); ?> 
-		<?php echo $form->dropDownList($scoreProfile,'SAT_Essay', array(0=>'0',
-                                                                            2=>'2',3=>'3',
-                                                                            4=>'4',5=>'5',
-                                                                            6=>'6',7=>'7',
-                                                                            8=>'8',9=>'9',
-                                                                            10=>'10',11=>'11',
-                                                                            12=>'12',), array('prompt'=>'Select/Update Score')
+		<?php echo $form->dropDownList($scoreProfile,'SAT_Essay', array(      
+                                                                            12=>'12',
+                                                                            11=>'11',
+                                                                            10=>'10',
+                                                                            9=>'9',
+                                                                            8=>'8',
+                                                                            7=>'7',
+                                                                            6=>'6',
+                                                                            5=>'5',
+                                                                            4=>'4',
+                                                                            3=>'3',
+                                                                            2=>'2',
+                                                                             1=>'1',
+                                                                    ), array('prompt'=>'Select/Update Score')
                                                                       ); ?>
 		<?php echo $form->error($scoreProfile,'SAT_Essay'); ?>
-<br></br>
-        		<?php echo $form->labelEx($scoreProfile,'PSAT_Math',array('label'=>'PSAT Math')); ?>
-		<?php echo $form->dropDownList($scoreProfile,'PSAT_Math',ScoreProfile::$PsatScoreArray,array('prompt'=>'Select/Update Score')); ?>
-		<?php echo $form->error($scoreProfile,'PSAT_Math'); ?>
-	
-
-                <br></br>
-		<?php echo $form->labelEx($scoreProfile,'PSAT_Verbal',array('label'=>'PSAT Verbal')); ?>
-		<?php echo $form->dropDownList($scoreProfile,'PSAT_Verbal',ScoreProfile::$PsatScoreArray,array('prompt'=>'Select/Update Score')); ?>
-		<?php echo $form->error($scoreProfile,'PSAT_Verbal'); ?>
-	<br></br>
-		<?php echo $form->labelEx($scoreProfile,'PSAT_Writing',array('label'=>'PSAT Writing')); ?>
-		<?php echo $form->dropDownList($scoreProfile,'PSAT_Writing',ScoreProfile::$PsatScoreArray,array('prompt'=>'Select/Update Score')); ?>
-		<?php echo $form->error($scoreProfile,'PSAT_Writing'); ?>
-	<br></br>
-		<?php echo $form->labelEx($academicProfile,'national_Merit',array('label'=>'National Merit Scholar')); ?>
-		<?php echo $form->dropDownList($academicProfile,'national_Merit',
-                                                                   array(
-                                                                       'N'=>'Commended',
-                                                                       'S'=>'Outstanding',
-                                                                         'M'=>'Semifinalist',
-                                                                         'F'=>'Finalist'),
-                                                                    array('prompt'=>'Enter Recognition')); ?>
-		<?php echo $form->error($academicProfile,'national_Merit'); ?>
-        
-        
-        
-        </div>
+	</div>
 
     
         

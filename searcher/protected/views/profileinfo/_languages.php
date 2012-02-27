@@ -1,5 +1,5 @@
 <?php 
-$this->progressbar(); 
+$this->progressbar('Personalinfo','languages');
 $this->IncludeJsDynamicrows(); ?>
 <div class="sub-head-profile">Personal Info - Languages</div>
 <?php
@@ -18,19 +18,20 @@ $persons=array();
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'design-form',
 	'enableAjaxValidation'=>false,
-	'htmlOptions'=>array('onsubmit'=>'return validation(this);')
+	'htmlOptions'=>array('onsubmit'=>'return validationLanguage(this);')
 )); ?>
 
 	
 
 	<div class="complex"> 
 		
-<table class="templateFrame grid" cellspacing="0">
+<table class="templateFrame grid" cellspacing="5" >
 	<thead class="templateHead">
 		<tr >
 			<td>
 			<?php echo $form->labelEx(LanguageProfile::model(),'Language ');?>
 			</td>
+			<td>&nbsp;</td>		
 			<td>
 			<?php echo $form->labelEx(LanguageProfile::model(),'Fluency');?>
 			</td>
@@ -39,8 +40,8 @@ $persons=array();
 	</thead>
 	<tfoot> 				
 	<tr >  
-	<td  colspan="4"> 
-	<div class="add"><?php echo Yii::t('ui','New');?></div>
+	<td  colspan="3"> 
+	<div class="add" style="margin:5px 0;"><?php echo Yii::t('ui','Add Another Language');?></div>
 	<textarea class="template" rows="0" cols="0" style="display:none;">
 	
 		
@@ -48,23 +49,24 @@ $persons=array();
 		
 			<td> 	
 			<?php echo CHtml::dropDownList('LanguageProfile[{0}][language_id]','', $languageProfile->getLangTypeOptions()
-			,array('class'=>'req')
+			,array('class'=>'req','prompt'=>'Select Language')
 			); ?>
 			<?php $this->ErrorDiv('LanguageProfile_{0}_language_idError','Language'); ?>
 			</td>	
-											
-			<td><?php echo CHtml::dropDownList('LanguageProfile[{0}][fluency]','',array(''=>'',
-			'1'=>'Full Fluency',
-			'2'=>'Moderate Speaking and Reading Fluency',
-			'3'=>'Speaking Only Fluency',
-			'4'=>'Elementary Fluency',
-			'5'=>'Reading Fluency Only'
-			),array('class'=>'req')); ?> 
+			<td >&nbsp;</td>										
+			<td  class="rdtd{0}"><?php echo CHtml::radioButtonList('LanguageProfile[{0}][fluency]','',array(
+			'1'=>'Speak',
+			'2'=>'Read',
+			'3'=>'Write',
+			'4'=>'First Language',
+			'5'=>'Spoken at Home'
+			),array('class'=>'rd','prompt'=>'Select Fluency')); ?> 
 			
 			<?php $this->ErrorDiv('LanguageProfile_{0}_fluencyError','Fluency'); ?>
 			</td>
 			
-			<td> 
+			<td>&nbsp;</td>							
+			<td class="remove">
 			<input type="hidden" class="rowIndex" value="{0}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -90,22 +92,23 @@ $persons=array();
 		
 			<td> 	
 			<?php echo CHtml::dropDownList('LanguageProfile[{'.$i.'}][language_id]',$langId[$i]->language_id, $languageProfile->getLangTypeOptions()
-				,array('class'=>'req')
+				,array('class'=>'req','prompt'=>'Select Language')
 			); ?>			
 			<?php $this->ErrorDiv('LanguageProfile_'.$i.'_language_idError','Language'); ?>
 			</td>	
-											
-			<td><?php echo CHtml::dropDownList('LanguageProfile[{'.$i.'}][fluency]',$model->fluencylevelById($langId[$i]->id),array(''=>'',
-			'1'=>'Full Fluency',
-			'2'=>'Moderate Speaking and Reading Fluency',
-			'3'=>'Speaking Only Fluency',
-			'4'=>'Elementary Fluency',
-			'5'=>'Reading Fluency Only'
-			),array('class'=>'req')); ?> 
+			<td>&nbsp;</td>										
+			<td class="rdtd<?php print $i; ?>"><?php echo CHtml::radioButtonList('LanguageProfile[{'.$i.'}][fluency]',$model->fluencylevelById($langId[$i]->id),array(
+			'1'=>'Speak',
+			'2'=>'Read',
+			'3'=>'Write',
+			'4'=>'First Language',
+			'5'=>'Spoken at Home'
+			),array('class'=>'rd','prompt'=>'Select Fluency')); ?> 
 			<?php $this->ErrorDiv('LanguageProfile_'.$i.'_fluencyError','Fluency'); ?>
 			</td>
 			
-			<td> 
+			<td>&nbsp;</td>							
+			<td class="remove">
 			<input type="hidden" class="rowIndex" value="{<?php print $i; ?>}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -117,21 +120,22 @@ $persons=array();
 		<tr class="templateContent">  	
 		
 			<td> 	
-			<?php echo CHtml::dropDownList('LanguageProfile[{0}][language_id]','', $languageProfile->getLangTypeOptions(),array('class'=>'req')); ?>
+			<?php echo CHtml::dropDownList('LanguageProfile[{0}][language_id]','', $languageProfile->getLangTypeOptions(),array('class'=>'req','prompt'=>'Select Language')); ?>
 			<?php $this->ErrorDiv('LanguageProfile_0_language_idError','Language'); ?>
 			</td>	
-											
-			<td><?php echo CHtml::dropDownList('LanguageProfile[{0}][fluency]','',array(''=>'',
-			'1'=>'Full Fluency',
-			'2'=>'Moderate Speaking and Reading Fluency',
-			'3'=>'Speaking Only Fluency',
-			'4'=>'Elementary Fluency',
-			'5'=>'Reading Fluency Only'
-			),array('class'=>'req')); ?> 
+			<td>&nbsp;</td>										
+			<td class="rdtd0" ><?php echo CHtml::radioButtonList('LanguageProfile[{0}][fluency]','',array(
+			'1'=>'Speak',
+			'2'=>'Read',
+			'3'=>'Write',
+			'4'=>'First Language',
+			'5'=>'Spoken at Home'
+			),array('class'=>'rd','prompt'=>'Select Fluency')); ?> 
 			<?php $this->ErrorDiv('LanguageProfile_0_fluencyError','Fluency'); ?>
 			</td>
 			
-			<td> 
+			<td>&nbsp;</td>							
+			<td class="remove">
 			<input type="hidden" class="rowIndex" value="{0}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -141,11 +145,18 @@ $persons=array();
 	</tbody>
 </table>
 
+	<br></br>
+        <div class="span-3">
 	
-	<div class="action">
-	<?php echo CHtml::htmlButton('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/admittance"')); ?>
-		<?php echo CHtml::submitButton(Yii::t('ui','Next')); ?>
+            <div class="pbuttons">
+	<?php echo CHtml::Button('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/admittance"')); ?>
+		            </div>
+        </div>
+        <div class="span-3 last">
+            <div class="buttons">
+		<?php echo CHtml::submitButton('Next'); ?>
 	</div>
+            </div>
 <?php $this->endWidget(); ?>
 <pre><?php if(isset($_POST) && $_POST!==array()) print_r($_POST);?></pre>
 
@@ -153,3 +164,4 @@ $persons=array();
 
 </div>
 
+<br></br>

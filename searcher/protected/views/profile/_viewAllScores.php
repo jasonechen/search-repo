@@ -1,4 +1,4 @@
-<h2>Scores</h2>
+
 
 <?php
     if ($scoreProfile!==null){

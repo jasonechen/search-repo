@@ -154,4 +154,30 @@ class AwardProfile extends ProfileActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	public static function getAwardByUser(){
+	
+			$myID = Yii::app()->user->id;	
+			$AwardArr = AwardProfile::model()->findAll('user_id =:id', array(':id'=>$myID));
+			return $AwardArr;
+	}
+	        
+        protected function afterSave()
+        {
+
+            $this->updateAcademicTotals();
+
+            return parent::afterSave();
+        //return true;
+        }
+
+        
+        protected function afterDelete()
+        {
+
+            $this->updateAcademicTotals();
+
+            return parent::afterDelete();
+        //return true;
+        }
 }

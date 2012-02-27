@@ -8,7 +8,7 @@
 	'enableAjaxValidation'=>true,
 )); ?>
 
-    
+       <?php echo $form->hiddenField($basicProfile,'highschool_id'); ?>
        
 <div class="span-7 last">
         <?php echo $form->labelEx($basicProfile,'nickname',array('label'=>'Nickname (will be displayed)')); ?>
@@ -20,7 +20,30 @@
         <?php echo $form->labelEx($basicProfile,'profile_type',array('label'=>'Profile Stereotype (Choose one)')); ?>
         <?php echo $form->dropDownList($basicProfile,'profile_type',   BasicProfile::$ProfileTypeArray
                                                                    ); ?>
+	<br></br>
 
+        <?php echo $form->labelEx($basicProfile,'highschool_id',array('label'=>'High School')); ?>
+        <?php
+                $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+                'model'=>$basicProfile,
+                'attribute'=>'high_school_name',
+//                        'id'=>'first_university_id',
+                'name'=>'highschool_id',
+                'source'=>$this->createURL('profile/suggestHighschool'),
+                 // additional javascript options for the autocomplete plugin
+                'options'=>array(
+                    'minLength'=>'2',
+                    'select'=>"js:function(event, ui) {
+                            $('#BasicProfile_highschool_id').val(ui.item['id']);
+                        }"
+                    ),
+                'htmlOptions'=>array(
+                    'style'=>'height:18px;width:220px'
+                    ),
+        )); ?>
+
+
+        <?php echo $form->error($basicProfile,'highschool_id'); ?>
         
         <br></br>
 
@@ -40,15 +63,7 @@
                                                            ), array('prompt'=>'Select Graduation Year')); ?>
 <br></br>
         <?php echo $form->labelEx($basicProfile,'highSchoolType',array('label'=>'High School Type')); ?>
-        <?php echo $form->dropDownList($basicProfile,'highSchoolType',
-                                                           array('PUB'=>'Public',
-                                                                 'PRN'=>'Private Non-Religious',
-                                                                 'PRR'=>'Private Religious',
-                                                               'HOM'=>'Home-schooled',
-                                                               'CHR'=>'Charter',
-                                                               'OTH'=>'Other'),array('prompt'=>'Select School Type')); ?>
-
-        
+        <?php echo $form->dropDownList($basicProfile,'highSchoolType',BasicProfile::$HighSchoolTypeArray,array('prompt'=>'Select School Type')); ?>
 
 
         <br></br>       

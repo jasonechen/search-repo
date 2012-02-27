@@ -9,7 +9,7 @@
     </tr>    
     <?php  foreach ($subjectProfileArray as $subjectProfile): ?>    
     <tr>
-        <td><?php echo $subjectProfile->subject; ?> </td>
+        <td><?php echo $subjectProfile->subject->name; ?> </td>
         <td><?php echo SubjectProfile::ConvertHonors($subjectProfile->honors_or_AP); ?> </td>
         <td><?php echo SubjectProfile::ConvertYear($subjectProfile->year_taken); ?> </td>
     </tr>

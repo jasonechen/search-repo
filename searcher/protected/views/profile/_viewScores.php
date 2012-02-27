@@ -8,7 +8,7 @@
         <tr><td> </td><td style="text-align:left">Critical Reading</td>  <td style="text-align:center"><?php echo $scoreProfile->SAT_Critical_Read ?></td> </tr>
         <tr><td> </td><td style="text-align:left">Writing</td>  <td style="text-align:center"><?php echo $scoreProfile->SAT_Writing ?></td> </tr>
         <tr><td> </td><td style="text-align:left">Essay</td>  <td style="text-align:center"><?php echo $scoreProfile->SAT_Essay ?></td> </tr>
-        <tr><td> </td><td style="text-align:left">Total</td>  <td style="text-align:center"><?php echo $scoreProfile->SAT_Essay ?></td> </tr>
+        <tr><td> </td><td style="text-align:left">Total</td>  <td style="text-align:center"><?php echo $scoreProfile->totalSAT ?></td> </tr>
     </tbody>
 </table>
 <br/>
@@ -36,15 +36,3 @@
     </tbody>
 </table>
 <br/>
-
-    <h2> User rating</h2>
-
-    <?php
-        $this->widget('application.components.widgets.StarRatingWidget',
-                      array(
-                          'user_id' => $profileID,
-                          'enableComments' => true,
-                          'enableCommentsId' => '#rating-comment',
-                      )
-        );
-    ?>

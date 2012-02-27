@@ -19,7 +19,7 @@
                     ? AwardProfile::$AwardDateArray[$competitionProfile->year] : ''; ?> </td>
         <td><?php echo $competitionProfile->rank_or_score; ?> </td>
         <td><?php echo $competitionProfile->num_competitors; ?> </td>
-        <td><?php echo $competitionProfile->notes; ?> </td>
+        <td><?php echo $competitionProfile->comments; ?> </td>
     </tr>
     <?php endforeach; ?>    
 </table>

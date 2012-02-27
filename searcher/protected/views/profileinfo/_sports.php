@@ -1,6 +1,6 @@
 <?php 	
 $this->IncludeJsDynamicrows(); 
-$this->progressbar();
+$this->progressbar('EC','sports');
 ?>
 <div class="sub-head-profile">Extracurriculars - Sports </div>
 <div class="container">
@@ -24,18 +24,18 @@ $this->progressbar();
 	
 	<tfoot> 				
 	<tr >  
-	<td  colspan="4"> 
-	<div class="add"><?php echo Yii::t('ui','New');?></div>
+	<td  colspan="3"> 
+	<div class="add" style="margin:5px 0;"><?php echo Yii::t('ui','Add Sport');?></div>
 	<textarea class="template" rows="0"  cols="0" style="display:none;">	
 		
 		<tr class="templateContent">  	
 			<td>			
-				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3">
+				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3;padding:10px;">
 					<thead class="templateHead"> 
-						<td><?php echo $form->labelEx($sportProfile,'sport_id',array('label'=>'Sport')); ?> </td>
-						<td><?php echo $form->labelEx($sportProfile,'level',array('label'=>'Level')); ?></td>						
-						<td><?php echo $form->labelEx($sportProfile,'year_begin',array('label'=>'From')); ?></td>
-						<td><?php echo $form->labelEx($sportProfile,'year_end',array('label'=>'To')); ?></td>					
+						<td><?php echo $form->label($sportProfile,'sport_id',array('label'=>'Sport')); ?> </td>
+						<td><?php echo $form->label($sportProfile,'level',array('label'=>'Level')); ?></td>						
+						<td><?php echo $form->label($sportProfile,'year_begin',array('label'=>'From')); ?></td>
+						<td><?php echo $form->label($sportProfile,'year_end',array('label'=>'To')); ?></td>					
 					</thead>
 					
 					<tr> 
@@ -46,20 +46,20 @@ $this->progressbar();
 					
 						<td>  <?php echo CHtml::dropdownList('SportProfile[{0}][level]','',SportProfile::$LevelArray,array('prompt'=>'Enter Level')); ?></td>
 						<td>
-						<?php echo CHtml::dropdownList('SportProfile[{0}][year_begin]','',SportProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year','class'=>'req')); ?>
+						<?php echo CHtml::dropdownList('SportProfile[{0}][year_begin]','',SportProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year','class'=>'req from')); ?>
 						<?php $this->ErrorDiv('SportProfile_{0}_year_beginError','From'); ?>
 						</td>
 						<td>
-						<?php echo CHtml::dropdownList('SportProfile[{0}][year_end]','',SportProfile::$YearParticipateArray,array('prompt'=>'Enter End Year','class'=>'req')); ?>
+						<?php echo CHtml::dropdownList('SportProfile[{0}][year_end]','',SportProfile::$YearParticipateArray,array('prompt'=>'Enter End Year','class'=>'req to')); ?>
 						<?php $this->ErrorDiv('SportProfile_{0}_year_endError','To'); ?>
 						</td> 
 						
 					</tr>
 					<thead class="templateHead">
-						<td ><?php echo $form->labelEx($sportProfile,'leadership'); ?></td>
-						<td><?php echo $form->labelEx($sportProfile,'indiv_rank'); ?></td>
-						<td><?php echo $form->labelEx($sportProfile,'team_rank'); ?></td>	
-						<td><?php echo $form->labelEx($sportProfile,'other_recog'); ?></td>				
+						<td ><?php echo $form->label($sportProfile,'leadership'); ?></td>
+						<td><?php echo $form->label($sportProfile,'indiv_rank'); ?></td>
+						<td><?php echo $form->label($sportProfile,'team_rank'); ?></td>	
+						<td><?php echo $form->label($sportProfile,'other_recog'); ?></td>				
 					</thead>					
 					<tr >
 						<td><?php echo CHtml::dropdownList('SportProfile[{0}][leadership]','',SportProfile::$LeadershipArray,array('prompt'=>'Enter Leadership Position ')); ?></td>						
@@ -69,7 +69,7 @@ $this->progressbar();
 						
 					</tr>
 					<thead>
-							<td><?php echo $form->labelEx($sportProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
+							<td><?php echo $form->label($sportProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
 					</thead>
 					<tr>
 							<td colspan="4"><?php echo CHtml::textField('SportProfile[{0}][comments]','',array('size'=>80,'maxlength'=>100)); ?></td>
@@ -78,7 +78,8 @@ $this->progressbar();
 					<br/>
 				</table>
 										
-			<td> 
+			<td>&nbsp;</td>							
+			<td class="remove">
 			<input type="hidden" class="rowIndex" value="{0}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -99,12 +100,12 @@ $this->progressbar();
 			
 				<tr class="templateContent">  	
 			<td>			
-				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3">
+				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3;padding:10px;">
 					<thead class="templateHead"> 
-						<td><?php echo $form->labelEx($sportProfile,'sport_id',array('label'=>'Sport')); ?> </td>
-						<td><?php echo $form->labelEx($sportProfile,'level',array('label'=>'Level')); ?></td>						
-						<td><?php echo $form->labelEx($sportProfile,'year_begin',array('label'=>'From')); ?></td>
-						<td><?php echo $form->labelEx($sportProfile,'year_end',array('label'=>'To')); ?></td>					
+						<td><?php echo $form->label($sportProfile,'sport_id',array('label'=>'Sport')); ?> </td>
+						<td><?php echo $form->label($sportProfile,'level',array('label'=>'Level')); ?></td>						
+						<td><?php echo $form->label($sportProfile,'year_begin',array('label'=>'From')); ?></td>
+						<td><?php echo $form->label($sportProfile,'year_end',array('label'=>'To')); ?></td>					
 					</thead>
 					
 					<tr> 
@@ -114,20 +115,20 @@ $this->progressbar();
 						</td>
 					
 						<td>  <?php echo CHtml::dropdownList('SportProfile[{'.$i.'}][level]',$sport[$i]->level,SportProfile::$LevelArray,array('prompt'=>'Enter Level')); ?></td>
-						<td><?php echo CHtml::dropdownList('SportProfile[{'.$i.'}][year_begin]',$sport[$i]->year_begin,SportProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year','class'=>'req')); ?>
+						<td><?php echo CHtml::dropdownList('SportProfile[{'.$i.'}][year_begin]',$sport[$i]->year_begin,SportProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year','class'=>'req from')); ?>
 						<?php $this->ErrorDiv('SportProfile_'.$i.'_year_beginError','From'); ?>
 						</td>
 						<td>
-						<?php echo CHtml::dropdownList('SportProfile[{'.$i.'}][year_end]',$sport[$i]->year_end,SportProfile::$YearParticipateArray,array('prompt'=>'Enter End Year','class'=>'req')); ?>
+						<?php echo CHtml::dropdownList('SportProfile[{'.$i.'}][year_end]',$sport[$i]->year_end,SportProfile::$YearParticipateArray,array('prompt'=>'Enter End Year','class'=>'req to')); ?>
 						<?php $this->ErrorDiv('SportProfile_'.$i.'_year_endError','To'); ?>
 						</td> 
 						
 					</tr>
 					<thead class="templateHead">
-						<td ><?php echo $form->labelEx($sportProfile,'leadership'); ?></td>
-						<td><?php echo $form->labelEx($sportProfile,'indiv_rank'); ?></td>
-						<td><?php echo $form->labelEx($sportProfile,'team_rank'); ?></td>	
-						<td><?php echo $form->labelEx($sportProfile,'other_recog'); ?></td>				
+						<td ><?php echo $form->label($sportProfile,'leadership'); ?></td>
+						<td><?php echo $form->label($sportProfile,'indiv_rank'); ?></td>
+						<td><?php echo $form->label($sportProfile,'team_rank'); ?></td>	
+						<td><?php echo $form->label($sportProfile,'other_recog'); ?></td>				
 					</thead>					
 					<tr >
 						<td><?php echo CHtml::dropdownList('SportProfile[{'.$i.'}][leadership]',$sport[$i]->leadership,SportProfile::$LeadershipArray,array('prompt'=>'Enter Leadership Position ')); ?></td>						
@@ -137,7 +138,7 @@ $this->progressbar();
 						
 					</tr>
 					<thead>
-							<td><?php echo $form->labelEx($sportProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
+							<td><?php echo $form->label($sportProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
 					</thead>
 					<tr>
 							<td colspan="4"><?php echo CHtml::textField('SportProfile[{'.$i.'}][comments]',$sport[$i]->comments,array('size'=>80,'maxlength'=>100)); ?></td>
@@ -146,7 +147,8 @@ $this->progressbar();
 					<br/>
 				</table>
 										
-			<td> 
+			<td>&nbsp;</td>							
+			<td class="remove">
 			<input type="hidden" class="rowIndex" value="{<?php print $i; ?>}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -157,12 +159,12 @@ $this->progressbar();
 	<?php }else { ?>	
 			<tr class="templateContent">  	
 			<td>			
-				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3">
+				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3;padding:10px;">
 					<thead class="templateHead"> 
-						<td><?php echo $form->labelEx($sportProfile,'sport_id',array('label'=>'Sport')); ?> </td>
-						<td><?php echo $form->labelEx($sportProfile,'level',array('label'=>'Level')); ?></td>						
-						<td><?php echo $form->labelEx($sportProfile,'year_begin',array('label'=>'From')); ?></td>
-						<td><?php echo $form->labelEx($sportProfile,'year_end',array('label'=>'To')); ?></td>					
+						<td><?php echo $form->label($sportProfile,'sport_id',array('label'=>'Sport')); ?> </td>
+						<td><?php echo $form->label($sportProfile,'level',array('label'=>'Level')); ?></td>						
+						<td><?php echo $form->label($sportProfile,'year_begin',array('label'=>'From')); ?></td>
+						<td><?php echo $form->label($sportProfile,'year_end',array('label'=>'To')); ?></td>					
 					</thead>
 					
 					<tr> 
@@ -171,19 +173,19 @@ $this->progressbar();
 						</td>
 					
 						<td>  <?php echo CHtml::dropdownList('SportProfile[{0}][level]','',SportProfile::$LevelArray,array('prompt'=>'Enter Level')); ?></td>
-						<td><?php echo CHtml::dropdownList('SportProfile[{0}][year_begin]','',SportProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year','class'=>'req')); ?>
+						<td><?php echo CHtml::dropdownList('SportProfile[{0}][year_begin]','',SportProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year','class'=>'req from')); ?>
 						<?php $this->ErrorDiv('SportProfile_0_year_beginError','From'); ?>
 						</td>
-						<td><?php echo CHtml::dropdownList('SportProfile[{0}][year_end]','',SportProfile::$YearParticipateArray,array('prompt'=>'Enter End Year','class'=>'req')); ?>
+						<td><?php echo CHtml::dropdownList('SportProfile[{0}][year_end]','',SportProfile::$YearParticipateArray,array('prompt'=>'Enter End Year','class'=>'req to')); ?>
 						<?php $this->ErrorDiv('SportProfile_0_year_endError','To'); ?>
 						</td> 
 						
 					</tr>
 					<thead class="templateHead">
-						<td ><?php echo $form->labelEx($sportProfile,'leadership'); ?></td>
-						<td><?php echo $form->labelEx($sportProfile,'indiv_rank'); ?></td>
-						<td><?php echo $form->labelEx($sportProfile,'team_rank'); ?></td>	
-						<td><?php echo $form->labelEx($sportProfile,'other_recog'); ?></td>				
+						<td><?php echo $form->label($sportProfile,'leadership'); ?></td>
+						<td><?php echo $form->label($sportProfile,'indiv_rank'); ?></td>
+						<td><?php echo $form->label($sportProfile,'team_rank'); ?></td>	
+						<td><?php echo $form->label($sportProfile,'other_recog'); ?></td>				
 					</thead>					
 					<tr >
 						<td><?php echo CHtml::dropdownList('SportProfile[{0}][leadership]','',SportProfile::$LeadershipArray,array('prompt'=>'Enter Leadership Position ')); ?></td>						
@@ -193,7 +195,7 @@ $this->progressbar();
 						
 					</tr>
 					<thead>
-							<td><?php echo $form->labelEx($sportProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
+							<td><?php echo $form->label($sportProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
 					</thead>
 					<tr>
 							<td colspan="4"><?php echo CHtml::textField('SportProfile[{0}][comments]','',array('size'=>80,'maxlength'=>100)); ?></td>
@@ -202,7 +204,8 @@ $this->progressbar();
 					<br/>
 				</table>
 										
-			<td> 
+			<td>&nbsp;</td>							
+			<td class="remove">
 			<input type="hidden" class="rowIndex" value="{0}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -212,15 +215,23 @@ $this->progressbar();
 	</tbody>
 	
 	</table>
+<br></br>
+        <div class="span-3">
+	
+            <div class="pbuttons">
+		<?php  echo CHtml::Button('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/clubs"')); ?>
+		            </div>
+        </div>
+        <div class="span-3 last">
+            <div class="buttons">
 
-	<div class="row buttons">
-		<?php  echo CHtml::htmlButton('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/clubs"')); ?>
 		<?php echo CHtml::submitButton('Next'); ?>
 	</div>
-
-
+        
+        </div>
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
 </div>
 </div>
+<br></br><br></br>

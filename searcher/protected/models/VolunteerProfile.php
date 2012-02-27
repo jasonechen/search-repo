@@ -41,7 +41,7 @@ class VolunteerProfile extends ProfileActiveRecord
             17=>'School Makeover',
             18=>'Soup Kitchen',
             19=>'Teaching/Tutoring',
-            20=>'Trash/Recycling/Cleanup',
+            20=>'Trash/Recycling',
             21=>'Other',
 
     );
@@ -86,7 +86,7 @@ class VolunteerProfile extends ProfileActiveRecord
 
                );
     
-           public static function convertLeader($inCode)
+        public static function convertLeader($inCode)
         {
             $myReturnValue = "";
             if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=8) && ($inCode >0)) {
@@ -94,7 +94,7 @@ class VolunteerProfile extends ProfileActiveRecord
             }
             return $myReturnValue;
         }    
-          public static function convertHours($inHours)
+        public static function convertHours($inHours)
         {
             $myReturnValue = "";
             if (($inHours !=="") && ($inHours !==NULL) && ($inHours <=5) && ($inHours >0)) {
@@ -103,15 +103,15 @@ class VolunteerProfile extends ProfileActiveRecord
             return $myReturnValue;
         }
         
-                  public static function convertYears($inCode)
+        public static function convertYears($inCode)
         {
             $myReturnValue = "";
-            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=20) && ($inCode >0)) {
+            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=14) && ($inCode >0)) {
                 $myReturnValue = VolunteerProfile::$YearParticipateArray[$inCode];
             }
             return $myReturnValue;
         }
-            public static function convertVolunteer($inCode)
+        public static function convertVolunteer($inCode)
         {
             $myReturnValue = "";
             if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=45) && ($inCode >0)) {
@@ -220,4 +220,27 @@ class VolunteerProfile extends ProfileActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+ 	 public static function getVolunteerByUser() 
+        { 
+			$myID = Yii::app()->user->id;	
+			$testArr = VolunteerProfile::model()->findAll('user_id =:id', array(':id'=>$myID));
+			return $testArr;
+        }
+        protected function afterSave()
+        {
+
+            $this->updateExtracurricularTotals();
+
+            return parent::afterSave();
+        //return true;
+        }
+        
+        protected function afterDelete()
+        {
+
+            $this->updateExtracurricularTotals();
+
+            return parent::afterDelete();
+        //return true;
+        }
 }

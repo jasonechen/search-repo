@@ -1,5 +1,5 @@
 <?php 	
-$this->progressbar(); 
+$this->progressbar('Academics','awardshonors'); 
 $this->IncludeJsDynamicrows(); ?>
 <div class="sub-head-profile">Academics - Awards/Honors</div>
 <div class="container">
@@ -16,15 +16,15 @@ $this->IncludeJsDynamicrows(); ?>
 
 
 
-	<table class="templateFrame grid" cellspacing="0">
+	<table class="templateFrame grid" cellspacing="10">
 	
 	<!--Start Table HEader -->
 	<thead class="templateHead">
 		<tr>
-			<td><?php echo $form->labelEx($awardProfile,'award_name',array('label'=>'Award/Honor')); ?></td>			
-			<td><?php echo $form->labelEx($awardProfile,'year',array('label'=>'Year')); ?> </td>
-			<td><?php echo $form->labelEx($awardProfile,'region',array('label'=>'Level')); ?> </td>			
-			<td><?php echo $form->labelEx($awardProfile,'comments',array('label'=>'Description')); ?></td>
+			<td><?php echo $form->label($awardProfile,'award_name',array('label'=>'Award/Honor')); ?></td>			
+			<td><?php echo $form->label($awardProfile,'year',array('label'=>'Year')); ?> </td>
+			<td><?php echo $form->label($awardProfile,'region',array('label'=>'Level')); ?> </td>			
+			<td><?php echo $form->label($awardProfile,'comments',array('label'=>'Description')); ?></td>
 		</tr>
 		
 	</thead>	
@@ -35,7 +35,7 @@ $this->IncludeJsDynamicrows(); ?>
 	<tfoot> 				
 	<tr >  
 	<td  colspan="4"> 
-	<div class="add"><?php echo Yii::t('ui','New');?></div>
+	<div class="add"><?php echo Yii::t('ui','Add Awards');?></div>
 	<textarea class="template" rows="0" cols="0" style="display:none;">	
 		
 		<tr class="templateContent">  				
@@ -132,14 +132,22 @@ $this->IncludeJsDynamicrows(); ?>
 	</tbody>
 	
 	</table>
+<br></br>
+        <div class="span-3">
+	
+            <div class="pbuttons">
+		<?php echo CHtml::Button('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/competitions"')); ?>
+	    </div>
+        </div>
+        <div class="span-3 last">
+            <div class="buttons">
 
-	<div class="row buttons">
-		<?php echo CHtml::htmlButton('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/competitions"')); ?>
 		<?php echo CHtml::submitButton('Next'); ?>
 	</div>
-
+        </div>
    
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
 </div>
+<br></br><br></br>

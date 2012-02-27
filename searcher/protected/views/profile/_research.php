@@ -13,7 +13,9 @@
                 'subject:text:Research Subject',
 		array(
                   'name'=>'Research Field',
-                  'value'=>'ResearchProfile::convertField($data->field)',),        
+                  'value'=>'($data->field !== "" 
+                    && $data->field !== NULL) 
+                    ? $data->major->name : "" ',),        
                 array(
                   'name'=>'From',
                   'value'=>'ResearchProfile::convertYears($data->year_begin)',),

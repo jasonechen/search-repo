@@ -42,7 +42,11 @@ class ActivityProfile extends ProfileActiveRecord
                  6=>'Captain',
                  7=>'Manager',
                  8=>'Committee Head',
-                 9=>'Other',
+                 9=>'Editor-in-Chief',
+                 10=>'Editor',
+                 11=>'Reporter',
+                 12=>'Liason',   
+                 13=>'Other',
                );
        
         public static $YearParticipateArray
@@ -57,11 +61,7 @@ class ActivityProfile extends ProfileActiveRecord
                     7=>'12th Grade',
 
                );
-       
-       
-       
-       
-        public static function convertHours($inHours)
+		public static function convertHours($inHours)
         {
             $myReturnValue = "";
             if (($inHours !=="") && ($inHours !==NULL) && ($inHours <=5) && ($inHours >=0)) {
@@ -73,17 +73,16 @@ class ActivityProfile extends ProfileActiveRecord
         public static function convertLeadership($inCode)
         {
             $myReturnValue = "";
-            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=8) && ($inCode >=0)) {
+            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=9) && ($inCode >=0)) {
                 $myReturnValue = ActivityProfile::$LeadershipArray[$inCode];
             }
             return $myReturnValue;
         }
-        
-                
+
            public static function convertYears($inCode)
         {
             $myReturnValue = "";
-            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=20) && ($inCode >0)) {
+            if (($inCode !=="") && ($inCode !==NULL) && ($inCode <=7) && ($inCode >0)) {
                 $myReturnValue = ActivityProfile::$YearParticipateArray[$inCode];
             }
             return $myReturnValue;
@@ -203,30 +202,24 @@ class ActivityProfile extends ProfileActiveRecord
         protected function afterSave()
         {
 
-                $myID = Yii::app()->user->id;
-                $basicProfile=BasicProfile::model()->findByPk($myID);
-                $numExtra = $this->countByAttributes(array('user_id'=>$myID));
+            $this->updateExtracurricularTotals();
 
-                if($basicProfile===null)
-                {                
-                        $basicProfile=new BasicProfile;
-                        $basicProfile->user_id = $myID;
-                        $basicProfile->first_university_id = 1;
-                        $basicProfile->curr_university_id = 1;
-                        $basicProfile->num_scores = 0;
-                        $basicProfile->num_aps = 0;
-                        $basicProfile->num_sat2s = 0;
-                        $basicProfile->num_competitions = 0;
-                        $basicProfile->num_sports = 0;
-                        $basicProfile->num_academics = 0;
-                        $basicProfile->num_essays = 0;
-                        $basicProfile->profile_type = 0;
-                }
-
-                $basicProfile->num_extracurriculars  = $numExtra;
-                $basicProfile->save(true);
-
-                return parent::afterValidate();
+            return parent::afterSave();
         //return true;
+        }
+        
+        protected function afterDelete()
+        {
+
+            $this->updateExtracurricularTotals();
+
+      return parent::afterSave();
+        //return true;
+        }
+ public static function getActivityByUser() 
+        { 
+			$myID = Yii::app()->user->id;	
+			$ActivityArr = ActivityProfile::model()->findAll('user_id =:id', array(':id'=>$myID));
+			return $ActivityArr;
         }
 }

@@ -1,7 +1,7 @@
 <?php 	
-$this->progressbar();
+$this->progressbar('Academics','subjects');
 $this->IncludeJsDynamicrows();?>
-<div class="sub-head-profile">Academics - Subjects Studied</div>
+<div class="sub-head-profile">Academics - Honors/Advanced Courses Taken</div>
 
 
 
@@ -14,15 +14,15 @@ $this->IncludeJsDynamicrows();?>
 )); ?>
 	
 	
-	<table class="templateFrame grid" cellspacing="0">
+	<table class="templateFrame grid" cellspacing="10">
 	
 	<!--Start Table HEader -->
 	<thead class="templateHead">
 		<tr>
 			<td>Subject</td>
-			<td>Year Taken</td>
+			<td>Year Taken<!--<span class="required">*</span>--></td>
 			<td>Honors/AP</td>
-			<td>Number of months</td>
+			
 		</tr>
 		
 	</thead>	
@@ -33,10 +33,10 @@ $this->IncludeJsDynamicrows();?>
 	<tfoot> 				
 	<tr >  
 	<td  colspan="4"> 
-	<div class="add"><?php echo Yii::t('ui','New');?></div>
+	<div class="add"><?php echo Yii::t('ui','Add Subject');?></div>
 	<textarea class="template" rows="0" cols="0" style="display:none;">	
 		
-		<tr class="templateContent">  	
+		<tr class="templateContent" >  	
 		
 			<td>
 				
@@ -46,41 +46,25 @@ $this->IncludeJsDynamicrows();?>
 			</td>												
 			<td>
 				
-		<?php echo CHtml::dropDownList('SubjectProfile[{0}][year_taken]','',array(0=>'Freshman',
-                                                                        1=>'Sophomore',
-                                                                         2=>'Junior',
-                                                                         3=>'Senior',
-                                                                         4=>'After 4th year',
-                    )); ?>
-			
+		<?php echo CHtml::dropDownList('SubjectProfile[{0}][year_taken]','',array(
+                                                                         1=>'Freshmen',
+                                                                         2=>'Sophomore',
+                                                                         3=>'Junior',
+                                                                         4=>'Senior',
+                    ),array('prompt'=>'Year Taken','class'=>'req')); ?>
+					
+		<?php $this->ErrorDiv('SubjectProfile_{0}_year_takenError','Year'); ?>
 			
 			</td>
 			<td>
 			
-                <?php echo CHtml::dropDownList('SubjectProfile[{0}][honors_or_AP]','',  array(0=>'',
+                <?php echo CHtml::dropDownList('SubjectProfile[{0}][honors_or_AP]','',
+                                                                        array(
                                                                         1=>'Honors',
-                                                                         2=>'AP')); ?>
-			
-			</td>	
-			<td>
-			
-			
-                <?php echo CHtml::dropDownList('SubjectProfile[{0}][num_months]','',  array(0=>'',
-                                                                        1=>'1',
-                                                                        2=>'2',
-                                                                        3=>'3',
-                                                                        4=>'4',
-                                                                        5=>'5',
-                                                                        6=>'6',
-                                                                        7=>'7',
-                                                                        8=>'8',
-                                                                        9=>'9',
-                                                                        10=>'10',
-                                                                        11=>'11',
-                                                                        12=>'12',
-                    
-                    )); ?>
-			</td>
+                                                                         2=>'AP',
+                                                                         3=>'College'),
+                        array('prompt'=>'Level','class'=>'req')); ?>
+			</td>				
 					
 			<td> 
 			<input type="hidden" class="rowIndex" value="{0}" />
@@ -123,40 +107,27 @@ $this->IncludeJsDynamicrows();?>
 			</td>												
 			<td>
 				
-		<?php echo CHtml::dropDownList('SubjectProfile[{'.$i.'}][year_taken]',$subj[$i]->year_taken,array(0=>'Freshman',
-                                                                        1=>'Sophomore',
-                                                                         2=>'Junior',
-                                                                         3=>'Senior',
-                                                                         4=>'After 4th year',
-                    )); ?>
-			
+		<?php echo CHtml::dropDownList('SubjectProfile[{'.$i.'}][year_taken]',$subj[$i]->year_taken,array(
+																	   ''=>'Select Year taken',	
+																		0=>'Freshman',
+                                                                        1=>'Freshmen',
+                                                                         2=>'Sophomore',
+                                                                         3=>'Junior',
+                                                                         4=>'Senior',
+                    ),array('prompt'=>'Year Taken','class'=>'req')); ?>
+		<?php $this->ErrorDiv('SubjectProfile_'.$i.'_year_takenError','Year'); ?>	
 			</td>
 			<td>
 			
-                <?php echo CHtml::dropDownList('SubjectProfile[{'.$i.'}][honors_or_AP]',$subj[$i]->honors_or_AP,  array(0=>'',
+                <?php echo CHtml::dropDownList('SubjectProfile[{'.$i.'}][honors_or_AP]',$subj[$i]->honors_or_AP,  
+                                                                        array(
                                                                         1=>'Honors',
-                                                                         2=>'AP')); ?>
+                                                                         2=>'AP',
+                                                                         3=>'College'),
+                        array('prompt'=>'Level','class'=>'req')); ?>
 			
 			</td>	
-			<td>
-			
-			
-                <?php echo CHtml::dropDownList('SubjectProfile[{'.$i.'}][num_months]',$subj[$i]->num_months,  array(0=>'',
-                                                                        1=>'1',
-                                                                        2=>'2',
-                                                                        3=>'3',
-                                                                        4=>'4',
-                                                                        5=>'5',
-                                                                        6=>'6',
-                                                                        7=>'7',
-                                                                        8=>'8',
-                                                                        9=>'9',
-                                                                        10=>'10',
-                                                                        11=>'11',
-                                                                        12=>'12',
-                    
-                    )); ?>
-			</td>
+
 					
 			<td> 
 			<input type="hidden" class="rowIndex" value="{<?php print $i; ?>}" />
@@ -177,40 +148,25 @@ $this->IncludeJsDynamicrows();?>
 			</td>												
 			<td>
 				
-		<?php echo CHtml::dropDownList('SubjectProfile[{0}][year_taken]','',array(0=>'Freshman',
-                                                                        1=>'Sophomore',
-                                                                         2=>'Junior',
-                                                                         3=>'Senior',
-                                                                         4=>'After 4th year',
-                    )); ?>
-			
+		<?php echo CHtml::dropDownList('SubjectProfile[{0}][year_taken]','',array(									
+									1=>'Freshman',
+                                                                        2=>'Sophomore',
+                                                                        3=>'Junior',
+                                                                        4=>'Senior',
+                                                                        
+                    ),array('prompt'=>'Year Taken','class'=>'req')); ?>
+			<?php $this->ErrorDiv('SubjectProfile_0_year_takenError','Year'); ?>
 			</td>
 			<td>
 			
-                <?php echo CHtml::dropDownList('SubjectProfile[{0}][honors_or_AP]','',  array(0=>'',
+                <?php echo CHtml::dropDownList('SubjectProfile[{0}][honors_or_AP]','',  array(
                                                                         1=>'Honors',
-                                                                         2=>'AP')); ?>
+                                                                         2=>'AP',
+                                                                         3=>'College'),
+                        array('prompt'=>'Level','class'=>'req')); ?>
 			
 			</td>	
-			<td>
-			
-			
-                <?php echo CHtml::dropDownList('SubjectProfile[{0}][num_months]','',  array(0=>'',
-                                                                        1=>'1',
-                                                                        2=>'2',
-                                                                        3=>'3',
-                                                                        4=>'4',
-                                                                        5=>'5',
-                                                                        6=>'6',
-                                                                        7=>'7',
-                                                                        8=>'8',
-                                                                        9=>'9',
-                                                                        10=>'10',
-                                                                        11=>'11',
-                                                                        12=>'12',
-                    
-                    )); ?>
-			</td>
+
 					
 			<td> 
 			<input type="hidden" class="rowIndex" value="{0}" />
@@ -224,14 +180,21 @@ $this->IncludeJsDynamicrows();?>
 	</tbody>
 	
 	</table>
-
-	<div class="row buttons">
-		<?php echo CHtml::htmlButton('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/grades"')); ?>
+<br></br>
+        <div class="span-3">
+	
+            <div class="pbuttons">
+		<?php echo CHtml::Button('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/grades"')); ?>
+	    </div>
+        </div>
+        <div class="span-3 last">
+      <div class="buttons">
 		<?php echo CHtml::submitButton('Next'); ?>
 	</div>
-
+</div>
 	
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
 </div>
+<br></br>

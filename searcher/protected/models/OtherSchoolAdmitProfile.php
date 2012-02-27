@@ -104,4 +104,16 @@ class OtherSchoolAdmitProfile extends ProfileActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	 public static function getAdmitByUser() 
+        { 
+			$myID = Yii::app()->user->id;	
+			$testArr = OtherSchoolAdmitProfile::model()->findAll('user_id =:id', array(':id'=>$myID));
+			return $testArr;
+        }
+		
+	public function getUniversity(){			
+			 $testArray = CHtml::listData(UniversityName::model()->findAll(), 'id', 'name');			
+             return $testArray;
+	}	
 }

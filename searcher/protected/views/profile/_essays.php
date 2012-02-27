@@ -40,14 +40,14 @@
 
 
 	<div class="span-24">
-		<?php echo $form->labelEx($essayProfile,'name',array('label'=>'Story Name')); ?>
+		<?php echo $form->labelEx($essayProfile,'name',array('label'=>'Essay name')); ?>
 		<?php echo $form->textField($essayProfile,'name'); ?>
 		<?php echo $form->error($essayProfile,'name'); ?>
 	</div>
         <div class="span-24"> <br>  </div>  <!-- row spacer*/ -->
 
 	<div class="span-24">
-		<?php echo $form->labelEx($essayProfile,'data',array('label'=>'Story Content')); ?>
+		<?php echo $form->labelEx($essayProfile,'data',array('label'=>'Essay content')); ?>
 		<?php echo $form->textArea($essayProfile,'data'); ?>
 		<?php echo $form->error($essayProfile,'data'); ?>
 	</div>

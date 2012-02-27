@@ -1,4 +1,4 @@
-<?php 	$this->progressbar(); ?>
+<?php 	$this->progressbar('TestScore','act'); ?>
 <div class="sub-head-profile">Test Scores - ACT</div>
 <div class="container">
 <div class="form">
@@ -55,11 +55,18 @@
         </div>
         
 <div class="span-26"> <br>  </div>
+        <div class="span-3">
+	
+            <div class="pbuttons">
+		<?php echo CHtml::Button('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/sat1"')); ?>
+                 </div>
+            </div>
+        <div class="span-3 last">
+            
+            <div class="buttons">
 
-	<div class="span-6 row buttons">
-		<?php echo CHtml::htmlButton('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/sat1"')); ?>
 		<?php echo CHtml::submitButton('Next'); ?>
-
+            </div>
 
         <?php if(Yii::app()->user->hasFlash('scoreSuccess')):?> 
         <div class="successMessage"> 
@@ -71,3 +78,4 @@
 
 </div><!-- form -->
 </div>
+<br></br>

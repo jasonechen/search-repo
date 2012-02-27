@@ -1,13 +1,13 @@
 <?php
 $this->breadcrumbs=array(
 	'Profile'=>array('index'),
-	'Writing Samples',
+	'Essays',
 );
 
 $this->setEditProfileMenu();
 
 ?>
 
-<h1>Submit writing samples</h1>
+<h1>Modify your essays</h1>
 
 <?php echo $this->renderPartial('_essays', array('essayProfile'=>$essayProfile)); ?>

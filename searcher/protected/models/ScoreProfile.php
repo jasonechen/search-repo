@@ -382,10 +382,10 @@ class ScoreProfile extends ProfileActiveRecord
 			array('user_id', 'required'),
 			array('SAT_Math, SAT_Critical_Read, SAT_Writing, SAT_Essay, PSAT_Math, PSAT_Verbal, PSAT_Writing, ACT_English, ACT_Math, ACT_Reading, ACT_Science, ACT_Writing, ACT_Composite', 'numerical', 'integerOnly'=>true),
                     	array('user_id, create_user_id, update_user_id', 'length', 'max'=>10),
-			array('create_time, update_time', 'safe'),
+			array('toefl, ielts, create_time, update_time', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('user_id, SAT_Math, SAT_Critical_Read, SAT_Writing, SAT_Essay, PSAT_Math, PSAT_Verbal, PSAT_Writing, ACT_English, ACT_Math, ACT_Reading, ACT_Science, ACT_Writing, ACT_Composite, create_time, create_user_id, update_time, update_user_id', 'safe', 'on'=>'search'),
+			array('user_id, toefl, ielts, SAT_Math, SAT_Critical_Read, SAT_Writing, SAT_Essay, PSAT_Math, PSAT_Verbal, PSAT_Writing, ACT_English, ACT_Math, ACT_Reading, ACT_Science, ACT_Writing, ACT_Composite, create_time, create_user_id, update_time, update_user_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -421,6 +421,8 @@ class ScoreProfile extends ProfileActiveRecord
 			'ACT_Science' => 'ACT Science Score',
 			'ACT_Writing' => 'ACT Writing Score',
 			'ACT_Composite' => 'ACT Composite',
+                        'toefl' => 'TOEFL',
+                        'ielts' => 'IELTS',                    
 			'create_time' => 'Create Time',
 			'create_user_id' => 'Create User',
 			'update_time' => 'Update Time',
@@ -453,6 +455,8 @@ class ScoreProfile extends ProfileActiveRecord
 		$criteria->compare('ACT_Science',$this->ACT_Science);
 		$criteria->compare('ACT_Writing',$this->ACT_Writing);
 		$criteria->compare('ACT_Composite',$this->ACT_Composite);
+		$criteria->compare('toefl',$this->toefl);                
+		$criteria->compare('ielts',$this->ielts);                
 		$criteria->compare('create_time',$this->create_time,true);
 		$criteria->compare('create_user_id',$this->create_user_id,true);
 		$criteria->compare('update_time',$this->update_time,true);
@@ -462,11 +466,12 @@ class ScoreProfile extends ProfileActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-        
+
         protected function updateScoreTotals()
+
         {
 
-                $myID = Yii::app()->user->id;
+                $myID = $this->user_id;
                 $basicProfile=BasicProfile::model()->findByPk($myID);
                 $numScores = 0;
                 if (($this->SAT_Math!==NULL) && ($this->SAT_Math!=="")) ++$numScores;
@@ -482,6 +487,8 @@ class ScoreProfile extends ProfileActiveRecord
                 if (($this->ACT_Science!==NULL) && ($this->ACT_Science!=="")) ++$numScores;
                 if (($this->ACT_Writing!==NULL) && ($this->ACT_Writing!=="")) ++$numScores;
                 if (($this->ACT_Composite!==NULL) && ($this->ACT_Composite!=="")) ++$numScores;
+                if (($this->toefl!==NULL) && ($this->toefl!=="")) ++$numScores;
+                if (($this->ielts!==NULL) && ($this->ielts!=="")) ++$numScores;
                 
                 if($basicProfile===null)
                 {                

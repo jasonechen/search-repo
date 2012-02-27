@@ -103,7 +103,7 @@
 							<p>a little brief about this tab will goes here <br />Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />Quisque felis enim, pellentesque vitae suscipit eu.</p>
 						</div>
 						<div class="current">
-							<h3>Current Student?</h3>
+							<h3>Current University Student?</h3>
 							<p>a little brief about this tab will goes here <br />Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />Quisque felis enim, pellentesque vitae suscipit eu.</p>
 						</div>
 					</div>

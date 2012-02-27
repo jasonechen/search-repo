@@ -1,5 +1,5 @@
 <?php
- 	$this->progressbar();
+ 	$this->progressbar('TestScore','ap');
 	$this->IncludeJsDynamicrows();
  ?>
 <div class="sub-head-profile">Test Scores - AP</div>
@@ -15,13 +15,13 @@
 )); ?>
 
 
-	<table class="templateFrame grid" cellspacing="0">
+	<table class="templateFrame grid" cellspacing="10" style='table-layout:fixed'>
 	
 	<!--Start Table HEader -->
 	<thead class="templateHead">
 		<tr>
-			<td><?php echo $form->labelEx($apProfile,'ap_id',array('label'=>'AP Subject')); ?> </td>			
-			<td><?php echo $form->labelEx($apProfile,'score',array('label'=>'Score')); ?> </td>
+			<td><?php echo $form->label($apProfile,'ap_id',array('label'=>'AP Subject')); ?> </td>			
+			<td><?php echo $form->label($apProfile,'score',array('label'=>'Score')); ?> </td>
 			<!--<td><?php // echo $form->labelEx($apProfile,'date_taken',array('label'=>'Date Taken')); ?> </td>-->			
 			
 		</tr>
@@ -34,13 +34,13 @@
 	<tfoot> 				
 	<tr >  
 	<td  colspan="4"> 
-	<div class="add"><?php echo Yii::t('ui','New');?></div>
+	<div class="add"><?php echo Yii::t('ui','Add AP Test');?></div>
 	<textarea class="template" rows="0" cols="0" style="display:none;">	
 		
 		<tr class="templateContent">  	
 		
 			<td>
-			<?php echo CHtml::dropDownList('ApProfile[{0}][ap_id]','', $apProfile->getTestTypeOptions(),array('prompt'=>'Enter Score','class'=>'req')); ?>
+			<?php echo CHtml::dropDownList('ApProfile[{0}][ap_id]','', $apProfile->getTestTypeOptions(),array('class'=>'req','prompt'=>'--Select Subject--')); ?>
 			<?php $this->ErrorDiv('ApProfile_{0}_ap_idError','Subject'); ?>
 			</td>
 			<td>
@@ -74,7 +74,7 @@
 				<tr class="templateContent">  	
 		
 			<td>
-				<?php echo CHtml::dropDownList('ApProfile[{'.$i.'}][ap_id]',$ap[$i]->ap_id, $apProfile->getTestTypeOptions(),array('class'=>'req')); ?>
+				<?php echo CHtml::dropDownList('ApProfile[{'.$i.'}][ap_id]',$ap[$i]->ap_id, $apProfile->getTestTypeOptions(),array('class'=>'req','prompt'=>'--Select Subject--')); ?>
 				<?php $this->ErrorDiv('ApProfile_'.$i.'_ap_idError','Subject'); ?>
 			</td>
 			<td><?php echo CHtml::dropDownList('ApProfile[{'.$i.'}][score]',$ap[$i]->score,  array(1=>'1',
@@ -96,7 +96,7 @@
 				<tr class="templateContent">  	
 		
 			<td>
-			<?php echo CHtml::dropDownList('ApProfile[{0}][ap_id]','', $apProfile->getTestTypeOptions(),array('class'=>'req')); ?>
+			<?php echo CHtml::dropDownList('ApProfile[{0}][ap_id]','', $apProfile->getTestTypeOptions(),array('class'=>'req','prompt'=>'--Select Subject--')); ?>
 			<?php $this->ErrorDiv('ApProfile_0_ap_idError','Subject'); ?>
 			</td>
 			<td><?php echo CHtml::dropDownList('ApProfile[{0}][score]','',  array(1=>'1',
@@ -117,15 +117,25 @@
 	</tbody>
 	
 	</table>
+<br></br>
+        <div class="span-3">
+	
+            <div class="pbuttons">
+		<?php echo CHtml::Button('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/sat2"')); ?>
 
-	<div class="row buttons">
-		<?php echo CHtml::htmlButton('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/sat2"')); ?>
+		            </div>
+        </div>
+        <div class="span-3 last">
+            <div class="buttons">
+
+
 		<?php echo CHtml::submitButton('Next'); ?>
 	</div>
-
+</div>
 
 
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
 </div>
+<br></br><br></br>

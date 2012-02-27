@@ -1,5 +1,5 @@
 <?php 
- 	$this->progressbar();
+ 	$this->progressbar('TestScore','sat2');
 	$this->IncludeJsDynamicrows(); 
 ?>
 <div class="sub-head-profile">Test Scores - SAT II</div>
@@ -14,13 +14,13 @@
 	'htmlOptions'=>array('onsubmit'=>'return validation(this);')
 )); ?>
 
-<table class="templateFrame grid" cellspacing="0">
+<table class="templateFrame grid" cellspacing="10">
 	
 	<!--Start Table HEader -->
 	<thead class="templateHead">
 		<tr>
-			<td><?php echo $form->labelEx($sat2Profile,'sat2_id',array('label'=>'SAT II Subject')); ?></td>			
-			<td><?php echo $form->labelEx($sat2Profile,'score',array('label'=>'Score')); ?> </td>
+			<td><?php echo $form->label($sat2Profile,'sat2_id',array('label'=>'SAT II Subject')); ?></td>			
+			<td><?php echo $form->label($sat2Profile,'score',array('label'=>'Score')); ?> </td>
 			<!--<td><?php //echo $form->labelEx($sat2Profile,'date_taken',array('label'=>'Date Taken')); ?> </td>		-->	
 		
 		</tr>
@@ -33,13 +33,13 @@
 	<tfoot> 				
 	<tr >  
 	<td  colspan="4"> 
-	<div class="add"><?php echo Yii::t('ui','New');?></div>
+	<div class="add"><?php echo Yii::t('ui','Add SAT II Test');?></div>
 	<textarea class="template" rows="0" cols="0" style="display:none;">	
 		
 		<tr class="templateContent">  	
 		
 			<td> 
-				<?php echo CHtml::dropDownList('Sat2Profile[{0}][sat2_id]','', $sat2Profile->getTestTypeOptions(),array('prompt'=>'Select Test','class'=>'req')); ?>
+				<?php echo CHtml::dropDownList('Sat2Profile[{0}][sat2_id]','', $sat2Profile->getTestTypeOptions(),array('class'=>'req','prompt'=>'Select Test')); ?>
 				<?php $this->ErrorDiv('Sat2Profile_{0}_sat2_idError','Subject'); ?>
 			</td>
 			
@@ -68,7 +68,7 @@
 			<?php for($i = 0 ; $i< count($sat2); $i++){ ?>	
 			<tr class="templateContent">
 				<td>
-				 <?php echo CHtml::dropDownList('Sat2Profile[{'.$i.'}][sat2_id]',$sat2[$i]->sat2_id, $sat2Profile->getTestTypeOptions(),array('class'=>'req')); ?>
+				 <?php echo CHtml::dropDownList('Sat2Profile[{'.$i.'}][sat2_id]',$sat2[$i]->sat2_id, $sat2Profile->getTestTypeOptions(),array('class'=>'req','prompt'=>'Select Test')); ?>
 				 <?php $this->ErrorDiv('Sat2Profile_'.$i.'_sat2_idError','Subject'); ?>
 				</td>
 				<td> 
@@ -85,9 +85,9 @@
 		
 <!--If the DB record is empty then , display one field by Default-->	
 	<?php }else{ ?>	
-	
+		<tr class="templateContent">  
 			<td>
-			 <?php echo CHtml::dropDownList('Sat2Profile[{0}][sat2_id]','', $sat2Profile->getTestTypeOptions(),array('class'=>'req')); ?>
+			 <?php echo CHtml::dropDownList('Sat2Profile[{0}][sat2_id]','', $sat2Profile->getTestTypeOptions(),array('class'=>'req','prompt'=>'Select Test')); ?>
 			 <?php $this->ErrorDiv('Sat2Profile_0_sat2_idError','Subject'); ?>
 			</td>
 			<td>
@@ -99,17 +99,26 @@
 			<input type="hidden" class="rowIndex" value="{0}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
+	</tr>		
 	
 	<?php } ?>	
 	</tbody>
 	
 	</table>
+<br></br>
+        <div class="span-3">
+	
+            <div class="pbuttons">
+		<?php echo CHtml::Button('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/act"')); ?>
 
-	<div class="row buttons">
-		<?php echo CHtml::htmlButton('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/act"')); ?>
+		            </div>
+        </div>
+        <div class="span-3 last">
+            <div class="buttons">
+
 		<?php echo CHtml::submitButton('Next'); ?>
 	</div>
-
+</div>
 
 
 	
@@ -117,3 +126,4 @@
 
 </div><!-- form -->
 </div>
+<br></br>

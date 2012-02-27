@@ -177,11 +177,23 @@ div.view
 	padding: 5px;
 	margin: 8px 10px 10px 0;
 	/*border: 1px solid #95F3BC;*/
-        background-color: #e7ffe7;
+        background-color: #E3F0F1 /* #b6e9e7*/;
     border-radius: 10px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
 }
+
+div.view2
+{
+	padding: 5px;
+	margin: 8px 10px 10px 0;
+	/*border: 1px solid #95F3BC;*/
+        background-color: #ccffcc;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+}
+
 
 div.cartview
 {
@@ -194,7 +206,7 @@ div.cartview
 div.purchased
 {
     width: 177px;
-    background-color: #C9E0ED;
+    background-color: #ccffcc;
   /*  border: 1px solid grey;*
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -276,7 +288,7 @@ background: #EFEFEF;
 .portlet-content li a:hover, .portlet-content ul li.active a
 {
 	color: #30AB59;
-	background-color:#EFF4FA;
+	
 	text-decoration:none;
 }
 .operations
@@ -299,8 +311,7 @@ background: #EFEFEF;
 .operations li a /*this is where you edit the fonts inside the menu bar */
 {
 	font: 12px Arial;
-	color: #659E45;
-    
+	color: #659E45;      
 	display: block;
 	padding: 2px 0 2px 2px;
 	line-height: 18px;

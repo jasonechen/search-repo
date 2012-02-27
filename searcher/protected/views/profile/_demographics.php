@@ -35,11 +35,20 @@
         <?php echo $form->error($personalProfile,'citizenship'); ?>
 <br></br>
 
+		<?php echo $form->labelEx($personalProfile,'religion_id'); ?>
+		<?php echo $form->dropDownList($personalProfile,'religion_id',$personalProfile->getReligionOptions(),array('prompt'=>'Select Religion')); ?>
+		<?php echo $form->error($personalProfile,'religion_id'); ?>
+<br></br>
+        <?php echo $form->labelEx($personalProfile,'parental_status',array('label'=>'Parental Status')); ?>
+        <?php echo $form->dropDownList($personalProfile,'parental_status',
+                                                           PersonalProfile::$ParentalStatusArray,array('prompt'=>'Select Parental Status')); ?>
+<br></br>
 
+        <?php echo $form->labelEx($personalProfile,'income_bracket',array('label'=>'Family Annual Income')); ?>
+        <?php echo $form->dropDownList($personalProfile,'income_bracket',
+                                        PersonalProfile::$IncomeBracketArray,array('prompt'=>'Select Income Bracket')); ?>
+<br></br>
 
-		<?php echo $form->labelEx($personalProfile,'date_of_birth'); ?>
-		<?php echo $form->textField($personalProfile,'date_of_birth'); ?>
-		<?php echo $form->error($personalProfile,'date_of_birth'); ?>
 	</div>
 
         <div class="span-26"> <br>  </div>

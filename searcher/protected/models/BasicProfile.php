@@ -8,6 +8,7 @@
  * @property string $nickname
  * @property integer $first_university_id
  * @property integer $curr_university_id
+ * @property integer $early_regular
  * @property string $isTransfer
  * @property string $gender
  * @property string $highSchoolType
@@ -131,10 +132,10 @@ class BasicProfile extends ProfileActiveRecord
 			array('highSchoolType', 'length', 'max'=>3),
 			array('musical_instrument_id', 'length', 'max'=>2),
                         array('first_university_name, curr_university_name', 'length', 'max'=>100),
-			array('nickname, create_time, update_time', 'safe'),
+			array('early_regular, nickname, create_time, update_time', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('race,firstUniversity,hsName, highschool_id, user_id, first_university_id, curr_university_id, isTransfer, gender, highSchoolType, race_id, sat_I_score_range, num_scores, num_aps, num_sat2s, num_competitions, num_sports, num_academics, num_extracurriculars, num_essays, avg_profile_rating, l1ForSale, l2ForSale, l3ForSale, musical_instrument_id, profile_type, create_time, create_user_id, update_time, update_user_id', 'safe', 'on'=>'search'),
+			array('verified,race,firstUniversity,hsName, highschool_id, user_id, first_university_id, curr_university_id, isTransfer, gender, highSchoolType, race_id, sat_I_score_range, num_scores, num_aps, num_sat2s, num_competitions, num_sports, num_academics, num_extracurriculars, num_essays, avg_profile_rating, l1ForSale, l2ForSale, l3ForSale, musical_instrument_id, profile_type, create_time, create_user_id, update_time, update_user_id', 'safe', 'on'=>'search'),
 
 		);
 	}
@@ -160,6 +161,7 @@ class BasicProfile extends ProfileActiveRecord
                     'ratings' => array(self::HAS_MANY, 'Rating', 'user_id', 'order' => 'create_time DESC'),
                     'averageRating' => array(self::STAT, 'Rating', 'user_id', 'select' => 'AVG(rating)'),
                     'scoreProfile' => array(self::HAS_ONE, 'ScoreProfile', 'user_id'),
+                   
                     );
 	}
 
@@ -197,6 +199,7 @@ class BasicProfile extends ProfileActiveRecord
 			'update_time' => 'Update Time',
 			'update_user_id' => 'Update User',
 			'stateName' => 'Home State',
+			'verified' => 'Verified',
 		);
 	}
 
@@ -227,6 +230,7 @@ class BasicProfile extends ProfileActiveRecord
                 $this->l1ForSale = 0;
                 $this->l2ForSale = 0;
                 $this->l3ForSale = 0;
+                $this->verified = 'N';
             
         }
         
@@ -284,6 +288,7 @@ class BasicProfile extends ProfileActiveRecord
 		$criteria->compare('l1ForSale',$this->l1ForSale);
 		$criteria->compare('l2ForSale',$this->l2ForSale);
 		$criteria->compare('l3ForSale',$this->l3ForSale);
+		$criteria->compare('verified',$this->verified);
 		$criteria->compare('musical_instrument_id',$this->musical_instrument_id,true);
 		$criteria->compare('profile_type',$this->profile_type);
                 $criteria->compare('name',$this->firstUniversity,true);
@@ -339,6 +344,7 @@ class BasicProfile extends ProfileActiveRecord
 		$criteria->compare('l1ForSale',$this->l1ForSale);
 		$criteria->compare('l2ForSale',$this->l2ForSale);
 		$criteria->compare('l3ForSale',$this->l3ForSale);
+		$criteria->compare('verified',$this->verified);
 		$criteria->compare('musical_instrument_id',$this->musical_instrument_id,true);
 		$criteria->compare('profile_type',$this->profile_type);
                 $criteria->compare('name',$this->firstUniversity,true);

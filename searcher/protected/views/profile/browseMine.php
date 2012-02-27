@@ -3,7 +3,7 @@ $this->breadcrumbs=array(
 	'Profile'=>array('index'),
 	'My Profiles',
 );
-
+$this->setAdminMenu();
 //$this->menu=array(
 //	array('label'=>'List User', 'url'=>array('index')),
 //	array('label'=>'Create User', 'url'=>array('create')),
@@ -23,45 +23,62 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Browse My Purchased Profiles</h1>
+<h3>My Purchased Profiles</h3>
 
-<p>
-You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
-</p>
-
-
+<div class="span-20 last">
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'profile-grid-2',
 	'dataProvider'=>$model->searchMine(),
-	'filter'=>$model,
+	//'filter'=>$model,
 	'columns'=>array(
-		'user_id',
+		array(
+                    'name'=>'user_id',
+                    'header'=>'Profile #',
+                    'htmlOptions'=>array('width'=>'50')
+                        ),
 		array(
                   'name'=>'firstUniversity',
                   'value'=>'$data->getFirstUniversityName()',
-                  'header'=>'College'
+                  'header'=>'College',
+                   'htmlOptions'=>array('width'=>'225')
                 ),
-                'gender',
+                array(
+                    'name'=>'gender',
+                    'htmlOptions'=>array('width'=>'30')
+                    ),
 		array(
-                  'name'=>'race',
-                  'value'=>'($data->race !== NULL)? $data->race->name : NA', //Need to deal with nulls here
+                    'name'=>'race',
+                    'value'=>'($data->race !== NULL)? $data->race->name : NA', //Need to deal with nulls 
+                    'htmlOptions'=>array('width'=>'150')  
                 ),
 		array(
                   'name'=>'sat_I_score_range',
                   'value'=>'BasicProfile::getSATRange($data->sat_I_score_range)', //Need to deal with nulls here
+                   'htmlOptions'=>array('width'=>'75') 
                 ), 
-		'num_scores:number:# Scores',
-            	'num_academics:number:# Academics',
-		'num_extracurriculars:number:# Extracurriculars',
-                array(
+		array(
+                    'name'=>'num_scores',
+                    'header'=>'# of Scores',
+                    'htmlOptions'=>array('width'=>'60', 'style'=>'text-align: center')
+                ),
+            	//'num_academics:number:# Academics',
+		array(
+                    'name'=>'num_extracurriculars',
+                    'header'=>'# of Extracurr. ',
+                    'htmlOptions'=>array('width'=>'75', 'style'=>'text-align: center')
+                    ),
+              /*  array(
                   'name'=>'profile_type',
                   'value'=>'BasicProfile::getProfileTypeName($data->profile_type)', //Need to deal with nulls here
-                ), 
+                ), */
 		array(
 			'class'=>'CButtonColumn',
                         'template' => '{view}',
-                        'viewButtonUrl'=>'Yii::app()->createUrl("/profile/viewPurchProfile", array("profileID" => $data->user_id))',
+                        'viewButtonUrl'=>'Yii::app()->createUrl("/profile/viewAll", array("profileID" => $data->user_id))',
+                        'header'=>'CLICK TO VIEW'
 		),
 	),
 )); ?>
+    
+<br></br><br></br>
+</div>

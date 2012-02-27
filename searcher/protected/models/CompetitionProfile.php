@@ -119,31 +119,26 @@ class CompetitionProfile extends ProfileActiveRecord
         
         protected function afterSave()
         {
+            $this->updateAcademicTotals();
 
-                $myID = Yii::app()->user->id;
-                $basicProfile=BasicProfile::model()->findByPk($myID);
-                $numCompetitions = $this->countByAttributes(array('user_id'=>$myID));
-
-                if($basicProfile===null)
-                {                
-                        $basicProfile=new BasicProfile;
-                        $basicProfile->user_id = $myID;
-                        $basicProfile->first_university_id = 1;
-                        $basicProfile->curr_university_id = 1;
-                        $basicProfile->num_scores = 0;
-                        $basicProfile->num_aps = 0;
-                        $basicProfile->num_sat2s = 0;
-                        $basicProfile->num_extracurriculars = 0;
-                        $basicProfile->num_sports = 0;
-                        $basicProfile->num_academics = 0;
-                        $basicProfile->num_essays = 0;
-                        $basicProfile->profile_type = 0;
-                }
-
-                $basicProfile->num_competitions  = $numCompetitions;
-                $basicProfile->save(true);
-
-                return parent::afterValidate();
+            return parent::afterSave();
         //return true;
+        }
+
+        
+        protected function afterDelete()
+        {
+
+            $this->updateAcademicTotals();
+
+            return parent::afterDelete();
+        //return true;
+        }
+        
+        public static function getCompetitionById() 
+        { 
+			$myID = Yii::app()->user->id;	
+			$competArr = CompetitionProfile::model()->findAll('user_id =:id', array(':id'=>$myID));
+			return $competArr;
         }
 }

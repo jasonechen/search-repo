@@ -8,7 +8,7 @@ $this->setViewProfileMenu($buyProfileForm->profile_id);
 
 ?>
 
-<h1>View Profile # <?php echo $buyProfileForm->profile_id; ?></h1>
+<h3>Profile # <?php echo $buyProfileForm->profile_id; ?></h3>
 Overall Rating: <br/><br/>
 <?php
     $this->widget('application.components.widgets.StarRatingWidget',
@@ -59,3 +59,5 @@ Overall Rating: <br/><br/>
     <?php $this->endWidget();?>
 
 <?php endif; ?>
+
+

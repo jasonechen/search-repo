@@ -34,14 +34,14 @@ public static $WorkTypeArray
             9=>'Fast Food/Restaurant',
             10=>'Family Business',
             11=>'Financial Services',
-            12=>'Hospitality - Hotel/Resort ',
-            13=>'Household chores/cleaning',
+            12=>'Hotel/Resort ',
+            13=>'Household cleaning',
             14=>'Lawn and yard work',
             15=>'Lifeguard',
             16=>'Mover',
             17=>'Music',
             18=>'Office Assistant',
-            19=>'Pet sitting/dog walking',
+            19=>'Pet care',
             20=>'Research',
             21=>'Retail',
             22=>'Tutoring',
@@ -58,7 +58,7 @@ public static $WorkTypeArray
                  3=>'Research Assistant',
                  4=>'Manager',
                  5=>'Salesperson',
-                 6=>'Customer Service Representative',
+                 6=>'Customer Service Rep',
                  7=>'Associate',
                  8=>'Other',
                );   
@@ -216,4 +216,29 @@ public static $WorkTypeArray
 			'criteria'=>$criteria,
 		));
 	}
+ 
+	
+	 public static function getWorkByUser() 
+        { 
+			$myID = Yii::app()->user->id;	
+			$testArr = WorkProfile::model()->findAll('user_id =:id', array(':id'=>$myID));
+			return $testArr;
+        }
+        protected function afterSave()
+        {
+
+            $this->updateExtracurricularTotals();
+
+            return parent::afterSave();
+        //return true;
+        }
+        
+        protected function afterDelete()
+        {
+
+            $this->updateExtracurricularTotals();
+
+            return parent::afterDelete();
+        //return true;
+        }
 }

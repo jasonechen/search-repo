@@ -1,25 +1,46 @@
-
+<?php 	
+$this->IncludeJsDynamicrows(); 
+$this->progressbar('EC','work');
+?>
 <div class="sub-head-profile">Extracurriculars - Work </div>
+
 <div class="container">
+	
+	<?php if(Yii::app()->user->hasFlash('workSuccess')):?> 
+	<div class="successMessage" id="inputsuccess"> 
+	<?php echo Yii::app()->user->getFlash('workSuccess'); ?> 
+	</div> <?php endif; ?>  
+	
 <div class="form">
     <div class="span-18 last">
 
+
+        <div class="form">
+<?php 
+  //      $this->widget('ext.pixelmatrix.EUniform'); //formatting widget for drop down box
+        $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'work-profile-work-form',
+	'enableAjaxValidation'=>false,
+	'htmlOptions'=>array('onsubmit'=>'return validation(this);')
+)); ?>
 
 	<table class="templateFrame grid" cellspacing="0">
 	
 	<tfoot> 				
 	<tr >  
-	<td  colspan="4"> 
-	<div class="add"><?php echo Yii::t('ui','New');?></div>
+	<td  colspan="3"> 
+	<div class="add"  style="margin:5px 0;"><?php echo Yii::t('ui','Add Job');?></div>
 	<textarea class="template" rows="0"  cols="0" style="display:none;">	
 		
 		<tr class="templateContent">  	
 			<td>			
-				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3">
+				<table width="800"   height="100" style="border:#459E00 1px solid; background:#D2F4D3;padding:10px;">
 					<thead class="templateHead"> 
-						<td><?php echo $form->labelEx($workProfile,'name',array('label'=>'Job')); ?></td>
-						<td><?php echo $form->labelEx($workProfile,'work_type',array('label'=>'Work Type/Area')); ?></td>
-						<td><?php echo $form->labelEx($workProfile,'title'); ?></td>
+						<td><?php echo $form->label($workProfile,'name',array('label'=>'Job')); ?></td>
+						<td><?php echo $form->label($workProfile,'work_type',array('label'=>'Work Type/Area')); ?></td>
+						<td><?php echo $form->label($workProfile,'title'); ?></td>
+                        <td><?php echo $form->label($workProfile,'year_begin',array('label'=>'From')); ?></td>
+						<td><?php echo $form->label($workProfile,'year_end',array('label'=>'To')); ?></td>
 					</thead>					
 					<tr>
 						<td><?php echo CHtml::textField('WorkProfile[{0}][name]','',array('class'=>'req')); ?>
@@ -29,39 +50,36 @@
 							<?php $this->ErrorDiv('WorkProfile_{0}_work_typeError','Type'); ?>
 						</td>
 						<td><?php echo CHtml::dropdownList('WorkProfile[{0}][title]','',WorkProfile::$TitleArray,array('prompt'=>'Enter Work Title')); ?></td> 						
-					</tr>
+						<td><?php echo CHtml::dropdownList('WorkProfile[{0}][year_begin]','',WorkProfile::$YearParticipateArray,array('prompt'=>'Begin Year','class'=>'req from')); ?>
+							<?php $this->ErrorDiv('WorkProfile_{0}_year_beginError','From'); ?>
+						</td>
+						<td><?php echo CHtml::dropdownList('WorkProfile[{0}][year_end]','',WorkProfile::$YearParticipateArray,array('prompt'=>'End Year','class'=>'req to')); ?>
+							<?php $this->ErrorDiv('WorkProfile_{0}_year_endError','To'); ?>
+						</td>					
+                                        </tr>
 					
 					<thead class="templateHead">
-						<td><?php echo $form->labelEx($workProfile,'year_begin',array('label'=>'From')); ?></td>
-						<td><?php echo $form->labelEx($workProfile,'year_end',array('label'=>'To')); ?></td>
-						<td><?php echo $form->labelEx($workProfile,'hours',array('label'=>'Hours/Week')); ?></td>
+
+						<td><?php echo $form->label($workProfile,'hours',array('label'=>'Hours/Week')); ?></td>
+                        <td><?php echo $form->label($workProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
 					</thead>					
 
 					<tr >
-						<td><?php echo CHtml::dropdownList('WorkProfile[{0}][year_begin]','',WorkProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year','class'=>'req')); ?>
-							<?php $this->ErrorDiv('WorkProfile_{0}_year_beginError','From'); ?>
-						</td>
-						<td><?php echo CHtml::dropdownList('WorkProfile[{0}][year_end]','',WorkProfile::$YearParticipateArray,array('prompt'=>'Enter End Year','class'=>'req')); ?>
-							<?php $this->ErrorDiv('WorkProfile_{0}_year_endError','To'); ?>
-						</td>
-						<td> <?php echo CHtml::dropDownList('WorkProfile[{0}][hours]','', WorkProfile::$HoursArray,array('prompt'=>'Enter Hours Worked per Week','class'=>'req')); ?>
+
+						<td> <?php echo CHtml::dropDownList('WorkProfile[{0}][hours]','', WorkProfile::$HoursArray,array('prompt'=>'Enter Hours/Week','class'=>'req')); ?>
 						
 							<?php $this->ErrorDiv('WorkProfile_{0}_hoursError','Hours'); ?>
 						</td>
+                            <td><?php echo CHtml::textField('WorkProfile[{0}][comments]','',array('size'=>80,'maxlength'=>100)); ?></td>				
 					</tr>
 
-					<thead>
-						<td><?php echo $form->labelEx($workProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
-						
-					</thead>
-					<tr>
-						<td><?php echo CHtml::textField('WorkProfile[{0}][comments]','',array('size'=>80,'maxlength'=>100)); ?></td>				
-					</tr>
+
 					<!--GIve the Break to for Space between each table-->
 					<br/>
 				</table>
 										
-			<td> 
+			<td>&nbsp;</td>							
+			<td class="remove"> 
 			<input type="hidden" class="rowIndex" value="{0}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -82,11 +100,13 @@
 			
 				<tr class="templateContent">  	
 			<td>			
-				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3">
+				<table width="800"   height="100" style="border:#459E00 1px solid; background:#D2F4D3;padding:10px;">
 					<thead class="templateHead"> 
-						<td><?php echo $form->labelEx($workProfile,'name',array('label'=>'Job')); ?></td>
-						<td><?php echo $form->labelEx($workProfile,'work_type',array('label'=>'Work Type/Area')); ?></td>
-						<td><?php echo $form->labelEx($workProfile,'title'); ?></td>
+						<td><?php echo $form->label($workProfile,'name',array('label'=>'Job')); ?></td>
+						<td><?php echo $form->label($workProfile,'work_type',array('label'=>'Work Type/Area')); ?></td>
+						<td><?php echo $form->label($workProfile,'title'); ?></td>
+                        <td><?php echo $form->label($workProfile,'year_begin',array('label'=>'From')); ?></td>
+						<td><?php echo $form->label($workProfile,'year_end',array('label'=>'To')); ?></td>
 					</thead>					
 					<tr>
 						<td><?php echo CHtml::textField('WorkProfile[{'.$i.'}][name]',$work[$i]->name,array('class'=>'req')); ?>
@@ -97,40 +117,37 @@
 
 						</td>
 						<td><?php echo CHtml::dropdownList('WorkProfile[{'.$i.'}][title]',$work[$i]->title,WorkProfile::$TitleArray,array('prompt'=>'Enter Work Title')); ?></td> 						
-					</tr>
-					
-					<thead class="templateHead">
-						<td><?php echo $form->labelEx($workProfile,'year_begin',array('label'=>'From')); ?></td>
-						<td><?php echo $form->labelEx($workProfile,'year_end',array('label'=>'To')); ?></td>
-						<td><?php echo $form->labelEx($workProfile,'hours',array('label'=>'Hours/Week')); ?></td>
-					</thead>					
-
-					<tr >
-						<td><?php echo CHtml::dropdownList('WorkProfile[{'.$i.'}][year_begin]',$work[$i]->year_begin,WorkProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year')); ?>
+						<td><?php echo CHtml::dropdownList('WorkProfile[{'.$i.'}][year_begin]',$work[$i]->year_begin,WorkProfile::$YearParticipateArray,array('prompt'=>'Begin Year','class'=>'req from')); ?>
 							<?php $this->ErrorDiv('WorkProfile_'.$i.'_year_beginError','From'); ?>
 
 						</td>
-						<td><?php echo CHtml::dropdownList('WorkProfile[{'.$i.'}][year_end]',$work[$i]->year_end,WorkProfile::$YearParticipateArray,array('prompt'=>'Enter End Year')); ?>
+						<td><?php echo CHtml::dropdownList('WorkProfile[{'.$i.'}][year_end]',$work[$i]->year_end,WorkProfile::$YearParticipateArray,array('prompt'=>'End Year','class'=>'req to')); ?>
 							<?php $this->ErrorDiv('WorkProfile_'.$i.'_year_endError','To'); ?>
 						</td>
-						<td> <?php echo CHtml::dropDownList('WorkProfile[{'.$i.'}][hours]',$work[$i]->hours, WorkProfile::$HoursArray,array('prompt'=>'Enter Hours Worked per Week','class'=>'req')); ?>
+                                        </tr>
+					
+					<thead class="templateHead">
+
+						<td><?php echo $form->label($workProfile,'hours',array('label'=>'Hours/Week')); ?></td>
+                        <td><?php echo $form->label($workProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
+					</thead>					
+
+					<tr >
+
+						<td> <?php echo CHtml::dropDownList('WorkProfile[{'.$i.'}][hours]',$work[$i]->hours, WorkProfile::$HoursArray,array('prompt'=>'Enter Hours/Week','class'=>'req')); ?>
 						
 							<?php $this->ErrorDiv('WorkProfile_'.$i.'_hoursError','Hours'); ?>
 						</td>
+                                                <td><?php echo CHtml::textField('WorkProfile[{'.$i.'}][comments]',$work[$i]->comments,array('size'=>80,'maxlength'=>100)); ?></td>				
 					</tr>
 
-					<thead>
-						<td><?php echo $form->labelEx($workProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
-						
-					</thead>
-					<tr>
-						<td><?php echo CHtml::textField('WorkProfile[{'.$i.'}][comments]',$work[$i]->comments,array('size'=>80,'maxlength'=>100)); ?></td>				
-					</tr>
+
 					<!--GIve the Break to for Space between each table-->
 					<br/>
 				</table>
 										
-			<td> 
+			<td>&nbsp;</td>							
+			<td class="remove"> 
 			<input type="hidden" class="rowIndex" value="{<?php print $i; ?>}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -143,11 +160,13 @@
 			
 					<tr class="templateContent">  	
 			<td>			
-				<table width="200"   height="100" style="border:#459E00 1px solid; background:#D2F4D3">
+				<table width="800"   height="100" style="border:#459E00 1px solid; background:#D2F4D3;padding:10px;">
 					<thead class="templateHead"> 
-						<td><?php echo $form->labelEx($workProfile,'name',array('label'=>'Job')); ?></td>
-						<td><?php echo $form->labelEx($workProfile,'work_type',array('label'=>'Work Type/Area')); ?></td>
-						<td><?php echo $form->labelEx($workProfile,'title'); ?></td>
+						<td><?php echo $form->label($workProfile,'name',array('label'=>'Job')); ?></td>
+						<td><?php echo $form->label($workProfile,'work_type',array('label'=>'Work Type/Area')); ?></td>
+						<td><?php echo $form->label($workProfile,'title'); ?></td>
+						<td><?php echo $form->label($workProfile,'year_begin',array('label'=>'From')); ?></td>
+						<td><?php echo $form->label($workProfile,'year_end',array('label'=>'To')); ?></td>                                                
 					</thead>					
 					<tr>
 						<td><?php echo CHtml::textField('WorkProfile[{0}][name]','',array('class'=>'req')); ?>
@@ -159,40 +178,37 @@
 
 						</td>
 						<td><?php echo CHtml::dropdownList('WorkProfile[{0}][title]','',WorkProfile::$TitleArray,array('prompt'=>'Enter Work Title')); ?></td> 						
-					</tr>
-					
-					<thead class="templateHead">
-						<td><?php echo $form->labelEx($workProfile,'year_begin',array('label'=>'From')); ?></td>
-						<td><?php echo $form->labelEx($workProfile,'year_end',array('label'=>'To')); ?></td>
-						<td><?php echo $form->labelEx($workProfile,'hours',array('label'=>'Hours/Week')); ?></td>
-					</thead>					
-
-					<tr >
-						<td><?php echo CHtml::dropdownList('WorkProfile[{0}][year_begin]','',WorkProfile::$YearParticipateArray,array('prompt'=>'Enter Begin Year','class'=>'req')); ?>
+						<td><?php echo CHtml::dropdownList('WorkProfile[{0}][year_begin]','',WorkProfile::$YearParticipateArray,array('prompt'=>'Begin Year','class'=>'req from')); ?>
 							<?php $this->ErrorDiv('WorkProfile_0_year_beginError','From'); ?>
 
 						</td>
-						<td><?php echo CHtml::dropdownList('WorkProfile[{0}][year_end]','',WorkProfile::$YearParticipateArray,array('prompt'=>'Enter End Year','class'=>'req')); ?>
+						<td><?php echo CHtml::dropdownList('WorkProfile[{0}][year_end]','',WorkProfile::$YearParticipateArray,array('prompt'=>'End Year','class'=>'req to')); ?>
 							<?php $this->ErrorDiv('WorkProfile_0_year_endError','To'); ?>
 						</td>
-						<td> <?php echo CHtml::dropDownList('WorkProfile[{0}][hours]','', WorkProfile::$HoursArray,array('prompt'=>'Enter Hours Worked per Week','class'=>'req')); ?>
+                                        </tr>
+					
+					<thead class="templateHead">
+
+						<td><?php echo $form->label($workProfile,'hours',array('label'=>'Hours/Week')); ?></td>
+                        <td><?php echo $form->label($workProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
+					</thead>					
+
+					<tr >
+
+						<td> <?php echo CHtml::dropDownList('WorkProfile[{0}][hours]','', WorkProfile::$HoursArray,array('prompt'=>'Enter Hours/Week','class'=>'req')); ?>
 						
 							<?php $this->ErrorDiv('WorkProfile_0_hoursError','Hours'); ?>
 						</td>
+                                                <td><?php echo CHtml::textField('WorkProfile[{0}][comments]','',array('size'=>80,'maxlength'=>100)); ?></td>				
 					</tr>
 
-					<thead>
-						<td><?php echo $form->labelEx($workProfile,'comments',array('label'=>'Notes/Comments')); ?></td>
-						
-					</thead>
-					<tr>
-						<td><?php echo CHtml::textField('WorkProfile[{0}][comments]','',array('size'=>80,'maxlength'=>100)); ?></td>				
-					</tr>
+
 					<!--GIve the Break to for Space between each table-->
 					<br/>
 				</table>
 										
-			<td> 
+			<td>&nbsp;</td>							
+			<td class="remove"> 
 			<input type="hidden" class="rowIndex" value="{0}" />
 			<div class="remove"><?php echo Yii::t('ui','Remove');?></div>
 			</td> 
@@ -205,7 +221,26 @@
 	</tbody>
 	
 	</table>
+<br></br>
+        <div class="span-3">
+	
+            <div class="pbuttons">
+		<?php  echo CHtml::Button('Previous',array('onclick'=>'window.location="index.php?r=profileinfo/music"')); ?>
+		            </div>
+        </div>
+        <div class="span-3 last">
+            <div class="buttons">
 
+		<?php echo CHtml::submitButton('Next'); ?>
+	</div>
+        
+        </div>
+
+
+
+<?php $this->endWidget(); ?>
 </div><!-- form -->
 </div>
 </div>
+</div>
+<br></br><br></br>    

@@ -17,6 +17,8 @@ class SellerCurrView extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * @return SellerCurrView the static model class
 	 */
+        public $seller_earnings;
+    
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -57,6 +59,7 @@ class SellerCurrView extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                    'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 		);
 	}
 
@@ -99,4 +102,7 @@ class SellerCurrView extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+
+        
 }

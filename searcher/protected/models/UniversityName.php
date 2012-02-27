@@ -41,7 +41,7 @@ class UniversityName extends CActiveRecord
 		return array(
 			array('id, name', 'required'),
 			array('id', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>30),
+			array('name', 'length', 'max'=>100),
 			array('state', 'length', 'max'=>2),
                         array('id, name, state', 'safe'),
 			// The following rule is used by search().
@@ -121,5 +121,22 @@ class UniversityName extends CActiveRecord
         {
             return CHtml::listData($this->findAll(),'id','name');
         }
+		
+		/*
+			GEt Univesity Id By Name			
+		*/
+		public function getIdbyName($name){		
+			$testArr = UniversityName::find('name=:name',array(':name'=>$name));	
+			return $testArr->id;
+			
+		}
+		
+		/*
+			* Get Name By Id
+		*/
+		public function getNamebyId($id){	
+			$testAr = UniversityName::find('id=:id',array(':id'=>$id));	
+			return $testAr->name;
+		}
 
 }
