@@ -56,7 +56,18 @@ class SearchController extends Controller
     {
         if(isset($_SESSION['search_first_university_id']))
         {
-            $this->profiles = ProfileSearch::factory($_SESSION['search_first_university_id']);
+            if($_SESSION['search_first_university_id'] > 0)
+            {
+                $this->profiles = ProfileSearch::factory($_SESSION['search_first_university_id']);
+            }
+            elseif(empty($_SESSION['search_first_university_name']))
+            {
+                $this->profiles = ProfileSearch::factory('all');
+            }
+            else
+            {
+                $this->profiles = ProfileSearch::factory('');
+            }
         }
         else
         {
