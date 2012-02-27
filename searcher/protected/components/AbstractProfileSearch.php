@@ -251,6 +251,7 @@ abstract class AbstractProfileSearch
     public function __construct($searchQuery)
     {
         $this->searchQuery = $this->filterIncomingSearchQuery($searchQuery);
+
         if($this->isSearchQueryValid())
         {
             $this->model = new BasicProfile('search');
@@ -330,6 +331,12 @@ abstract class AbstractProfileSearch
 
         $id = '';
         $name = '';
+
+        if(Yii::app()->controller->id !== 'search' || Yii::app()->controller->id !== 'rating')
+        {
+            Controller::clearSearchPersistance();
+            return null;
+        }
 
         if(isset($_SESSION['search_first_university_id']))
         {

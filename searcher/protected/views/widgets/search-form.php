@@ -37,13 +37,13 @@
 
 <script type="text/javascript">
     jQuery(function($) {
-        $('#submit-search').click(function()
+        /*$('#submit-search').click(function()
         {
             if($('#search_first_university_id').val() == '')
             {
                 alert("You should select one of universities from database");
                 return false;
             }
-        });
+        });*/
     });
 </script>

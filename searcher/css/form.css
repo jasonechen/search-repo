@@ -141,6 +141,11 @@ div.filtercheckform input[type=checkbox] + label
       font-size: 1.0em;
 }
 
+div.filtercheckform .row-gender input[type="checkbox"] + label {
+    float: left;
+    padding-left: 0;
+}
+
 div.checkform input
 {   
     width: 40px;
@@ -315,7 +320,7 @@ filtercheckform .range-age-div {
 
 div.filtercheckform input[type=checkbox] {
     float: left;
-    margin: -3px -3px 1px 1px;
+    margin: 0 -3px 1px 1px;
 }
 
 div.filtercheckform input[type=radio] {

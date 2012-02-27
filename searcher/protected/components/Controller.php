@@ -83,6 +83,7 @@ class Controller extends CController
     public static function clearSearchPersistance()
     {
         $_SESSION['search_first_university_name'] = '';
+        $_SESSION['search_first_university_id'] = 0;
         $_GET['FilterForm'] = array();
         $_SESSION['FilterForm'] = array();
     }
