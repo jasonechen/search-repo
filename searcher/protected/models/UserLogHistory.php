@@ -90,7 +90,7 @@ class UserLogHistory extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 		$criteria->compare('id',$this->id);
-		$criteria->compare('log_date',$this->log_date,true);
+		$criteria->compare('login_datetime',$this->login_datetime,true);
 		$criteria->compare('status',$this->status,true);
 
 		return new CActiveDataProvider(get_class($this), array(
@@ -101,11 +101,12 @@ class UserLogHistory extends CActiveRecord
         {
             $hstry = $this->find('user_id='.$id.' and status = 1');
             $rtnValue = true;
-            $frmTime= $hstry->login_datetime;
-            $expDate = date( "Y-m-d H:i:s", strtotime( $frmTime )+6*60*60 );
-            $nowDate = date( "Y-m-d H:i:s");
-            if(@$$hstry)
+            
+            if(@$hstry)
             {
+				$frmTime= $hstry->login_datetime;
+				$expDate = date( "Y-m-d H:i:s", strtotime( $frmTime )+6*60*60 );
+				$nowDate = date( "Y-m-d H:i:s");
                 if(strtotime($nowDate) > strtotime($expDate)){ 
                     $this->expiredLogout($hstry->id);
                        
@@ -120,7 +121,8 @@ class UserLogHistory extends CActiveRecord
         public function afterLogin($id)
         {
              $this->user_id=$id;
-             $this->log_ipaddress = CHttpRequest::getUserHostAddress();
+			 $ip = $_SERVER['REMOTE_ADDR'];//CHttpRequest::getUserHostAddress();
+             $this->log_ipaddress = $ip;
              $this->save();
         }
         

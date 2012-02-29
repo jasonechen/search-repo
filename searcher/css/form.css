@@ -97,8 +97,6 @@ div.registerform input
     height: 30px;
     font-size: 1.6em;
     font-weight: normal;
- 
-  
 }
 
 div.registerform label
@@ -120,6 +118,39 @@ div.registerform input[type=checkbox]
 div.registerform div.error label,
 div.registerform label.error,
 div.registerform span.error
+{
+font-size:0.8em;font-weight:bold; color:#FF0000;margin-bottom:1.5em;font-style:italic;
+}
+
+div.addressform input
+{
+    width: 160px;
+    height: 20px;
+    font-size: 1.2em;
+    font-weight: normal;
+ 
+  
+}
+
+div.addressform label
+{
+  font: normal 10pt Arial;
+  display: inline;
+  line-height: 3.0;
+}
+
+div.addressform input[type=checkbox]
+{
+  width: 30px;
+  float: left;
+  margin-bottom: -10px;
+  height: 14px;
+}
+
+
+div.addressform div.error label,
+div.addressform label.error,
+div.addressform span.error
 {
 font-size:0.8em;font-weight:bold; color:#FF0000;margin-bottom:1.5em;font-style:italic;
 }

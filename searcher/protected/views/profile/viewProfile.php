@@ -10,7 +10,7 @@
         <a href="<?php echo $searchUri; ?>">Back to Search Results</a>
 
     <?php endif; ?>
-<div class="span-26"> <br/></div>
+<div class="span-19"> <br/></div>
     
 
 
@@ -35,18 +35,41 @@
 
 </table>
         </div>
+ 
+<div class="clearfix"></div>
+<br></br>
+<?php $this->beginWidget('zii.widgets.CPortlet', array('title' => 'Average Rating')); ?>
+
+    <?php echo($basicProfile->avg_profile_rating); ?>
+
+<?php $this->endWidget(); ?>
+
+<?php
+    $this->widget('application.components.widgets.StarRatingWidget',
+        array(
+             'cssClassName' => 'jRatingForViewedUser',
+             'showOnlyComments' => true,
+             'user_id' => $buyProfileForm->profile_id,
+             'enableComments' => true,
+             'isDisabled' => true,
+        )
+    );
+?>
+
+
+
+<br></br><br></br>
+
+   
+    
+    
 </div>
-<div class="span-17 last">
+<div class="span-9 last">
 
 
 
  
 
-<p>
-    
-    
-</p>
-    
 <?php 
      //   $this->widget('ext.pixelmatrix.EUniform'); //formatting widget for drop down box
         $form=$this->beginWidget('CActiveForm', array(
@@ -54,7 +77,7 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-<div class="span-17 last">
+
 
 
 <?php 
@@ -74,33 +97,10 @@ if(Yii::app()->user->isGuest):
                 
                 ?>
 
-</div>    
+</div> 
+
+ 
+<?php $this->endWidget(); ?>
     
-
-    <div><br></br></div>
- </div>
-<div class="span-9 last">
-<div class="clearfix"></div>
-
-<?php $this->beginWidget('zii.widgets.CPortlet', array('title' => 'Average Rating')); ?>
-
-    <?php echo($basicProfile->avg_profile_rating); ?>
-
-<?php $this->endWidget(); ?>
-
-<?php
-    $this->widget('application.components.widgets.StarRatingWidget',
-        array(
-             'cssClassName' => 'jRatingForViewedUser',
-             'showOnlyComments' => true,
-             'user_id' => $buyProfileForm->profile_id,
-             'enableComments' => true,
-             'isDisabled' => true,
-        )
-    );
-?>
-
-<?php $this->endWidget(); ?>
-
-<br></br><br></br>
-</div>
+    
+ 

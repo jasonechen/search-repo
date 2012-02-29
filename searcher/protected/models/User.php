@@ -75,14 +75,14 @@ class User extends MCVActiveRecord
             // will receive user inputs.
             return array(
                         array('FirstName, LastName, email, username, password_unhash', 'required', 'on' => 'register'),
-                        array('usertype', 'numerical', 'integerOnly'=>true),
+                        array('usertype, mail_zip', 'numerical', 'integerOnly'=>true),
                         array('email, email_paypal, username, password_unhash', 'length', 'max'=>256),
                         array('email_paypal, email, username', 'unique', 'on' => 'register'),
 			array('email_paypal, email','email'),
                         array('FirstName, LastName, idName', 'length', 'max'=>50),
                         array('hs_profile_status', 'length', 'max'=>1),
                         array('create_user_id, update_user_id', 'length', 'max'=>10),
-                        array('checkpay, email_paypal, transType,schoolType,verifyCode,termagree, password_unhash, password_unhash_repeat','safe'),
+                        array('mail_street1, mail_street2, mail_city, mail_zip, mail_state, mail_country,checkpay, email_paypal, transType,schoolType,verifyCode,termagree, password_unhash, password_unhash_repeat','safe'),
                         array('username','unsafe', 'on' => 'oldPassword, newPassword'),
                         // Use CCompareValidator for the password
                         array('password_unhash','compare'),
@@ -128,6 +128,8 @@ class User extends MCVActiveRecord
                         'summerProfiles' => array(self::HAS_MANY, 'SummerProfile', 'user_id'),
 			'userCredit' => array(self::HAS_ONE, 'UserCredit', 'user_id'),
                         'workProfiles' => array(self::HAS_ONE, 'WorkProfile', 'user_id'),
+                        'mailstate' => array(self::BELONGS_TO, 'States', 'mail_state'),
+                        'mailcountry' => array(self::BELONGS_TO, 'CitizenType', 'mail_country'),
 		);
 	}
 
@@ -158,7 +160,13 @@ class User extends MCVActiveRecord
 			'LastName' => 'Last Name',
                         'verifyCode'=>'Verification Code',
                         'termagree'=>'I agree to CrowdPrep\'s Terms and Conditions',
-                        'email_paypal' => 'Paypal Email'
+                        'email_paypal' => 'Paypal Email',
+                        'mail_street1' => 'Street Address',
+                        'mail_street2' => 'Street Address 2',
+                        'mail_city' => 'City',
+                        'mail_state' => 'State',
+                        'mail_zip' => 'Zip Code',
+                        'mail_country' => 'Country'
 		);
 	}
 
@@ -188,7 +196,7 @@ class User extends MCVActiveRecord
 		$criteria->compare('create_user_id',$this->create_user_id,true);
 		$criteria->compare('update_time',$this->update_time,true);
 		$criteria->compare('update_user_id',$this->update_user_id,true);
-
+                $criteria->compare('email_paypal',$this->email_paypal,true);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -330,6 +338,21 @@ class User extends MCVActiveRecord
         }
         
 
+        public static function getStateName($model)
+        {
+            if(!empty($model->mail_state)){
+                $stateId = $model->mail_state;
+                return States::model()->findByPk($stateId)->name;
+            }
+            return 'N/A';
+        }
 
-        
+        public static function getCountryName($model)
+        {
+            if(!empty($model->mail_country)){
+                $countryId = $model->mail_country;
+                return CitizenType::model()->findByPk($countryId)->name;
+            }
+            return 'N/A';
+        }
 }

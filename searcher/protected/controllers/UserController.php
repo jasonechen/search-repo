@@ -60,7 +60,7 @@ class UserController extends Controller
 /*These need to be fixed so only the self user can run these operations */                    
 			array('allow',  
 				'actions'=>array('index','view','update','browse','indexSeller','indexBuyer','account',
-                                                  'Credits', 'Learnmore', 'Settings', 'Consult', 'Validate', 'Earnings', 'BuyerAccountSum','PurchasedDetails', 'PaypalChange','Viewinvoice','Successpage'),
+                                                  'Credits', 'Addresschange','Addressdelete', 'Paypaldelete', 'Learnmore', 'Settings', 'Consult', 'Validate', 'Earnings', 'BuyerAccountSum','PurchasedDetails', 'PaypalChange','Viewinvoice','Successpage'),
 				'users'=>array('@'),
 			),
 			array('allow',  
@@ -72,7 +72,7 @@ class UserController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', 
-				'actions'=>array('create','createstudent','captcha'),
+				'actions'=>array('Registrationlink','create','createstudent','captcha'),
 				'users'=>array('*'),
 			),
 
@@ -1031,8 +1031,13 @@ class UserController extends Controller
                         }
 
 		} 
-            
-                 $this->render('_earnings', array('creditModel'=>$creditModel,'model'=>$model));
+                            $state = CommonMethods::getStates();
+                            $country = CommonMethods::getCountry();
+                
+                 $this->render('_earnings', array('creditModel'=>$creditModel,
+                                                    'model'=>$model,
+                                                    'state'=>$state,
+                                                    'country'=>$country, ));
             
         }
         
@@ -1072,8 +1077,69 @@ class UserController extends Controller
                  $this->render('paypalpopup', array('model'=>$model));
             
         } 
-        
-        
+           public function actionPaypaldelete()
+                {
+                    $id = Yii::app()->user->id; 
+                    $user=User::model()->findByPk($id);
+                    $user->email_paypal = NULL;
+                    $user->save();
+                     $this->redirect(array('user/Earnings',));   
+
+                }        
+
+            public function actionAddressChange()
+                {
+                    $myID = Yii::app()->user->id;          
+                    $model=User::model()->findByPk($myID);
+
+                                if(isset($_POST['ajax']) && $_POST['ajax']==='paypal-change')
+                        {
+                                echo CActiveForm::validate($model);
+                                Yii::app()->end();
+                        }
+
+                                if(isset($_POST['User']))
+                        {
+                                // Set the Profile model class attributes in a bulk manner
+                                // For every key in the $_POST['Profile'] array that matches the
+                                //   name of a safe attribute in the Profile class, the class's
+                                //   attribute is set to the corresponding value in the array.
+                                // By default, all underlying database columns except the Primary Key
+                                //   are considered safe.
+                                $model->attributes=$_POST['User'];
+
+                                $valid = $model->validate();                  
+                                if ($valid)
+                                {
+                                    $model->save(true);
+                                    unset($model);
+                                    $model = new User;
+                                  //  Yii::app()->user->setFlash('modelSuccess',"Info saved!" );
+                                     $this->redirect(array('Earnings',));   
+                                }
+
+                        } 
+
+                         $this->render('addresspopup', array('model'=>$model));
+
+                } 
+                
+           public function actionAddressdelete()
+                {
+                    $id = Yii::app()->user->id; 
+                    $user=User::model()->findByPk($id);
+                    $user->mail_street1 = NULL;
+                    $user->mail_street2 = NULL;
+                    $user->mail_city = NULL;
+                    $user->mail_zip = NULL;
+                    $user->mail_state = NULL;
+                    $user->mail_country = NULL;
+                    
+                    $user->save();
+                     $this->redirect(array('user/Earnings',));   
+
+                }  
+
         
 	// For resend registration Link	
 	public function actionRegistrationlink()

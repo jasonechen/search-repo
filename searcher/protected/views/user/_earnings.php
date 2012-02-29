@@ -26,12 +26,13 @@ $this->setAdminMenu();
 
 <h3>Payment Account Info</h3>
 
-    <?php  if ($model->email_paypal == NULL)
+    <?php  if ($model->email_paypal != NULL || $model->mail_city != NULL)
  
-                $this->renderPartial('_paypalform', array('creditModel'=>$creditModel,'model'=>$model)) ;
-         
-            else $this->renderPartial('_paypalform2', array('model'=>$model)) ;
- 
+                $this->renderPartial('_paypalform2', array('model'=>$model, 'state'=>$state, 'country'=>$country,)) ;
+             else 
+                $this->renderPartial('_paypalform', array('creditModel'=>$creditModel,'model'=>$model,                                                    'model'=>$model,
+                                                    'state'=>$state, 'country'=>$country,
+                                                    )) ;         
     ?>
      
 

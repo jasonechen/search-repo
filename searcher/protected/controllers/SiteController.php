@@ -195,7 +195,7 @@ class SiteController extends Controller
                                 $utype = Yii::app()->user->getState('usertype');
                                 $myID = Yii::app()->user->id;
                                 $uLogHistry = new UserLogHistory();
-                               $logsts = $uLogHistry->checkLogStatus($myID);
+                                $logsts = $uLogHistry->checkLogStatus($myID);
                                //$logsts=1;
                                if($logsts)
                                {

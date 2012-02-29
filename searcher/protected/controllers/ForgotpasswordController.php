@@ -16,7 +16,7 @@ class ForgotPasswordController extends Controller
 	public function accessRules()
 	{
 		return array(
-/*These need to be fixed so only the self user can run these operations */                    
+/*These need to be fixed so only the self user can run these operations  */                   
 			array('allow',  
 				'actions'=>array('Usernewpassword'),
 				'users'=>array('@'),
@@ -125,7 +125,7 @@ class ForgotPasswordController extends Controller
 		$model->attributes=$_POST['ForgotPassword'];
 		$user =User::model()->findByPk($model->id);
 		$user->password =  $user->encrypt($model->password_unhash);	
-		$user->password_reset_key 	 = '';
+		$user->password_reset_key  = '';
 		$user->password_reset_sent   = ''; 	
 	    $user->save();			
 		// create auto login form 
