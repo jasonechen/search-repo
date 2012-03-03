@@ -17,7 +17,7 @@
 <div class="span-9"> 
 
     <div class="view">
-<table cellpadding:5px;" width="330" height="270" cellspacing="0" >
+<table cellpadding="5" width="330" height="270" cellspacing="0" >
 
     <thead style="font-size: 18px; font-weight:bold; color: grey">
     <td colspan="2"  style="text-align:center">  Profile # <?php echo $buyProfileForm->profile_id; ?>: <?php echo $basicProfile->nickname; ?></td></thead>
@@ -25,7 +25,7 @@
     <tr><td colspan="2" style="text-align:center; font-weight:bold"><?php echo $basicProfile->currUniversity->name; ?></td> </tr>
     <tr><td colspan="2" style="text-align:center;font-weight:bold"> <?php echo BasicProfile::getProfileTypeName($basicProfile->profile_type); ?></td>  </tr> 
     <tr><td colspan="2" style="text-align:center;font-weight:bold"><?php echo BasicProfile::getGender($basicProfile->gender);?> </tr>
-    <tr><td colspan="2" style="text-align:center;font-weight:bold"><?php echo $basicProfile->race->name; ?></td> </tr>
+    <tr><td colspan="2" style="text-align:center;font-weight:bold"><?php echo !empty($basicProfile->race->name) ? $basicProfile->race->name : ''; ?></td> </tr>
     <tr><td colspan="2" style="text-align:center">SAT I Score: <span style="font-weight:bold"><?php echo BasicProfile::getSATRange($basicProfile->sat_I_score_range); ?> </span>    </td> </tr>
     <tr><td colspan="2" style="text-align:center"># of Test Scores: <span style="font-weight:bold"><?php echo $basicProfile->num_scores; ?></span>     </td>  </tr>
     <tr><td colspan="2" style="text-align:center"># of Academic Fields: <span style="font-weight:bold"><?php echo $basicProfile->num_academics; ?></span>    </td>  </tr>
