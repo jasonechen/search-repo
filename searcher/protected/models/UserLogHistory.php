@@ -140,11 +140,12 @@ class UserLogHistory extends CActiveRecord
         {
             $model = $this->find('user_id='.$id.' and status = 1');
             //$model = $this->find('user_id='.$id.' and status = 1');
-            $model->status = 0;
-            $model->logout_datetime = date( "Y-m-d H:i:s");
-            $model->save();
-            
-            
+            if(!empty($model))
+            {
+                $model->status = 0;
+                $model->logout_datetime = date( "Y-m-d H:i:s");
+                $model->save();
+            }
         }
 
 

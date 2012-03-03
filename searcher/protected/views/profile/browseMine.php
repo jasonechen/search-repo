@@ -1,4 +1,10 @@
 <?php
+    /**
+     * @var BasicProfile $model
+     */
+?>
+
+<?php
 $this->breadcrumbs=array(
 	'Profile'=>array('index'),
 	'My Profiles',

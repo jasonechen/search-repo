@@ -309,54 +309,67 @@ class BasicProfile extends ProfileActiveRecord
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 //                $userID = Yii::app()->user->id;
-		$criteria=new CDbCriteria;
-               $criteria->params = array(":userID"=>Yii::app()->user->id);
-               $criteria->with = array('purchasedProfile');
-               $criteria->together = true;
-//		$criteria->compare('user_id',$this->user_id,true);
-//                $criteria->compare('update_user_id',$this->update_user_id,true);
-//		$criteria->compare('first_university_id',$this->first_university_id);
-//                $criteria->compare('name',$this->firstUniversity,true);
-//		$criteria->compare('curr_university_id',$this->curr_university_id);
-//		$criteria->compare('isTransfer',$this->isTransfer,true);
-//		$criteria->compare('gender',$this->gender,true);
-//		$criteria->compare('highSchoolType',$this->highSchoolType,true);
-//		$criteria->compare('race_id',$this->race_id,true);
-//		$criteria->compare('sat_I_score_range',$this->sat_I_score_range);
-//		$criteria->compare('num_scores',$this->num_scores);
-//		$criteria->compare('num_aps',$this->num_aps);
-//		$criteria->compare('num_sat2s',$this->num_sat2s);
-//		$criteria->compare('num_competitions',$this->num_competitions);
-//		$criteria->compare('num_sports',$this->num_sports);
-//		$criteria->compare('num_academics',$this->num_academics);
-//		$criteria->compare('num_extracurriculars',$this->num_extracurriculars);
-//		$criteria->compare('num_essays',$this->num_essays);
-//		$criteria->compare('profile_type',$this->profile_type);
-//	        $criteria->with = array('firstUniversity');
+		$criteria = new CDbCriteria;
+        $criteria->params = array(":userID" => Yii::app()->user->id);
+        $criteria->together = true;
 //	        
-		$criteria->compare('user_id',$this->user_id,true);
-		$criteria->compare('sat_I_score_range',$this->sat_I_score_range);
-		$criteria->compare('num_scores',$this->num_scores);
-		$criteria->compare('num_academics',$this->num_academics);
-		$criteria->compare('num_extracurriculars',$this->num_extracurriculars);
-		$criteria->compare('num_essays',$this->num_essays);
-		$criteria->compare('avg_profile_rating',$this->avg_profile_rating);
-		$criteria->compare('l1ForSale',$this->l1ForSale);
-		$criteria->compare('l2ForSale',$this->l2ForSale);
-		$criteria->compare('l3ForSale',$this->l3ForSale);
-		$criteria->compare('verified',$this->verified);
-		$criteria->compare('musical_instrument_id',$this->musical_instrument_id,true);
-		$criteria->compare('profile_type',$this->profile_type);
-                $criteria->compare('name',$this->firstUniversity,true);
-                $criteria->compare('name',$this->hsName,true);
-		$criteria->compare('name',$this->race,true);
-                $criteria->compare('gender',$this->gender,true);
-	        $criteria->with = array('firstUniversity');
-                $criteria->with = array('hsName');
- 	        $criteria->with = array('race','purchasedProfile');
-                $criteria->condition = "purchasedProfile.user_id=:userID AND purchasedProfile.purchased_profile_id!=:userID";
+		$criteria->compare('user_id', $this->user_id, true);
+		$criteria->compare('sat_I_score_range', $this->sat_I_score_range);
+		$criteria->compare('num_scores', $this->num_scores);
+		$criteria->compare('num_academics', $this->num_academics);
+		$criteria->compare('num_extracurriculars', $this->num_extracurriculars);
+		$criteria->compare('num_essays', $this->num_essays);
+		$criteria->compare('avg_profile_rating', $this->avg_profile_rating);
+		$criteria->compare('l1ForSale', $this->l1ForSale);
+		$criteria->compare('l2ForSale', $this->l2ForSale);
+		$criteria->compare('l3ForSale', $this->l3ForSale);
+		$criteria->compare('verified', $this->verified);
+		$criteria->compare('musical_instrument_id', $this->musical_instrument_id, true);
+		$criteria->compare('profile_type', $this->profile_type);
+        $criteria->compare('name', $this->firstUniversity, true);
+        $criteria->compare('name', $this->hsName, true);
+		$criteria->compare('name', $this->race, true);
+        $criteria->compare('gender', $this->gender, true);
+        $criteria->condition = "purchasedProfile.user_id=:userID AND purchasedProfile.purchased_profile_id!=:userID";
+
+        $sort = new CSort();
+        $sort->attributes =
+            array(
+                'firstUniversity' => array(
+                    'asc' => 'firstUniversity.name',
+                    'desc' => 'firstUniversity.name DESC',
+                ),
+                'race' => array(
+                    'asc' => 'race.name',
+                    'desc' => 'race.name DESC',
+                ),
+                'stateName' => array(
+                    'asc' => 'states.name',
+                    'desc' => 'states.name DESC',
+                ),
+                '*',
+            );
+
+        $criteria->with =
+            array(
+                'firstUniversity',
+                'race',
+                'scoreProfile',
+                'purchasedProfile',
+                'hsName',
+                'user' => array(
+                    'with' => array(
+                        'personalProfile' =>
+                        array(
+                            'with' => 'states',
+                        )
+                    ),
+                ),
+            );
+
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+            'sort' => $sort,
 		));
 	}
 

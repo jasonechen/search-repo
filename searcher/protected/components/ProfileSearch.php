@@ -58,13 +58,15 @@ class ProfileSearch extends AbstractProfileSearch
 
         $this->addFilters();
 
-        $this->provider = new CActiveDataProvider($this->model, array(
-                    'criteria' => $this->criteria,
-                    'sort' => $sort,
-                    'pagination' => array(
-                        'pageSize' => $this->getPageSize(),
-                    ),
-                ));
+        $this->provider = new CActiveDataProvider($this->model,
+            array(
+                 'criteria' => $this->criteria,
+                 'sort' => $sort,
+                 'pagination' => array(
+                     'pageSize' => $this->getPageSize(),
+                 ),
+            )
+        );
 
         return $this->provider;
     }
