@@ -12,12 +12,13 @@
      * @var array $data
      * @var boolean $showOnlyComments
      * @var boolean $enableCListViewReactivation
+     * @var boolean $alwaysShowRateWidget
      */
 ?>
 
 <?php if(!$showOnlyComments): ?>
 
-    <?php if($data['averageRating']): ?>
+    <?php if($data['averageRating'] || $alwaysShowRateWidget): ?>
 
         <div class="<?php echo $cssClassName; ?>" data="<?php echo $data['averageRating']; ?>_1"></div>
 

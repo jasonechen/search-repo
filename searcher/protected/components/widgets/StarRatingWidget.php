@@ -24,6 +24,7 @@ class StarRatingWidget extends CWidget
      * @var string $cssClassName - class name for widget, needed in some cases
      * @var boolean $noStartingRate - if we are not going to set initial stars, set this = true
      * @var boolean $showOnlyComments - whether to show only comments from users or not (without start-rating widget)
+     * @var boolean $alwaysShowRateWidget - whether to always show or not rate widget
      *
      */
 
@@ -40,6 +41,7 @@ class StarRatingWidget extends CWidget
     public $noStartingRate = false;
     public $showOnlyComments = false;
     public $enableCListViewReactivation = false;
+    public $alwaysShowRateWidget = false;
 
     protected $_starRatingObject;
     protected $_data;
@@ -107,6 +109,7 @@ class StarRatingWidget extends CWidget
                  'smallStars' => $this->smallStars,
                  'cssClassName' => $this->cssClassName,
                  'enableCListViewReactivation' => $this->enableCListViewReactivation,
+                 'alwaysShowRateWidget' => $this->alwaysShowRateWidget,
             )
         );
     }
@@ -119,19 +122,20 @@ class StarRatingWidget extends CWidget
     
 	public function registerClientScript()
 	{
-            $assets = dirname(__FILE__) . '/views/star-rating/assets';
-            $baseUrl = Yii::app()->assetManager->publish($assets);
-            if(is_dir($assets))
-            {
-                Yii::app()->clientScript->registerCoreScript('jquery');
-                Yii::app()->clientScript->registerCssFile($baseUrl . '/jquery/jRating.jquery.css');
-		        Yii::app()->clientScript->registerScriptFile($baseUrl . '/jquery/jRating.jquery.js', CClientScript::POS_HEAD);
-                $this->_data['bigStarsPath'] = $baseUrl . '/jquery/icons/stars.png';
-                $this->_data['smallStarsPath'] = $baseUrl . '/jquery/icons/small.png';
-            }
-            else if(!is_dir($assets))
-            {
-                throw new Exception('Star Rating Widget - Error: Couldn\'t find assets to publish.');
-            }
+        $assets = dirname(__FILE__) . '/views/star-rating/assets';
+        $baseUrl = Yii::app()->assetManager->publish($assets);
+
+        if(is_dir($assets))
+        {
+            Yii::app()->clientScript->registerCoreScript('jquery');
+            Yii::app()->clientScript->registerCssFile($baseUrl . '/jquery/jRating.jquery.css');
+            Yii::app()->clientScript->registerScriptFile($baseUrl . '/jquery/jRating.jquery.js', CClientScript::POS_HEAD);
+            $this->_data['bigStarsPath'] = $baseUrl . '/jquery/icons/stars.png';
+            $this->_data['smallStarsPath'] = $baseUrl . '/jquery/icons/small.png';
+        }
+        else if(!is_dir($assets))
+        {
+            throw new Exception('Star Rating Widget - Error: Couldn\'t find assets to publish.');
+        }
 	}
 }

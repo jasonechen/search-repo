@@ -12,12 +12,12 @@ $this->setViewProfileMenu($buyProfileForm->profile_id);
 Overall Rating: <br/><br/>
 <?php
     $this->widget('application.components.widgets.StarRatingWidget',
-                  array(
-                       'cssClassName' => 'jRatingForViewedUser',
-                       'user_id' => $buyProfileForm->profile_id,
-                       'enableComments' => false,
-                       'isDisabled' => true,
-                  )
+        array(
+             'cssClassName' => 'jRatingForViewedUser',
+             'user_id' => $buyProfileForm->profile_id,
+             'enableComments' => false,
+             'isDisabled' => true,
+        )
     );
 ?>
 
@@ -31,28 +31,29 @@ Overall Rating: <br/><br/>
 
     <?php
         $this->beginWidget('zii.widgets.jui.CJuiDialog',
-                       array(
-                            'id' => 'rate-user-dialog',
-                            'options' => array(
-                                'title' => 'Rate this User',
-                                'autoOpen' => false,
-                                'modal' => true,
-                                'width' => 550,
-                                'height' => 470,
-                            ),
-                       )
+            array(
+                 'id' => 'rate-user-dialog',
+                 'options' => array(
+                     'title' => 'Rate this User',
+                     'autoOpen' => false,
+                     'modal' => true,
+                     'width' => 550,
+                     'height' => 470,
+                 ),
+            )
         );
     ?>
     <br/>
     <?php
         $this->widget('application.components.widgets.StarRatingWidget',
-                          array(
-                              'user_id' => $buyProfileForm->profile_id,
-                              'enableComments' => true,
-                              'enableCommentsId' => '#rating-comment',
-                              'enableCommentsSubmitId' => '#rating-submit',
-                              'noStartingRate' => true,
-                          )
+            array(
+                 'user_id' => $buyProfileForm->profile_id,
+                 'enableComments' => true,
+                 'enableCommentsId' => '#rating-comment',
+                 'enableCommentsSubmitId' => '#rating-submit',
+                 'noStartingRate' => true,
+                 'alwaysShowRateWidget' => true,
+            )
         );
     ?>
 
