@@ -124,6 +124,7 @@ abstract class AbstractProfileSearch
         'firstUniversity',
         'race',
         'scoreProfile',
+        'consult',
         'user' => array(
             'with' => array(
                 'personalProfile' =>

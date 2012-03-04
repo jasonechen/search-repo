@@ -22,11 +22,14 @@ class CheckboxList extends AbstractModifier
         if(!empty($this->requestArray[$this->requestVariable][$this->key]))
         {
             $addedCondition = '';
+
             foreach($this->requestArray[$this->requestVariable][$this->key] as $var)
             {
                 $addedCondition .= $this->key . ' = "' . $var .  '" OR ';
             }
+
             $addedCondition = substr($addedCondition, 0, -3);
+
             if(!empty($this->object->criteria->condition))
             {
                 $this->object->criteria->condition .= ' AND (' . $addedCondition .') ';

@@ -123,13 +123,14 @@ class FilterProfileSearch extends AbstractProfileSearch
         ),
         'verified' => array(
             'type' => 'CheckboxList',
-            ),
-        
+        ),
         'consultValue' => array(
-            'type' => 'CheckboxList',
+            'type' => 'Checkbox',
+            'config' => array(
+                'operator' => '>',
+                'value' => '0',
             ),
-        
-        
+        ),
         'avg_profile_rating' => array(
             'type' => 'IntegerSlider',
             'config' => array(

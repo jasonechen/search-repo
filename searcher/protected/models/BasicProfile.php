@@ -161,7 +161,7 @@ class BasicProfile extends ProfileActiveRecord
                     'ratings' => array(self::HAS_MANY, 'Rating', 'user_id', 'order' => 'create_time DESC'),
                     'averageRating' => array(self::STAT, 'Rating', 'user_id', 'select' => 'AVG(rating)'),
                     'scoreProfile' => array(self::HAS_ONE, 'ScoreProfile', 'user_id'),
-                   
+                    'consult' => array(self::HAS_ONE, 'Consult', 'user_id'),
                     );
 	}
 
