@@ -12,6 +12,11 @@
      */
 ?>
 <div id="search-results">
+
+    <div class="clearfix">
+        SEARCH CRITERIA: Harvard University AND Male AND New Jersey AND 600-2400 SAT I Combined Score.
+    </div>
+
     <div class="search-bar-page-size">
         <?php
             $this->renderPartial('/widgets/items-per-page',

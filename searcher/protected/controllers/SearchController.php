@@ -32,6 +32,7 @@ class SearchController extends Controller
         $this->setSortBy();
 
         $this->initProfileSearch();
+        $this->setSearchCriteria();
 
 		$this->render('index',
             array(
@@ -188,5 +189,14 @@ class SearchController extends Controller
         {
             $this->viewStyle = $_SESSION['viewStyle'];
         }
+    }
+
+    /**
+     * Setting of Search Criteria string
+     */
+
+    private function setSearchCriteria()
+    {
+
     }
 }

@@ -488,7 +488,7 @@ abstract class AbstractProfileSearch
                     );
                 if(strpos($reference_variable->criteria->condition, ') OR (') === FALSE)
                 {
-                    $reference_variable->criteria->condition .= ' AND ' . $sqlAttribute . ' = "' . $attribute . '"';
+                    $reference_variable->criteria->condition .= $sqlAttribute . ' = "' . $attribute . '" AND ';
                 }
             }
             else
@@ -500,10 +500,12 @@ abstract class AbstractProfileSearch
                     );
                 if(strpos($reference_variable->criteria->condition, ') OR (') === FALSE)
                 {
-                    $reference_variable->criteria->condition .= ' AND ' . $sqlAttribute . ' LIKE "%' . $attribute . '%"';
+                    $reference_variable->criteria->condition .= $sqlAttribute . ' LIKE "%' . $attribute . '%" AND ';
                 }
             }
         };
+
+        $modified = false;
 
         if(isset($_GET['BasicProfile']))
         {
@@ -527,6 +529,8 @@ abstract class AbstractProfileSearch
 
                 if(!empty($attribute))
                 {
+                    $modified = true;
+
                     $this->model->$filter['attribute'] = $attribute;
 
                     if(!$filter['exact'])
@@ -545,7 +549,7 @@ abstract class AbstractProfileSearch
                         {
                             if(!empty($with['condition']) && !is_numeric($withKey))
                             {
-                                $this->criteria->with[$withKey]['condition'] .= ' AND ' . $filter['sqlAttribute'] . ' LIKE "%' . $attribute . '%"';
+                                $this->criteria->with[$withKey]['condition'] .= $filter['sqlAttribute'] . ' LIKE "%' . $attribute . '%" AND';
                             }
                         }
                     }
@@ -565,11 +569,16 @@ abstract class AbstractProfileSearch
                         {
                             if(!empty($with['condition']) && !is_numeric($withKey))
                             {
-                                $this->criteria->with[$withKey]['condition'] .= ' AND ' . $filter['sqlAttribute'] . ' = "' . $attribute . '"';
+                                $this->criteria->with[$withKey]['condition'] .= $filter['sqlAttribute'] . ' = "' . $attribute . '" AND';
                             }
                         }
                     }
                 }
+            }
+
+            if($modified)
+            {
+                $this->criteria->condition = substr($this->criteria->condition, 0, -4);
             }
         }
     }

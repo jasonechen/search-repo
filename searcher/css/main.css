@@ -404,8 +404,8 @@ div#content {
 }
 
 #search-results .grid-view .summary {
-    margin: 0;
     position: absolute;
+    margin: 20px 0 0 0;
     text-align: left;
     top: 0;
 }
