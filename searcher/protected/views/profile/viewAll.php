@@ -56,6 +56,7 @@ Overall Rating: <br/>
                               'enableCommentsId' => '#rating-comment',
                               'enableCommentsSubmitId' => '#rating-submit',
                               'noStartingRate' => true,
+                              'alwaysShowRateWidget' => true,
                           )
         );
     ?>
