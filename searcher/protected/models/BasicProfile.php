@@ -57,7 +57,16 @@ class BasicProfile extends ProfileActiveRecord
                     'PRR'=>'Private Religious',
                     'HOM'=>'Home-schooled',
                     'CHR'=>'Charter',
-                    'OTH'=>'Other');         
+                    'OTH'=>'Other');
+     public static $SATRanges =
+         array(
+             0 => '600',
+             1 => '1000',
+             2 => '1300',
+             3 => '1800',
+             4 => '2100',
+             5 => '2400',
+         );
 
         public static $SATRangeArray 
           = array("NA","2310 to 2400","2210 to 2300","2110 to 2200",

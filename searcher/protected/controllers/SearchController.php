@@ -22,6 +22,8 @@ class SearchController extends Controller
     private $model;
     private $valid = false;
 
+    private $searchCriteriaText = '&nbsp;';
+
 	public function actionIndex()
 	{
         $this->setBackUrl();
@@ -32,7 +34,7 @@ class SearchController extends Controller
         $this->setSortBy();
 
         $this->initProfileSearch();
-        $this->setSearchCriteria();
+        $this->setSearchCriteriaText();
 
 		$this->render('index',
             array(
@@ -45,6 +47,7 @@ class SearchController extends Controller
                  'valid' => $this->valid,
                  'dataProvider' => $this->dataProvider,
                  'model' => $this->model,
+                 'searchCriteriaText' => $this->searchCriteriaText,
             )
         );
 	}
@@ -195,8 +198,47 @@ class SearchController extends Controller
      * Setting of Search Criteria string
      */
 
-    private function setSearchCriteria()
+    private function setSearchCriteriaText()
     {
+        if(!empty($_SESSION['search_first_university_name']))
+        {
+            $criteriaText = '';
 
+            if(!empty($_SESSION['FilterForm']['gender']))
+            {
+                if(array_search('M', $_SESSION['FilterForm']['gender']) !== FALSE)
+                {
+                    $criteriaText .= ' AND Male ';
+                }
+                if(array_search('F', $_SESSION['FilterForm']['gender']) !== FALSE)
+                {
+                    $criteriaText .= ' AND Female ';
+                }
+            }
+
+            if(!empty($_SESSION['FilterForm']['states.id']))
+            {
+                $criteriaText .= ' AND ' . States::model()->findByPk($_SESSION['FilterForm']['states.id'])->name . ' ';
+            }
+
+            if(!empty($_SESSION['FilterForm']['profile_type']))
+            {
+                $criteriaText .= ' AND ' . BasicProfile::$ProfileTypeArray[$_SESSION['FilterForm']['profile_type']] . ' ';
+            }
+
+            if(!empty($_SESSION['FilterForm']['race_id']))
+            {
+                $criteriaText .= ' AND ' . RaceType::model()->findByPk($_SESSION['FilterForm']['race_id'])->name . ' ';
+            }
+
+            if(!empty($_SESSION['FilterForm']['SATMax']))
+            {
+                $criteriaText .=
+                    ' AND ' . BasicProfile::$SATRanges[$_SESSION['FilterForm']['SATMin']] .
+                    '-' . BasicProfile::$SATRanges[$_SESSION['FilterForm']['SATMax']] . ' SAT I Combined Score ';
+            }
+
+            $this->searchCriteriaText = 'SEARCH CRITERIA: ' . $_SESSION['search_first_university_name'] . $criteriaText;
+        }
     }
 }

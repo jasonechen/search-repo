@@ -9,12 +9,13 @@
      * @var string $pageSizeUrl
      * @var string $viewStyleUrl
      * @var string $sortByUrl
+     * @var string $searchCriteriaText
      */
 ?>
 <div id="search-results">
 
     <div class="clearfix">
-        SEARCH CRITERIA: Harvard University AND Male AND New Jersey AND 600-2400 SAT I Combined Score.
+        <?php echo $searchCriteriaText; ?>
     </div>
 
     <div class="search-bar-page-size">
