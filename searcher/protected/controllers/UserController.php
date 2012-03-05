@@ -1309,7 +1309,7 @@ class UserController extends Controller
     {
         $myID = Yii::app()->user->id;
         
-        $dataProvider=new CActiveDataProvider('OrderPaymentModel',
+        $dataProvider=new CActiveDataProvider('OrderPayment',
                                            array('criteria'=>array('condition'=>'user_id='.$myID)));
         $creditModel = $this->loadCreditModel($myID);
         
@@ -1333,7 +1333,7 @@ class UserController extends Controller
     }
 	 public function actionViewinvoice($id)
     {
-         $model=  OrderPaymentModel::model()->findByPk($id);
+         $model=  OrderPayment::model()->findByPk($id);
          $data= array('model'=>$model);
          $this->render('invoice',$data);
     }

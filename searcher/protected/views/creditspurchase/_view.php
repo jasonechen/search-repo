@@ -38,8 +38,8 @@ $('#card-form').submit(function() {
 
 function testCreditCard () {
    
-  myCardNo = document.getElementById('OrderPaymentModel_cardno').value;
-  myCardType = document.getElementById('OrderPaymentModel_card_type').value;
+  myCardNo = document.getElementById('OrderPayment_cardno').value;
+  myCardType = document.getElementById('OrderPayment_card_type').value;
   // alert(myCardNo);
   if (checkCreditCard (myCardNo,myCardType)) {
    return true;
@@ -57,7 +57,7 @@ function testCreditCard () {
         function changeAmmount(value,id)
         {
              var packprice = document.getElementById('packprice').value;
-             var qty = document.getElementById('OrderPaymentModel_qty').value;
+             var qty = document.getElementById('OrderPayment_qty').value;
              var price = packprice * qty;
               document.getElementById('totalprice').value = price;
              document.getElementById('promocode').value= '';

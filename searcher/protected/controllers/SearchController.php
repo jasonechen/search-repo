@@ -200,7 +200,7 @@ class SearchController extends Controller
 
     private function setSearchCriteriaText()
     {
-        $criteriaText = '';
+        $criteriaText = 'None';
 
         if(!empty($_SESSION['FilterForm']['gender']))
         {

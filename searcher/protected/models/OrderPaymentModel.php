@@ -32,7 +32,7 @@
  * @property integer $qty
  */
 
-class OrderPaymentModel extends CActiveRecord 
+class OrderPayment extends CActiveRecord 
 {
    /**
 	 * Returns the static model of the specified AR class.
@@ -175,7 +175,7 @@ class OrderPaymentModel extends CActiveRecord
 			
 	        $user_id = Yii::app()->user->id;
 			$condition ="coupon_id='".$couponid."' and user_id = ".$user_id;
-			$order = OrderPaymentModel::model()->find($condition);
+			$order = OrderPayment::model()->find($condition);
 
             if(@$order->id)
                 return FALSE;

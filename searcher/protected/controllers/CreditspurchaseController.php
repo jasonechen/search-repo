@@ -19,30 +19,30 @@ class CreditspurchaseController extends Controller
 	{
              $error ='';
             
-             $paymentdetails = new OrderPaymentModel();
+             $paymentdetails = new OrderPayment();
             //  $this->getInvoiceTemplate($paymentdetails);
              $myID = Yii::app()->user->id;
-             $orderno='mece'.(1000+OrderPaymentModel::model()->count()+1);
+             $orderno='mece'.(1000+OrderPayment::model()->count()+1);
              $credit = CreditsModel::model()->findByPk($id);
 			 
-            if(isset($_POST['OrderPaymentModel']) )
+            if(isset($_POST['OrderPayment']) )
             {
              
                     
                         $paymentdetails->order_id=$orderno;
-                        $paymentdetails->attributes = $_POST['OrderPaymentModel'];
+                        $paymentdetails->attributes = $_POST['OrderPayment'];
                         $paymentdetails->user_id=$myID; 
                         $paymentdetails->totalamount = $_POST['totalprice'];
                         $paymentdetails->paidamount = $_POST['totalwithdisprice'] ? $_POST['totalwithdisprice'] : $_POST['totalprice'];
                         $paymentdetails->allow_refund_amount=$paymentdetails->paidamount;
                         $paymentdetails->coupon_id = $_POST['promocodeid'];
                         $paymentdetails->discount = $_POST['totaldiscount'];
-                        $paymentdetails->country=$_POST['OrderPaymentModel']['country'];
-                         $paymentdetails->card_type=$_POST['OrderPaymentModel']['card_type'];
+                        $paymentdetails->country=$_POST['OrderPayment']['country'];
+                         $paymentdetails->card_type=$_POST['OrderPayment']['card_type'];
                         $paymentdetails->credits_id = $id;
                       
                          $isPaid = 0;
-                         $res= $this->paypallPayNow($_POST['OrderPaymentModel'],$paymentdetails->paidamount);
+                         $res= $this->paypallPayNow($_POST['OrderPayment'],$paymentdetails->paidamount);
                           
                           $msg = strtolower($res['ACK']);
                           $isPaid = strlen(strstr($msg,"success"))?1:0 ;
@@ -116,7 +116,7 @@ class CreditspurchaseController extends Controller
         {
 			
 		
-            $paymentdetails = new OrderPaymentModel();
+            $paymentdetails = new OrderPayment();
             return $paymentdetails->checkPromoCode($code);
 					
 		
