@@ -202,53 +202,85 @@ class SearchController extends Controller
     {
         $criteriaText = 'None';
 
+        /**
+         * Gender filtering if defined
+         * We have array from $_SESSION and we un-pack it
+         */
+
         if(!empty($_SESSION['FilterForm']['gender']))
         {
             if(array_search('M', $_SESSION['FilterForm']['gender']) !== FALSE)
             {
                 $criteriaText .= ' AND Male ';
             }
+
             if(array_search('F', $_SESSION['FilterForm']['gender']) !== FALSE)
             {
                 $criteriaText .= ' AND Female ';
             }
         }
 
+        /**
+         * Filter by state if defined
+         */
+
         if(!empty($_SESSION['FilterForm']['states.id']))
         {
             $criteriaText .= ' AND ' . States::model()->findByPk($_SESSION['FilterForm']['states.id'])->name . ' ';
         }
+
+        /**
+         * Filter by Profile Type if defined
+         */
 
         if(!empty($_SESSION['FilterForm']['profile_type']))
         {
             $criteriaText .= ' AND ' . BasicProfile::$ProfileTypeArray[$_SESSION['FilterForm']['profile_type']] . ' ';
         }
 
+        /**
+         * Filter by Race if defined
+         */
+
         if(!empty($_SESSION['FilterForm']['race_id']))
         {
             $criteriaText .= ' AND ' . RaceType::model()->findByPk($_SESSION['FilterForm']['race_id'])->name . ' ';
         }
 
-        if(!empty($_SESSION['FilterForm']['SATMax']))
+        /**
+         * Filter By SAT I Combined Score of defined
+         * We filter it if the max Score value is less than 2400 (5 key from array)
+         */
+
+        if(!empty($_SESSION['FilterForm']['SATMax']) && $_SESSION['FilterForm']['SATMax'] <= 4)
         {
             $min = BasicProfile::$SATRanges[$_SESSION['FilterForm']['SATMin']];
-
-            if($_SESSION['FilterForm']['SATMax'] == 2400)
-            {
-                $max = BasicProfile::$SATRanges[5];
-            }
-            else
-            {
-                $max = BasicProfile::$SATRanges[$_SESSION['FilterForm']['SATMax']];
-            }
+            $max = BasicProfile::$SATRanges[$_SESSION['FilterForm']['SATMax']];
 
             $criteriaText .= ' AND ' . $min . '-' . $max . ' SAT I Combined Score ';
         }
+
+        /**
+         * If we haven't defined university then cut off extra 'AND' from result string
+         */
 
         if(empty($_SESSION['search_first_university_name']))
         {
             $criteriaText = substr($criteriaText, 4);
         }
+
+        /*
+         * If we still have no text then simply define this text as 'None'
+         */
+
+        if(empty($criteriaText) && empty($_SESSION['search_first_university_name']))
+        {
+            $criteriaText = 'None';
+        }
+
+        /**
+         * Actual criteria text defining
+         */
 
         $this->searchCriteriaText = 'SEARCH CRITERIA: ' . $_SESSION['search_first_university_name'] . $criteriaText;
     }

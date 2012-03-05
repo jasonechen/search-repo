@@ -494,6 +494,16 @@ class BasicProfile extends ProfileActiveRecord
             }
             return 'N/A';
         }
+
+        public static function getCountryName($data)
+        {
+            if(!empty($data->user->personalProfile->country_reside))
+            {
+                $countryId = $data->user->personalProfile->country_reside;
+                return CitizenType::model()->findByPk($countryId)->name;
+            }
+            return 'N/A';
+        }
         
         public function checkBuyer($buyer_id,$mpStudent){
             if ($mpStudent === null){

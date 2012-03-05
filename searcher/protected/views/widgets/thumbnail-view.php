@@ -29,9 +29,18 @@
         <strong><?php echo CHtml::encode($data->getAttributeLabel('profile_type')); ?>:</strong>
 	    <?php echo CHtml::encode(BasicProfile::getProfileTypeName($data->profile_type)); ?>
 	    <br />
+
+        <?php if($state = BasicProfile::getStateName($data) != 'N/A'): ?>
       
-        <strong>Home State:</strong>
-        <?php echo BasicProfile::getStateName($data);?>
+            <strong>Home State:</strong>
+            <?php echo BasicProfile::getStateName($data);?>
+
+        <?php else: ?>
+
+            <strong>Home Country:</strong>
+            <?php echo BasicProfile::getCountryName($data);?>
+
+        <?php endif; ?>
 
 	    <br /><br />
 
