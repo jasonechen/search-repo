@@ -273,7 +273,7 @@ class SearchController extends Controller
          * If we still have no text then simply define this text as 'None'
          */
 
-        if(empty($criteriaText))
+        if(empty($criteriaText) && empty($_SESSION['search_first_university_name']))
         {
             $criteriaText = 'None';
         }
