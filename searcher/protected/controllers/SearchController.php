@@ -200,45 +200,56 @@ class SearchController extends Controller
 
     private function setSearchCriteriaText()
     {
-        if(!empty($_SESSION['search_first_university_name']))
+        $criteriaText = '';
+
+        if(!empty($_SESSION['FilterForm']['gender']))
         {
-            $criteriaText = '';
-
-            if(!empty($_SESSION['FilterForm']['gender']))
+            if(array_search('M', $_SESSION['FilterForm']['gender']) !== FALSE)
             {
-                if(array_search('M', $_SESSION['FilterForm']['gender']) !== FALSE)
-                {
-                    $criteriaText .= ' AND Male ';
-                }
-                if(array_search('F', $_SESSION['FilterForm']['gender']) !== FALSE)
-                {
-                    $criteriaText .= ' AND Female ';
-                }
+                $criteriaText .= ' AND Male ';
             }
-
-            if(!empty($_SESSION['FilterForm']['states.id']))
+            if(array_search('F', $_SESSION['FilterForm']['gender']) !== FALSE)
             {
-                $criteriaText .= ' AND ' . States::model()->findByPk($_SESSION['FilterForm']['states.id'])->name . ' ';
+                $criteriaText .= ' AND Female ';
             }
-
-            if(!empty($_SESSION['FilterForm']['profile_type']))
-            {
-                $criteriaText .= ' AND ' . BasicProfile::$ProfileTypeArray[$_SESSION['FilterForm']['profile_type']] . ' ';
-            }
-
-            if(!empty($_SESSION['FilterForm']['race_id']))
-            {
-                $criteriaText .= ' AND ' . RaceType::model()->findByPk($_SESSION['FilterForm']['race_id'])->name . ' ';
-            }
-
-            if(!empty($_SESSION['FilterForm']['SATMax']))
-            {
-                $criteriaText .=
-                    ' AND ' . BasicProfile::$SATRanges[$_SESSION['FilterForm']['SATMin']] .
-                    '-' . BasicProfile::$SATRanges[$_SESSION['FilterForm']['SATMax']] . ' SAT I Combined Score ';
-            }
-
-            $this->searchCriteriaText = 'SEARCH CRITERIA: ' . $_SESSION['search_first_university_name'] . $criteriaText;
         }
+
+        if(!empty($_SESSION['FilterForm']['states.id']))
+        {
+            $criteriaText .= ' AND ' . States::model()->findByPk($_SESSION['FilterForm']['states.id'])->name . ' ';
+        }
+
+        if(!empty($_SESSION['FilterForm']['profile_type']))
+        {
+            $criteriaText .= ' AND ' . BasicProfile::$ProfileTypeArray[$_SESSION['FilterForm']['profile_type']] . ' ';
+        }
+
+        if(!empty($_SESSION['FilterForm']['race_id']))
+        {
+            $criteriaText .= ' AND ' . RaceType::model()->findByPk($_SESSION['FilterForm']['race_id'])->name . ' ';
+        }
+
+        if(!empty($_SESSION['FilterForm']['SATMax']))
+        {
+            $min = BasicProfile::$SATRanges[$_SESSION['FilterForm']['SATMin']];
+
+            if($_SESSION['FilterForm']['SATMax'] == 2400)
+            {
+                $max = BasicProfile::$SATRanges[5];
+            }
+            else
+            {
+                $max = BasicProfile::$SATRanges[$_SESSION['FilterForm']['SATMax']];
+            }
+
+            $criteriaText .= ' AND ' . $min . '-' . $max . ' SAT I Combined Score ';
+        }
+
+        if(empty($_SESSION['search_first_university_name']))
+        {
+            $criteriaText = substr($criteriaText, 4);
+        }
+
+        $this->searchCriteriaText = 'SEARCH CRITERIA: ' . $_SESSION['search_first_university_name'] . $criteriaText;
     }
 }
