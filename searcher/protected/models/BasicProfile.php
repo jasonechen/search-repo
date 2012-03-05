@@ -69,12 +69,8 @@ class BasicProfile extends ProfileActiveRecord
          );
 
         public static $SATRangeArray 
-          = array("NA","2310 to 2400","2210 to 2300","2110 to 2200",
-              "2010 to 2100","1910 to 2000","1810 to 1900",
-              "1710 to 1800","1610 to 1700","1510 to 1600",
-              "1410 to 1500","1310 to 1400","1210 to 1300",
-              "1110 to 1200","1010 to 1100","910 to 1000",
-              "810 to 900","710 to 800","600 to 700");      
+          = array("NA","2110 to 2400","1810 to 2100","1510 to 1800",
+              "1210 to 1500","910 to 1200","600 to 900");      
         
         public static $ProfileTypeArray
           = array(
@@ -133,7 +129,8 @@ class BasicProfile extends ProfileActiveRecord
 		return array(
 			//basic rules 
 			array('highSchoolType,nickname, user_id, curr_university_id, profile_type', 'required'),
-			array('race_id, gender', 'required','on'=>'demogr'),						
+			array('race_id, gender', 'required','on'=>'demogr'),
+                        array('nickname', 'unique'),
 			//array('race_id, gender, highSchoolType nickname, user_id, curr_university_id, num_scores, num_aps, num_sat2s, num_competitions, num_sports, num_academics, num_extracurriculars, num_essays, profile_type', 'required'),
 			array('first_university_id, curr_university_id, highschool_id, sat_I_score_range, num_scores, num_aps, num_sat2s, num_competitions, num_sports, num_academics, num_extracurriculars, num_essays, avg_profile_rating, l1ForSale, l2ForSale, l3ForSale, profile_type', 'numerical', 'integerOnly'=>true),
 			array('user_id, create_user_id, update_user_id', 'length', 'max'=>10),
@@ -450,60 +447,25 @@ class BasicProfile extends ProfileActiveRecord
         
         public static function getSATIndex($scoreVal)
 	{
-            if ($scoreVal > 2300) {
+            if ($scoreVal > 2100) {
                 $value = 1;
             }
-            else if ($scoreVal > 2200) {
+            else if ($scoreVal > 1800) {
                 $value = 2;
             }
-            else if ($scoreVal > 2100) {
+            else if ($scoreVal > 1500) {
                 $value = 3;
             }
-            else if ($scoreVal > 2000) {
+            else if ($scoreVal > 1200) {
                 $value = 4;
             }
-            else if ($scoreVal > 1900) {
+            else if ($scoreVal > 900) {
                 $value = 5;
             }
-            else if ($scoreVal > 1800) {
+            else if ($scoreVal > 600) {
                 $value = 6;
             }
-            else if ($scoreVal > 1700) {
-                $value = 7;
-            }
-            else if ($scoreVal > 1600) {
-                $value = 8;
-            }
-            else if ($scoreVal > 1500) {
-                $value = 9;
-            }
-            else if ($scoreVal > 1400) {
-                $value = 10;
-            }
-            else if ($scoreVal > 1300) {
-                $value = 11;
-            }
-            else if ($scoreVal > 1200) {
-                $value = 12;
-            }
-            else if ($scoreVal > 1100) {
-                $value = 13;
-            }
-            else if ($scoreVal > 1000) {
-                $value = 14;
-            }
-            else if ($scoreVal > 900)  {
-                $value = 15;
-            }
-            else if ($scoreVal > 800)  {
-                $value = 16;
-            }
-            else if ($scoreVal > 700)  {
-                $value = 17;
-            }
-            else if ($scoreVal >= 600) {
-                $value = 18;
-            }
+            
             else $value = 0;
             return $value;
 	}

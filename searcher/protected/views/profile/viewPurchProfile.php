@@ -34,8 +34,9 @@ Overall Rating: <br/><br/>
             array(
                  'id' => 'rate-user-dialog',
                  'options' => array(
-                     'title' => 'Rate this User',
+                     'title' => 'Rate this Profile',
                      'autoOpen' => false,
+                     'resizable' => false,	
                      'modal' => true,
                      'width' => 550,
                      'height' => 470,
