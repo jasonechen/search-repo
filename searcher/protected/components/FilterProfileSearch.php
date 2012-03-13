@@ -136,13 +136,6 @@ class FilterProfileSearch extends AbstractProfileSearch
             'config' => array(
                 'defaultMinValue' => 1,
                 'defaultMaxValue' => 5,
-                'valueCorrelation' => array(
-                    1 => '0',
-                    2 => '2',
-                    3 => '3',
-                    4 => '4',
-                    5 => '5',
-                ),
                 'allowNull' => true,
             ),
         ),

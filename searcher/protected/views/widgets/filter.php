@@ -181,17 +181,16 @@
 
 
             <div class="row">
-<div style="padding-bottom: 7px"> 
-                <?php echo $form->labelEx($model, 'avg_profile_rating', array('label' => 'Average Rating')); ?>
-</div>
-
+                <div style="padding-bottom: 7px">
+                    <?php echo $form->labelEx($model, 'avg_profile_rating', array('label' => 'Average Rating')); ?>
+                </div>
                 <?php $this->widget('zii.widgets.jui.CJuiSliderInput', array(
                     'model' => $model,
                     'attribute' => 'avg_profile_ratingMin',
                     'maxAttribute' => 'avg_profile_ratingMax',
                     'options' => array(
                         'range' => true,
-                        'min'=> 1,
+                        'min'=> 0,
                         'max' => 5,
                     ),
                     'htmlOptions' => array(
@@ -199,16 +198,19 @@
                     ),
                 ));
                 ?>
-                <div class="range-div" style="width:48px;">
+                <div class="range-div" style="width:38px;">
+                    None
+                </div>
+                <div class="range-div" style="width:41px;">
                     1
                 </div>
-                <div class="range-div" style="width:50px;">
+                <div class="range-div" style="width:39px;">
                     2
                 </div>
-                <div class="range-div" style="width:50px;">
+                <div class="range-div" style="width:40px;">
                     3
                 </div>
-                <div class="range-div" style="width:50px;">
+                <div class="range-div" style="width:40px;">
                     4
                 </div>
                 <div class="range-div">

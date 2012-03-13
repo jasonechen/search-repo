@@ -284,13 +284,17 @@ class IntegerSlider extends AbstractModifier
 
         // Does we allow NULL in SQL QUERY?
 
-        if(!empty($this->config['allowNull']))
+        if(!empty($this->config['allowNull']) && $this->getCorrelatedValue($this->requestArray[$this->requestVariable][$this->key . 'Min'], 'Min') == 0)
         {
             return ' OR ' . $column . ' IS NULL';
         }
 
         return '';
     }
+
+    /**
+     * @return mixed
+     */
 
     private function getColumn()
     {
