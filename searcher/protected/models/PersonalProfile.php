@@ -40,14 +40,14 @@ class PersonalProfile extends ProfileActiveRecord
         public $foreign_lang_spoken;
         
         
-        public static $ParentalStatusArray = 
+        public static $ParentalStatusArray =
             array('M'=>'Married',
                   'N'=>'Never married',
                   'C'=>'Civil Union/Domestic Partners',
-                 'D'=>'Divorced',            
-                'W'=>'Widowed',   
-               'S'=>'Separated',                 
-                );
+                  'D'=>'Divorced',
+                  'W'=>'Widowed',
+                  'S'=>'Separated',
+            );
 
         public static $IncomeBracketArray = 
             array('A'=>'Less than $25,000',
@@ -58,6 +58,12 @@ class PersonalProfile extends ProfileActiveRecord
              'F'=>'About $150,000 to $250,000',
              'G'=>'About $250,000 to $500,000',
              'H'=>'More than $500,000');
+
+    /**
+     * @static
+     * @param string $className
+     * @return CActiveRecord
+     */
         
 	public static function model($className=__CLASS__)
 	{
@@ -87,12 +93,12 @@ class PersonalProfile extends ProfileActiveRecord
 			array('citizenship', 'length', 'max'=>3),
 			array('legacy_direct, legacy_indirect, income_bracket, parental_status', 'length', 'max'=>1),
 			array('hometown_zipcode', 'length', 'max'=>5),
-                        array('hometown_zipcode', 'numerical', 'integerOnly'=>true, 'message'=>'Zipcode must be a 5 digit number'),
+            array('hometown_zipcode', 'numerical', 'integerOnly'=>true, 'message'=>'Zipcode must be a 5 digit number'),
 			array('other_schools_admitted, current_major', 'length', 'max'=>50),
 			array('religion_id', 'length', 'max'=>2),
 			array('foreign_languages_spoken', 'length', 'max'=>30),
 			array('skills', 'length', 'max'=>100),
-                        array('city, country_reside, ethnic_origin, date_of_birth, create_time, update_time, alumni_connections_flag, state', 'safe'),
+            array('city, country_reside, ethnic_origin, date_of_birth, create_time, update_time, alumni_connections_flag, state', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('user_id, date_of_birth, citizenship, alumni_connections, legacy_direct, legacy_indirect, hometown_zipcode, income_bracket, parental_status, other_schools_admitted, religion_id, foreign_languages_spoken, current_major, hs_grad_year, is_sibling_attending, skills, create_time, create_user_id, update_time, update_user_id', 'safe', 'on'=>'search'),
@@ -109,11 +115,12 @@ class PersonalProfile extends ProfileActiveRecord
 		return array(
 			'religion' => array(self::BELONGS_TO, 'ReligionType', 'religion_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
-                        'lang' => array(self::BELONGS_TO, 'LanguageType', 'foreign_languages_spoken'),
-                        'citizen' => array(self::BELONGS_TO, 'CitizenType', 'citizenship'),
-                        'ethnicity' => array(self::BELONGS_TO, 'EthnicType', 'ethnic_origin'),
-                        'states' => array(self::BELONGS_TO, 'States', 'state'),
-                        'major' => array(self::BELONGS_TO, 'MajorType', 'current_major'),
+            'lang' => array(self::BELONGS_TO, 'LanguageType', 'foreign_languages_spoken'),
+            'citizen' => array(self::BELONGS_TO, 'CitizenType', 'citizenship'),
+            'ethnicity' => array(self::BELONGS_TO, 'EthnicType', 'ethnic_origin'),
+            'states' => array(self::BELONGS_TO, 'States', 'state'),
+            'country' => array(self::BELONGS_TO, 'CitizenType', 'country_reside'),
+            'major' => array(self::BELONGS_TO, 'MajorType', 'current_major'),
 		);
 	}
 
@@ -127,7 +134,7 @@ class PersonalProfile extends ProfileActiveRecord
 			//'date_of_birth' => 'Date Of Birth (mm/dd/yyyy)',
 			'citizenship' => 'Citizenship',
 			'alumni_connections' => 'Alumni Connections',
-                        'ethnic_origin' => 'Ethnicity',
+            'ethnic_origin' => 'Ethnicity',
 			'legacy_direct' => 'Legacy Direct',
 			'legacy_indirect' => 'Legacy Indirect',
 			'hometown_zipcode' => 'Hometown Zipcode',
@@ -162,7 +169,7 @@ class PersonalProfile extends ProfileActiveRecord
 		$criteria->compare('date_of_birth',$this->date_of_birth,true);
 		$criteria->compare('citizenship',$this->citizenship,true);
 		$criteria->compare('legacy_direct',$this->legacy_direct,true);
-                $criteria->compare('ethnic_origin',$this->ethnic_origin,true);
+        $criteria->compare('ethnic_origin',$this->ethnic_origin,true);
 		$criteria->compare('legacy_indirect',$this->legacy_indirect,true);
 		$criteria->compare('hometown_zipcode',$this->hometown_zipcode,true);
 		$criteria->compare('income_bracket',$this->income_bracket,true);
@@ -183,106 +190,162 @@ class PersonalProfile extends ProfileActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-        
-        static public function getReligionOptions() 
-        { 
-             $religionArray = CHtml::listData(ReligionType::model()->findAll(), 'id', 'name');
-             return $religionArray;
-        }
 
-        static public function getCitizenshipOptions() 
-        { 
-             $citizenshipArray = CHtml::listData(CitizenType::model()->findAll(), 'id', 'name');
-             return $citizenshipArray;
-        }
+    static public function getReligionOptions()
+    {
+        $religionArray = CHtml::listData(ReligionType::model()->findAll(), 'id', 'name');
+        return $religionArray;
+    }
 
- 
-        static public function getMajorOptions() 
-        { 
-             $majorArray = CHtml::listData(MajorType::model()->findAll(), 'id', 'name');
-             return $majorArray;
-        }       
-        
-        static public function getEthnicOptions() 
-        { 
-             $ethnicArray = CHtml::listData(EthnicType::model()->findAll(), 'id', 'name');
-             return $ethnicArray;
-        }
-        
-        function getState() 
-        { 
-             $stateArray = CHtml::listData(States::model()->findAll(), 'id', 'name');
-             return $stateArray;
-        }
+    /**
+     * @static
+     * @return array
+     */
+
+    static public function getCitizenshipOptions()
+    {
+        $citizenshipArray = CHtml::listData(CitizenType::model()->findAll(), 'id', 'name');
+        return $citizenshipArray;
+    }
+
+    /**
+     * @static
+     * @return array
+     */
+
+    static public function getMajorOptions()
+    {
+        $majorArray = CHtml::listData(MajorType::model()->findAll(), 'id', 'name');
+        return $majorArray;
+    }
+
+    /**
+     * @static
+     * @return array
+     */
+
+    static public function getEthnicOptions()
+    {
+        $ethnicArray = CHtml::listData(EthnicType::model()->findAll(), 'id', 'name');
+        return $ethnicArray;
+    }
+
+    /**
+     * @return array
+     */
+
+    function getState()
+    {
+        $stateArray = CHtml::listData(States::model()->findAll(), 'id', 'name');
+        return $stateArray;
+    }
+
+    /**
+     * @return string
+     */
         
 	public function getLegacyConnections() 
 	{
-            $legacyArray = array();
-            switch ($this->legacy_direct){
-                case 'N':
-                    if ($this->legacy_indirect=='N'){
-                        $legacyArray[] = 'None';
-                    }
-                    break;
-                case 'M':
-                    $legacyArray[] = 'Mother';
-                    break;
-                case 'F':
-                    $legacyArray[] = 'Father';
-                    break;
-                case 'B':
-                    array_push($legacyArray,'Mother', 'Father');
-                    break;
-            }
-            switch ($this->legacy_indirect){
-                case 'S':
-                    $legacyArray[] = 'Sibling';
-                    break;
-                case 'O':
-                    $legacyArray[] = 'Other';
-                    break;
-                case 'B':
-                    array_push($legacyArray,'Sibling', 'Other');
-                    break;
-            }
-            return implode(",",$legacyArray);
-	}
-        
-	static public function getOtherAdmits($inAdmitArray)
-	{
-            $outAdmitArray = array();
-            foreach ($inAdmitArray as $admitProfile):
-                $outAdmitArray[] = $admitProfile->otherschoolids->name;
-            endforeach;          
-            return implode(",",$outAdmitArray);
-        }
-        
-        static public function getLanguages($inLanguageArray)
-	{
-            $outLanguageArray = array();
-            foreach ($inLanguageArray as $languageProfile):
-                $outLanguageArray[] = $languageProfile->lang->name;
-            endforeach;          
-            return implode(",",$outLanguageArray);
+        $legacyArray = array();
+
+        switch ($this->legacy_direct)
+        {
+            case 'N':
+                if ($this->legacy_indirect=='N')
+                {
+                    $legacyArray[] = 'None';
+                }
+                break;
+
+            case 'M':
+                $legacyArray[] = 'Mother';
+                break;
+
+            case 'F':
+                $legacyArray[] = 'Father';
+                break;
+
+            case 'B':
+                array_push($legacyArray, 'Mother', 'Father');
+                break;
+
         }
 
-       public static function getParentalStatus($indexVal)
-	{
-            if(isset(PersonalProfile::$ParentalStatusArray[$indexVal]))
-            {
-                return PersonalProfile::$ParentalStatusArray[$indexVal];
-            }
-            return 'N/A';
+        switch ($this->legacy_indirect)
+        {
+            case 'S':
+                $legacyArray[] = 'Sibling';
+                break;
+
+            case 'O':
+                $legacyArray[] = 'Other';
+                break;
+
+            case 'B':
+                array_push($legacyArray, 'Sibling', 'Other');
+                break;
+
+        }
+        return implode(",", $legacyArray);
 	}
-        
-               public static function getIncomeBracket($indexVal)
-	{
-            if(isset(PersonalProfile::$IncomeBracketArray[$indexVal]))
-            {
-                return PersonalProfile::$IncomeBracketArray[$indexVal];
-            }
-            return 'N/A';
-	}
-        
-        
+
+    /**
+     * @static
+     * @param $inAdmitArray
+     * @return string
+     */
+
+    static public function getOtherAdmits($inAdmitArray)
+    {
+        $outAdmitArray = array();
+        foreach ($inAdmitArray as $admitProfile):
+            $outAdmitArray[] = $admitProfile->otherschoolids->name;
+        endforeach;
+        return implode(",",$outAdmitArray);
+    }
+
+    /**
+     * @static
+     * @param $inLanguageArray
+     * @return string
+     */
+
+    static public function getLanguages($inLanguageArray)
+    {
+        $outLanguageArray = array();
+        foreach ($inLanguageArray as $languageProfile):
+            $outLanguageArray[] = $languageProfile->lang->name;
+        endforeach;
+        return implode(",",$outLanguageArray);
+    }
+
+    /**
+     * @static
+     * @param $indexVal
+     * @return string
+     */
+
+    public static function getParentalStatus($indexVal)
+    {
+        if(isset(PersonalProfile::$ParentalStatusArray[$indexVal]))
+        {
+            return PersonalProfile::$ParentalStatusArray[$indexVal];
+        }
+        return 'N/A';
+    }
+
+    /**
+     * @static
+     * @param $indexVal
+     * @return string
+     */
+
+    public static function getIncomeBracket($indexVal)
+    {
+        if(isset(PersonalProfile::$IncomeBracketArray[$indexVal]))
+        {
+            return PersonalProfile::$IncomeBracketArray[$indexVal];
+        }
+        return 'N/A';
+    }
 }

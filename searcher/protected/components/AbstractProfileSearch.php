@@ -129,7 +129,7 @@ abstract class AbstractProfileSearch
             'with' => array(
                 'personalProfile' =>
                 array(
-                    'with' => 'states',
+                    'with' => array('states', 'country'),
                 )
             ),
         ),
