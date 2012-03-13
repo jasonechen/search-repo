@@ -151,27 +151,38 @@
            test = document.createElement('input');
            if('placeholder' in test) jQuery.support.placeholder = true;
         });
-        // This adds placeholder support to browsers that wouldn't otherwise support it.
+
         $(function() {
            if(!$.support.placeholder) {
-              var active = document.activeElement;
-              $(':text').focus(function () {
-                 if ($(this).attr('placeholder') != '' && $(this).val() == $(this).attr('placeholder')) {
-                    $(this).val('').removeClass('hasPlaceholder');
-                 }
-              }).blur(function () {
-                 if ($(this).attr('placeholder') != '' && ($(this).val() == '' || $(this).val() == $(this).attr('placeholder'))) {
-                    $(this).val($(this).attr('placeholder')).addClass('hasPlaceholder');
-                 }
-              });
-              $(':text').blur();
-              $(active).focus();
-              $('form:eq(0)').submit(function () {
-                 $(':text.hasPlaceholder').val('');
-              });
+               var $el = $('#search_first_university_name');
+
+               if($el.val() == '')
+               {
+                   $el.val('Enter University Name');
+               }
+
+               $el.focus(function() {
+                   if($el.val() == 'Enter University Name')
+                   {
+                       $el.val('');
+                   }
+               });
+
+               $el.blur(function() {
+                   if($el.val() == '')
+                   {
+                       $el.val('Enter University Name');
+                   }
+               });
+
+               $el.parent().parent('form').submit(function() {
+                   if($el.val() == 'Enter University Name')
+                   {
+                       $el.val('');
+                   }
+               });
            }
         });
-
     </script>
 </html>
 
