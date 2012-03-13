@@ -252,7 +252,23 @@ class SearchController extends Controller
          * We filter it if the max Score value is less than 2400 (5 key from array)
          */
 
+        $SATUsed = false;
+
         if(!empty($_SESSION['FilterForm']['SATMax']) && $_SESSION['FilterForm']['SATMax'] <= 4)
+        {
+            $min = BasicProfile::$SATRanges[$_SESSION['FilterForm']['SATMin']];
+            $max = BasicProfile::$SATRanges[$_SESSION['FilterForm']['SATMax']];
+
+            $criteriaText .= ' AND ' . $min . '-' . $max . ' SAT I Combined Score ';
+            $SATUsed = true;
+        }
+
+        /**
+         * Filter By SAT I Combined Score of defined
+         * We filter it if the max Score value is less than 600 (0 key from array)
+         */
+
+        if(!$SATUsed && !empty($_SESSION['FilterForm']['SATMin']) && $_SESSION['FilterForm']['SATMin'] > 0)
         {
             $min = BasicProfile::$SATRanges[$_SESSION['FilterForm']['SATMin']];
             $max = BasicProfile::$SATRanges[$_SESSION['FilterForm']['SATMax']];

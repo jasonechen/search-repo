@@ -50,7 +50,7 @@ class Controller extends CController
         }
         if(!isset($_GET['FilterForm']['avg_profile_ratingMin']) && !isset($_GET['FilterForm']['avg_profile_ratingMax']))
         {
-            $this->filterModel->avg_profile_ratingMin = 1;
+            $this->filterModel->avg_profile_ratingMin = 0;
             $this->filterModel->avg_profile_ratingMax = 5;
         }
     }

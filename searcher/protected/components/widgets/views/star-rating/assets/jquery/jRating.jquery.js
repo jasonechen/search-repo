@@ -21,7 +21,7 @@
 			/** Boolean vars **/
 			step:false, // if true,  mouseover binded star by star,
 			isDisabled:false,
-			showRateInfo: true,
+			showRateInfo: false,
 			
 			/** Integer vars **/
 			length:5, // number of star to display
