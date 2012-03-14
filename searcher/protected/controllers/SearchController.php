@@ -298,6 +298,13 @@ class SearchController extends Controller
          * Actual criteria text defining
          */
 
-        $this->searchCriteriaText = 'SEARCH CRITERIA: ' . $_SESSION['search_first_university_name'] . $criteriaText;
+        if(!empty($_SESSION['search_first_university_name']))
+        {
+            $this->searchCriteriaText = 'SEARCH CRITERIA: ' . $_SESSION['search_first_university_name'] . $criteriaText;
+        }
+        else
+        {
+            $this->searchCriteriaText = 'SEARCH CRITERIA: ' . $criteriaText;;
+        }
     }
 }

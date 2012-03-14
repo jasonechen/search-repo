@@ -35,7 +35,7 @@ class CitizenType extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id, name', 'required'),
-                        array('id', 'length', 'max'=>2),
+            array('id', 'length', 'max'=>2),
 			array('name', 'length', 'max'=>60),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -51,7 +51,7 @@ class CitizenType extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                 'personalProfiles' => array(self::HAS_MANY, 'PersonalProfile', 'citizenship'),
+            'personalProfiles' => array(self::HAS_MANY, 'PersonalProfile', 'citizenship'),
 		);
 	}
 

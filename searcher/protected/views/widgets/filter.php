@@ -20,8 +20,11 @@
     
         <div class="clear"></div>
         <div class="filtercheckform">
+
             <div class="row row-gender clearfix">
-                <div style="padding-bottom: 6px"> <?php echo $form->labelEx($model, 'gender'); ?> </div>
+                <div style="padding-bottom: 6px">
+                    <?php echo $form->labelEx($model, 'gender'); ?>
+                </div>
                 <?php
 					echo $form->checkBoxList($model, 'gender', 
 						array(
@@ -34,12 +37,24 @@
             </div>
 
             <div class="row">
-                <?php echo $form->labelEx($model, 'state', array('label'=>'Home State')); ?>
+                <?php echo $form->labelEx($model, 'country', array('label' => 'Home Country')); ?>
+                <?php
+                    echo CHtml::dropDownList('FilterForm[country.id]',
+                        (isset($_GET['FilterForm']['country.id']) ? ($_GET['FilterForm']['country.id']) : '1'),
+                        CommonMethods::getAllCountriesList(),
+                        array('prompt' => 'All Countries', 'id' => 'FilterForm_country')
+                    );
+                ?>
+            </div>
+
+            <div class="row">
+                <?php echo $form->labelEx($model, 'state', array('label' => 'Home State', 'id' => 'home-state-label')); ?>
                 <?php
                     echo CHtml::dropDownList('FilterForm[states.id]',
                         (isset($_GET['FilterForm']['states.id']) ? ($_GET['FilterForm']['states.id']) : ''),
                         States::getAllStates(),
-                        array('prompt' => '-Choose state-'));
+                        array('prompt' => 'All States', 'id' => 'FilterForm_state')
+                    );
                 ?>
             </div>
 
@@ -76,6 +91,7 @@
                     ),
                 ));
                 ?>
+
                 <div class="range-div" style="width:30px;">
                     600
                 </div>
@@ -102,7 +118,6 @@
                 <div style="padding-bottom: 7px">              
                   <?php echo $form->labelEx($model, 'num_scores', array('label' => '# of Test Scores')); ?>
                 </div>
-                
 
                 <?php $this->widget('zii.widgets.jui.CJuiSliderInput', array(
                     'model' => $model,
@@ -118,6 +133,7 @@
                     ),
                 ));
                 ?>
+
                 <div class="range-div" style="width:34px;">
                     0
                 </div>
@@ -140,9 +156,10 @@
             </div>
 
             <div class="row">
-<div style="padding-bottom: 7px">  
-                <?php echo $form->labelEx($model, 'num_extracurriculars', array('label' => '# of Extracurriculars')); ?>
-</div>
+
+                <div style="padding-bottom: 7px">
+                    <?php echo $form->labelEx($model, 'num_extracurriculars', array('label' => '# of Extracurriculars')); ?>
+                </div>
 
                 <?php $this->widget('zii.widgets.jui.CJuiSliderInput', array(
                     'model' => $model,
@@ -181,9 +198,11 @@
 
 
             <div class="row">
+
                 <div style="padding-bottom: 7px">
                     <?php echo $form->labelEx($model, 'avg_profile_rating', array('label' => 'Average Rating')); ?>
                 </div>
+
                 <?php $this->widget('zii.widgets.jui.CJuiSliderInput', array(
                     'model' => $model,
                     'attribute' => 'avg_profile_ratingMin',
@@ -198,6 +217,7 @@
                     ),
                 ));
                 ?>
+
                 <div class="range-div" style="width:38px;">
                     None
                 </div>
@@ -233,20 +253,19 @@
             
         </div>
         <div class="container">
-        <div class="span-3">
-            <div class="buttons">
-            <?php echo CHtml::submitButton('Search', array('name' => 'submit-button', 'id' => 'filter-bar-submit'));?>
+            <div class="span-3">
+                <div class="buttons">
+                    <?php echo CHtml::submitButton('Search', array('name' => 'submit-button', 'id' => 'filter-bar-submit'));?>
+                </div>
             </div>
-        </div>
-        <div class="span-2 last"> 
-            <div class="pbuttons">
-            <?php echo CHtml::submitButton('Clear', array('name' => 'clear-button', 'id' => 'filter-bar-clear'));?>
+            <div class="span-2 last">
+                <div class="pbuttons">
+                    <?php echo CHtml::submitButton('Clear', array('name' => 'clear-button', 'id' => 'filter-bar-clear'));?>
+                </div>
             </div>
-         </div>
         </div>
 
     <?php $this->endWidget(); ?>
-
 
 </div>
 
@@ -256,5 +275,23 @@
         '$("#filter-bar-submit").click(function() {
             $("#search-q-secondary").val($("#search_q").val());
         });'
+    );
+
+    Yii::app()->clientScript->registerScript(
+        'country selector click',
+        "var hideOrShowStateSelector = function() {
+            var value = $('#FilterForm_country option:selected').val();
+            if(value == 1 || value == '')
+            {
+                $('#home-state-label').parent('div').show(500);
+            }
+            else
+            {
+                $('#home-state-label').parent('div').hide(500);
+            }
+        };
+        hideOrShowStateSelector();
+        $('#FilterForm_country').change(hideOrShowStateSelector);
+        "
     );
 ?>

@@ -37,6 +37,9 @@ class FilterProfileSearch extends AbstractProfileSearch
         'gender' => array(
             'type' => 'CheckboxList',
         ),
+        'country.id' => array(
+            'type' => 'DropDownList',
+        ),
         'states.id' => array(
             'type' => 'DropDownList',
         ),
