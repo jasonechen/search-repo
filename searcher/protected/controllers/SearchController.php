@@ -221,10 +221,20 @@ class SearchController extends Controller
         }
 
         /**
-         * Filter by state if defined
+         * Filter by country if defined
          */
 
-        if(!empty($_SESSION['FilterForm']['states.id']))
+        if(!empty($_SESSION['FilterForm']['country.id']))
+        {
+            $criteriaText .= ' AND ' . CitizenType::model()->findByPk($_SESSION['FilterForm']['country.id'])->name . ' ';
+        }
+
+        /**
+         * Filter by state if defined
+         * Also decline state if country != USA or country != Any Country
+         */
+
+        if(!empty($_SESSION['FilterForm']['states.id']) && $_SESSION['FilterForm']['country.id'] <= 1)
         {
             $criteriaText .= ' AND ' . States::model()->findByPk($_SESSION['FilterForm']['states.id'])->name . ' ';
         }
