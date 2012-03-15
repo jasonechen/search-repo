@@ -17,9 +17,10 @@ class ProfileSearch extends AbstractProfileSearch
     );
 
     public $sorts = array(
-        0 => 'firstUniversity.name',
-        1 => 'states.name ASC',
-        2 => 't.gender ASC',
+        0 => 'firstUniversity.name ASC, IF(ISNULL(country.name), 1, 0) ASC, country.name ASC, IF(ISNULL(states.name), 1, 0) ASC, states.name ASC, t.gender DESC',
+        1 => 'IF(ISNULL(states.name), 1, 0) ASC, states.name ASC, firstUniversity.name ASC, IF(ISNULL(country.name), 1, 0) ASC, country.name ASC, t.gender DESC',
+        2 => 't.gender DESC, firstUniversity.name ASC, IF(ISNULL(country.name), 1, 0) ASC, country.name ASC, IF(ISNULL(states.name), 1, 0) ASC, states.name ASC',
+        3 => 'IF(ISNULL(country.name), 1, 0) ASC, country.name ASC, firstUniversity.name ASC, IF(ISNULL(states.name), 1, 0) ASC, states.name ASC, t.gender DESC',
     );
 
     /**
@@ -33,7 +34,14 @@ class ProfileSearch extends AbstractProfileSearch
          * Appropriate ordering of result
          */
 
-        $this->criteria->order = $this->sorts[$_SESSION['sortBy']];
+        if(isset($this->sorts[$_SESSION['sortBy']]))
+        {
+            $this->criteria->order = $this->sorts[$_SESSION['sortBy']];
+        }
+        else
+        {
+            $this->criteria->order = $this->sorts[0];
+        }
 
         /**
          * We use sorting capabilities
