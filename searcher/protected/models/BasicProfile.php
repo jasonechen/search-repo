@@ -49,14 +49,7 @@ class BasicProfile extends ProfileActiveRecord
     public $countryName;
 
 
-     public static $HighSchoolTypeArray 
-          = array('PUB'=>'Public',
-                    'PRN'=>'Private Non-Religious',
-                    'PRR'=>'Private Religious',
-                    'HOM'=>'Home-schooled',
-                    'CHR'=>'Charter',
-                    'OTH'=>'Other');
-
+  
 
         public static $SATRangeArray 
           = array("NA","2110 to 2400","1810 to 2100","1510 to 1800",
@@ -111,44 +104,9 @@ class BasicProfile extends ProfileActiveRecord
             5 => '2400',
         );
 
-    public static $SATRangeArray
-        = array(
-            "NA", "2310 to 2400", "2210 to 2300", "2110 to 2200",
-            "2010 to 2100", "1910 to 2000", "1810 to 1900",
-            "1710 to 1800", "1610 to 1700", "1510 to 1600",
-            "1410 to 1500", "1310 to 1400", "1210 to 1300",
-            "1110 to 1200", "1010 to 1100", "910 to 1000",
-            "810 to 900", "710 to 800", "600 to 700"
-        );
 
-    public static $ProfileTypeArray
-        = array (
-            1 => 'Average Joe',
-            2 => 'Nerd',
-            3 => 'Brain',
-            4 => 'Jock',
-            5 => 'Student Leader',
-            6 => 'Musician',
-            7 => 'Artist',
-            8 => 'Well-rounded',
-            9 => 'Rebel',
-            10=> 'Class Clown',
-            11=> 'Loner',
-            12=> 'Mean Girl',
-            13=> 'Cool Kid',
-            14=> 'Skater',
-            15=> 'Goth/Punk',
-            16=> 'Gym Rat',
-            17=> 'Preppie',
-        );
 
-    public static $GenderArray
-        = array (
-            'M'=> 'Male',
-            'F'=> 'Female',
-        );
-
-    /**
+      /**
      * @static
      * @param $indexVal
      * @return string
@@ -578,85 +536,7 @@ class BasicProfile extends ProfileActiveRecord
      * @return int
      */
 
-    public static function getSATIndex($scoreVal)
-    {
-        if ($scoreVal > 2300)
-        {
-            $value = 1;
-        }
-        else if ($scoreVal > 2200)
-        {
-            $value = 2;
-        }
-        else if ($scoreVal > 2100)
-        {
-            $value = 3;
-        }
-        else if ($scoreVal > 2000)
-        {
-            $value = 4;
-        }
-        else if ($scoreVal > 1900)
-        {
-            $value = 5;
-        }
-        else if ($scoreVal > 1800)
-        {
-            $value = 6;
-        }
-        else if ($scoreVal > 1700)
-        {
-            $value = 7;
-        }
-        else if ($scoreVal > 1600)
-        {
-            $value = 8;
-        }
-        else if ($scoreVal > 1500)
-        {
-            $value = 9;
-        }
-        else if ($scoreVal > 1400)
-        {
-            $value = 10;
-        }
-        else if ($scoreVal > 1300)
-        {
-            $value = 11;
-        }
-        else if ($scoreVal > 1200)
-        {
-            $value = 12;
-        }
-        else if ($scoreVal > 1100)
-        {
-            $value = 13;
-        }
-        else if ($scoreVal > 1000)
-        {
-            $value = 14;
-        }
-        else if ($scoreVal > 900)
-        {
-            $value = 15;
-        }
-        else if ($scoreVal > 800)
-        {
-            $value = 16;
-        }
-        else if ($scoreVal > 700)
-        {
-            $value = 17;
-        }
-        else if ($scoreVal >= 600)
-        {
-            $value = 18;
-        }
-        else {
-            $value = 0;
-        }
-        return $value;
-    }
+
 
     /**
      * @static
@@ -664,14 +544,6 @@ class BasicProfile extends ProfileActiveRecord
      * @return mixed
      */
 
-    public static function getSATRange($indexVal)
-    {
-        if ($indexVal === null)
-        {
-            $indexVal = 0;
-        }
-        return BasicProfile::$SATRangeArray[$indexVal];
-    }
 
     /**
      * @static
