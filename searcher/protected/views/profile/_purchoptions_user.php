@@ -30,7 +30,7 @@
         <tr>
             <td>Scores </td>
         <td>
-                <?php $question=CHtml::image(Yii::app()->request->baseURL. '/images/question_blue.ico'); 
+                <?php $question=CHtml::image(Yii::app()->request->baseURL. '/images/question_blue.png'); 
         echo CHtml::link($question, '#', array('onclick'=>'$("#help").dialog("open"); return false;',)); 
               $this->renderPartial('application.views.profile.helppopup');  
                 ?>
@@ -41,7 +41,7 @@
         <tr>
             <td>Basic</td>  
             <td>
-                    <?php $question=CHtml::image(Yii::app()->request->baseURL. '/images/question_blue.ico'); 
+                    <?php $question=CHtml::image(Yii::app()->request->baseURL. '/images/question_blue.png'); 
                     echo CHtml::link($question, '#', array('onclick'=>'$("#help").dialog("open"); return false;',)) ?>                
             </td>
             <td> <?php echo "".$buyProfileForm->getStatusText($buyProfileForm->l2Status,2);?></td>
@@ -50,7 +50,7 @@
         <tr>
             <td>Full</td>  
             <td>
-                    <?php $question=CHtml::image(Yii::app()->request->baseURL. '/images/question_blue.ico'); 
+                    <?php $question=CHtml::image(Yii::app()->request->baseURL. '/images/question_blue.png'); 
                     echo CHtml::link($question, '#', array('onclick'=>'$("#help").dialog("open"); return false;',)) ?>                
             </td>
             <td><?php echo "".$buyProfileForm->getStatusText($buyProfileForm->l3Status,3);?> </td>

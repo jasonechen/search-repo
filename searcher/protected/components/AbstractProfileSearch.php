@@ -102,16 +102,20 @@ abstract class AbstractProfileSearch
 
     public $sortableFields = array(
         'firstUniversity' => array(
-            'asc' => 'firstUniversity.name',
+            'asc'  => 'firstUniversity.name',
             'desc' => 'firstUniversity.name DESC',
         ),
-        'race' => array(
-            'asc' => 'race.name',
+        'race'            => array(
+            'asc'  => 'race.name',
             'desc' => 'race.name DESC',
         ),
-        'stateName' => array(
-            'asc' => 'states.name',
+        'stateName'       => array(
+            'asc'  => 'states.name',
             'desc' => 'states.name DESC',
+        ),
+        'countryName'     => array(
+            'asc'  => 'country.name',
+            'desc' => 'country.name DESC',
         ),
         '*',
     );
@@ -191,11 +195,16 @@ abstract class AbstractProfileSearch
             'exact' => true,
         ),
         10 => array(
+            'attribute' => 'countryName',
+            'sqlAttribute' => 'personalProfile.country_reside',
+            'exact' => true,
+        ),
+        11 => array(
             'attribute' => 'sat_I_score_range',
             'sqlAttribute' => 't.sat_I_score_range',
             'exact' => true,
         ),
-        11 => array(
+        12 => array(
             'attribute' => 'avg_profile_rating',
             'sqlAttribute' => 't.avg_profile_rating',
             'exact' => false,
