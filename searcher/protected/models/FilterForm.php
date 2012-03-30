@@ -27,6 +27,7 @@ class FilterForm extends CFormModel
     public $avg_profile_rating;
     public $avg_profile_ratingMin;
     public $avg_profile_ratingMax;
+    public $type = array();
 
 	public function rules()
 	{

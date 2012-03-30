@@ -15,9 +15,10 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/fancy-type/screen.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/wizard.css" />	
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery-ui.css" />	
+        <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/menu.css" />
+
 	
-	<script type="text/javascript" src="js/main.js"></script>
+	
         <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>       
@@ -84,20 +85,20 @@
 	<div class="container">
 		<div class="info-box">
 			<h4>HAVE A QUESTION? <br /><span>CONTACT US</span></h4>
-			<span class="phone">+12 3456 789</span>
 			<span class="email"><a href="mailto:&#105;&#110;&#102;&#111;&#064;&#099;&#114;&#111;&#119;&#100;&#112;&#114;&#101;&#112;&#046;&#099;&#111;&#109;">&#105;&#110;&#102;&#111;&#064;&#099;&#114;&#111;&#119;&#100;&#112;&#114;&#101;&#112;&#046;&#099;&#111;&#109;</a></span>
+			<span class="phone">650.307.5587</span>                        
 		</div>
 		<div class="nav-col">
 			<ul class="nav">
 				<li><?php echo CHtml::link("Home",array('site/indexFinder')); ?></li>
-				<li><?php echo CHtml::link("Learn More",array('site/learnmore')); ?></li>
+				<li><?php echo CHtml::link("Learn More",array('site/page', 'view'=>'learn_more_applicants')); ?></li>
 				<li><?php echo CHtml::link("About Us",array('site/page', 'view'=>'about')); ?></li>
 				<li><?php echo CHtml::link("FAQ", array('site/page', 'view'=>'FAQ')); ?></li>
 			</ul>
 		</div>
 		<div class="nav-col">
 			<ul class="nav">
-				<li><?php echo CHtml::link("Login",array('site/login')); ?></li>
+				<li><?php echo CHtml::link("Blog",'http://blog.crowdprep.com'); ?></li>
 				<li><?php echo CHtml::link("Privacy Policy",array('site/page', 'view'=>'privacy_policy')); ?></li>
 				<li><?php echo CHtml::link("Terms and Conditions",array('site/page', 'view'=>'terms_conditions')); ?></li>
                                 <li><?php echo CHtml::link("Contact",array('site/contact')); ?></li>
@@ -106,13 +107,13 @@
 		<div class="social-col">
 			<ul class="social-networks">
 				<li>
-					<a href="#">
+					<a href="http://www.facebook.com/crowdprep">
 						<img src="images/ico-facebook.png" alt="image description" />
 						<span>Facebook</span>
 					</a>
 				</li>
 				<li>
-					<a href="#">
+					<a href="https://twitter.com/#!/CrowdPrep">
 						<img src="images/ico-twitter.png" alt="image description" />
 						<span>Twitter</span>
 					</a>

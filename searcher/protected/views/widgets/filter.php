@@ -42,7 +42,7 @@
                     echo CHtml::dropDownList('FilterForm[country.id]',
                         (isset($_GET['FilterForm']['country.id']) ? ($_GET['FilterForm']['country.id']) : '1'),
                         CommonMethods::getAllCountriesList(),
-                        array('prompt' => 'All Countries', 'id' => 'FilterForm_country')
+                        array('prompt' => '-All Countries-', 'id' => 'FilterForm_country')
                     );
                 ?>
             </div>
@@ -53,22 +53,39 @@
                     echo CHtml::dropDownList('FilterForm[states.id]',
                         (isset($_GET['FilterForm']['states.id']) ? ($_GET['FilterForm']['states.id']) : ''),
                         States::getAllStates(),
-                        array('prompt' => 'All States', 'id' => 'FilterForm_state')
+                        array('prompt' => '-All States-', 'id' => 'FilterForm_state')
                     );
                 ?>
             </div>
 
             <div class="row">
-                <?php echo $form->labelEx($model, 'profile_type'); ?>
+                <?php echo $form->labelEx($model, 'profile_type', array('label'=>'Profile Focus Areas')); ?>
                 
-                <?php echo $form->dropDownList($model, 'profile_type', BasicProfile::$ProfileTypeArray, array('prompt' => '-Choose Profile Type-'));
-                ?>
+            <?php
+                $profiletypes = BasicProfile::$ProfileTypeArray;                                 
+                $this->widget('ext.widgets.EchMultiselect', array(
+                'model'=>$model,
+                'dropDownAttribute'=>'type',    
+                'data'=>$profiletypes, 
+                'options'=> array(  
+                      	'click'=>'js:function(event, ui){
+		       	 if( $(this).multiselect("widget").find("input:checked").length > 3 ){		                                         
+		              return false;
+		                    }
+		             }',   
+                        'header'=> false,
+                        'minWidth'=>175,
+                        'height'=>260,
+                        'noneSelectedText'=>'-- ' . Yii::t('application','Select') . ' --',
+                 )                    
+                
+                )); ?>
             </div>
 
             <div class="row">
-                <?php echo $form->labelEx($model, 'race_id', array('label' => 'Ethnicity')); ?>
+                <?php echo $form->labelEx($model, 'race_id', array('label' => 'Race')); ?>
                 
-                <?php echo $form->dropDownList($model, 'race_id', RaceType::getTypes(), array('prompt' => '-Select Race-'));
+                <?php echo $form->dropDownList($model, 'race_id', RaceType::getTypes(), array('prompt' => '-All Races-'));
                 ?>
             </div>
 
@@ -87,24 +104,24 @@
                         'max' => 5,
                     ),
                     'htmlOptions' => array(
-                        'style' => 'width:210px;'
+                        'style' => 'width:225px;'
                     ),
                 ));
                 ?>
 
-                <div class="range-div" style="width:30px;">
+                <div class="range-div" style="width:35px;">
                     600
                 </div>
-                <div class="range-div" style="width:39px;">
-                    1000
+                <div class="range-div" style="width:42px;">
+                    1200
                 </div>
-                <div class="range-div" style="width:39px;">
-                    1300
-                </div>
-                <div class="range-div" style="width:39px;">
+                <div class="range-div" style="width:42px;">
+                    1500
+                </div>                
+                <div class="range-div" style="width:42px;">
                     1800
                 </div>
-                <div class="range-div" style="width:39px;">
+                <div class="range-div" style="width:42px;">
                     2100
                 </div>
                 <div class="range-div">
@@ -129,7 +146,7 @@
                         'max' => 5,
                     ),
                     'htmlOptions' => array(
-                        'style' => 'width:210px;'
+                        'style' => 'width:225px;'
                     ),
                 ));
                 ?>
@@ -137,16 +154,16 @@
                 <div class="range-div" style="width:34px;">
                     0
                 </div>
-                <div class="range-div" style="width:41px;">
+                <div class="range-div" style="width:43px;">
                     5
                 </div>
-                <div class="range-div" style="width:41px;">
+                <div class="range-div" style="width:43px;">
                     10
                 </div>
-                <div class="range-div" style="width:41px;">
+                <div class="range-div" style="width:43px;">
                     15
                 </div>
-                <div class="range-div" style="width:41px;">
+                <div class="range-div" style="width:43px;">
                     20
                 </div>
                 <div class="range-div">
@@ -171,23 +188,23 @@
                         'max' => 5,
                     ),
                     'htmlOptions' => array(
-                        'style' => 'width:210px;'
+                        'style' => 'width:225px;'
                     ),
                 ));
                 ?>
                 <div class="range-div" style="width:34px;">
                     0
                 </div>
-                <div class="range-div" style="width:41px;">
+                <div class="range-div" style="width:43px;">
                     5
                 </div>
-                <div class="range-div" style="width:41px;">
+                <div class="range-div" style="width:43px;">
                     10
                 </div>
-                <div class="range-div" style="width:41px;">
+                <div class="range-div" style="width:43px;">
                     15
                 </div>
-                <div class="range-div" style="width:41px;">
+                <div class="range-div" style="width:43px;">
                     20
                 </div>
                 <div class="range-div">
@@ -213,24 +230,24 @@
                         'max' => 5,
                     ),
                     'htmlOptions' => array(
-                        'style' => 'width:210px;'
+                        'style' => 'width:225px;'
                     ),
                 ));
                 ?>
 
-                <div class="range-div" style="width:38px;">
+                <div class="range-div" style="width:40px;">
                     None
                 </div>
-                <div class="range-div" style="width:41px;">
+                <div class="range-div" style="width:43px;">
                     1
                 </div>
-                <div class="range-div" style="width:39px;">
+                <div class="range-div" style="width:43px;">
                     2
                 </div>
-                <div class="range-div" style="width:40px;">
+                <div class="range-div" style="width:43px;">
                     3
                 </div>
-                <div class="range-div" style="width:40px;">
+                <div class="range-div" style="width:43px;">
                     4
                 </div>
                 <div class="range-div">

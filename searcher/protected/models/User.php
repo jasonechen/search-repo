@@ -38,7 +38,6 @@
  * @property UserCredit $userCredit
  */
 class User extends MCVActiveRecord
-
 {
         public $password_unhash_repeat;
         public $password_unhash;
@@ -46,6 +45,16 @@ class User extends MCVActiveRecord
         public $isNewPassword;
         public $termagree;
         public $seller_earnings;
+        
+    /**
+     * Add constant status
+     * 
+     * @author Thuong
+     * 09/03/2012
+     */    
+     const STATUS_ACTIVE = 1;
+     const STATUS_PENDING = 0;
+     const STATUS_BLOCKED = -1;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -74,10 +83,11 @@ class User extends MCVActiveRecord
             // NOTE: you should only define rules for those attributes that
             // will receive user inputs.
             return array(
-                        array('FirstName, LastName, email, username, password_unhash', 'required', 'on' => 'register'),
+                        array('FirstName, LastName, email, username, password_unhash', 'required', 'on' => 'register,buyerregister'),
+                        array('FirstName, LastName, email,email_paypal,mail_zip', 'required', 'on' => 'uedit'),
                         array('usertype, mail_zip', 'numerical', 'integerOnly'=>true),
                         array('email, email_paypal, username, password_unhash', 'length', 'max'=>256),
-                        array('email_paypal, email, username', 'unique', 'on' => 'register'),
+                        array('email_paypal, email, username', 'unique', 'on' => 'register,uedit,buyerregister'),
 			array('email_paypal, email','email'),
                         array('FirstName, LastName, idName', 'length', 'max'=>50),
                         array('hs_profile_status', 'length', 'max'=>1),
@@ -87,13 +97,15 @@ class User extends MCVActiveRecord
                         // Use CCompareValidator for the password
                         array('password_unhash','compare'),
 						// for resendRegistrationLink
-				array('email','required','on' => 'registrationlink'),
+
+                        array('email', 'checkEmailFormat','on' => 'buyerregister,register'),                
+                        array('email','required','on' => 'registrationlink'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, usertype, transType, schoolType, email, username, FirstName, LastName, idName, hs_profile_status, last_login_time, create_time, create_user_id, update_time, update_user_id', 'safe', 'on'=>'search'),	
-                        array('password_unhash','ext.validators.EPasswordStrength', 'min'=>7, 'on' => 'register, newPassword'),
-                        array('verifyCode', 'captcha', 'allowEmpty'=>!CCaptcha::checkRequirements(),'on' =>'register'),
-                        array('termagree', 'required', 'requiredValue'=>1, 'on' => 'register','message'=>'Please check the box to agree to the Terms and Conditions'),
+                        array('password_unhash','ext.validators.EPasswordStrength', 'min'=>7, 'on' => 'register,buyerregister, newPassword'),
+                        array('verifyCode', 'captcha', 'allowEmpty'=>!CCaptcha::checkRequirements(),'on' =>'register,buyerregister'),
+                        array('termagree', 'required', 'requiredValue'=>1, 'on' => 'register,buyerregister','message'=>'Please check the box to agree to the Terms and Conditions'),
                 );
 	}
 
@@ -130,6 +142,7 @@ class User extends MCVActiveRecord
                         'workProfiles' => array(self::HAS_ONE, 'WorkProfile', 'user_id'),
                         'mailstate' => array(self::BELONGS_TO, 'States', 'mail_state'),
                         'mailcountry' => array(self::BELONGS_TO, 'CitizenType', 'mail_country'),
+                    
 		);
 	}
 
@@ -276,7 +289,8 @@ class User extends MCVActiveRecord
                 $histRoyalty->L3_inc_royalty = $currRoyalty->L3_inc_royalty;
                 $histRoyalty->date_modified = $currRoyalty->date_modified;
                 $histRoyalty->date_archived = new CDbExpression('NOW()'); 
-                        
+                $histRoyalty->user_archived = Yii::app()->user->id;
+                
                 $histRoyalty->save(false);
                 
             }
@@ -337,7 +351,12 @@ class User extends MCVActiveRecord
             return 2;
         }
         
-
+        function getState() 
+        { 
+             $stateArray = CHtml::listData(States::model()->findAll(), 'id', 'name');
+             return $stateArray;
+        }
+        
         public static function getStateName($model)
         {
             if(!empty($model->mail_state)){
@@ -345,6 +364,12 @@ class User extends MCVActiveRecord
                 return States::model()->findByPk($stateId)->name;
             }
             return 'N/A';
+        }
+        
+        static public function getCountryOptions() 
+        { 
+             $citizenshipArray = CHtml::listData(CitizenType::model()->findAll(), 'id', 'name');
+             return $citizenshipArray;
         }
 
         public static function getCountryName($model)
@@ -355,4 +380,54 @@ class User extends MCVActiveRecord
             }
             return 'N/A';
         }
-}
+        
+        /*Checkig for
+         * Allowed mail patter
+         * Not allowed mail domain list
+         * Is blocked mail id
+         */
+        public function checkEmailFormat($attribute)
+        {
+             $utype= $this->transType;
+             $mailId = $this->email;
+             
+             //Allowed pattern
+             $subPattern= CommonMethods::getAllowMailPattern($utype);
+             
+             
+             $exp = explode('.', $mailId);
+             $check = end($exp);
+            
+             $match = preg_match("/$subPattern/i", $check);
+             
+             //Not Allowed pattern
+             $notSupportPat = CommonMethods::getNotSupportPattern($utype);
+             $notExp = explode('@', $mailId);
+             $notChk = end($notExp);
+             $pos= strpos($notChk, '.');
+             $notChk=substr($notChk,0,$pos);
+             $notmatcho = preg_match("/$notSupportPat/i", $notChk);
+            // echo $notChk;
+             //Blocked Mail Ids
+             $site = new SiteBlock();
+             $chk= $site->checkAllowMailId($mailId);
+             
+             
+             $msg='';
+             $error=TRUE;
+             if($chk)
+                 $msg = 'This mail Id is Blocked form our site <br/>Please try to use another';
+             elseif(!$match)
+                 $msg='Email format is wrong!<br/>Should use '.str_replace('|', ' | ', $subPattern);
+             elseif($notmatcho)
+                 $msg = 'Not allow to Register this mail Id <br/>Please try to use another';
+             else
+                $error=FALSE; 
+                 
+                 
+             if($error)
+                $this->addError($attribute, $msg);
+             
+             
+        }
+}       

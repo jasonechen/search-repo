@@ -26,6 +26,13 @@ class Controller extends CController
 
     public function init()
     {
+        $site = new SiteBlock();
+        $chk= $site->checkAllowedIP();
+        if($chk)
+        {
+            // throw new CHttpException(400,'Invalid IPrequest. Please do not repeat this request again.');
+            $this->defaultAction='Blockedip';
+        }
         $this->filterModel = new FilterForm();
         $this->searchConsistency();
 
@@ -87,4 +94,122 @@ class Controller extends CController
         $_GET['FilterForm'] = array();
         $_SESSION['FilterForm'] = array();
     }
+    
+	protected function setAdminMenu()
+        {
+            $myTransType = Yii::app()->user->getState('TransType');
+
+            if ($myTransType === 'B'){
+    
+		        	$this->menu=array(
+			        	array('label'=>'Account ', 'url'=>'#',
+			        		'items'=> array(
+			        			array('label'=>'Summary', 'url'=>array('user/BuyerAccountSum')),
+			        			array('label'=>'Credit Balance', 'url'=>array('user/Credits')),	
+                                                        array('label'=>'Order History', 'url'=>array('user/PurchasedDetails')),                                                    
+			        		),
+			        		'itemOptions'=> array('class'=>'menu')
+			        	),
+			        	array('label'=>'Profiles', 'url'=>'#',
+			        		'items'=> array(
+			        			array('label'=>'Purchased Profiles', 'url'=>array('profile/browseMine')),
+			        		),
+			        		'itemOptions'=> array('class'=>'menu')
+			        	),
+			        	array('label'=>'Other', 'url'=>'#',
+			        		'items'=> array(
+			        			array('label'=>'Preferences', 'url'=>array('user/Settings')),		
+                                                        array('label'=>'Help', 'url'=>array('user/Help')),		
+			        		),
+			        		'itemOptions'=> array('class'=>'menu')
+			        	)   
+		            );
+            }
+       	 	else if ($myTransType === 'S'){ 
+         		$this->menu=array(
+	         		array('label' =>'Account', 'url'=>'#', 
+	         			'items'=> array(
+	                		array('label'=>'Summary', 'url'=>array('user/indexSeller')),
+	                		array('label'=>'Earnings', 'url'=>array('user/Earnings')),
+	                		array('label'=>'Referrals', 'url'=>array('refer/index')),	
+	                		array('label'=>'Consulting', 'url'=>array('user/Consult')),
+	                	),
+	                	'itemOptions'=> array('class'=>'menu')
+	                ),         
+	                array('label'=>'Profile', 'url'=>'#',
+	                	'items'=> array(
+	                		array('label'=>'Edit My Profile', 'url'=>array('user/Profile')),                
+	                		array('label'=>'Profile Verification', 'url'=>array('user/Validate')),		
+	                	),
+	                	'itemOptions'=> array('class'=>'menu') 
+	                ),
+	                 array('label'=>'Other', 'url'=>'#',
+	                	'items'=> array(                
+	                		array('label'=>'Preferences', 'url'=>array('user/Settings')),
+                                        array('label'=>'Help', 'url'=>array('user/Help')),		                                    
+	                	),
+	                	'itemOptions'=> array('class'=>'menu')
+	                )
+            	);
+            }
+         	else{
+         	}
+        }
+
+	protected function setSiteMenu()
+        {                
+                $this->menu=array(
+	                 array('label'=>'Applicants', 'url'=>array('site/page', 'view'=>'learn_more_applicants'),
+	                	'items'=> array(                
+	                		array('label'=>'Learn More', 'url'=>array('site/page', 'view'=>'learn_more_applicants')),
+                                        array('label'=>'How It Works', 'url'=>array('site/page', 'view'=>'howworks_applicants')),
+                                        array('label'=>'Vs. Competition', 'url'=>array('site/page', 'view'=>'vs_competition')),                                    
+                                        array('label'=>'Sign Up', 'url'=>array('user/create')),                                                                        
+                                    ),
+                             'itemOptions'=> array('class'=>'menu')
+                             ),
+	                 array('label'=>'Contributors', 'url'=>array('site/page', 'view'=>'learn_more_contributors'),
+	                	'items'=> array(                	                		
+                                        array('label'=>'Learn More', 'url'=>array('site/page', 'view'=>'learn_more_contributors')),
+                                        array('label'=>'How It Works', 'url'=>array('site/page', 'view'=>'howworks_contributors')),
+                                        array('label'=>'Earnings', 'url'=>array('site/page', 'view'=>'contributor_earnings')),
+                                        array('label'=>'Sign Up', 'url'=>array('user/createStudent')),                                    
+                                    ),
+                             'itemOptions'=> array('class'=>'menu')
+                             ),                    
+                    
+                        array('label'=>'About Us', 'url'=>array('site/page', 'view'=>'about'),
+                            'itemOptions'=> array('class'=>'menu')
+                            ),
+                        array('label'=>'FAQ', 'url'=>array('site/page', 'view'=>'FAQ'),
+                            'itemOptions'=> array('class'=>'menu')
+                            ),
+	                 array('label'=>'Legal', 'url'=>'#',
+	                	'items'=> array(                
+	                		array('label'=>'Privacy Policy', 'url'=>array('site/page', 'view'=>'privacy_policy')),
+                                        array('label'=>'Terms & Conditions', 'url'=>array('site/page', 'view'=>'terms_conditions')),
+	                	),
+	                	'itemOptions'=> array('class'=>'menu')
+                                ),
+                        array('label'=>'Contact Us', 'url'=>array('site/contact'),
+                            'itemOptions'=> array('class'=>'menu')
+                            ),                             
+                    );
+        }        
+        
+        
+        public function actionBlockedip()
+        {
+            $this->layout='column2';
+            $msg = 'This '.$_SERVER['REMOTE_ADDR'].' IP is Now not allow ';
+            //If User Login
+            $uLogHistry = new UserLogHistory();
+            $myID = Yii::app()->user->id;
+            if($myID){
+            $uLogHistry->afterLogout($myID);
+            Yii::app()->user->logout();
+            }
+            //End Checking
+            $this->renderText($msg, false);
+        }
 }

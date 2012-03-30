@@ -12,19 +12,23 @@ class BuyProfileForm extends CFormModel
         public $l1Status; // Either already purchased or not for sale
         public $l2Status;
         public $l3Status;
+        public $l4Status;
         public $isOwner;
         
         public $buyL1;
         public $buyL2;
         public $buyL3;
+        public $buyL4;
         
         public $l1Disabled;
         public $l2Disabled;
         public $l3Disabled;
+        public $l4Disabled;
         
         public $l1PackagePrice;
         public $l2PackagePrice;
         public $l3PackagePrice;
+        public $l4PackagePrice;
 
 	/**
 	 * Declares the validation rules.
@@ -34,7 +38,7 @@ class BuyProfileForm extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('buyL1,buyL2,buyL3', 'safe'),
+			array('buyL1, buyL2, buyL3, buyL4', 'safe'),
 		);
 	}
 
@@ -85,6 +89,9 @@ class BuyProfileForm extends CFormModel
                 case 3:
                     $myPackagePrice = $this->l3PackagePrice;
                     break;
+               	case 4:
+                    $myPackagePrice = $this->l4PackagePrice;
+                    break;
             }
             
             return $myPackagePrice;
@@ -96,13 +103,13 @@ class BuyProfileForm extends CFormModel
             /* Fill in status with respect to a particular profile */
             
             /* checkBuyer returns $buyerStatusArray: */
-            /*  Keys: l1, l2, l3, owner */
+            /*  Keys: l1, l2, l3, l4, owner */
             /*     l1 = 0 if not for sale, 1 if for sale, and 2 if already purchased */
-            
             $tempArray = $this->basicProfile->checkBuyer($this->buyer_id,$mpProfile);
             $this->l1Status = $tempArray['l1'];
             $this->l2Status = $tempArray['l2'];
             $this->l3Status = $tempArray['l3'];
+            $this->l4Status = $tempArray['l4'];
             $this->isOwner = $tempArray['owner'];
             $this->l1PackagePrice = $this->getPrice(1);
             // Check to see if L1 as been purchased, and if so, then don't include in the package price */
@@ -123,6 +130,9 @@ class BuyProfileForm extends CFormModel
                     $this->l3PackagePrice = $this->getPrice(3);
                 }
             }
+            
+            $this->l4PackagePrice = $this->getPrice(4);
+            
             switch ($this->l1Status){
                 case 0:
                       $this->buyL1 = 0;
@@ -161,7 +171,20 @@ class BuyProfileForm extends CFormModel
                       $this->buyL3 = 1;
                       $this->l3Disabled = 1;
                     break;
-            }   
+            }  
+            switch ($this->l4Status){
+                case 0:
+                      $this->buyL4 = 0;
+                      $this->l4Disabled = 1;
+                    break;
+                case 1:
+                      $this->l4Disabled = 0;
+                    break;
+                case 2:
+                      $this->buyL4 = 1;
+                      $this->l4Disabled = 1;
+                    break;
+            }            
 
         }
         
@@ -171,6 +194,7 @@ class BuyProfileForm extends CFormModel
                                  'l1Purchase'=>false,
                                  'l2Purchase'=>false,
                                  'l3Purchase'=>false,
+                                 'l4Purchase'=>false,
                                  'errorMessage'=>'');
                     
             if (isset($inputArray['buyL1'])){
@@ -209,7 +233,26 @@ class BuyProfileForm extends CFormModel
                   }
                 }                                                     
             }
-            
+           if (isset($inputArray['buyL4'])){
+                if ($inputArray['buyL4']){
+                  if ($this->l1Status == 1){
+                      $returnArray['l1Purchase'] = true;
+                      $returnArray['isPurchase'] = true;
+                  }
+                  if ($this->l2Status == 1){
+                      $returnArray['l2Purchase'] = true;
+                      $returnArray['isPurchase'] = true;
+                  }
+                  if ($this->l3Status == 1){
+                      $returnArray['l3Purchase'] = true;
+                      $returnArray['isPurchase'] = true;
+                  }
+                if ($this->l4Status == 1){
+                    $returnArray['l4Purchase'] = true;
+                    $returnArray['isPurchase'] = true;
+           } 
+           }
+           }
             return $returnArray;
         }
 

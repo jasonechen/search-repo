@@ -75,7 +75,7 @@ class SiteController extends Controller
                 $myTransType = $myUser->getState('TransType');
 
                 if ($myTransType === 'B'){
-                     $this->redirect(array('user/BuyerAccountSum'));                                                            
+                     $this->redirect(array('search/indexBuyer'));                                                            
                 }
                 else if ($myTransType === 'S'){
                     $this->redirect(array('user/indexSeller'));      
@@ -91,40 +91,10 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-                $model1=new LoginForm;
-//                fb($model1);
-		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
-		{
-			echo CActiveForm::validate($model1);
-			Yii::app()->end();
-		}
-
-		// collect user input data
-		if(isset($_POST['LoginForm']))
-		{
-			$model1->attributes=$_POST['LoginForm'];
-			// validate user input and redirect to the previous page if valid
-			if($model1->validate() && $model1->login()){
-//				$this->redirect(Yii::app()->user->returnUrl);
-                                $myTransType = Yii::app()->user->getState('TransType');
-                         
-                                if ($myTransType === 'B'){
-                                     $this->redirect(array('user/BuyerAccountSum'));                                                            
-                                }
-                                else if ($myTransType === 'S'){
-                                    $this->redirect(array('user/indexSeller'));      
-                                }
-                                else{
-                                    $this->redirect(array('user/admin'));
-                                }
-
-                        }
-		}
-				
-// renders the view file 'protected/views/site/index.php'
+             		
+        // renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('index', array('model1'=>$model1));
+		$this->render('index');
 	}
 /*
          public function actionTest()
@@ -154,7 +124,8 @@ class SiteController extends Controller
 	 */
 	public function actionContact()
 	{
-		$model=new ContactForm;
+                $this->layout = 'column2_1';
+                $model=new ContactForm;
 		if(isset($_POST['ContactForm']))
 		{
 			$model->attributes=$_POST['ContactForm'];
@@ -175,54 +146,125 @@ class SiteController extends Controller
 	public function actionLogin()
 	{
 		$this->layout = 'column2';
+                $myID = Yii::app()->user->id;
                 $model=new LoginForm;
                 $msg = 0;
+           
 		// if it is ajax validation request
 		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
 		{
 			echo CActiveForm::validate($model);
+			
 			Yii::app()->end();
 		}
 
 		// collect user input data
 		if(isset($_POST['LoginForm']))
 		{
-			$model->attributes=$_POST['LoginForm'];
+                    
+			
+                        $model->attributes=$_POST['LoginForm'];
+			
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login()){
-//				$this->redirect(Yii::app()->user->returnUrl);
-                                $myTransType = Yii::app()->user->getState('TransType');
-                                $utype = Yii::app()->user->getState('usertype');
-                                $myID = Yii::app()->user->id;
+			
+				//remove blocked status
+				UserLogHistory::model()->deleteAll('user_id = :I AND status = -1', array(':I'=>Yii::app()->user->id));
+                                $sBlock = new SiteBlock();
+				User::model()->updateByPk(Yii::app()->user->id, array('active'=> User::STATUS_ACTIVE,'update_time'=> date('Y-m-d H:i:s') ));
+				
+				$myTransType = Yii::app()->user->getState('TransType');
+				$utype = Yii::app()->user->getState('usertype');
+				$myID = Yii::app()->user->id;
+				
+                                //Check User Alrady login
                                 $uLogHistry = new UserLogHistory();
-                                $logsts = $uLogHistry->checkLogStatus($myID);
-                               //$logsts=1;
-                               if($logsts)
-                               {
-                                   $uLogHistry->afterLogin($myID);
-                                    if ($myTransType === 'B'){
-                                         $this->redirect(array('user/BuyerAccountSum'));                                                            
-                                    }
-                                    else if ($myTransType === 'S'){
-                                        $this->redirect(array('user/indexSeller'));      
-                                    }
-                                    else if($utype==1){
-                                    
-                                    $this->redirect(array('user/admin'));
-                                } 
+				$logsts = $uLogHistry->checkLogStatus($myID);
+                                $user = User::model()->findByPk($myID);
+				
+                                //Check is Mailid allow to login
+                                $chekMailId = $sBlock->checkAllowMailId($user->email);
+		//		if($chekMailId)
+                //                {
+                //                    $logsts=false;
+                 //                   $msg=2;
+                       //         }
+                       //          elseif(!$logsts) {
+                         //           $msg=1;
+                         //       }
                                 
-                               }
-                               else
-                               {
-                                   $msg=1;
-                                   Yii::app()->user->setState('TransType',0);
-                                    Yii::app()->user->logout();
-                                    Yii::app()->user->setState('TransType',0);
-                               }
+                                
+                                
+                                $formstatus = FormStatus::model()->find('user_id=:user_id',array(':user_id'=>$myID));	
+				
+                               	if($logsts)
+				{
+				   $uLogHistry->afterLogin($myID);
+					if ($myTransType === 'B'){
+						$returnUrl = Yii::app()->user->returnUrl;  //CODECUT: in next line, remove testit before deploying
+						if (empty($returnUrl) || $returnUrl == '/testit/index.php') $returnUrl = array('search/indexBuyer');
+						
+						$this->redirect($returnUrl);      
+					}
+					else if ($myTransType === 'S'){
+						if ($formstatus->referrals == 1)
+						{
+						$returnUrl = Yii::app()->user->returnUrl;  //CODECUT: in next line, remove testit before deploying
+						if (empty($returnUrl) || $returnUrl == '/testit/index.php') $returnUrl = array('user/indexSeller');
+						
+						$this->redirect($returnUrl);
+					}
+					else {    
+						 Yii::app()->user->setFlash('pageid','login' );
+					  if ($formstatus->exclusivity == 1) {$this->redirect(array('profileinfo/consult')); }
+					 else if ($formstatus->verify == 1) {$this->redirect(array('profileinfo/exclusivity')); }
+					 else if ($formstatus->consult == 1) {$this->redirect(array('profileinfo/verify')); }                                     
+					 else if ($formstatus->summary == 1) {$this->redirect(array('profileinfo/consult')); }
+					 else if ($formstatus->essay == 1) {$this->redirect(array('profileinfo/summary')); }
+					 else if ($formstatus->extracurricular == 1) {$this->redirect(array('profileinfo/essay')); }
+					 else if ($formstatus->volunteer == 1) {$this->redirect(array('profileinfo/extracurricular')); }   
+					 else if ($formstatus->work == 1) {$this->redirect(array('profileinfo/referrals')); }   
+					else if ($formstatus->sports == 1) {$this->redirect(array('profileinfo/work')); }                                     
+					else if ($formstatus->music == 1) {$this->redirect(array('profileinfo/sports')); }
+					else if ($formstatus->clubs == 1) {$this->redirect(array('profileinfo/music')); }
+					else if ($formstatus->awardhonours == 1) {$this->redirect(array('profileinfo/clubs')); }
+					else if ($formstatus->competitions == 1) {$this->redirect(array('profileinfo/awardhonors')); }
+					else if ($formstatus->subjects == 1) {$this->redirect(array('profileinfo/competitions')); }
+					else if ($formstatus->grades == 1) {$this->redirect(array('profileinfo/subjects')); }
+					else if ($formstatus->toefl == 1) {$this->redirect(array('profileinfo/grades')); }
+					else if ($formstatus->ap == 1) {$this->redirect(array('profileinfo/toefl')); }
+					else if ($formstatus->sat2 == 1) {$this->redirect(array('profileinfo/ap')); }
+					else if ($formstatus->act == 1) {$this->redirect(array('profileinfo/sat2')); }
+					else if ($formstatus->sat1 == 1) {$this->redirect(array('profileinfo/act')); }
+					else if ($formstatus->languages == 1) {$this->redirect(array('profileinfo/sat1')); }
+					else if ($formstatus->admittance == 1) {$this->redirect(array('profileinfo/languages')); }
+					else if ($formstatus->university == 1) {$this->redirect(array('profileinfo/admittance')); }
+					else if ($formstatus->demographics == 1) {$this->redirect(array('profileinfo/university')); }
+					else if ($formstatus->basic == 1) {$this->redirect(array('profileinfo/demographics')); }
+					else if ($formstatus->basic == 0) {$this->redirect(array('profileinfo/basic')); }
+					}    
+					
+					}
+					else if($utype==1){
+					
+					$this->redirect(array('user/admin'));
+				} 
+				
+				}
+				else
+				{
+				   //$msg=1;
+				   Yii::app()->user->setState('TransType',0);
+					Yii::app()->user->logout();
+					Yii::app()->user->setState('TransType',0);
+				}
                                 
                                
 
-                        }
+			}
+			else {
+				
+			}
 		}
 		// display the login form
 		//$this->render('login',array('model'=>$model));
@@ -234,13 +276,21 @@ class SiteController extends Controller
 	 */
 	public function actionLogout()
 	{
-            $uLogHistry = new UserLogHistory();
-             $myID = Yii::app()->user->id;
-             $uLogHistry->afterLogout($myID);
+            if(Yii::app()->user->isGuest){
+             $this->redirect(Yii::app()->homeUrl);
+            }
+            else
+            {
+                $uLogHistry = new UserLogHistory();
+		$myID = Yii::app()->user->id;
+             
+		$uLogHistry->afterLogout($myID);
+		Yii::app()->user->setState('TransType',0);
+                Yii::app()->user->logout();
                 Yii::app()->user->setState('TransType',0);
-		Yii::app()->user->logout();
-                Yii::app()->user->setState('TransType',0);
-		$this->redirect(Yii::app()->homeUrl);
+        
+                $this->redirect(Yii::app()->homeUrl);
+            }
 	}
 	
 	
@@ -283,7 +333,7 @@ class SiteController extends Controller
 	
 	
 	/*
-	*  this function used to auto login
+	*  this function used to auto login 
 	*  id is posted , and sent to autologin  
 	*/
 	public function actionContinue(){		
@@ -299,20 +349,31 @@ class SiteController extends Controller
 				Yii::app()->user->login($identity);
 				$myTransType = Yii::app()->user->getState('TransType');			
 			if ($myTransType === 'B'){
-				$this->redirect(array('user/indexBuyer'));                                                            
+				$this->redirect(array('/search/indexBuyer'));                                                            
 			}
 			else if ($myTransType === 'S'){
 				$this->redirect(array('/profileinfo/basic'));      
 			}
 			else{
-				$this->redirect(array('user/admin'));
-			}
-			
-		}
-		
+				$this->redirect(array('site/index'));
+			}			
+		}		
 	}
+        
+        
+        
 	public function actionTest(){
 		
 		$this->render('_cjui');
-	}	
+	}
+        public function chkLockout($rtnUrl='')
+        {
+            Yii::app()->user->setState('TransType',0);
+            Yii::app()->user->logout();
+            Yii::app()->user->setState('TransType',0);
+            if(isset ($rtnUrl))
+                $this->redirect(array($rtnUrl));
+        }
+       	
+        
 }

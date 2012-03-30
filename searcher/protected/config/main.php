@@ -127,8 +127,5 @@ return array(
 
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
-	'params'=>array(
-		// this is used in contact page
-		'adminEmail'=>'etchen@gmail.com',
-	),
+	'params'=> require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR. 'params.php' ),
 );

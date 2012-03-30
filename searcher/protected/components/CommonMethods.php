@@ -118,9 +118,10 @@ class CommonMethods extends CController
      * @return array
      */
     
-    public static function getStates()
+    public static function getStates($isId=false)
     {
-        return CHtml::listData(States::model()->findAll(), 'abbr', 'name');
+        $key = $isId?'id':'abbr';
+        return CHtml::listData(States::model()->findAll(), $key, 'name');
     }
 
     /**
@@ -130,9 +131,10 @@ class CommonMethods extends CController
      * @return array
      */
     
-    public static function getCountry()
+    public static function getCountry($isId=false)
     {
-        return CHtml::listData(CitizenType::model()->findAll(), 'name', 'name');
+         $key = $isId?'id':'name';
+        return CHtml::listData(CitizenType::model()->findAll(), $key, 'name');
     }
 
     /**
@@ -145,7 +147,86 @@ class CommonMethods extends CController
     public static function getAllCountriesList()
     {
         return CHtml::listData(CitizenType::model()->findAll(), 'id', 'name');
+	}
+
+    public static function getAllowMailPattern($utype='')
+    {
+        $supportFrmt = '';
+        switch ($utype)
+        {
+            case 'B':
+               $supportFrmt=Yii::app()->params['buyerEmailPattern'];
+               break;
+           case 'S':
+               $supportFrmt=Yii::app()->params['sellerEmailPattern'];
+               break;
+           default :
+               $supportFrmt=Yii::app()->params['emailPattern'];
+               break;
+                
+        }
+        return $supportFrmt;
+        
     }
+    public static function getAllowdExtP_Verification()
+    {
+        return Yii::app()->params['upload_file_formate'] ;
+    }
+    public static function getMaxSizeofAllow()
+    {
+        return Yii::app()->params['upload_max_file'];
+    }
+    public static function getNotSupportPattern($utype='')
+    {
+        $supportFrmt = '';
+        switch ($utype)
+        {
+            case 'B':
+               $supportFrmt=Yii::app()->params['nt_buyerDomain'];
+               break;
+           case 'S':
+               $supportFrmt=Yii::app()->params['nt_sellerDomain'];
+               break;
+         
+                
+        }
+        return $supportFrmt;
+        
+    }
+    
+       /**
+     * @static
+     * @param $userid,$activestatus,$byStatus
+     * @example $bySts is all the Referral user list  
+     * @return count
+     */
+    public static function getCount($id,$sts=1,$bySts=FALSE)
+    {
+        
+        $whr = 'user_id='.$id;
+        $whr = $bySts? $whr: $whr.' and active = '.$sts;
+        $count = ReferFriend::model()->count($whr);
+        return $count;
+    }
+    
+    /**
+     * 
+     * Get user status
+     * 
+     * @param integer $status
+     * @return string
+     */
+    public static function getUserStatus($status)
+    {
+    	$list = array(
+    		1 => 'Active',
+    		0=> 'Inactive',
+    		-1 => 'Blocked'
+    	);
+    	
+    	return (isset($list[$status])) ? $list[$status] : 'Inactive';
+    }
+    
 }
 
 ?>

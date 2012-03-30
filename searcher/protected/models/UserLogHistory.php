@@ -100,21 +100,28 @@ class UserLogHistory extends CActiveRecord
         public function checkLogStatus($id)
         {
             $hstry = $this->find('user_id='.$id.' and status = 1');
+			
             $rtnValue = true;
             
+			
             if(@$hstry)
             {
-				$frmTime= $hstry->login_datetime;
-				$expDate = date( "Y-m-d H:i:s", strtotime( $frmTime )+6*60*60 );
-				$nowDate = date( "Y-m-d H:i:s");
-                if(strtotime($nowDate) > strtotime($expDate)){ 
-                    $this->expiredLogout($hstry->id);
-                       
-                }
-                 else {
-                    $rtnValue= false;
-                }
+			
+                    $frmTime= $hstry->login_datetime;
+                    $expDate = date( "Y-m-d H:i:s", strtotime( $frmTime )+6*60*60 );
+                    $nowDate = date( "Y-m-d H:i:s");
+
+
+                    if(strtotime($nowDate) > strtotime($expDate)){ 
+
+                          $this->expiredLogout($hstry->id);
+
+                      }
+                     else {
+                      $rtnValue= true;  //set this to true for now to diable it
+                         }
             }
+		
             return $rtnValue;
         }
         
@@ -140,12 +147,14 @@ class UserLogHistory extends CActiveRecord
         {
             $model = $this->find('user_id='.$id.' and status = 1');
             //$model = $this->find('user_id='.$id.' and status = 1');
-            if(!empty($model))
+            if(!empty ($model))
             {
-                $model->status = 0;
-                $model->logout_datetime = date( "Y-m-d H:i:s");
-                $model->save();
+             $model->status = 0;
+             $model->logout_datetime = date( "Y-m-d H:i:s");
+             $model->save();
             }
+            
+            
         }
 
 

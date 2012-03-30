@@ -79,8 +79,8 @@ class FilterProfileSearch extends AbstractProfileSearch
                 'defaultMaxValue' => 5,
                 'valueCorrelation' => array(
                     0 => '600',
-                    1 => '1000',
-                    2 => '1300',
+                    1 => '1200',                    
+                    2 => '1500',
                     3 => '1800',
                     4 => '2100',
                     5 => '2400',

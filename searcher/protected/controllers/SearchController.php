@@ -24,7 +24,36 @@ class SearchController extends Controller
 
     private $searchCriteriaText = '&nbsp;';
 
-	public function actionIndex()
+	public function actionIndexBuyer()
+	{
+        $this->setBackUrl();
+        $this->filterSearchQuery();
+
+        $this->setPageSize();
+        $this->setViewStyle();
+        $this->setSortBy();
+
+        $this->initProfileSearch();
+        $this->setSearchCriteriaText();
+
+		$this->render('index_buyer',
+            array(
+                 'viewStyle' => $this->viewStyle,
+                 'pageSize' => $this->pageSize,
+                 'sortBy' => $this->sortBy,
+                 'pageSizeUrl' => 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/&pageSize=\d\d/', '', $_SERVER['REQUEST_URI']) . '&pageSize=',
+                 'viewStyleUrl' => 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/&viewStyle=\d/', '', $_SERVER['REQUEST_URI']). '&viewStyle=',
+                 'sortByUrl' => 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/&sortBy=\d/', '', $_SERVER['REQUEST_URI']). '&sortBy=',
+                 'valid' => $this->valid,
+                 'dataProvider' => $this->dataProvider,
+                 'model' => $this->model,
+                 'searchCriteriaText' => $this->searchCriteriaText,
+            )
+        );
+	}
+    
+    
+        public function actionIndex()
 	{
         $this->setBackUrl();
         $this->filterSearchQuery();
@@ -200,7 +229,7 @@ class SearchController extends Controller
 
     private function setSearchCriteriaText()
     {
-        $criteriaText = 'None';
+        $criteriaText = '';
 
         /**
          * Gender filtering if defined

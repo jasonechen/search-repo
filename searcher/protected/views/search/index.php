@@ -15,7 +15,7 @@
 <div id="search-results">
 
     <div class="clearfix">
-        <?php echo $searchCriteriaText; ?>
+        <h4s>  <?php echo $searchCriteriaText; ?></h4s>
     </div>
 
     <div class="search-bar-page-size">
@@ -75,7 +75,7 @@
     }
     else
     {
-        echo '<br/><br/>You didn\'t enter any search criteria. Please enter some terms or select some criteria.';
+        echo '<br/><br/>You didn\'t enter any search criteria. Please enter a school name above or select some criteria in the left filter.';
     }
     ?>
 

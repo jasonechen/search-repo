@@ -27,7 +27,7 @@
 	    <br />
             
         <strong><?php echo CHtml::encode($data->getAttributeLabel('profile_type')); ?>:</strong>
-	    <?php echo CHtml::encode(BasicProfile::getProfileTypeName($data->profile_type)); ?>
+	     <?php echo BasicProfile::getFocus($data);?> 
 	    <br />
 
         <?php if($state = BasicProfile::getStateName($data) != 'N/A'): ?>

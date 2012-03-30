@@ -8,6 +8,12 @@ class ProfileInfoController extends Controller
 	 */
 	public $layout='//layouts/column1';
 
+        public function init()
+        {
+            UserIdentity::iscorrectTranstype("S");
+        }
+
+
 	/**
 	 * @return array action filters 
 	 */ 
@@ -18,6 +24,8 @@ class ProfileInfoController extends Controller
 		);
 	}
 	
+        public $returnUrl = '';
+        
 	public function accessRules()
 	{
 		return array(
@@ -205,44 +213,18 @@ class ProfileInfoController extends Controller
 	  
 	public function actionBasic() 
 	{
-		
+	           
+        $returnUrl = Yii::app()->user->returnUrl;
+        
         $myID = Yii::app()->user->id;
     
         $personalProfile=PersonalProfile::model()->findByPk($myID);
 				
 		if($personalProfile===null){                
-                        $personalProfile=new PersonalProfile;
-                        $personalProfile->alumni_connections = array();
-                        $personalProfile->alumni_connections_flag = 0;
-                }
-                else{
-                    $personalProfile->alumni_connections_flag = 0;
-                    $personalProfile->alumni_connections = array();
-    
-                    if (($personalProfile->legacy_direct == "N")&&($personalProfile->legacy_indirect == "N")){
-                        $personalProfile->alumni_connections[] = "None";    
-                    }
-                    else{
-                        if (($personalProfile->legacy_direct == "F") or ($personalProfile->legacy_direct == "B")) {
-                     
-                             $personalProfile->alumni_connections[] = "Father";
-                        }
-                        if (($personalProfile->legacy_direct == "M") or ($personalProfile->legacy_direct == "B")) {
-                     
-                             $personalProfile->alumni_connections[] = "Mother";
-                        }
-                        if (($personalProfile->legacy_indirect == "S") or ($personalProfile->legacy_indirect == "B")) {
-                     
-                             $personalProfile->alumni_connections[] = "Sibling";
-                        }
-                        if (($personalProfile->legacy_indirect == "O") or ($personalProfile->legacy_indirect == "B")) {
-                     
-                             $personalProfile->alumni_connections[] = "Other";
-                        }
-                    }
-                }
+                        $personalProfile=new PersonalProfile;      
+                };             
                 
-                $basicProfile=BasicProfile::model()->findByPk($myID);
+        $basicProfile=BasicProfile::model()->findByPk($myID);
 		if($basicProfile===null){   					
                         $basicProfile=new BasicProfile;						
                         $basicProfile->initialize($myID);
@@ -250,105 +232,88 @@ class ProfileInfoController extends Controller
                 else{
                         $basicProfile->curr_university_name = $basicProfile->getCurrUniversityName();
                         $basicProfile->first_university_name = $basicProfile->getFirstUniversityName();
-                        $basicProfile->high_school_name = $basicProfile->getHighSchoolName();
-                        
-                }
+                 //       $basicProfile->high_school_name = $basicProfile->getHighSchoolName();
+                    
+                    //set type array for multiselect drop down values that are preselected                        
+                        for($i=1;$i<=11; $i++) {
+                            $fieldName = 'focus_'.$i;    
+                            if ($basicProfile->$fieldName == 1)                            
+                            $basicProfile->type[$i] = $i; 
+                        }
+                    }
 				
 				
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-              
+		// $this->performAjaxValidation($model);              
 		$personalProfile->setScenario('dateOfBirth');
+                                                
+                
 		if(isset($_POST['PersonalProfile'],$_POST['BasicProfile']))
 		{
-            	
-				
-			
-			            // Set the Profile model class attributes in a bulk manner
+
+			// Set the Profile model class attributes in a bulk manner
                         // For every key in the $_POST['Profile'] array that matches the
                         //   name of a safe attribute in the Profile class, the class's
                         //   attribute is set to the corresponding value in the array.
                         // By default, all underlying database columns except the Primary Key
                         //   are considered safe.
 
-						$personalProfile->attributes=$_POST['PersonalProfile'];
-                        $basicProfile->attributes=$_POST['BasicProfile'];
-						
-                        if (isset($_POST['PersonalProfile']['alumni_connections_flag'])){
-						
-                            $personalProfile->alumni_connections = $_POST['PersonalProfile']['alumni_connections'];
-
-                            $tempArray = array('None'=>0,'Father'=>0,'Mother'=>0,'Sibling'=>0,'Other'=>0);
-                            if ($personalProfile->alumni_connections !== ''){
-                                foreach ($personalProfile->alumni_connections as $i=>$theValue){
-                                    if ($theValue == 'None') {
-                                        $tempArray['None'] = 1;
-                                    }    
-                                    else if ($theValue == 'Father') {
-                                        $tempArray['Father'] = 1;
-                                    }                       
-                                    else if ($theValue == 'Mother'){
-                                        $tempArray['Mother'] = 1;
-                                    }
-                                    else if ($theValue == 'Sibling'){
-                                        $tempArray['Sibling'] = 1;
-                                    }
-                                    else if ($theValue == 'Other'){
-                                        $tempArray['Other'] = 1;
-                                    }
-                                }
-                            }
-                            if (($tempArray['Father'] + $tempArray['Mother'] + $tempArray['Sibling']+$tempArray['Other'])>0){
-                                $tempArray['None'] = 0;                            
-                            }
-                            else{
-                                $tempArray['None'] = 1;   
-                            }
-                            if (($tempArray['Father'] == 1) && ($tempArray['Mother']==1)){
-                                $personalProfile->legacy_direct = 'B';
-                            }
-                            else if ($tempArray['Father']==1){
-                                $personalProfile->legacy_direct = 'F';
-                            }
-                            else if ($tempArray['Mother']==1){
-                                $personalProfile->legacy_direct = 'M';
-                            }
-                            else if ($tempArray['None']==1){
-                                $personalProfile->legacy_direct = 'N';
-                            }
-                            if (($tempArray['Sibling'] == 1) && ($tempArray['Other']==1)){
-                                $personalProfile->legacy_indirect = 'B';
-                            }
-                            else if ($tempArray['Sibling']==1){
-                                $personalProfile->legacy_indirect = 'S';
-                            }
-                            else if ($tempArray['Other']==1){
-                                $personalProfile->legacy_indirect = 'O';
-                            }
-                            else if ($tempArray['None']==1){
-                                $personalProfile->legacy_indirect = 'N';
-                            }                       
-                        }
-						
+			
+                        $personalProfile->attributes=$_POST['PersonalProfile'];
+                        $basicProfile->attributes=$_POST['BasicProfile'];   
+                        
+                        
                         $valid = $personalProfile->validate();                  
-                        $valid = $basicProfile->validate()  && $valid;
-						
+                        $valid = $basicProfile->validate()  && $valid;                        
+                       
+                        
+                     //   this is for the multi-select widget posting			
+                       if (isset($_POST['BasicProfile']['type'])) { 
+                          for ($i=1;$i<=11; $i++) {
+                            $fieldName = 'focus_'.$i;                                                
+                            if( in_array($i,$_POST['BasicProfile']['type']) ) $basicProfile->setAttribute($fieldName, 1);
+                            else $basicProfile->setAttribute($fieldName, 0);                                     
+                           }                           
+                       }   //set all values to zero if no check box
+                        else {
+                            for ($i=1;$i<=11; $i++) {
+                            $fieldName = 'focus_'.$i;
+                             $basicProfile->setAttribute($fieldName, 0);
+                        }
+                        }
+                          /* 
+                            if ($form == 1) { $basicProfile->focus_1 = 1; }
+                            elseif ($form == 2) { $basicProfile->focus_2 = 1; }
+                            elseif ($form == 3) { $basicProfile->focus_3 = 1; }
+                            elseif ($form == 4) { $basicProfile->focus_4 = 1; }
+                            elseif ($form == 5) { $basicProfile->focus_5 = 1; }
+                            elseif ($form == 6) { $basicProfile->focus_6 = 1; }
+                            elseif ($form == 7) { $basicProfile->focus_7 = 1; }
+                            elseif ($form == 8) { $basicProfile->focus_8 = 1; }                            
+                            elseif ($form == 9) { $basicProfile->focus_9 = 1; }
+                            elseif ($form == 10) { $basicProfile->focus_10 = 1; }                            
+                            elseif ($form == 11) { $basicProfile->focus_11 = 1; }                        */
+                   //     }
 					// Change the Date Format
-					if(isset($_POST['PersonalProfile']['date_of_birth'])){					
-						@$OldDateBirth = explode('/',$_POST['PersonalProfile']['date_of_birth']);	// Explode 
-						@$NewDateBirth = $OldDateBirth[2].'-'.$OldDateBirth[0].'-'.$OldDateBirth[1];  	// New Format
-						@$personalProfile->date_of_birth = $NewDateBirth;
-					}
-					
-					
+                        if(isset($_POST['PersonalProfile']['date_of_birth'])){					
+                                @$OldDateBirth = explode('/',$_POST['PersonalProfile']['date_of_birth']);	// Explode 
+                                @$NewDateBirth = $OldDateBirth[2].'-'.$OldDateBirth[0].'-'.$OldDateBirth[1];  	// New Format
+                                @$personalProfile->date_of_birth = $NewDateBirth;
+                        }
+			
+                        //Null state value if non US country is chosen
+			if($_POST['PersonalProfile']['country_reside'] != '1' &&  isset($_POST['PersonalProfile']['state'] ))
+                            {
+                            @$personalProfile->state = NULL;
+                        }							
 					
                         if ($valid)
                         {					
                             $personalProfile->save(false);						
-                            $basicProfile->save(true);							
-							// Set this Form Completed 
-							$this->formStatus('basic');						
+                            $basicProfile->save(true);	
+                            
+                            // Set this Form Completed 
+                            $this->formStatus('basic');						
 						
                             Yii::app()->user->setFlash('basicSuccess',"Info saved!" );
                              $this->redirect(array('demographics'));   
@@ -368,7 +333,8 @@ class ProfileInfoController extends Controller
 		
 		}
 				
-		$this->render('_personal',array('basicProfile'=>$basicProfile,'personalProfile'=>$personalProfile));
+		$this->render('_personal',array('basicProfile'=>$basicProfile,'personalProfile'=>$personalProfile,
+                    'returnUrl'=>$returnUrl,));
 	
 	
 		
@@ -377,7 +343,7 @@ class ProfileInfoController extends Controller
 			
         public function actiondemographics()	{
                     $myID = Yii::app()->user->id;
-            
+            $returnUrl = Yii::app()->user->returnUrl;
                 $personalProfile=PersonalProfile::model()->findByPk($myID);
 				
 		if($personalProfile===null){                
@@ -420,7 +386,7 @@ class ProfileInfoController extends Controller
                 else{
                         $basicProfile->curr_university_name = $basicProfile->getCurrUniversityName();
                         $basicProfile->first_university_name = $basicProfile->getFirstUniversityName();
-                        $basicProfile->high_school_name = $basicProfile->getHighSchoolName();
+                 //       $basicProfile->high_school_name = $basicProfile->getHighSchoolName();
                         
                 }
 				$basicProfile->setScenario('demogr');
@@ -440,7 +406,7 @@ class ProfileInfoController extends Controller
                         // By default, all underlying database columns except the Primary Key
                         //   are considered safe.
 
-						$personalProfile->attributes=$_POST['PersonalProfile'];
+                        $personalProfile->attributes=$_POST['PersonalProfile'];
                         $basicProfile->attributes=$_POST['BasicProfile'];
 						
                         if (isset($_POST['PersonalProfile']['alumni_connections_flag'])){
@@ -538,7 +504,7 @@ class ProfileInfoController extends Controller
 					
 				} 
 				 
-				$this->render('_demographics',array('basicProfile'=>$basicProfile,'personalProfile'=>$personalProfile));
+				$this->render('_demographics',array('returnUrl'=>$returnUrl,'basicProfile'=>$basicProfile,'personalProfile'=>$personalProfile, 'returnUrl'=>$returnUrl,));
 		
 
 			}
@@ -546,10 +512,10 @@ class ProfileInfoController extends Controller
 			
 		public function actionUniversity()
 	{
-	
+                    
 		//print '<pre>'; print_r($_POST);exit;		
                 $myID = Yii::app()->user->id;
-            
+                $returnUrl = Yii::app()->user->returnUrl;
                 $personalProfile=PersonalProfile::model()->findByPk($myID);
 				
 		if($personalProfile===null){                
@@ -592,7 +558,7 @@ class ProfileInfoController extends Controller
                 else{
                         $basicProfile->curr_university_name = $basicProfile->getCurrUniversityName();
                         $basicProfile->first_university_name = $basicProfile->getFirstUniversityName();
-                        $basicProfile->high_school_name = $basicProfile->getHighSchoolName();
+                 //       $basicProfile->high_school_name = $basicProfile->getHighSchoolName();
                         
                 }
 				
@@ -611,7 +577,10 @@ class ProfileInfoController extends Controller
                         // By default, all underlying database columns except the Primary Key
                         //   are considered safe.
 
-						$personalProfile->attributes=$_POST['PersonalProfile'];
+			$personalProfile->attributes=$_POST['PersonalProfile'];
+                        $bprof= $_POST['BasicProfile'];
+                        $isTransfer = $bprof['isTransfer'];
+                       // print_r($bprof);exit;
                         $basicProfile->attributes=$_POST['BasicProfile'];
 						
                         if (isset($_POST['PersonalProfile']['alumni_connections_flag'])){
@@ -675,9 +644,19 @@ class ProfileInfoController extends Controller
 						
 						
 					// if isTransfer is Not Checked , first_university_id = curr_university_id
-					if(isset($_POST['BasicProfile']['isTransfer'])){
-						$_POST['BasicProfile']['isTransfer']?'' : ($basicProfile->first_university_id = $basicProfile->curr_university_id );
-					}
+                                         if($isTransfer)
+                                        {
+                                            $basicProfile->isTransfer='Y';
+                                        }
+                                        else
+                                        {
+                                             $basicProfile->isTransfer='N';
+                                             $basicProfile->first_university_id = $basicProfile->curr_university_id;
+                                             
+                                        }
+					//if(isset($_POST['BasicProfile']['isTransfer'])){
+					//	$_POST['BasicProfile']['isTransfer']?'' : ($basicProfile->first_university_id = $basicProfile->curr_university_id );
+					//}
 					
                         if ($valid)
                         {
@@ -703,7 +682,7 @@ class ProfileInfoController extends Controller
 			
         		
 		$this->render('_university',
-						array('basicProfile'=>$basicProfile,
+						array('returnUrl'=>$returnUrl,'basicProfile'=>$basicProfile,
 						'personalProfile'=>$personalProfile,
 						'isTransfer'=>$isTransfer
 						));
@@ -718,52 +697,60 @@ class ProfileInfoController extends Controller
 	public function actionAdmittance(){
 		
 		$otherschooladmitProfile=new OtherSchoolAdmitProfile;
-		
+		$returnUrl = Yii::app()->user->returnUrl;
 		$myID = Yii::app()->user->id;
 		$university = new UniversityName;
 		
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-	
-		if(isset($_POST['OtherSchoolAdmitProfile']))
-		{
-				 $otherschooladmitProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
-                        // Set the Profile model class attributes in a bulk manner
-                        // For every key in the $_POST['Profile'] array that matches the
-                        //   name of a safe attribute in the Profile class, the class's
-                        //   attribute is set to the corresponding value in the array.
-                        // By default, all underlying database columns except the Primary Key
-                        //   are considered safe.
-				foreach($_POST['OtherSchoolAdmitProfile'] as $form){			
-					
-					if(!empty($form['otherschool_id'])){
-						$otherschooladmitProfile->attributes	=	$form;
-						$otherschooladmitProfile->user_id = $myID;	
-								
-						// Get the University ID By  Name												
-						$otherschooladmitProfile->otherschool_id = $university->getIdbyName($form['otherschool_id']);
-                        $valid = $otherschooladmitProfile->validate();                  						
-                        if ($valid)
-                        {	
-						
-											
-                            $otherschooladmitProfile->save(true);
-							// Set this Form Completed 
-							$this->formStatus('admittance');
-							
-                            unset($otherschooladmitProfile);
-                            $otherschooladmitProfile = new OtherSchoolAdmitProfile;
-                            Yii::app()->user->setFlash('otherschoolSuccess',"Info saved!" );
-                             
-                        }
-				   }		
-				}	
-					
-			$this->redirect(array('languages',));		
+		
 
+		if (isset($_POST["yt0_x"]))
+		{
+			if(isset($_POST['OtherSchoolAdmitProfile']))
+			{
+					 $otherschooladmitProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
+	                        // Set the Profile model class attributes in a bulk manner
+	                        // For every key in the $_POST['Profile'] array that matches the
+	                        //   name of a safe attribute in the Profile class, the class's
+	                        //   attribute is set to the corresponding value in the array.
+	                        // By default, all underlying database columns except the Primary Key
+	                        //   are considered safe.
+					foreach($_POST['OtherSchoolAdmitProfile'] as $form){			
+						
+						if(!empty($form['otherschool_id'])){
+							$otherschooladmitProfile->attributes	=	$form;
+							$otherschooladmitProfile->user_id = $myID;	
+									
+							// Get the University ID By  Name												
+							$otherschooladmitProfile->otherschool_id = $university->getIdbyName($form['otherschool_id']);
+	                        $valid = $otherschooladmitProfile->validate();                  						
+	                        if ($valid)
+	                        {	
+							
+												
+	                            $otherschooladmitProfile->save(true);
+								// Set this Form Completed 
+								$this->formStatus('admittance');
+								
+	                            unset($otherschooladmitProfile);
+	                            $otherschooladmitProfile = new OtherSchoolAdmitProfile;
+	                            Yii::app()->user->setFlash('otherschoolSuccess',"Info saved!" );
+	                             
+	                        }
+					   }		
+					}	
+						
+				
+
+			}
+			
+			$this->redirect(array('languages',));			
+		} else {
+			
+			$this->render('_schooladmits',array('returnUrl'=>$returnUrl,'otherschooladmitProfile'=>$otherschooladmitProfile));	
 		}
 		
-		$this->render('_schooladmits',array('otherschooladmitProfile'=>$otherschooladmitProfile));
 	
 	}
 			
@@ -771,51 +758,65 @@ class ProfileInfoController extends Controller
 	
 		 $myID = Yii::app()->user->id;
 				
-		 
+		 $returnUrl = Yii::app()->user->returnUrl;
 		 $languageProfile=new LanguageProfile;
 		 
-		 		                 
-       
-		 if(isset($_POST['LanguageProfile']))
+		if (isset($_POST["yt0_x"]))
 		{
 			 /*
-		 	* Before inserting the languges Delete the before all records 
-			* for the particular User
-		 	*/
-			 $languageProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
-			 
-                        // Set the Profile model class attributes in a bulk manner
-                        // For every key in the $_POST['Profile'] array that matches the
-                        //   name of a safe attribute in the Profile class, the class's
-                        //   attribute is set to the corresponding value in the array.
-                        // By default, all underlying database columns except the Primary Key
-                        //   are considered safe.
-				foreach($_POST['LanguageProfile'] as $form){
-				 	
-					$languageProfile->attributes	= $form;					
-                        $valid = $languageProfile->validate();                  
-                        if ($valid)
-                        {
-                            $languageProfile->save(true);
-							
-							// Set this Form Completed 
-							$this->formStatus('languages');
-							
-                            unset($languageProfile);
-                            $languageProfile = new LanguageProfile;
-                            Yii::app()->user->setFlash('langSuccess',"Info saved!" );
-                                
-                        }
-				}
+			 	* Before inserting the languges Delete the before all records 
+				* for the particular User
+			 	*/
+				 $languageProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
+       
+			 if(isset($_POST['LanguageProfile']))
+			{
 				
-                                $this->redirect(array('sat1',)); 
-				
+				 
+	                        // Set the Profile model class attributes in a bulk manner
+	                        // For every key in the $_POST['Profile'] array that matches the
+	                        //   name of a safe attribute in the Profile class, the class's
+	                        //   attribute is set to the corresponding value in the array.
+	                        // By default, all underlying database columns except the Primary Key
+	                        //   are considered safe.
+	                         //echo '<pre>';
+					foreach($_POST['LanguageProfile'] as $form){	
+					 //	print_r($form);
+	                                        //$fluency=$this->getSelectedFluency($form['fluency']);
+	                                       //$fluency= $form['fluency'];
+	                                       if(!empty ($form)&& @$form['fluency'])
+	                                        foreach ($form['fluency'] as $key => $value) {
+	                                            
+	                                            $languageProfile->attributes	= $form;
+	                                                $languageProfile->fluency=$value;
+	                                                 //$languageProfile->fluency_type=$fluency;
+	                                            $valid = $languageProfile->validate();                  
+	                                            if ($valid)
+	                                            {
+	                                                $languageProfile->save(true);
 
+	                                                                            // Set this Form Completed 
+	                                                                            $this->formStatus('languages');
 
-		}
+	                                                unset($languageProfile);
+	                                                $languageProfile = new LanguageProfile;
+	                                                Yii::app()->user->setFlash('langSuccess',"Info saved!" );
+
+	                                            }
+	                                        }
+	                                        }
+				//	exit;
+	        }
+
+	        $this->redirect(array('sat1',)); 
+
+		} else {
+			
+			$this->render('_languages',array('returnUrl'=>$returnUrl,'languageProfile'=>$languageProfile));
+		}	
 			
 	
-			$this->render('_languages',array('languageProfile'=>$languageProfile));
+			
 	}		
 	
 	   public function setEditProfileMenu()
@@ -861,7 +862,7 @@ class ProfileInfoController extends Controller
 	
           public function actionSat1(){
 	  	  $myID = Yii::app()->user->id;
-                
+                $returnUrl = Yii::app()->user->returnUrl;
                 $scoreProfile=ScoreProfile::model()->findByPk($myID);
                 $academicProfile=AcademicProfile::model()->findByPk($myID);
                 
@@ -894,13 +895,13 @@ class ProfileInfoController extends Controller
                                 {
                                     $scoreProfile->save(true);
 									// Set this Form Completed 
-									$this->formStatus('sat1');
+									//$this->formStatus('sat1');
 									
                                     $academicProfile->save(true);
 																	
 									
                                     Yii::app()->user->setFlash('scoreSuccess',"Info saved!" );
-                                     $this->redirect(array('act',));   
+                                  //   $this->redirect(array('act',));   
                                 }
                         }
                         else{     
@@ -909,18 +910,18 @@ class ProfileInfoController extends Controller
                                     $scoreProfile->save(true);
 									
 									// Set this Form Completed 
-									$this->formStatus('sat1');
+									//$this->formStatus('sat1');
 									
                                     Yii::app()->user->setFlash('scoreSuccess',"Info saved!" );
-                                     $this->redirect(array('act',));   
+                                 //    $this->redirect(array('act',));   
                                 }
                         }
-
-
+                    $this->formStatus('sat1');
+                      $this->redirect(array('act',));   
 
 		}	  
 		
-		$this->render('_scores_sat1',array('academicProfile'=>$academicProfile,'scoreProfile'=>$scoreProfile));
+		$this->render('_scores_sat1',array('returnUrl'=>$returnUrl,'academicProfile'=>$academicProfile,'scoreProfile'=>$scoreProfile));
 		
 	  	
 	  }
@@ -928,7 +929,7 @@ class ProfileInfoController extends Controller
  	  public function actionAct(){
 	  
 	  	  $myID = Yii::app()->user->id;
-                
+                $returnUrl = Yii::app()->user->returnUrl;
                 $scoreProfile=ScoreProfile::model()->findByPk($myID);
                 $academicProfile=AcademicProfile::model()->findByPk($myID);
                 
@@ -978,110 +979,137 @@ class ProfileInfoController extends Controller
 									
 									
                                     Yii::app()->user->setFlash('scoreSuccess',"Info saved!" );
-                                     $this->redirect(array('sat2',));   
+                                  
                                 }
                         }
-
-
+                $this->formStatus('act');
+                   $this->redirect(array('sat2',));   
 
 		}	  
 		
-	  	$this->render('_scores_act',array('academicProfile'=>$academicProfile,'scoreProfile'=>$scoreProfile));
+	  	$this->render('_scores_act',array('returnUrl'=>$returnUrl,'academicProfile'=>$academicProfile,'scoreProfile'=>$scoreProfile));
 	  	
 	  }
 
  	  public function actionSat2(){
 	  
 	  
-	  			$myID = Yii::app()->user->id;
-	  	         $sat2Profile=new Sat2Profile;
+                $myID = Yii::app()->user->id;
+                $sat2Profile=new Sat2Profile;
+                $returnUrl = Yii::app()->user->returnUrl;
 
                 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Sat2Profile']))
+		if (isset($_POST["yt0_x"]))
 		{
+				$sat2Profile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
 		
-			$sat2Profile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
-                        // Set the Profile model class attributes in a bulk manner
-                        // For every key in the $_POST['Profile'] array that matches the
-                        //   name of a safe attribute in the Profile class, the class's
-                        //   attribute is set to the corresponding value in the array.
-                        // By default, all underlying database columns except the Primary Key
-                        //   are considered safe.
-						
-			foreach($_POST['Sat2Profile'] as $form){			
-				$sat2Profile->attributes= $form;
-	
-							$valid = $sat2Profile->validate();                  
-							if ($valid)
-							{
-								$sat2Profile->save(true);
-								// Set this Form Completed 
-								$this->formStatus('sat2');
-									
-								unset($sat2Profile);
-								$sat2Profile = new Sat2Profile;
-								Yii::app()->user->setFlash('sat2Success',"Info saved!" );
-				 
-							}
-			}
+				if(isset($_POST['Sat2Profile']))
+				{
+				
+					
+		                        // Set the Profile model class attributes in a bulk manner
+		                        // For every key in the $_POST['Profile'] array that matches the
+		                        //   name of a safe attribute in the Profile class, the class's
+		                        //   attribute is set to the corresponding value in the array.
+		                        // By default, all underlying database columns except the Primary Key
+		                        //   are considered safe.
+								
+					foreach($_POST['Sat2Profile'] as $form){			
+						$sat2Profile->attributes= $form;
+			
+									$valid = $sat2Profile->validate();                  
+									if ($valid)
+									{
+										$sat2Profile->save(true);
+										// Set this Form Completed 
+										$this->formStatus('sat2');
+											
+										unset($sat2Profile);
+										$sat2Profile = new Sat2Profile;
+										Yii::app()->user->setFlash('sat2Success',"Info saved!" );
+						 
+									}
+					}
+					
+				}
+
 			// ReDirect Finally
-			$this->redirect(array('ap',));   				
-		}
+		      $this->formStatus('sat2');
+			  $this->redirect(array('ap',));   					
+		} else {
+			
+			$this->render('_sat2',array('returnUrl'=>$returnUrl,'sat2Profile'=>$sat2Profile));		
+		}		
 	  	
-			$this->render('_sat2',array('sat2Profile'=>$sat2Profile));
+			
 		
 	  }
  	  public function actionAp(){
 	  
-	  		 $myID = Yii::app()->user->id;	
-	  	     $apProfile=new ApProfile;
-
+                    $myID = Yii::app()->user->id;	
+                    $apProfile=new ApProfile;
+                    $returnUrl = Yii::app()->user->returnUrl;
                 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['ApProfile']))
+
+		if (isset($_POST["yt0_x"]))
 		{
-		
 			$apProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
-                        // Set the Profile model class attributes in a bulk manner
-                        // For every key in the $_POST['Profile'] array that matches the
-                        //   name of a safe attribute in the Profile class, the class's
-                        //   attribute is set to the corresponding value in the array.
-                        // By default, all underlying database columns except the Primary Key
-                        //   are considered safe.
-			foreach($_POST['ApProfile'] as $form){					
-				$apProfile->attributes = $form;
-	
-							$valid = $apProfile->validate();                  
-							if ($valid)
-							{
-								$apProfile->save(true);
-								// Set this Form Completed 
-								$this->formStatus('ap');
-								
-								unset($apProfile);
-								$apProfile = new ApProfile;
-								Yii::app()->user->setFlash('apSuccess',"Info saved!" );
-								  
-							}
-	 	   }
+		
+
+				if(isset($_POST['ApProfile']))
+				{
+				
+					
+		                        // Set the Profile model class attributes in a bulk manner
+		                        // For every key in the $_POST['Profile'] array that matches the
+		                        //   name of a safe attribute in the Profile class, the class's
+		                        //   attribute is set to the corresponding value in the array.
+		                        // By default, all underlying database columns except the Primary Key
+		                        //   are considered safe.
+					foreach($_POST['ApProfile'] as $form){					
+						$apProfile->attributes = $form;
+			
+									$valid = $apProfile->validate();                  
+									if ($valid)
+									{
+										$apProfile->save(true);
+										// Set this Form Completed 
+										$this->formStatus('ap');
+										
+										unset($apProfile);
+										$apProfile = new ApProfile;
+										Yii::app()->user->setFlash('apSuccess',"Info saved!" );
+										  
+									}
+			 	   }
+				   
+				     
+				}
+			$this->formStatus('ap'); 
+		    
 		    $this->redirect(array('toefl',));
-		     
-		}  
+		    
+		} else {
+			
+
+			$this->render('_ap', array('returnUrl'=>$returnUrl,'apProfile'=>$apProfile));
+		} 
 		
 		
-	  		$this->render('_ap', array('apProfile'=>$apProfile));
+	  		
 	  }
 	  
         
  	  public function actiontoefl(){
 	  
-	  	  $myID = Yii::app()->user->id;
-                
+                $myID = Yii::app()->user->id;
+                $returnUrl = Yii::app()->user->returnUrl;
                 $scoreProfile=ScoreProfile::model()->findByPk($myID);
                 
 		if($scoreProfile===null)
@@ -1111,15 +1139,16 @@ class ProfileInfoController extends Controller
                                     $this->formStatus('toefl');
 									
                                     Yii::app()->user->setFlash('scoreSuccess',"" );
-                                     $this->redirect(array('grades',));   
+                                     
                                 }
+                                
+                        $this->formStatus('toefl');
+                         $this->redirect(array('grades',));  
                         }
-
-
 
 			  
 		
-		$this->render('_toefl',array('scoreProfile'=>$scoreProfile));
+		$this->render('_toefl',array('returnUrl'=>$returnUrl,'scoreProfile'=>$scoreProfile));
 		
 	  	
 	  }
@@ -1127,9 +1156,9 @@ class ProfileInfoController extends Controller
           
 	public function actionGrades(){
 		
-			 $myID = Yii::app()->user->id;
-			  $academicProfile=AcademicProfile::model()->findByPk($myID);
-	
+                $myID = Yii::app()->user->id;
+                $academicProfile=AcademicProfile::model()->findByPk($myID);
+                $returnUrl = Yii::app()->user->returnUrl;
 			  if($academicProfile===null){
 			      $academicProfile=new AcademicProfile;
               }
@@ -1159,133 +1188,180 @@ class ProfileInfoController extends Controller
 
 		}      
 		
-		$this->render('_grades',array('academicProfile'=>$academicProfile));
+		$this->render('_grades',array('returnUrl'=>$returnUrl,'academicProfile'=>$academicProfile));
 	}	
 	
 	
 		public function actionSubjects(){
 		
-			 $myID = Yii::app()->user->id;		
-		 $subjectProfile=new SubjectProfile;
-		 
-		 	if(isset($_POST['SubjectProfile']))
-		{
-		
-			$subjectProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
-		
-                        // Set the Profile model class attributes in a bulk manner
-                        // For every key in the $_POST['Profile'] array that matches the
-                        //   name of a safe attribute in the Profile class, the class's
-                        //   attribute is set to the corresponding value in the array.
-                        // By default, all underlying database columns except the Primary Key
-                        //   are considered safe.
-						
+                $myID = Yii::app()->user->id;		
+                $subjectProfile=new SubjectProfile;
+                $returnUrl = Yii::app()->user->returnUrl;
+
+
+
+            if (isset($_POST["yt0_x"]))
+			{
+				$subjectProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
 			
-			foreach($_POST['SubjectProfile'] as $form){	
-			$subjectProfile->attributes	=	$form;
-
-                        $valid = $subjectProfile->validate();                  
-                        if ($valid)
-                        {
-                            $subjectProfile->save(true);
-							// Set this Form Completed 
-							$this->formStatus('subjects');
-							
-                            unset($subjectProfile);
-                            $subjectProfile = new SubjectProfile;
-                            Yii::app()->user->setFlash('subjectSuccess',"Info saved!" );
-                            
-                        }
-			}
+					if(isset($_POST['SubjectProfile']))
+					{
 					
-		// Re - direct Finally
-			 
-			  $this->redirect(array('competitions',));  				 				
+						
+					
+			                        // Set the Profile model class attributes in a bulk manner
+			                        // For every key in the $_POST['Profile'] array that matches the
+			                        //   name of a safe attribute in the Profile class, the class's
+			                        //   attribute is set to the corresponding value in the array.
+			                        // By default, all underlying database columns except the Primary Key
+			                        //   are considered safe.
+									
+						
+						foreach($_POST['SubjectProfile'] as $form){	
+						$subjectProfile->attributes	=	$form;
 
-		}
+			                        $valid = $subjectProfile->validate();                  
+			                        if ($valid)
+			                        {
+			                            $subjectProfile->save(true);
+										// Set this Form Completed 
+										$this->formStatus('subjects');
+										
+			                            unset($subjectProfile);
+			                            $subjectProfile = new SubjectProfile;
+			                            Yii::app()->user->setFlash('subjectSuccess',"Info saved!" );
+			                            
+			                        }
+						}
+								
+					
+
+				}
+
+			// Re - direct Finally
+				$this->formStatus('subjects');
+				$this->redirect(array('competitions',));  				 					
+			} else {
+				
+				$this->render('_subjects',array('returnUrl'=>$returnUrl,'subjectProfile'=>$subjectProfile));		
+			}	
            				
 				
-		$this->render('_subjects',array('subjectProfile'=>$subjectProfile));
+		
 		
 	  }
 	  
 	  public function actionCompetitions(){
-	  
+
 	  	$myID = Yii::app()->user->id;	
+				        $returnUrl = Yii::app()->user->returnUrl;
+					  	$competitionProfile=new CompetitionProfile;
 	  
-	  	$competitionProfile=new CompetitionProfile;
-		  
-        if(isset($_POST['CompetitionProfile']))
+	  	if (isset($_POST["yt0_x"]))
 		{
-			$competitionProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
-                        // Set the Profile model class attributes in a bulk manner
-                        // For every key in the $_POST['Profile'] array that matches the
-                        //   name of a safe attribute in the Profile class, the class's
-                        //   attribute is set to the corresponding value in the array.
-                        // By default, all underlying database columns except the Primary Key
-                        //   are considered safe.
+
+				$competitionProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));	
+
+
+			  	
+
+
+
+				  
+		        if(isset($_POST['CompetitionProfile']))
+				{
+
 						
-			foreach($_POST['CompetitionProfile'] as $form){				
-			$competitionProfile->attributes	=	$form;
+					
+		                        // Set the Profile model class attributes in a bulk manner
+		                        // For every key in the $_POST['Profile'] array that matches the
+		                        //   name of a safe attribute in the Profile class, the class's
+		                        //   attribute is set to the corresponding value in the array.
+		                        // By default, all underlying database columns except the Primary Key
+		                        //   are considered safe.
+								
+					foreach($_POST['CompetitionProfile'] as $form){				
+					$competitionProfile->attributes	=	$form;
 
-                        $valid = $competitionProfile->validate();                  
-                        if ($valid)
-                        {
-                            $competitionProfile->save(true);
-							// Set this Form Completed 
-							$this->formStatus('competitions');
-							
-                            unset($competitionProfile);
-                            $competitionProfile = new CompetitionProfile;
-                            Yii::app()->user->setFlash('competitionSuccess',"Info saved!" );
-                           
-                        }
-			}
-			// Re-direct finally
-			  $this->redirect(array('awardshonors',));  			
+		                        $valid = $competitionProfile->validate();                  
+		                        if ($valid)
+		                        {
+		                            $competitionProfile->save(true);
+									// Set this Form Completed 
+									$this->formStatus('competitions');
+									
+		                            unset($competitionProfile);
+		                            $competitionProfile = new CompetitionProfile;
+		                            Yii::app()->user->setFlash('competitionSuccess',"Info saved!" );
+		                           
+		                        }
+					}
+					
 
-		}
+				}
+
+				// Re-direct finally
+		        $this->formStatus('competitions');
+				$this->redirect(array('awardshonors',));  			
+
+		} else {
+			
+
+			$this->render('_competitions',array('returnUrl'=>$returnUrl,'competitionProfile'=>$competitionProfile));	
+		}		
 		
-	   $this->render('_competitions',array('competitionProfile'=>$competitionProfile));
+	   
 	   
 	  }
 	  
 	  
 	  public function actionAwardshonors(){
 	  
-	  		$myID = Yii::app()->user->id;	
-	  	     $awardProfile=new AwardProfile;
-		if(isset($_POST['AwardProfile'])){
-		
-			$awardProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
-                        // Set the Profile model class attributes in a bulk manner
-                        // For every key in the $_POST['Profile'] array that matches the
-                        //   name of a safe attribute in the Profile class, the class's
-                        //   attribute is set to the corresponding value in the array.
-                        // By default, all underlying database columns except the Primary Key
-                        //   are considered safe.
-			foreach($_POST['AwardProfile'] as $form){		
-				$awardProfile->attributes= $form;
+                $myID = Yii::app()->user->id;	
+                $awardProfile=new AwardProfile;
+                $returnUrl = Yii::app()->user->returnUrl;
 
-                        $valid = $awardProfile->validate();                  
-                        if ($valid)
-                        {
-                            $awardProfile->save(true);
-							// Set this Form Completed 
-							$this->formStatus('awardhonours');
-							
-                            unset($awardProfile);
-                            $awardProfile = new AwardProfile;
-                            Yii::app()->user->setFlash('awardSuccess',"Info saved!" );
-             
-                        }
-			}
+
+        if (isset($_POST["yt0_x"]))
+		{        
+                $awardProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
+				if(isset($_POST['AwardProfile'])){
+				
+					
+		                        // Set the Profile model class attributes in a bulk manner
+		                        // For every key in the $_POST['Profile'] array that matches the
+		                        //   name of a safe attribute in the Profile class, the class's
+		                        //   attribute is set to the corresponding value in the array.
+		                        // By default, all underlying database columns except the Primary Key
+		                        //   are considered safe.
+					foreach($_POST['AwardProfile'] as $form){		
+						$awardProfile->attributes= $form;
+
+		                        $valid = $awardProfile->validate();                  
+		                        if ($valid)
+		                        {
+		                            $awardProfile->save(true);
+									// Set this Form Completed 
+									$this->formStatus('awardhonours');
+									
+		                            unset($awardProfile);
+		                            $awardProfile = new AwardProfile;
+		                            Yii::app()->user->setFlash('awardSuccess',"Info saved!" );
+		             
+		                        }
+					}
+				}
+
+				$this->formStatus('awardhonours');
+				$this->redirect(array('clubs',)); 			
+
+		} else 	{
 			
-			$this->redirect(array('clubs',)); 			
+			$this->render('_awardshonors',array('returnUrl'=>$returnUrl,'awardProfile'=>$awardProfile));
 
-		}
+		}	
 		
-	  	$this->render('_awardshonors',array('awardProfile'=>$awardProfile));
+	  	
 	  
 	  }
 	  
@@ -1297,39 +1373,51 @@ class ProfileInfoController extends Controller
 		
 	   	$myID = Yii::app()->user->id;
 		$activityProfile=new ActivityProfile;
-		if(isset($_POST['ActivityProfile'])){
-		
-			$activityProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
-		
-                        // Set the Profile model class attributes in a bulk manner
-                        // For every key in the $_POST['Profile'] array that matches the
-                        //   name of a safe attribute in the Profile class, the class's
-                        //   attribute is set to the corresponding value in the array.
-                        // By default, all underlying database columns except the Primary Key
-                        //   are considered safe.
-			foreach($_POST['ActivityProfile'] as $form){				
-				
-				$activityProfile->attributes	=	$form;
-	
-							$valid = $activityProfile->validate();                  
-							if ($valid)
-							{
-								$activityProfile->save(true);
-								// Set this Form Completed 
-								$this->formStatus('clubs');
-								
-								unset($activityProfile);
-								$activityProfile = new ActivityProfile;
-								Yii::app()->user->setFlash('activitySuccess',"Info saved!" );								 
-							}
-					
-			}
-			$this->redirect(array('sports',));  			
+         $returnUrl = Yii::app()->user->returnUrl;
 
-		}
+         if (isset($_POST["yt0_x"]))
+		{
+			$activityProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
+                
+				if(isset($_POST['ActivityProfile'])){
+								
+
+								// Set the Profile model class attributes in a bulk manner
+		                        // For every key in the $_POST['Profile'] array that matches the
+		                        //   name of a safe attribute in the Profile class, the class's
+		                        //   attribute is set to the corresponding value in the array.
+		                        // By default, all underlying database columns except the Primary Key
+		                        //   are considered safe.
+					foreach($_POST['ActivityProfile'] as $form){				
+						
+						$activityProfile->attributes	=	$form;
+			
+									$valid = $activityProfile->validate();                  
+									if ($valid)
+									{
+										$activityProfile->save(true);
+										// Set this Form Completed 
+										$this->formStatus('clubs');
+										
+										unset($activityProfile);
+										$activityProfile = new ActivityProfile;
+										Yii::app()->user->setFlash('activitySuccess',"Info saved!" );								 
+									}
+							
+					}
+		              			
+
+				}
+
+				$this->formStatus('clubs');
+				$this->redirect(array('sports',));
+
+		} else {
+			
+			$this->render('_clubs', array('returnUrl'=>$returnUrl,'activityProfile'=>$activityProfile));
+		}		
 		
-	   	$this->render('_clubs', array('activityProfile'=>$activityProfile));
-	   }
+	}
 	   
 	   
 	   
@@ -1338,128 +1426,162 @@ class ProfileInfoController extends Controller
 		
                 $myID = Yii::app()->user->id;
                 $sportProfile=new SportProfile;
+                $returnUrl = Yii::app()->user->returnUrl;
 
                 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['SportProfile']))
+		 if (isset($_POST["yt0_x"]))
 		{
 			$sportProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
-                        // Set the Profile model class attributes in a bulk manner
-                        // For every key in the $_POST['Profile'] array that matches the
-                        //   name of a safe attribute in the Profile class, the class's
-                        //   attribute is set to the corresponding value in the array.
-                        // By default, all underlying database columns except the Primary Key
-                        //   are considered safe.
-			foreach($_POST['SportProfile'] as $form){			
-						$sportProfile->attributes = $form;
 
-                        $valid = $sportProfile->validate();                  
-                        if ($valid)
-                        {
-                            $sportProfile->save(true);
-							// Set this Form Completed 
-							$this->formStatus('sports');	
-							
-                            unset($sportProfile);
-                            $sportProfile = new SportProfile;
-                            Yii::app()->user->setFlash('sportSuccess',"Info saved!" );
-                           
-                        }
-			}	
-		 $this->redirect(array('music',)); 		
-		 
+				if(isset($_POST['SportProfile']))
+				{
+					
+		                        // Set the Profile model class attributes in a bulk manner
+		                        // For every key in the $_POST['Profile'] array that matches the
+		                        //   name of a safe attribute in the Profile class, the class's
+		                        //   attribute is set to the corresponding value in the array.
+		                        // By default, all underlying database columns except the Primary Key
+		                        //   are considered safe.
+					foreach($_POST['SportProfile'] as $form){			
+								$sportProfile->attributes = $form;
 
-		}
+		                        $valid = $sportProfile->validate();                  
+		                        if ($valid)
+		                        {
+		                            $sportProfile->save(true);
+									// Set this Form Completed 
+									$this->formStatus('sports');	
+									
+		                            unset($sportProfile);
+		                            $sportProfile = new SportProfile;
+		                            Yii::app()->user->setFlash('sportSuccess',"Info saved!" );
+		                           
+		                        }
+					}	
+		         		
+				 
+
+				}
+
+				$this->formStatus('sports');	
+				$this->redirect(array('music',)); 	
+
+		}  else {
+			
+			$this->render('_sports', array('returnUrl'=>$returnUrl,'sportProfile'=>$sportProfile));
+		}		
 		
-			$this->render('_sports', array('sportProfile'=>$sportProfile));
+			
 	   }
 	   
 	    public function actionMusic(){
 			
-			 $myID = Yii::app()->user->id;
-			 $musicProfile=new MusicProfile;
+                     $myID = Yii::app()->user->id;
+                     $musicProfile=new MusicProfile;
+                     $returnUrl = Yii::app()->user->returnUrl;
 
                 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['MusicProfile']))
+		 if (isset($_POST["yt0_x"]))
 		{
 			$musicProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
-                        // Set the Profile model class attributes in a bulk manner
-                        // For every key in the $_POST['Profile'] array that matches the
-                        //   name of a safe attribute in the Profile class, the class's
-                        //   attribute is set to the corresponding value in the array.
-                        // By default, all underlying database columns except the Primary Key
-                        //   are considered safe.
-				foreach($_POST['MusicProfile'] as $form){					
-				$musicProfile->attributes = $form;
+				if(isset($_POST['MusicProfile']))
+				{
+					
+		                        // Set the Profile model class attributes in a bulk manner
+		                        // For every key in the $_POST['Profile'] array that matches the
+		                        //   name of a safe attribute in the Profile class, the class's
+		                        //   attribute is set to the corresponding value in the array.
+		                        // By default, all underlying database columns except the Primary Key
+		                        //   are considered safe.
+						foreach($_POST['MusicProfile'] as $form){					
+						$musicProfile->attributes = $form;
 
-                        $valid = $musicProfile->validate();                  
-                        if ($valid)
-                        {
-                            $musicProfile->save(true);
-							// Set this Form Completed 
-							$this->formStatus('music');	
-							
-                            unset($musicProfile);
-                            $musicProfile = new MusicProfile;
-                            Yii::app()->user->setFlash('musicSuccess',"Info saved!" );
-                               
-                        }
-			}	
+		                        $valid = $musicProfile->validate();                  
+		                        if ($valid)
+		                        {
+		                            $musicProfile->save(true);
+									// Set this Form Completed 
+									$this->formStatus('music');	
+									
+		                            unset($musicProfile);
+		                            $musicProfile = new MusicProfile;
+		                            Yii::app()->user->setFlash('musicSuccess',"Info saved!" );
+		                               
+		                        }
+					}	
+					
+
+				}
+
+				$this->formStatus('music');	
+				$this->redirect(array('work',)); 			
+
+		} else {
 			
-			$this->redirect(array('work',)); 		
-
-		}
+			$this->render('_music', array('returnUrl'=>$returnUrl,'musicProfile'=>$musicProfile));		
+		}		
 		
-		$this->render('_music', array('musicProfile'=>$musicProfile));	
+		
 	   
 	   }
 
 	    public function actionWork(){
 		
-			   $myID = Yii::app()->user->id;
-			   $workProfile=new WorkProfile;
+                   $myID = Yii::app()->user->id;
+                   $workProfile=new WorkProfile;
+                   $returnUrl = Yii::app()->user->returnUrl;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['WorkProfile']))
+		if (isset($_POST["yt0_x"]))
 		{
 			$workProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
-                        // Set the Profile model class attributes in a bulk manner
-                        // For every key in the $_POST['Profile'] array that matches the
-                        //   name of a safe attribute in the Profile class, the class's
-                        //   attribute is set to the corresponding value in the array.
-                        // By default, all underlying database columns except the Primary Key
-                        //   are considered safe.
-			foreach($_POST['WorkProfile'] as $form){	
-			
+			if(isset($_POST['WorkProfile']))
+			{
 				
-				$workProfile->attributes	=	$form;
-						
-                        $valid = $workProfile->validate();						
-						if ($valid)
-                        {   
-							$workProfile->comments = $form['comments'];        
-							$workProfile->save(true);
-							// Set this Form Completed 
-							$this->formStatus('work');
+	                        // Set the Profile model class attributes in a bulk manner
+	                        // For every key in the $_POST['Profile'] array that matches the
+	                        //   name of a safe attribute in the Profile class, the class's
+	                        //   attribute is set to the corresponding value in the array.
+	                        // By default, all underlying database columns except the Primary Key
+	                        //   are considered safe.
+				foreach($_POST['WorkProfile'] as $form){	
+				
+					
+					$workProfile->attributes	=	$form;
 							
-                            unset($workProfile);
-                            $workProfile = new WorkProfile;
-                            Yii::app()->user->setFlash('workSuccess',"Info saved!" );
-                             
-                        }
-			}
+	                        $valid = $workProfile->validate();						
+							if ($valid)
+	                        {   
+								$workProfile->comments = $form['comments'];        
+								$workProfile->save(true);
+								// Set this Form Completed 
+								$this->formStatus('work');
+								
+	                            unset($workProfile);
+	                            $workProfile = new WorkProfile;
+	                            Yii::app()->user->setFlash('workSuccess',"Info saved!" );
+	                             
+	                        }
+				}
+				
+
+			}   
 			
-				$this->redirect(array('volunteer',));   				
+			$this->formStatus('work');
+			$this->redirect(array('volunteer',));   				          
 
-		}             
+		} else {
+			
+			$this->render('_work', array('returnUrl'=>$returnUrl,'workProfile'=>$workProfile));		
+		}	
 
-	    $this->render('_work', array('workProfile'=>$workProfile));	
+	    
 			
 	   } 
 	   
@@ -1467,51 +1589,62 @@ class ProfileInfoController extends Controller
            
            
 	    public function actionVolunteer(){
-						 $myID = Yii::app()->user->id;
-			           $volunteerProfile=new VolunteerProfile;  
-					   
+
+                $myID = Yii::app()->user->id;
+                $volunteerProfile=new VolunteerProfile;  
+		$returnUrl = Yii::app()->user->returnUrl;			   
 					           
 					 // print_r( $volunteerProfile);exit;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['VolunteerProfile']))
+		if (isset($_POST["yt0_x"]))
 		{
-					$volunteerProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
-                        // Set the Profile model class attributes in a bulk manner
-                        // For every key in the $_POST['Profile'] array that matches the
-                        //   name of a safe attribute in the Profile class, the class's
-                        //   attribute is set to the corresponding value in the array.
-                        // By default, all underlying database columns except the Primary Key
-                        //   are considered safe.
+			$volunteerProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
+			if(isset($_POST['VolunteerProfile']))
+			{
 						
-					foreach($_POST['VolunteerProfile'] as $form){
+	                        // Set the Profile model class attributes in a bulk manner
+	                        // For every key in the $_POST['Profile'] array that matches the
+	                        //   name of a safe attribute in the Profile class, the class's
+	                        //   attribute is set to the corresponding value in the array.
+	                        // By default, all underlying database columns except the Primary Key
+	                        //   are considered safe.
 							
-						$volunteerProfile->attributes = $form;
-						
-						$valid = $volunteerProfile->validate();                  
-						
-							if ($valid)
-							{
-							   // Volunteer name and comments
-								$volunteerProfile->name = $form['name'];
-								$volunteerProfile->comments = $form['comments'];
+						foreach($_POST['VolunteerProfile'] as $form){
 								
-								$volunteerProfile->save(true);
-								// Set this Form Completed 
-								$this->formStatus('volunteer');	
-								
-								unset($volunteerProfile);
-								$volunteerProfile = new VolunteerProfile;
-								Yii::app()->user->setFlash('volunteerSuccess',"Info saved!" );
-								 
-							}
-					}	
+							$volunteerProfile->attributes = $form;
+							
+							$valid = $volunteerProfile->validate();                  
+							
+								if ($valid)
+								{
+								   // Volunteer name and comments
+									$volunteerProfile->name = $form['name'];
+									$volunteerProfile->comments = $form['comments'];
+									
+									$volunteerProfile->save(true);
+									// Set this Form Completed 
+									$this->formStatus('volunteer');	
+									
+									unset($volunteerProfile);
+									$volunteerProfile = new VolunteerProfile;
+									Yii::app()->user->setFlash('volunteerSuccess',"Info saved!" );
+									 
+								}
+						}	
 					
-				$this->redirect(array('extracurricular',));   	
-		}
+			}
+
+			$this->formStatus('volunteer');	
+			$this->redirect(array('extracurricular',));   	
+
+		} else {
+			
+			$this->render('_volunteer', array('returnUrl'=>$returnUrl,'volunteerProfile'=>$volunteerProfile));		
+		}	
 		
-	   	$this->render('_volunteer', array('volunteerProfile'=>$volunteerProfile));	
+	   	
 	   }
 	   
            
@@ -1520,8 +1653,9 @@ class ProfileInfoController extends Controller
 	  
 	   public function actionResearch(){
 	   
-	   		  $myID = Yii::app()->user->id;	
-		     $researchProfile=new ResearchProfile;
+                $myID = Yii::app()->user->id;	
+                $researchProfile=new ResearchProfile;
+                $returnUrl = Yii::app()->user->returnUrl;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -1549,18 +1683,19 @@ class ProfileInfoController extends Controller
                             Yii::app()->user->setFlash('researchSuccess',"Info saved!" );
         
                         }
-		}
+		}                   $this->formStatus('extracurricular');
 		                     $this->redirect(array('summer',));   				
 
 		} 
 	   	
-	   	$this->render('_research', array('researchProfile'=>$researchProfile));	
+	   	$this->render('_research', array('returnUrl'=>$returnUrl,'researchProfile'=>$researchProfile));	
 	   } 
  		
 	   public function actionSummer(){
 	   		
-			 $myID = Yii::app()->user->id;	
-	   	   $summerProfile=new SummerProfile;
+                $myID = Yii::app()->user->id;	
+                $summerProfile=new SummerProfile;
+                $returnUrl = Yii::app()->user->returnUrl;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -1589,17 +1724,19 @@ class ProfileInfoController extends Controller
                               
                         }
 				}	
+                          $this->formStatus('extracurricular');      
 			 $this->redirect(array('Extra',)); 			
 
 		} 
 
-	   	$this->render('_summer', array('summerProfile'=>$summerProfile));	
+	   	$this->render('_summer', array('returnUrl'=>$returnUrl,'summerProfile'=>$summerProfile));	
 	   }				  
 	
 	public function actionExtra(){
 	
-		 $myID = Yii::app()->user->id;	
-	  $otherProfile=new OtherProfile;
+            $myID = Yii::app()->user->id;	
+            $otherProfile=new OtherProfile;
+            $returnUrl = Yii::app()->user->returnUrl;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -1630,13 +1767,14 @@ class ProfileInfoController extends Controller
 		  $this->redirect(array('modEssays',));    
 		}        
 	
-	$this->render('_extracurr_other', array('otherProfile'=>$otherProfile));
+	$this->render('_extracurr_other', array('returnUrl'=>$returnUrl,'otherProfile'=>$otherProfile));
 	}
 	
 	public function actionModEssays()
 	{
 		$myID = Yii::app()->user->id;	
 		$essayProfile = new EssayProfile;
+                $returnUrl = Yii::app()->user->returnUrl;
 
 
             if(isset($_FILES['EssayProfile'])){
@@ -1671,24 +1809,34 @@ class ProfileInfoController extends Controller
 						$essayProfile->attributes = $_POST['EssayProfile'][$i];													
 						$essayProfile->mime =  $filename;
 						$essayProfile->name = $_POST['EssayProfile'][$i]['name'];
+                                                $essayProfile->topic = $_POST['EssayProfile'][$i]['topic'];
 						$essayProfile->size = $_FILES['EssayProfile']['size'][$i]['mime'];
 						$essayProfile->user_id = $myID;					
 						$essayProfile->save(false);
 						// Set this Form Completed 
 						$this->formStatus('essay');				
-						unset($otherProfile);
+						unset($essayProfile);
 					   $essayProfile = new EssayProfile;
 					}   
 				}
 			
-			}
-			
-			//$this->redirect(array('consult',));    
+			}           
+
+ 
 			  
-		}	
+		}	//update basic profile model essay count
+                $basicProfile=BasicProfile::model()->findByPk($myID);
+                  $numEssays = $essayProfile->countByAttributes(array('user_id'=>$myID));
+
+                  if($basicProfile===null){                
+                     $basicProfile=new BasicProfile;
+                $basicProfile->initialize($myID);
+                      }
+
+                   $basicProfile->num_essays = $numEssays;
+                       $basicProfile->save(true);		
 		
-		
-		$this->render('modEssays',array(
+		$this->render('modEssays',array('returnUrl'=>$returnUrl,
 			'essayProfile'=>$essayProfile,
 		));
 	}
@@ -1723,7 +1871,7 @@ class ProfileInfoController extends Controller
 		
 		
 		$myID = Yii::app()->user->id;
-		
+                $returnUrl = Yii::app()->user->returnUrl;
 
 					
 		// Work
@@ -1864,36 +2012,172 @@ class ProfileInfoController extends Controller
 		  
 		} 
 		
-		// After save all forms
-if(isset($_POST['ActivityProfile'])  || isset($_POST['ResearchProfile']) || isset($_POST['SummerProfile']) || isset($_POST['OtherProfile']) ){
-	$this->redirect(array('modEssays',));	
-}
+
+		if (isset($_POST["yt0_x"]))
+		{
+
+		
+
+			// After save all forms
+		//	if(isset($_POST['ActivityProfile'])  || isset($_POST['ResearchProfile']) || isset($_POST['SummerProfile']) || isset($_POST['OtherProfile']) ){
+
+				
+		//	}
+
+		
+
+			if (!isset($_POST['ResearchProfile'])){
+				
+				$researchProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
+
+			}
+
+			if (!isset($_POST['SummerProfile'])) {
+				
+				$summerProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
+			}
+
+
+			if (!isset($_POST['OtherProfile'])) {
+				
+				$otherProfile->model()->deleteAll('user_id =:id', array(':id'=>$myID));
+			}
+
+		
+			$this->formStatus('extracurricular');	
+			$this->redirect(array('modEssays',));		
+
+		} else {
+			
+				$this->render('extracurricular',array(	'returnUrl'=>$returnUrl,		
+					'researchProfile'=>$researchProfile,'researchCheck'=>$researchCheck,
+					'summerProfile'=>$summerProfile,'summerCheck'=>$summerCheck,
+					'otherProfile'=>$otherProfile,'otherCheck'=>$otherCheck
+				));
+				
+		}	
 				
 		
-		$this->render('extracurricular',array(			
-			'researchProfile'=>$researchProfile,'researchCheck'=>$researchCheck,
-			'summerProfile'=>$summerProfile,'summerCheck'=>$summerCheck,
-			'otherProfile'=>$otherProfile,'otherCheck'=>$otherCheck
-			
-		));		
+				
 	
-	}
-	
-	public function actionCongratulation(){	
-		$this->render('congratulation');
 	}
 
+
+public function actionSummary()
+{			
+            $this->formStatus('summary');
+            //set returnURL for conditionally appearing "back to summary" button    
+            Yii::app()->user->returnUrl =  Yii::app()->createUrl('//profileinfo/Summary');
+
+            $myID = Yii::app()->user->id;        
+            $user=User::model()->findByPk($myID);
+            $basicProfile=BasicProfile::model()->findByPk($myID);
+            $personalProfile=PersonalProfile::model()->findByPk($myID);
+            $otherSchoolAdmitProfileArray=OtherSchoolAdmitProfile::model()->findAllByAttributes(array('user_id'=>$myID));
+            $languageProfileArray=LanguageProfile::model()->findAllByAttributes(array('user_id'=>$myID),array('order'=>'language_id'));
+            $scoreProfile=ScoreProfile::model()->findByPk($myID);
+            $sat2ProfileArray=Sat2Profile::model()->findAllByAttributes(array('user_id'=>$myID));
+            $apProfileArray=ApProfile::model()->findAllByAttributes(array('user_id'=>$myID));      
+            $academicProfile=AcademicProfile::model()->findByPk($myID);
+            $subjectProfileArray=SubjectProfile::model()->findAllByAttributes(array('user_id'=>$myID));
+            $competitionProfileArray=CompetitionProfile::model()->findAllByAttributes(array('user_id'=>$myID));
+            $awardProfileArray=AwardProfile::model()->findAllByAttributes(array('user_id'=>$myID));
+            ($basicProfile->num_activities > 0) ? 
+                            $activityProfileArray=ActivityProfile::model()->findAllByAttributes(array('user_id'=>$myID))
+                            : $activityProfileArray = null;
+                ($basicProfile->num_sports > 0) ? 
+                            $sportProfileArray=SportProfile::model()->findAllByAttributes(array('user_id'=>$myID))
+                            : $sportProfileArray = null;
+                ($basicProfile->num_music > 0) ? 
+                            $musicProfileArray=MusicProfile::model()->findAllByAttributes(array('user_id'=>$myID))
+                            : $musicProfileArray = null;
+                ($basicProfile->num_volunteer > 0) ? 
+                            $volunteerProfileArray=VolunteerProfile::model()->findAllByAttributes(array('user_id'=>$myID))
+                            : $volunteerProfileArray = null;
+                ($basicProfile->num_work > 0) ? 
+                            $workProfileArray=WorkProfile::model()->findAllByAttributes(array('user_id'=>$myID))
+                            : $workProfileArray = null;
+                ($basicProfile->num_research > 0) ? 
+                            $researchProfileArray=ResearchProfile::model()->findAllByAttributes(array('user_id'=>$myID))
+                            : $researchProfileArray = null;
+                ($basicProfile->num_summer > 0) ? 
+                            $summerProfileArray=SummerProfile::model()->findAllByAttributes(array('user_id'=>$myID))
+                            : $summerProfileArray = null;
+                ($basicProfile->num_other > 0) ? 
+                            $otherProfileArray=OtherProfile::model()->findAllByAttributes(array('user_id'=>$myID))
+                            : $otherProfileArray = null;
+                ($basicProfile->num_essays > 0) ? 
+                            $essayProfileArray=EssayProfile::model()->findAllByAttributes(array('user_id'=>$myID))
+                            : $essayProfileArray = null;                
+                
+          $numberFormatter = new CNumberFormatter(Yii::app()->locale);
+
+
+                
+          
+         $this->render('_summary',
+                             array(
+                'basicProfile' => $basicProfile,
+                'personalProfile' => $personalProfile,
+                'otherSchoolAdmitProfileArray' => $otherSchoolAdmitProfileArray,
+                'languageProfileArray' => $languageProfileArray, 
+                'scoreProfile' => $scoreProfile,
+                'sat2ProfileArray' => $sat2ProfileArray,
+                'apProfileArray' => $apProfileArray,                                 
+                'academicProfile' => $academicProfile,
+                'subjectProfileArray' => $subjectProfileArray,
+                'competitionProfileArray' => $competitionProfileArray,
+                'awardProfileArray' => $awardProfileArray,
+                'numberFormatter'=> $numberFormatter,                                 
+                'activityProfileArray' => $activityProfileArray,
+                'sportProfileArray' => $sportProfileArray,
+                'musicProfileArray' => $musicProfileArray,
+                'volunteerProfileArray' => $volunteerProfileArray,
+                'workProfileArray' => $workProfileArray,
+                'researchProfileArray' => $researchProfileArray,
+                'summerProfileArray' => $summerProfileArray,
+                'otherProfileArray' => $otherProfileArray, 
+                'essayProfileArray' => $essayProfileArray, 
+                                 
+                 ));
+    }                
+
+    //check if certain parts of profile are filled in
+    public function actionCheckProfile() {
+
+            $myID = Yii::app()->user->id;        
+            $user=User::model()->findByPk($myID);
+            $basicProfile=BasicProfile::model()->findByPk($myID);
+                
+            if (!empty($basicProfile->first_university_id)
+                    && !empty($basicProfile->gender)
+                    && !empty($basicProfile->num_scores)
+                    && (!empty($basicProfile->num_extracurriculars) ||
+                        !empty($basicProfile->num_sports) ||    
+                        !empty($basicProfile->num_music) ||
+                        !empty($basicProfile->num_work)
+                            )        
+                            
+                            )                           
+                             {           
+                                $this->redirect(array('profileinfo/consult',)); 
+                                }	
+                                 $this->render('profile_incomplete');; 
+            }
+   
+    
    public function actionConsult(){		
 		
-          $myID = Yii::app()->user->id;
+            $myID = Yii::app()->user->id;
 			
-			$consult = Consult::model()->find('user_id=:user_id',array(':user_id'=>$myID));			
-			
-			if($consult == null){
-	            $consult = new Consult;
-			}
-		
-		if(isset($_POST['Consult'])){
+            $consult = Consult::model()->find('user_id=:user_id',array(':user_id'=>$myID));			
+            $basic = BasicProfile::model()->find('user_id=:user_id',array(':user_id'=>$myID));			
+        
+            if($consult == null)
+                { $consult = new Consult;}
+ 
+            if(isset($_POST['Consult'])){
+                    if(!empty($_POST['Consult']['contact'])){
 			$consult->attributes	=	$_POST['Consult'];
 			$consult->user_id = $myID ;			
 			//print $_POST['Exclusive']['consultValue'];exit;
@@ -1904,13 +2188,118 @@ if(isset($_POST['ActivityProfile'])  || isset($_POST['ResearchProfile']) || isse
 				$consult->save(true);
 				// Set this Form Completed 
 				$this->formStatus('consult');
+                                $basic->l4ForSale = 1;
 				$this->redirect(array('verify'));  
 			}
 		}
-		$this->render('consult',array('consult'=>$consult));
-		
-		
+                $this->formStatus('consult');
+                $this->redirect(array('verify'));  
+            }  
+            $this->render('consult',array('consult'=>$consult));			
     }        
+   
+
+        public function actionVerify()
+        {
+	   		
+         $myID = Yii::app()->user->id;
+            $whr = 'user_id='.$myID;
+            $verifyProfile= VerifyProfile::model()->find($whr);
+            $ProfileRefFile = ProfileRefFiles::model()->findAll($whr);
+            $count = ProfileRefFiles::model()->count($whr);
+           
+          //      echo $verifyProfile->id;exit;
+            if($verifyProfile===null){    
+                $verifyProfile=new VerifyProfile;
+            }
+            if(isset($_POST['VerifyProfile'])){
+                
+			
+                $verifyProfile->attributes=$_POST['VerifyProfile'];
+
+                $valid = $verifyProfile->validate()/* && $valid*/;
+                if ($valid){                       
+                    $verifyProfile->save(true);
+                   // Set this Form Completed                     
+                   // $this->redirect(array('validate',));   
+               
+                //File upload
+                   $ucnt=0;
+                if (@$verifyProfile->id && isset($_FILES['files'])) {
+                    foreach ($_FILES['files']['name'] as $key => $filename) 
+                     {
+                     $tmp_name = $_FILES['files']['tmp_name'][$key];
+                     $new_url = Yii::app()->params['pv_file_path'].$filename;
+                        if(move_uploaded_file($tmp_name, $new_url)){
+                            $ProfileRefFile = new ProfileRefFiles();
+                            $ProfileRefFile->user_id=$myID;
+                           // $pfId = $verifyProfile->id;
+                            $ProfileRefFile->v_profile_id=$verifyProfile->id;
+                            $ProfileRefFile->filename=$filename;
+                            $ProfileRefFile->save();
+                           
+                        }
+                        }
+                     }
+                $this->formStatus('verify');
+                $this->redirect(array('Exclusivity'));  
+                }    
+            }
+            $this->render('_verify',array('verifyProfile'=>$verifyProfile, 'ProfileRefFile'=>$ProfileRefFile,'count'=>$count));	
+        }	
+
+        public function actionDeletefile($id)
+        {
+            
+             $ProfileRefFile = ProfileRefFiles::model()->findByPk($id);
+             $ProfileRefFile->filename;
+             $myFile= $path=Yii::app()->params['pv_file_path'].$ProfileRefFile->filename;
+            //echo $myFile;exit;
+            if(is_file($myFile))
+             unlink($myFile);
+             $ProfileRefFile->delete();
+             
+             $this->redirect(array('Verify',));
+        }    
+        
+        
+        public function actionExclusivity()
+        {		
+		
+            $myID = Yii::app()->user->id;
+			
+	$exclusive = Exclusive::model()->find('user_id=:user_id',array(':user_id'=>$myID));			
+			
+			if($exclusive == null){
+	            $exclusive = new Exclusive;
+			}
+			
+
+            if(isset($_POST['Exclusive'])){
+                if($_POST['Exclusive']['exclusiveValue'] == 0) {
+                 $exclusive->model()->deleteAll('user_id =:id', array(':id'=>$myID));
+                }
+                $exclusive->user_id = $myID ;	
+                $exclusive->attributes = $_POST['Exclusive'];   		
+                //print $_POST['Exclusive']['exclusiveValue'];exit;
+                $exclusive->exclusiveValue = $_POST['Exclusive']['exclusiveValue'];
+                // Check whether Check box is checked or Not			
+                $valid = $exclusive->validate();	
+				
+                if ($valid){
+                    $exclusive->save(true);
+
+                    // Set this Form Completed 
+                    $this->formStatus('exclusivity');
+                    $this->redirect(array('referrals'));  
+                }
+                   $this->formStatus('exclusivity');
+                    $this->redirect(array('referrals'));       
+            }
+            $this->render('exclusive',array('exclusive'=>$exclusive));
+        }
+        
+        
 	   public function actionReferrals(){
 	   		
 		$myID = Yii::app()->user->id;
@@ -1920,12 +2309,19 @@ if(isset($_POST['ActivityProfile'])  || isset($_POST['ResearchProfile']) || isse
 		$referFriend = new ReferFriend;
 		// mail
 		$mail = new Sendmail;
-		
+                //for setting published profile level
+                $basic = BasicProfile::model()->find('user_id=:user_id',array(':user_id'=>$myID));                
 		// Get the number of referals used		
-			$count_referrals_used = ReferFriend::model()->count('user_id=:id',array(':id'=>$myID));
-			
-		
+                $count_referrals_used = ReferFriend::model()->count('user_id=:id',array(':id'=>$myID));
+                 //for setting checking refer friend model by friend_id       
+                $refer = ReferFriend::model()->find('friend_id=:friend_id',array(':friend_id'=>$myID));
+                //for deleting referrals that are "extra"
+                $user = User::model()->find('id=:id',array(':id'=>$myID));	          
+                $myEmail = $user->email;	
+             
 		if(isset($_POST['ReferFriend'])){
+                    if($_POST['ReferFriend'] != NULL){
+                    
 			//foreach($_POST['ReferFriend'] as $form){								
 				$referFriend->attributes = $_POST['ReferFriend'];			
 				$referFriend->user_id = $myID;				
@@ -1949,94 +2345,55 @@ if(isset($_POST['ActivityProfile'])  || isset($_POST['ResearchProfile']) || isse
 							$body = file_get_contents(Yii::app()->params['emailTemplate'].'referFriend.php');				
 							$url= Yii::app()->request->getHostInfo().$this->createUrl("user/createStudent",array('key'=>$key,'id'=>$id));				
 							$body = str_replace('#link#',$url,$body);
-							$mail->send($email,'Friend referral',$body); 
+                                                        $from = Yii::app()->params['friendsEmail'];
+                                                        $fromName = Yii::app()->params['friendsEmailName'];
+                                
+							$mail->send($email,'Friend referral',$body,$from,$fromName); 
 							
 							unset($referFriend);
 							$referFriend = new ReferFriend;	
 							Yii::app()->user->setFlash('referSuccess',"An email has been sent to your listed referrals." );
+                                                       // Yii::app()->user->setFlash('pageid','referral' );
 						}				
 					} 				
 				}
+                                Yii::app()->user->setFlash('pageid','referral' );
 			//}	
-		}	
+		}
+           
+                //set profile publish status so profile is viewable
+                $basic->l1ForSale = 1;
+                $basic->l2ForSale = 1;
+                $basic->l3ForSale = 1;
+                $basic->save(true);
+                $this->formStatus('referrals');	
+
+                //set referral model user profile wizard complete
+               $refer->wizard_complete = 1;
+               $refer->save(true);
+
+               //delete all other entries for same friend_email except the active one
+                $referFriend->model()->deleteAll('friend_email=:friend_email && wizard_complete = 0',array(':friend_email'=>$myEmail));               
+
+                
+                $this->redirect(array('user/indexSeller'));                 
+                }
 		$this->render('_referrals',array(
 					  'referFriend'=>$referFriend,
 					  'count'=>$count_referrals_used				  
 		)); 
 	}
-	
-   
-
-        public function actionVerify()
-        {
-	   		
-            $myID = Yii::app()->user->id;
-            $verifyProfile=VerifyProfile::model()->findByPk($myID);
-                         
-            if($verifyProfile===null){    
-                $verifyProfile=new VerifyProfile;
-            }
-            if(isset($_POST['VerifyProfile'])){
-			
-                $verifyProfile->attributes=$_POST['VerifyProfile'];
-
-                $valid = $verifyProfile->validate()/* && $valid*/;
-                if ($valid){                       
-                    $verifyProfile->save(true);
-                    // Set this Form Completed 
-                    $this->formStatus('verify');
-                    $this->redirect(array('exclusivity',));   
-                }
-
-                    
-            }      
-            $this->render('_verify',array('verifyProfile'=>$verifyProfile));	
-        }	
-
-        public function actionExclusivity()
-        {		
-		
-            $myID = Yii::app()->user->id;
-			
-	$exclusive = Exclusive::model()->find('user_id=:user_id',array(':user_id'=>$myID));			
-			
-			if($exclusive == null){
-	            $exclusive = new Exclusive;
-			}
-			
-			
-            if(isset($_POST['Exclusive'])){
-                $exclusive->attributes = $_POST['Exclusive'];
-                $exclusive->user_id = $myID ;			
-                //print $_POST['Exclusive']['exclusiveValue'];exit;
-                $exclusive->exclusiveValue = $_POST['Exclusive']['exclusiveValue'];
-                // Check whether Check box is checked or Not			
-                $valid = $exclusive->validate();	
-                if ($valid){
-                    $exclusive->save(true);
-
-                    // Set this Form Completed 
-                    $this->formStatus('exclusivity');
-                    $this->redirect(array('referrals'));  
-                }
-            }
-            $this->render('exclusive',array('exclusive'=>$exclusive));
-        }
-
-    public function actionSummary()
-{			
-		$this->formStatus('summary');
-			
-		$this->render('_summary', array(''));
-		
-    }      
-    
+    	
+	public function actionCongratulation(){	
+            
+		$this->render('congratulation');
+	}
     
 /*
 	This is Function For Proress Bar
 */	
 
-	public function progressbar($main='Personal',$sub='basic')
+	public function progressbar($main='Personalinfo',$sub='basic')
 	{	
 		
 		$myID = Yii::app()->user->id;
@@ -2183,7 +2540,7 @@ if(isset($_POST['ActivityProfile'])  || isset($_POST['ResearchProfile']) || isse
         $summaryTab		 = $this->mainTabClassSelector($main,'Summary');
         $finishTab		 = $this->mainTabClassSelector($main,'Finish');
         
-		
+
 	 	
 	  $this->renderPartial('_status',array(
 	  	    'PersonalInfo'=>$PersonalInfo,			
@@ -2273,7 +2630,7 @@ if(isset($_POST['ActivityProfile'])  || isset($_POST['ResearchProfile']) || isse
 			case 1:
 				return  'disabled';break; //return  'done';break;
 			case 2:
-				return 'selected';break;
+				return 'active';break;
 			case 0:
 				return 'disabled';break;			
 			default:	
@@ -2294,9 +2651,17 @@ if(isset($_POST['ActivityProfile'])  || isset($_POST['ResearchProfile']) || isse
 	}
 
   public function mainTabClassSelector($tab,$t){
-  
-  	if($tab == $t) return 'selected';
-  	else return 'btn';		
+ 
+  	if($tab == $t) return 'current';
+  	else if($tab == 'TestScore' && $t == 'Personalinfo') return 'lastDone';
+        else if($tab == 'Academics' && $t == 'TestScore') return 'lastDone';
+        else if($tab == 'EC' && $t == 'Academics') return 'lastDone';
+        else if($tab == 'Essay' && $t == 'EC') return 'lastDone';
+        else if($tab == 'Summary' && $t == 'Essay') return 'lastDone';
+        else if($tab == 'Finish' && $t == 'Summary') return 'lastDone';
+		else if($tab != 'Finish' && $t == 'Finish') return 'last';
+        else    
+        return '';		
   }
   
   /*
@@ -2304,6 +2669,37 @@ if(isset($_POST['ActivityProfile'])  || isset($_POST['ResearchProfile']) || isse
 	if the object is empty , return 0 
   	
   */
- 	
+
+           public function setAdminMenu()
+        {
+            $myTransType = Yii::app()->user->getState('TransType');
+
+            if ($myTransType === 'B'){
+    
+        $this->menu=array(
+                array('label'=>'Account Summary', 'url'=>array('user/BuyerAccountSum')),
+                array('label'=>'Purchased Profiles', 'url'=>array('profile/browseMine')),
+                array('label'=>'Credit Balance', 'url'=>array('user/Credits')),
+                array('label'=>'Settings', 'url'=>array('user/Settings')),                
+                array('label'=>'Order History', 'url'=>array('user/PurchasedDetails')),
+            );
+            }
+        else if ($myTransType === 'S'){ 
+         $this->menu=array(
+                array('label'=>'Account Summary', 'url'=>array('user/indexSeller')),         
+                array('label'=>'Earnings', 'url'=>array('user/Earnings')),
+                array('label'=>'My Profile', 'url'=>array('user/Profile')),
+                array('label'=>'Referrals', 'url'=>array('refer/index')),
+                array('label'=>'Profile Verification', 'url'=>array('user/Validate')),
+                array('label'=>'Consultation', 'url'=>array('user/Consult')),
+                array('label'=>'Settings', 'url'=>array('user/Settings')),
+                
+            );
+            }
+         else{
+         }
+            
+           
+        }
 }
 
