@@ -16,11 +16,16 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+                'application.modules.importcsv.*',
+                 'application.modules.admin.models.*',
+                 'application.modules.admin.components.*',
+                 'application.modules.admin.models.*',
+                 'application.modules.admin.components.*',
 	),
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
-		'wizardBehavior',
+		'admin',
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
 			'password'=>'123459876512345',
@@ -58,7 +63,7 @@ return array(
 		// uncomment the following to use a MySQL database
 		
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=opt_test3',
+			'connectionString' => 'mysql:host=localhost;dbname=searcher_test4',
 			'emulatePrepare' => true,
 			'username' => 'root',
 			'password' => '',
