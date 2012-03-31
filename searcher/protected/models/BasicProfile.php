@@ -53,7 +53,7 @@ class BasicProfile extends ProfileActiveRecord
     public $countryName;
     public $fieldName;
         
-    public $type = array();
+    public $focus = array();
        
     
      public static $HighSchoolTypeArray 
@@ -505,21 +505,21 @@ class BasicProfile extends ProfileActiveRecord
         
         public static function getFocus($data)
 	{      
-            //set type to actual values from 0 / 1
+            //set type to actual values (1-11) from (0,1)
             for($i=1;$i<=11; $i++) {
             $fieldName = 'focus_'.$i;    
             if ($data->$fieldName == 1)                            
-            $data->type[$i] = $i; 
+            $data->focus[$i] = $i; 
             }
             //Return focus type names now that we have array of values
             $count = 1;
             for($i=1;$i<=11; $i++) {               
-                if(!empty($data->type[$i])) {
-                   if ($count < 3) {     
-                        echo BasicProfile::getProfileTypeName($data->type[$i]).", ";
+                if(!empty($data->focus[$i])) {
+                   if ($count < 3) {     //first two return values have comma after
+                        echo BasicProfile::getProfileTypeName($data->focus[$i]).", ";
                         $count++ ; }
-                    else {
-                        echo BasicProfile::getProfileTypeName($data->type[$i]);                        
+                    else {              //last one has no comma
+                        echo BasicProfile::getProfileTypeName($data->focus[$i]);                        
                         } ;
                   }    
             }     

@@ -44,7 +44,7 @@ class FilterProfileSearch extends AbstractProfileSearch
             'type' => 'DropDownList',
         ),
         'profile_type' => array(
-            'type' => 'DropDownList',
+            'type' => 'MultiSelectList',
         ),
         'race_id' => array(
             'type' => 'DropDownList',
@@ -125,7 +125,7 @@ class FilterProfileSearch extends AbstractProfileSearch
             ),
         ),
         'verified' => array(
-            'type' => 'CheckboxList',
+            'type' => 'Checkbox',
         ),
         'consultValue' => array(
             'type' => 'Checkbox',

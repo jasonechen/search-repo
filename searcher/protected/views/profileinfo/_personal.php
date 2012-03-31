@@ -40,7 +40,7 @@ if(@$pname=='login')
                                     $profiletypes = BasicProfile::$ProfileTypeArray;                                 
                                     $this->widget('ext.widgets.EchMultiselect', array(
                                     'model'=>$basicProfile,
-                                    'dropDownAttribute'=>'type',    
+                                    'dropDownAttribute'=>'focus',    
                                     'data'=>$profiletypes, 
                                     'options'=> array(  
                                     	'click'=>'js:function(event, ui){

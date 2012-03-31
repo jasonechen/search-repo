@@ -238,7 +238,7 @@ class ProfileInfoController extends Controller
                         for($i=1;$i<=11; $i++) {
                             $fieldName = 'focus_'.$i;    
                             if ($basicProfile->$fieldName == 1)                            
-                            $basicProfile->type[$i] = $i; 
+                            $basicProfile->focus[$i] = $i; 
                         }
                     }
 				
@@ -268,10 +268,10 @@ class ProfileInfoController extends Controller
                        
                         
                      //   this is for the multi-select widget posting			
-                       if (isset($_POST['BasicProfile']['type'])) { 
+                       if (isset($_POST['BasicProfile']['focus'])) { 
                           for ($i=1;$i<=11; $i++) {
                             $fieldName = 'focus_'.$i;                                                
-                            if( in_array($i,$_POST['BasicProfile']['type']) ) $basicProfile->setAttribute($fieldName, 1);
+                            if( in_array($i,$_POST['BasicProfile']['focus']) ) $basicProfile->setAttribute($fieldName, 1);
                             else $basicProfile->setAttribute($fieldName, 0);                                     
                            }                           
                        }   //set all values to zero if no check box

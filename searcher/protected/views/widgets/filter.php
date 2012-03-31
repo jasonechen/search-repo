@@ -26,12 +26,12 @@
                     <?php echo $form->labelEx($model, 'gender'); ?>
                 </div>
                 <?php
-					echo $form->checkBoxList($model, 'gender', 
-						array(
-                             'M' => 'Male',
-                             'F' => 'Female',
-                        ),
-                        array('separator' => '')
+                    echo $form->checkBoxList($model, 'gender', 
+				array(
+                                     'M' => 'Male',
+                                     'F' => 'Female',
+                                    ),
+                                array('separator' => '')
 					);
                 ?>
             </div>
@@ -65,7 +65,7 @@
                 $profiletypes = BasicProfile::$ProfileTypeArray;                                 
                 $this->widget('ext.widgets.EchMultiselect', array(
                 'model'=>$model,
-                'dropDownAttribute'=>'type',    
+                'dropDownAttribute'=>'focus',    
                 'data'=>$profiletypes, 
                 'options'=> array(  
                       	'click'=>'js:function(event, ui){
