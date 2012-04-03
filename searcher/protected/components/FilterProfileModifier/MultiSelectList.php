@@ -25,10 +25,10 @@ class MultiSelectList extends AbstractModifier
 
             foreach($this->requestArray[$this->requestVariable][$this->key] as $var)
             {
-                $addedCondition .= $this->key . ' = "' . $var .  '" OR ';
+                $addedCondition .= $this->key . '_' . $var . ' = 1 AND ';
             }
 
-            $addedCondition = substr($addedCondition, 0, -3);
+            $addedCondition = substr($addedCondition, 0, -4);
 
             if(!empty($this->object->criteria->condition))
             {

@@ -64,66 +64,88 @@ class BasicProfile extends ProfileActiveRecord
                     'CHR'=>'Charter',
                     'OTH'=>'Other');
 
-     public static $SATRanges =
-         array(
-             0 => '600',
-             1 => '1200',
-             2 => '1500',
-             3 => '1800',
-             4 => '2100',
-             5 => '2400',
-         );
+    public static $SATRanges =
+        array(
+            0 => '600',
+            1 => '1200',
+            2 => '1500',
+            3 => '1800',
+            4 => '2100',
+            5 => '2400',
+        );
 
-        public static $SATRangeArray 
-          = array("NA","2110 to 2400","1810 to 2100","1510 to 1800",
-              "1210 to 1500","910 to 1200","600 to 900");      
-        
-        public static $ProfileTypeArray
-          = array(
-                 1=>'Academics',
-                 2=>'Arts & Drama',
-                 3=>'Club Leader',
-                 4=>'Competitions',              
-                 5=>'Job/Work',
-                 6=>'Literary/Writing',
-                 7=>'Music',
-                 8=>'Sports',
-                 9=>'Volunteer',
-                 10=>'Well Rounded',              
-                 11=>'Other',
-               );
+    public static $SATRangeArray
+        = array(
+            "NA", "2110 to 2400", "1810 to 2100", "1510 to 1800",
+            "1210 to 1500", "910 to 1200", "600 to 900"
+        );
 
-        
-        public static $GenderArray
-          = array(
-                 'M'=>'Male',
-                 'F'=>'Female',
-              );
-        
-        public static $EarlyRegularArray 
-            = array (0=>'Early Admissions',
-                    1=>'Regular Admissions',
-                );
-        
-        public static function getGender($indexVal)
-	{
-            return (  array_key_exists($indexVal, BasicProfile::$GenderArray) ? BasicProfile::$GenderArray[$indexVal]: 'NA');
-	}     
-        
-        public static function getEarlyRegular($indexVal)
-	{
-            return (  array_key_exists($indexVal, BasicProfile::$EarlyRegularArray) ? BasicProfile::$EarlyRegularArray[$indexVal]: 'NA');
-	}     
-        
-        
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    public static $ProfileTypeArray
+        = array(
+            1 => 'Academics',
+            2 => 'Arts & Drama',
+            3 => 'Club Leader',
+            4 => 'Competitions',
+            5 => 'Job/Work',
+            6 => 'Literary/Writing',
+            7 => 'Music',
+            8 => 'Sports',
+            9 => 'Volunteer',
+            10=> 'Well Rounded',
+            11=> 'Other',
+        );
+
+
+    public static $GenderArray
+        = array(
+            'M'=> 'Male',
+            'F'=> 'Female',
+        );
+
+    public static $EarlyRegularArray
+        = array(
+            0=> 'Early Admissions',
+            1=> 'Regular Admissions',
+        );
+
+    /**
+     * @static
+     * @param $indexVal
+     * @return string
+     */
+
+    public static function getGender($indexVal)
+    {
+        return (array_key_exists($indexVal, BasicProfile::$GenderArray) ? BasicProfile::$GenderArray[$indexVal] : 'NA');
+    }
+
+    /**
+     * @static
+     * @param $indexVal
+     * @return string
+     */
+
+    public static function getEarlyRegular($indexVal)
+    {
+        return (array_key_exists($indexVal, BasicProfile::$EarlyRegularArray) ?
+            BasicProfile::$EarlyRegularArray[$indexVal] : 'NA');
+    }
+
+    /**
+     * @static
+     * @param string $className
+     * @return CActiveRecord
+     */
+
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
 	/**
 	 * @return string the associated database table name
 	 */
+
 	public function tableName()
 	{
 		return 'tbl_basic_profile';
@@ -156,109 +178,115 @@ class BasicProfile extends ProfileActiveRecord
 		);
 	}
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-                    'race' => array(self::BELONGS_TO, 'RaceType', 'race_id'),
-                    'user' => array(self::BELONGS_TO, 'User', 'user_id'),
-                    'firstUniversity' => array(self::BELONGS_TO, 'UniversityName', 'first_university_id'),
-                    'currUniversity' => array(self::BELONGS_TO, 'UniversityName', 'curr_university_id'),
-                    'hsName' => array(self::BELONGS_TO, 'HighSchoolName', 'highschool_id'),
-                    'purchasedProfile' => array(self::HAS_MANY, 'MapProfileStudent', '',
-                    //                                    'params'=>array(":userID"=>Yii::app()->user->id),
-                    //                                    'params'=>array(":userID"=>"$userID"),
-                        'joinType'=>'INNER JOIN',
-                        'on'=>'t.user_id=purchased_profile_id'),
-                    'ratings' => array(self::HAS_MANY, 'Rating', 'user_id', 'order' => 'create_time DESC'),
-                    'averageRating' => array(self::STAT, 'Rating', 'user_id', 'select' => 'AVG(rating)'),
-                    'scoreProfile' => array(self::HAS_ONE, 'ScoreProfile', 'user_id'),
-                    'consult' => array(self::HAS_ONE, 'Consult', 'user_id'),
-                    );
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'race'             => array(self::BELONGS_TO, 'RaceType', 'race_id'),
+            'user'             => array(self::BELONGS_TO, 'User', 'user_id'),
+            'firstUniversity'  => array(self::BELONGS_TO, 'UniversityName', 'first_university_id'),
+            'currUniversity'   => array(self::BELONGS_TO, 'UniversityName', 'curr_university_id'),
+            'hsName'           => array(self::BELONGS_TO, 'HighSchoolName', 'highschool_id'),
+            'purchasedProfile' => array(
+                self::HAS_MANY, 'MapProfileStudent', '',
+                //                                    'params'=>array(":userID"=>Yii::app()->user->id),
+                //                                    'params'=>array(":userID"=>"$userID"),
+                'joinType'=> 'INNER JOIN',
+                'on'      => 't.user_id=purchased_profile_id'
+            ),
+            'ratings'          => array(
+                self::HAS_MANY, 'Rating', 'user_id',
+                'order' => 'create_time DESC'
+            ),
+            'averageRating'    => array(
+                self::STAT, 'Rating', 'user_id',
+                'select' => 'AVG(rating)'
+            ),
+            'scoreProfile'     => array(self::HAS_ONE, 'ScoreProfile', 'user_id'),
+            'consult'          => array(self::HAS_ONE, 'Consult', 'user_id'),
+        );
+    }
 
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
 	public function attributeLabels()
 	{
-		return array(
-			'user_id' => 'User',
-			'first_university_id' => 'First University',
-			'curr_university_id' => 'Curr University',
-			'isTransfer' => 'Is Transfer',
-			'gender' => 'Sex',
-                        'highschool_id' => 'High School',
-			'highSchoolType' => 'High School Type',
-			'race_id' => 'Race',
-			'sat_I_score_range' => 'Sat I Score Range',
-			'num_scores' => 'Num Scores',
-			'num_aps' => 'Num Aps',
-			'num_sat2s' => 'Num Sat2s',
-			'num_competitions' => 'Num Competitions',
-			'num_sports' => 'Num Sports',
-			'num_academics' => 'Num Academics',
-			'num_extracurriculars' => 'Num Extracurriculars',
-			'num_essays' => 'Num Essays',
-			'avg_profile_rating' => 'Avg Profile Rating',
-			'l1ForSale' => 'L1 For Sale',
-			'l2ForSale' => 'L2 For Sale',
-			'l3ForSale' => 'L3 For Sale',
-			'musical_instrument_id' => 'Musical Instrument',
-			'profile_type' => 'Focus Areas',
-			'create_time' => 'Create Time',
-			'create_user_id' => 'Create User',
-			'update_time' => 'Update Time',
-			'update_user_id' => 'Update User',
-			'stateName' => 'Home State',
-			'verified' => 'Verified',
-                    
-                    
-		);
+        return array(
+            'user_id'               => 'User',
+            'first_university_id'   => 'First University',
+            'curr_university_id'    => 'Curr University',
+            'isTransfer'            => 'Is Transfer',
+            'gender'                => 'Sex',
+            'highschool_id'         => 'High School',
+            'highSchoolType'        => 'High School Type',
+            'race_id'               => 'Race',
+            'sat_I_score_range'     => 'Sat I Score Range',
+            'num_scores'            => 'Num Scores',
+            'num_aps'               => 'Num Aps',
+            'num_sat2s'             => 'Num Sat2s',
+            'num_competitions'      => 'Num Competitions',
+            'num_sports'            => 'Num Sports',
+            'num_academics'         => 'Num Academics',
+            'num_extracurriculars'  => 'Num Extracurriculars',
+            'num_essays'            => 'Num Essays',
+            'avg_profile_rating'    => 'Avg Profile Rating',
+            'l1ForSale'             => 'L1 For Sale',
+            'l2ForSale'             => 'L2 For Sale',
+            'l3ForSale'             => 'L3 For Sale',
+            'musical_instrument_id' => 'Musical Instrument',
+            'profile_type'          => 'Focus Areas',
+            'create_time'           => 'Create Time',
+            'create_user_id'        => 'Create User',
+            'update_time'           => 'Update Time',
+            'update_user_id'        => 'Update User',
+            'stateName'             => 'Home State',
+            'verified'              => 'Verified',
+        );
 	}
 
-        public function initialize($inID)
-        {
-                $this->user_id = $inID;
-                $this->first_university_id = 0;
-                $this->curr_university_id = 0;
-                $this->highschool_id = 0;
-                $this->num_academics = 0;
-                $this->num_extracurriculars = 0;
-                $this->num_sports = 0;
-                $this->num_competitions = 0;
-                $this->num_essays = 0;
-                $this->num_scores = 0;
-                $this->num_aps = 0;
-                $this->num_sat2s = 0;
-                $this->num_subjects = 0;
-                $this->num_competitions = 0;
-                $this->num_awards = 0;
-                $this->num_activities = 0;
-                $this->num_music = 0;
-                $this->num_volunteer = 0;
-                $this->num_work = 0;
-                $this->num_research = 0;
-                $this->num_summer = 0;
-                $this->num_other = 0;
-                $this->l1ForSale = 0;
-                $this->l2ForSale = 0;
-                $this->l3ForSale = 0;
-                $this->verified = 'N';
-            
-        }
-        
-        public function getProfileData()
-        {
-                $criteria=new CDbCriteria;
-        	return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-        }
+    public function initialize($inID)
+    {
+        $this->user_id              = $inID;
+        $this->first_university_id  = 0;
+        $this->curr_university_id   = 0;
+        $this->highschool_id        = 0;
+        $this->num_academics        = 0;
+        $this->num_extracurriculars = 0;
+        $this->num_sports           = 0;
+        $this->num_competitions     = 0;
+        $this->num_essays           = 0;
+        $this->num_scores           = 0;
+        $this->num_aps              = 0;
+        $this->num_sat2s            = 0;
+        $this->num_subjects         = 0;
+        $this->num_competitions     = 0;
+        $this->num_awards           = 0;
+        $this->num_activities       = 0;
+        $this->num_music            = 0;
+        $this->num_volunteer        = 0;
+        $this->num_work             = 0;
+        $this->num_research         = 0;
+        $this->num_summer           = 0;
+        $this->num_other            = 0;
+        $this->l1ForSale            = 0;
+        $this->l2ForSale            = 0;
+        $this->l3ForSale            = 0;
+        $this->verified             = 'N';
+
+    }
+
+    public function getProfileData()
+    {
+        $criteria = new CDbCriteria;
+        return new CActiveDataProvider($this, array(
+                                                   'criteria'=> $criteria,
+                                              ));
+    }
         
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -269,12 +297,13 @@ class BasicProfile extends ProfileActiveRecord
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria=new CDbCriteria;
-                $tempUserID = -999;
-                if (!Yii::app()->user->getIsGuest()){
-                    $tempUserID = Yii::app()->user->id;
-                }
-               $criteria->params = array(":userID"=>$tempUserID);
+        $criteria   = new CDbCriteria;
+        $tempUserID = -999;
+        if(!Yii::app()->user->getIsGuest())
+        {
+            $tempUserID = Yii::app()->user->id;
+        }
+        $criteria->params = array(":userID"=> $tempUserID);
 //		$criteria->compare('user_id',$this->user_id,true);
 //                $criteria->compare('update_user_id',$this->update_user_id,true);
 //		$criteria->compare('first_university_id',$this->first_university_id);
@@ -296,30 +325,32 @@ class BasicProfile extends ProfileActiveRecord
 //		$criteria->compare('profile_type',$this->profile_type);
 //	        $criteria->with = array('firstUniversity');
 //	        
-		$criteria->compare('user_id',$this->user_id,true);
-		$criteria->compare('sat_I_score_range',$this->sat_I_score_range);
-		$criteria->compare('num_scores',$this->num_scores);
-		$criteria->compare('num_academics',$this->num_academics);
-		$criteria->compare('num_extracurriculars',$this->num_extracurriculars);
-		$criteria->compare('num_essays',$this->num_essays);
-		$criteria->compare('avg_profile_rating',$this->avg_profile_rating);
-		$criteria->compare('l1ForSale',$this->l1ForSale);
-		$criteria->compare('l2ForSale',$this->l2ForSale);
-		$criteria->compare('l3ForSale',$this->l3ForSale);
-		$criteria->compare('verified',$this->verified);
-		$criteria->compare('musical_instrument_id',$this->musical_instrument_id,true);
-		$criteria->compare('profile_type',$this->profile_type);
-                $criteria->compare('name',$this->firstUniversity,true);
-                $criteria->compare('name',$this->hsName,true);
-		$criteria->compare('name',$this->race,true);
-	        $criteria->with = array('firstUniversity');
-                $criteria->with = array('hsName');
- 	        $criteria->with = array('race');               
-               	$criteria->compare('gender',$this->gender,true);
-                $criteria->condition = "(l1ForSale = 1 or l2ForSale=1 or l3ForSale=1) and (user_id!=:userID)";
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+        $criteria->compare('user_id', $this->user_id, true);
+        $criteria->compare('sat_I_score_range', $this->sat_I_score_range);
+        $criteria->compare('num_scores', $this->num_scores);
+        $criteria->compare('num_academics', $this->num_academics);
+        $criteria->compare('num_extracurriculars', $this->num_extracurriculars);
+        $criteria->compare('num_essays', $this->num_essays);
+        $criteria->compare('avg_profile_rating', $this->avg_profile_rating);
+        $criteria->compare('l1ForSale', $this->l1ForSale);
+        $criteria->compare('l2ForSale', $this->l2ForSale);
+        $criteria->compare('l3ForSale', $this->l3ForSale);
+        $criteria->compare('verified', $this->verified);
+        $criteria->compare('musical_instrument_id', $this->musical_instrument_id, true);
+        $criteria->compare('profile_type', $this->profile_type);
+        $criteria->compare('name', $this->firstUniversity, true);
+        $criteria->compare('name', $this->hsName, true);
+        $criteria->compare('name', $this->race, true);
+        $criteria->with = array('firstUniversity');
+        $criteria->with = array('hsName');
+        $criteria->with = array('race');
+        $criteria->compare('gender', $this->gender, true);
+        $criteria->condition = "(l1ForSale = 1 or l2ForSale=1 or l3ForSale=1) and (user_id!=:userID)";
+        return new CActiveDataProvider($this,
+            array(
+                 'criteria'=> $criteria,
+            )
+        );
 	}
         
 	public function searchMine()
@@ -327,26 +358,26 @@ class BasicProfile extends ProfileActiveRecord
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 //                $userID = Yii::app()->user->id;
-		$criteria = new CDbCriteria;
-        $criteria->params = array(":userID" => Yii::app()->user->id);
+        $criteria           = new CDbCriteria;
+        $criteria->params   = array(":userID" => Yii::app()->user->id);
         $criteria->together = true;
-//	        
-		$criteria->compare('user_id', $this->user_id, true);
-		$criteria->compare('sat_I_score_range', $this->sat_I_score_range);
-		$criteria->compare('num_scores', $this->num_scores);
-		$criteria->compare('num_academics', $this->num_academics);
-		$criteria->compare('num_extracurriculars', $this->num_extracurriculars);
-		$criteria->compare('num_essays', $this->num_essays);
-		$criteria->compare('avg_profile_rating', $this->avg_profile_rating);
-		$criteria->compare('l1ForSale', $this->l1ForSale);
-		$criteria->compare('l2ForSale', $this->l2ForSale);
-		$criteria->compare('l3ForSale', $this->l3ForSale);
-		$criteria->compare('verified', $this->verified);
-		$criteria->compare('musical_instrument_id', $this->musical_instrument_id, true);
-		$criteria->compare('profile_type', $this->profile_type);
+        //
+        $criteria->compare('user_id', $this->user_id, true);
+        $criteria->compare('sat_I_score_range', $this->sat_I_score_range);
+        $criteria->compare('num_scores', $this->num_scores);
+        $criteria->compare('num_academics', $this->num_academics);
+        $criteria->compare('num_extracurriculars', $this->num_extracurriculars);
+        $criteria->compare('num_essays', $this->num_essays);
+        $criteria->compare('avg_profile_rating', $this->avg_profile_rating);
+        $criteria->compare('l1ForSale', $this->l1ForSale);
+        $criteria->compare('l2ForSale', $this->l2ForSale);
+        $criteria->compare('l3ForSale', $this->l3ForSale);
+        $criteria->compare('verified', $this->verified);
+        $criteria->compare('musical_instrument_id', $this->musical_instrument_id, true);
+        $criteria->compare('profile_type', $this->profile_type);
         $criteria->compare('name', $this->firstUniversity, true);
         $criteria->compare('name', $this->hsName, true);
-		$criteria->compare('name', $this->race, true);
+        $criteria->compare('name', $this->race, true);
         $criteria->compare('gender', $this->gender, true);
         $criteria->condition = "purchasedProfile.user_id=:userID AND purchasedProfile.purchased_profile_id!=:userID";
 
@@ -419,170 +450,219 @@ class BasicProfile extends ProfileActiveRecord
 
         return false;
     }
-        
-        public function getUniversityOptions() 
-        { 
-             $universityArray = CHtml::listData(UniversityName::model()->findAll(), 'id', 'name');
-             return $universityArray;
+
+    /**
+     * @return array
+     */
+
+    public function getUniversityOptions()
+    {
+        $universityArray = CHtml::listData(UniversityName::model()->findAll(), 'id', 'name');
+        return $universityArray;
 
 
-        }
-        
-        public function getFirstUniversityName()
+    }
+
+    /**
+     * @return string
+     */
+
+    public function getFirstUniversityName()
+    {
+        return (empty($this->first_university_id) ? "" : $this->firstUniversity->name);
+    }
+
+    /**
+     * @return string
+     */
+
+    public function getCurrUniversityName()
+    {
+        return (empty($this->curr_university_id) ? "" : $this->currUniversity->name);
+    }
+
+    /**
+     * @return string
+     */
+
+    public function getHighSchoolName()
+    {
+        return (empty($this->highschool_id) ? "" : $this->hsName->name);
+    }
+
+    public function getNameUniversityOptions()
+    {
+        $universityArray = CHtml::listData(UniversityName::model()->findAll(), 'name', 'name');
+        return $universityArray;
+    }
+
+    public function getRaceOptions()
+    {
+        $raceArray = CHtml::listData(RaceType::model()->findAll(), 'id', 'name');
+        return $raceArray;
+
+
+    }
+
+    public function getNameRaceOptions()
+    {
+        $raceArray = CHtml::listData(RaceType::model()->findAll(), 'name', 'name');
+        return $raceArray;
+    }
+
+    public static function getSATIndex($scoreVal)
+    {
+        if($scoreVal > 2100)
         {
-            return (empty($this->first_university_id) ? "" : $this->firstUniversity->name);
+            $value = 1;
         }
-        
-        public function getCurrUniversityName()
+        else if($scoreVal > 1800)
         {
-            return (empty($this->curr_university_id) ? "" : $this->currUniversity->name);
+            $value = 2;
         }
-        
-        public function getHighSchoolName()
+        else if($scoreVal > 1500)
         {
-            return (empty($this->highschool_id) ? "" : $this->hsName->name);
+            $value = 3;
+        }
+        else if($scoreVal > 1200)
+        {
+            $value = 4;
         }
 
-        public function getNameUniversityOptions()
+        else if($scoreVal > 600)
         {
-            $universityArray = CHtml::listData(UniversityName::model()->findAll(), 'name', 'name');
-            return $universityArray;
-        }
-        
-        public function getRaceOptions()
-        {
-             $raceArray = CHtml::listData(RaceType::model()->findAll(), 'id', 'name');
-             return $raceArray;
-
-
+            $value = 5;
         }
 
-        public function getNameRaceOptions()
-        {
-            $raceArray = CHtml::listData(RaceType::model()->findAll(), 'name', 'name');
-            return $raceArray;
+        else {
+            $value = 0;
         }
-        
-        public static function getSATIndex($scoreVal)
-	{
-            if ($scoreVal > 2100) {
-                $value = 1;
-            }
-            else if ($scoreVal > 1800) {
-                $value = 2;
-            }
-            else if ($scoreVal > 1500) {
-                $value = 3;
-            }
-            else if ($scoreVal > 1200) {
-                $value = 4;
-            }
-            
-            else if ($scoreVal > 600) {
-                $value = 5;
-            }
-            
-            else $value = 0;
-            return $value;
-	}
-        
-        public static function getSATRange($indexVal)
-	{
-            if ($indexVal === null ){
-                $indexVal = 0;
-            }
-            return BasicProfile::$SATRangeArray[$indexVal];
-	}
-        
-        public static function getProfileTypeName($indexVal)
-	{
-            if(isset(BasicProfile::$ProfileTypeArray[$indexVal]))
+        return $value;
+    }
+
+    public static function getSATRange($indexVal)
+    {
+        if($indexVal === null)
+        {
+            $indexVal = 0;
+        }
+        return BasicProfile::$SATRangeArray[$indexVal];
+    }
+
+    public static function getProfileTypeName($indexVal)
+    {
+        if(isset(BasicProfile::$ProfileTypeArray[$indexVal]))
+        {
+            return BasicProfile::$ProfileTypeArray[$indexVal];
+        }
+        return 'N/A';
+    }
+
+    public static function getFocus($data)
+    {
+        //set type to actual values (1-11) from (0,1)
+        for($i = 1; $i <= 11; $i++)
+        {
+            $fieldName = 'focus_' . $i;
+            if($data->$fieldName == 1)
             {
-                return BasicProfile::$ProfileTypeArray[$indexVal];
+                $data->focus[$i] = $i;
             }
-            return 'N/A';
         }
-        
-        public static function getFocus($data)
-	{      
-            //set type to actual values (1-11) from (0,1)
-            for($i=1;$i<=11; $i++) {
-            $fieldName = 'focus_'.$i;    
-            if ($data->$fieldName == 1)                            
-            $data->focus[$i] = $i; 
-            }
-            //Return focus type names now that we have array of values
-            $count = 1;
-            for($i=1;$i<=11; $i++) {               
-                if(!empty($data->focus[$i])) {
-                   if ($count < 3) {     //first two return values have comma after
-                        echo BasicProfile::getProfileTypeName($data->focus[$i]).", ";
-                        $count++ ; }
-                    else {              //last one has no comma
-                        echo BasicProfile::getProfileTypeName($data->focus[$i]);                        
-                        } ;
-                  }    
-            }     
-	}
-        
-        public static function getStateName($data)
+        //Return focus type names now that we have array of values
+        $count = 1;
+        for($i = 1; $i <= 11; $i++)
         {
-            if(!empty($data->user->personalProfile->state)){
-                $stateId = $data->user->personalProfile->state;
-                return States::model()->findByPk($stateId)->name;
-            }
-            return 'N/A';
-        }
-
-        public static function getCountryName($data)
-        {
-            if(!empty($data->user->personalProfile->country_reside))
+            if(!empty($data->focus[$i]))
             {
-                $countryId = $data->user->personalProfile->country_reside;
-                return CitizenType::model()->findByPk($countryId)->name;
+                if($count < 3)
+                { //first two return values have comma after
+                    echo BasicProfile::getProfileTypeName($data->focus[$i]) . ", ";
+                    $count++;
+                }
+                else
+                { //last one has no comma
+                    echo BasicProfile::getProfileTypeName($data->focus[$i]);
+                }
+                ;
             }
-            return 'N/A';
         }
-        
-        public function checkBuyer($buyer_id,$mpStudent){
-            if ($mpStudent === null){
-                $buyerStatusArray = array('l1'=>$this->l1ForSale,'l2'=>$this->l2ForSale,'l3'=>$this->l3ForSale, 
-                    'l4'=>$this->l4ForSale,
-                    'owner'=>0);
-                // Need to make sure that seller has ownership of all of these.
-            }
-            else{
-                $buyerStatusArray = array();
-                if ($mpStudent->l1_purchased){
-                    $buyerStatusArray['l1'] = 2;
-                }
-                else{
-                    $buyerStatusArray['l1'] = $this->l1ForSale;
-                }
-                if ($mpStudent->l2_purchased){
-                    $buyerStatusArray['l2'] = 2;
-                }
-                else{
-                    $buyerStatusArray['l2'] = $this->l2ForSale;
-                }
-                if ($mpStudent->l3_purchased){
-                    $buyerStatusArray['l3'] = 2;
-                }
-                else{
-                    $buyerStatusArray['l3'] = $this->l3ForSale;
-                }
-                if ($mpStudent->l4_purchased){
-                    $buyerStatusArray['l4'] = 2;
-                }
-                else{
-                    $buyerStatusArray['l4'] = $this->l4ForSale;
-                }                
-                
-                $buyerStatusArray['owner'] = $mpStudent->isOwner;
-            }
-            return $buyerStatusArray;
-            
+    }
+
+    public static function getStateName($data)
+    {
+        if(!empty($data->user->personalProfile->state))
+        {
+            $stateId = $data->user->personalProfile->state;
+            return States::model()->findByPk($stateId)->name;
         }
+        return 'N/A';
+    }
+
+    public static function getCountryName($data)
+    {
+        if(!empty($data->user->personalProfile->country_reside))
+        {
+            $countryId = $data->user->personalProfile->country_reside;
+            return CitizenType::model()->findByPk($countryId)->name;
+        }
+        return 'N/A';
+    }
+
+    public function checkBuyer($buyer_id, $mpStudent)
+    {
+        if($mpStudent === null)
+        {
+            $buyerStatusArray = array(
+                'l1'   => $this->l1ForSale,
+                'l2'   => $this->l2ForSale,
+                'l3'   => $this->l3ForSale,
+                'l4'   => $this->l4ForSale,
+                'owner'=> 0
+            );
+            // Need to make sure that seller has ownership of all of these.
+        }
+        else
+        {
+            $buyerStatusArray = array();
+            if($mpStudent->l1_purchased)
+            {
+                $buyerStatusArray['l1'] = 2;
+            }
+            else
+            {
+                $buyerStatusArray['l1'] = $this->l1ForSale;
+            }
+            if($mpStudent->l2_purchased)
+            {
+                $buyerStatusArray['l2'] = 2;
+            }
+            else
+            {
+                $buyerStatusArray['l2'] = $this->l2ForSale;
+            }
+            if($mpStudent->l3_purchased)
+            {
+                $buyerStatusArray['l3'] = 2;
+            }
+            else
+            {
+                $buyerStatusArray['l3'] = $this->l3ForSale;
+            }
+            if($mpStudent->l4_purchased)
+            {
+                $buyerStatusArray['l4'] = 2;
+            }
+            else
+            {
+                $buyerStatusArray['l4'] = $this->l4ForSale;
+            }
+
+            $buyerStatusArray['owner'] = $mpStudent->isOwner;
+        }
+        return $buyerStatusArray;
+
+    }
         
 
 /**

@@ -269,12 +269,18 @@ class SearchController extends Controller
         }
 
         /**
-         * Filter by Profile Type if defined
+         * Filter by Focus if defined
          */
 
-        if(!empty($_SESSION['FilterForm']['profile_type']))
+        if(!empty($_SESSION['FilterForm']['focus']))
         {
-            $criteriaText .= ' AND ' . BasicProfile::$ProfileTypeArray[$_SESSION['FilterForm']['profile_type']] . ' ';
+            foreach(BasicProfile::$ProfileTypeArray as $key => $type)
+            {
+                if(array_search($key, $_SESSION['FilterForm']['focus']) !== FALSE)
+                {
+                    $criteriaText .= ' AND ' . BasicProfile::$ProfileTypeArray[$key] . ' ';
+                }
+            }
         }
 
         /**

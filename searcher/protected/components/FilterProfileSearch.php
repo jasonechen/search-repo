@@ -43,7 +43,7 @@ class FilterProfileSearch extends AbstractProfileSearch
         'states.id' => array(
             'type' => 'DropDownList',
         ),
-        'profile_type' => array(
+        'focus' => array(
             'type' => 'MultiSelectList',
         ),
         'race_id' => array(

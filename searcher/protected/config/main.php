@@ -65,7 +65,7 @@ return array(
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=searcher_test4',
 			'emulatePrepare' => true,
-			'username' => 'root',
+			'username' => 'egor',
 			'password' => '',
 			'charset' => 'utf8',
 		),

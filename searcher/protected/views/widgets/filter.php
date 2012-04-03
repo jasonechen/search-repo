@@ -60,26 +60,29 @@
 
             <div class="row">
                 <?php echo $form->labelEx($model, 'profile_type', array('label'=>'Profile Focus Areas')); ?>
-                
-            <?php
-                $profiletypes = BasicProfile::$ProfileTypeArray;                                 
-                $this->widget('ext.widgets.EchMultiselect', array(
-                'model'=>$model,
-                'dropDownAttribute'=>'focus',    
-                'data'=>$profiletypes, 
-                'options'=> array(  
-                      	'click'=>'js:function(event, ui){
-		       	 if( $(this).multiselect("widget").find("input:checked").length > 3 ){		                                         
-		              return false;
-		                    }
-		             }',   
-                        'header'=> false,
-                        'minWidth'=>175,
-                        'height'=>260,
-                        'noneSelectedText'=>'-- ' . Yii::t('application','Select') . ' --',
-                 )                    
-                
-                )); ?>
+
+                <?php
+                $profiletypes = BasicProfile::$ProfileTypeArray;
+                $this->widget('ext.widgets.EchMultiselect',
+                    array(
+                         'model'             => $model,
+                         'dropDownAttribute' => 'focus',
+                         'data'              => $profiletypes,
+                         'options'           =>
+                         array(
+                             'click' => 'js:function(event, ui) {
+		       	                if( $(this).multiselect("widget").find("input:checked").length > 3 ){
+		                            return false;
+		                        }
+		                 }',
+                             'header'           => false,
+                             'minWidth'         => 175,
+                             'height'           => 260,
+                             'noneSelectedText' => '-- ' . Yii::t('application', 'Select') . ' --',
+                         )
+
+                    )
+                ); ?>
             </div>
 
             <div class="row">
