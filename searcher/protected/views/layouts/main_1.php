@@ -68,15 +68,16 @@
 			<div class="span-19 last">
                  <?php $this->beginWidget('zii.widgets.CPortlet'); ?>
 
-                                    <?php
-
+                                   <?php
+                                        $sSession = AbstractProfileSearch::restoreSearchSession();
                                         $search_q = '';
                                         if(isset($_SESSION['search_q']))
                                         {
                                             $search_q = strip_tags($_SESSION['search_q']);
                                         }
-                                        $this->renderPartial('//widgets/search-form', array(
-                                                                                           'search_q' => $search_q
+                                        $this->renderPartial('//widgets/search-form', 
+                                                array(
+                                                     'search_q' => $sSession['search_q']
                                                                                       )
                                         );
 

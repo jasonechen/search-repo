@@ -34,6 +34,7 @@ class FilterProfileSearch extends AbstractProfileSearch
      */
 
     public $modificationOfCriteriaAccordingToValuesFromFilterForm = array(
+
         'gender' => array(
             'type' => 'CheckboxList',
         ),
@@ -149,9 +150,9 @@ class FilterProfileSearch extends AbstractProfileSearch
 //                'defaultMaxValue' => 3,
 //            ),
 //        ),
-   //     'first_university_id' => array(
-     //       'type' => 'HiddenField',
-      //  ),
+        'first_university_id' => array(
+            'type' => 'hiddenField',
+        ),
 //        'hasPets' => array(
 //            'type' => 'Checkbox',
 //        ),

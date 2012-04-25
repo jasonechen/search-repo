@@ -30,14 +30,14 @@ abstract class AbstractProfileSearch
     */
 
 	public $fieldsThatAreSearchable = array(
-        't.user_id' => array(     // this is because we are using eager loading in relationship queries (main table has pseudonym of 't')
-            'type' => 'simple',
-            'order' => 'firstUniversity.name, states.name ASC',
-        ),
-        'nickname' => array(
-            'type' => 'simple',
+  //      't.user_id' => array(     // this is because we are using eager loading in relationship queries (main table has pseudonym of 't')
+  //          'type' => 'simple',
+  //          'order' => 'firstUniversity.name, states.name ASC',
+  //      ),
+    //    'nickname' => array(
+      //      'type' => 'simple',
             //'order' => 'nickname ASC',
-       ),
+      //  ),
 //        'username',
 //        'FirstName',
 //        'LastName',
@@ -56,12 +56,12 @@ abstract class AbstractProfileSearch
             //'order' => 'nickname ASC',
         //),
             
- //       'state' => array(
- //           'type' => 'relationship',
- //           'field' => 'state',
- //          'throughModel' => 'States',
-   //         'throughAttribute' => 'name',
- //       ),
+  //      'state' => array(
+  //          'type' => 'relationship',
+  //          'field' => 'state',
+  //          'throughModel' => 'States',
+  //          'throughAttribute' => 'name',
+  //      ),
 //        'ethnicity' => array(
   //          'type' => 'relationship',
     //        'field' => 'ethnic_origin',
@@ -334,61 +334,25 @@ abstract class AbstractProfileSearch
      * @static
      * @return array
      */
-
-    public static function restoreSearchSession()
+public static function restoreSearchSession()
     {
         $result = array();
 
-        $id = '';
-        $name = '';
+        $search_q = '';
+        
 
-        if(Yii::app()->controller->id !== 'search' && Yii::app()->controller->id !== 'rating')
+        if(Yii::app()->controller->id != 'search' && Yii::app()->controller->id != 'rating')
         {
             Controller::clearSearchPersistance();
-
-            $result['id'] = 0;
-            $result['name'] = '';
-
-            return $result;
+            return null;
         }
 
-        if(isset($_SESSION['search_first_university_id']))
-        {
-            $id = $_SESSION['search_first_university_id'];
-            $model = UniversityName::model()->findByPk($id);
-
-            if(!empty($model))
-            {
-                $name = $model->name;
-            }
-            else
-            {
-                $id = '';
-                $name = '';
-            }
-        }
-
-        if(isset($_SESSION['search_first_university_name']))
-        {
-            $name = $_SESSION['search_first_university_name'];
-            $model = UniversityName::model()->findByAttributes(array('name' => $name));
-
-            if(!empty($model))
-            {
-                $id = $model->id;
-            }
-            else
-            {
-                $id = '';
-                $name = '';
-            }
-        }
-
-        $result['id'] = $id;
-        $result['name'] = $name;
+        $result['search_q'] = $search_q;
+        
 
         return $result;
     }
+    
 
     /**
      * @return void

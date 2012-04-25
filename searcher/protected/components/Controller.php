@@ -90,6 +90,7 @@ class Controller extends CController
     public static function clearSearchPersistance()
     {
         $_SESSION['search_q'] = '';
+        $_GET['search_q'] = '';
         //$_SESSION['search_first_university_id'] = 0;
         $_GET['FilterForm'] = array();
         $_SESSION['FilterForm'] = array();
@@ -106,14 +107,16 @@ class Controller extends CController
 			        		'items'=> array(
 			        			array('label'=>'Summary', 'url'=>array('user/BuyerAccountSum')),
 			        			array('label'=>'Credit Balance', 'url'=>array('user/Credits')),	
-                                                        array('label'=>'Order History', 'url'=>array('user/PurchasedDetails')),                                                    
+                                                        array('label'=>'Order History', 'url'=>array('user/PurchasedDetails')),
+                                                                              
 			        		),
 			        		'itemOptions'=> array('class'=>'menu')
 			        	),
 			        	array('label'=>'Profiles', 'url'=>'#',
 			        		'items'=> array(
 			        			array('label'=>'Purchased Profiles', 'url'=>array('profile/browseMine')),
-			        		),
+                                                        array('label' => 'Consultations', 'url'=> array('user/consultations')),
+                                                    ),
 			        		'itemOptions'=> array('class'=>'menu')
 			        	),
 			        	array('label'=>'Other', 'url'=>'#',
@@ -163,7 +166,8 @@ class Controller extends CController
 	                	'items'=> array(                
 	                		array('label'=>'Learn More', 'url'=>array('site/page', 'view'=>'learn_more_applicants')),
                                         array('label'=>'How It Works', 'url'=>array('site/page', 'view'=>'howworks_applicants')),
-                                        array('label'=>'Vs. Competition', 'url'=>array('site/page', 'view'=>'vs_competition')),                                    
+                                        array('label'=>'Vs. Competition', 'url'=>array('site/page', 'view'=>'vs_competition')), 
+                                        array('label'=>'Purchasing Credits', 'url'=>array('profile/learnmorecredits')),                                     
                                         array('label'=>'Sign Up', 'url'=>array('user/create')),                                                                        
                                     ),
                              'itemOptions'=> array('class'=>'menu')
@@ -201,7 +205,7 @@ class Controller extends CController
         public function actionBlockedip()
         {
             $this->layout='column2';
-            $msg = 'This '.$_SERVER['REMOTE_ADDR'].' IP is Now not allow ';
+            $msg = 'This IP Address:'.$_SERVER['REMOTE_ADDR'].' has been blocked. ';
             //If User Login
             $uLogHistry = new UserLogHistory();
             $myID = Yii::app()->user->id;
