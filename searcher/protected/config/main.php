@@ -47,7 +47,7 @@ return array(
                                 'class'=>'CDbAuthManager', 
                                 'connectionID'=>'db', ),
 		// uncomment the following to enable URLs in path-format
-		/*
+		
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(
@@ -56,7 +56,7 @@ return array(
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
 		),
-		*/
+		
 //		'db'=>array(
 //			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
 //		),
@@ -65,7 +65,7 @@ return array(
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=searcher_test4',
 			'emulatePrepare' => true,
-			'username' => 'egor',
+			'username' => 'root',
 			'password' => '',
 			'charset' => 'utf8',
 		),

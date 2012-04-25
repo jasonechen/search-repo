@@ -37,7 +37,7 @@ abstract class AbstractProfileSearch
         'nickname' => array(
             'type' => 'simple',
             //'order' => 'nickname ASC',
-        ),
+       ),
 //        'username',
 //        'FirstName',
 //        'LastName',
@@ -47,42 +47,42 @@ abstract class AbstractProfileSearch
             'field' => 'name',
             //'order' => 'nickname ASC',
         ),
-        'gender' => array(  // if field in database has type of ENUM, we could set search phrases separated by comma for these fields
-            'type' => 'enum',
-            'synonyms' => array(
-                'M' => 'male,man,men',
-                'F' => 'female,woman,women'
-            ),
+    //    'gender' => array(  // if field in database has type of ENUM, we could set search phrases separated by comma for these fields
+      //      'type' => 'enum',
+        //    'synonyms' => array(
+          //      'M' => 'male,man,men',
+            //    'F' => 'female,woman,women'
+        //    ),
             //'order' => 'nickname ASC',
-        ),
+        //),
             
-        'state' => array(
-            'type' => 'relationship',
-            'field' => 'state',
-            'throughModel' => 'States',
-            'throughAttribute' => 'name',
-        ),
-        'ethnicity' => array(
-            'type' => 'relationship',
-            'field' => 'ethnic_origin',
-            'throughModel' => 'EthnicType',
-            'throughAttribute' => 'name',
-        ),   
+ //       'state' => array(
+ //           'type' => 'relationship',
+ //           'field' => 'state',
+ //          'throughModel' => 'States',
+   //         'throughAttribute' => 'name',
+ //       ),
+//        'ethnicity' => array(
+  //          'type' => 'relationship',
+    //        'field' => 'ethnic_origin',
+      //      'throughModel' => 'EthnicType',
+        //    'throughAttribute' => 'name',
+    //    ),   
             
-        'profile_type' => array(  
-          'type' => 'linkedStaticProperty',
-           'linkedStaticProperty' => 'BasicProfile::$ProfileTypeArray;',  
-            ),
+    //    'profile_type' => array(  
+      //    'type' => 'linkedStaticProperty',
+        //   'linkedStaticProperty' => 'BasicProfile::$ProfileTypeArray;',  
+         //   ),
             
 //        'education' => array(  // we could link search attribute with any class static property
 //            'type' => 'linkedStaticProperty',
 //            'linkedStaticProperty' => '$staticFieldValue = Profile::$EducationArray;',
 //        ),
-        'race' => array(  // example of relationship field type
-            'type' => 'relationship',
-            'field' => 'name',
+//        'race' => array(  // example of relationship field type
+//            'type' => 'relationship',
+//            'field' => 'name',
             //'order' => 'nickname ASC',
-        ),
+    //    ),
 
 //        'hobbys' => array(  // example of relationship field type
 //            'type' => 'relationship',

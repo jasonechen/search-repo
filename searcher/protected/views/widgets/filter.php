@@ -15,8 +15,8 @@
         'method' => 'get', 
     ));
     ?>
-        <?php echo $form->hiddenField($model,'first_university_id'); ?>
-        <input type="hidden" value="" name="search_q" id="search-q-secondary">
+        
+<input type="hidden" name="search_q" id="search_q" value="<?php echo $_SESSION['search_q']; ?>" />
     
         <div class="clear"></div>
         <div class="filtercheckform">
@@ -59,7 +59,7 @@
             </div>
 
             <div class="row">
-                <?php echo $form->labelEx($model, 'profile_type', array('label'=>'Profile Focus Areas')); ?>
+                <?php echo $form->labelEx($model, 'profile_type', array('label'=>'App Strengths')); ?>
 
                 <?php
                 $profiletypes = BasicProfile::$ProfileTypeArray;
@@ -77,8 +77,8 @@
 		                 }',
                              'header'           => false,
                              'minWidth'         => 175,
-                             'height'           => 260,
-                             'noneSelectedText' => '-- ' . Yii::t('application', 'Select') . ' --',
+                             'height'           => 280,
+                             'noneSelectedText' => '-- ' . Yii::t('application', 'Select up to 3') . ' --',
                          )
 
                     )
@@ -262,14 +262,16 @@
             <div class="row">
                 <?php echo $form->checkBoxList($model, 'num_essays', array('1' => 'Essays Available'));?>
             </div>
-
+            
+            <div class="row">
+                <?php echo $form->checkBoxList($model, 'consultValue', array('1' => 'Phone Consultation Participant'));?>
+            </div>
+            
             <div class="row">
                 <?php echo $form->checkBoxList($model, 'verified', array('Y' => 'Verified'));?>
             </div>
             
-            <div class="row">
-                <?php echo $form->checkBoxList($model, 'consultValue', array('1' => 'Phone Consultations'));?>
-            </div>
+
             
         </div>
         <div class="container">
@@ -290,12 +292,7 @@
 </div>
 
 <?php
-    Yii::app()->clientScript->registerScript(
-        'click-submit-button',
-        '$("#filter-bar-submit").click(function() {
-            $("#search-q-secondary").val($("#search_q").val());
-        });'
-    );
+
 
     Yii::app()->clientScript->registerScript(
         'country selector click',
@@ -308,6 +305,7 @@
             else
             {
                 $('#home-state-label').parent('div').hide(500);
+                $('#FilterForm_state').val('-All States-');
             }
         };
         hideOrShowStateSelector();
@@ -315,3 +313,4 @@
         "
     );
 ?>
+

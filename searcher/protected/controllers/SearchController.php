@@ -24,38 +24,12 @@ class SearchController extends Controller
 
     private $searchCriteriaText = '&nbsp;';
 
-	public function actionIndexBuyer()
-	{
-        $this->setBackUrl();
-        $this->filterSearchQuery();
 
-        $this->setPageSize();
-        $this->setViewStyle();
-        $this->setSortBy();
-
-        $this->initProfileSearch();
-        $this->setSearchCriteriaText();
-
-		$this->render('index_buyer',
-            array(
-                 'viewStyle' => $this->viewStyle,
-                 'pageSize' => $this->pageSize,
-                 'sortBy' => $this->sortBy,
-                 'pageSizeUrl' => 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/&pageSize=\d\d/', '', $_SERVER['REQUEST_URI']) . '&pageSize=',
-                 'viewStyleUrl' => 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/&viewStyle=\d/', '', $_SERVER['REQUEST_URI']). '&viewStyle=',
-                 'sortByUrl' => 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/&sortBy=\d/', '', $_SERVER['REQUEST_URI']). '&sortBy=',
-                 'valid' => $this->valid,
-                 'dataProvider' => $this->dataProvider,
-                 'model' => $this->model,
-                 'searchCriteriaText' => $this->searchCriteriaText,
-            )
-        );
-	}
-    
     
         public function actionIndex()
 	{
-        $this->setBackUrl();
+//        echo Yii::log("The session value: ".CVarDumper::dumpAsString($_SESSION),'error');   
+     //   $this->setBackUrl();
         $this->filterSearchQuery();
 
         $this->setPageSize();
@@ -65,14 +39,14 @@ class SearchController extends Controller
         $this->initProfileSearch();
         $this->setSearchCriteriaText();
 
-		$this->render('index',
+	$this->render('index',
             array(
                  'viewStyle' => $this->viewStyle,
                  'pageSize' => $this->pageSize,
                  'sortBy' => $this->sortBy,
-                 'pageSizeUrl' => 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/&pageSize=\d\d/', '', $_SERVER['REQUEST_URI']) . '&pageSize=',
-                 'viewStyleUrl' => 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/&viewStyle=\d/', '', $_SERVER['REQUEST_URI']). '&viewStyle=',
-                 'sortByUrl' => 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/&sortBy=\d/', '', $_SERVER['REQUEST_URI']). '&sortBy=',
+                 'pageSizeUrl' => 'https://' . $_SERVER['HTTP_HOST'] . preg_replace('/&pageSize=\d\d/', '', $_SERVER['REQUEST_URI']) . '&pageSize=',
+                 'viewStyleUrl' => 'https://' . $_SERVER['HTTP_HOST'] . preg_replace('/&viewStyle=\d/', '', $_SERVER['REQUEST_URI']). '&viewStyle=',
+                 'sortByUrl' => 'https://' . $_SERVER['HTTP_HOST'] . preg_replace('/&sortBy=\d/', '', $_SERVER['REQUEST_URI']). '&sortBy=',
                  'valid' => $this->valid,
                  'dataProvider' => $this->dataProvider,
                  'model' => $this->model,
@@ -87,21 +61,13 @@ class SearchController extends Controller
 
     private function initProfileSearch()
     {
-        if(isset($_SESSION['search_first_university_id']))
+        if(isset($_SESSION['search_q']))
         {
-            if($_SESSION['search_first_university_id'] > 0)
-            {
-                $this->profiles = ProfileSearch::factory($_SESSION['search_first_university_id']);
+            
+                $this->profiles = ProfileSearch::factory($_SESSION['search_q']);
             }
-            elseif(empty($_SESSION['search_first_university_name']))
-            {
-                $this->profiles = ProfileSearch::factory('all');
-            }
-            else
-            {
-                $this->profiles = ProfileSearch::factory('');
-            }
-        }
+
+        
         else
         {
             $this->profiles = ProfileSearch::factory('');
@@ -122,34 +88,25 @@ class SearchController extends Controller
 
     private function filterSearchQuery()
     {
-        if(isset($_GET['search_first_university_id']))
+        if(isset($_GET['search_q']))
         {
-            $_SESSION['search_first_university_id'] = AbstractProfileSearch::filterIncomingSearchQuery($_GET['search_first_university_id']);
+            $_SESSION['search_q'] = AbstractProfileSearch::filterIncomingSearchQuery($_GET['search_q']);
         }
 
-        if(isset($_POST['search_first_university_id']))
+       
+        if(isset($_POST['search_q']))
         {
-            $_SESSION['search_first_university_id'] = AbstractProfileSearch::filterIncomingSearchQuery($_POST['search_first_university_id']);
-        }
-
-        if(isset($_GET['search_first_university_name']))
-        {
-            $_SESSION['search_first_university_name'] = AbstractProfileSearch::filterIncomingSearchQuery($_GET['search_first_university_name']);
-        }
-
-        if(isset($_POST['search_first_university_name']))
-        {
-            $_SESSION['search_first_university_name'] = AbstractProfileSearch::filterIncomingSearchQuery($_POST['search_first_university_name']);
+            $_SESSION['search_q'] = AbstractProfileSearch::filterIncomingSearchQuery($_POST['search_q']);
         }
     }
 
     /**
      * Setting of 'Back to search results' URL
-     */
+     
 
     private function setBackUrl()
     {
-        $uri = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $uri = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         $_SESSION['search_uri'] = $uri;
     }
 
@@ -324,17 +281,15 @@ class SearchController extends Controller
         /**
          * If we haven't defined university then cut off extra 'AND' from result string
          */
-
-        if(empty($_SESSION['search_first_university_name']))
+        if(empty($_SESSION['search_q']))
         {
             $criteriaText = substr($criteriaText, 4);
         }
-
         /*
          * If we still have no text then simply define this text as 'None'
          */
 
-        if(empty($criteriaText) && empty($_SESSION['search_first_university_name']))
+        if(empty($criteriaText) && empty($_SESSION['search_q'])) 
         {
             $criteriaText = 'None';
         }
@@ -343,11 +298,13 @@ class SearchController extends Controller
          * Actual criteria text defining
          */
 
-        if(!empty($_SESSION['search_first_university_name']))
-        {
-            $this->searchCriteriaText = 'SEARCH CRITERIA: ' . $_SESSION['search_first_university_name'] . $criteriaText;
-        }
-        else
+        if(!empty($_SESSION['search_q']))
+            
+         $this->searchCriteriaText = 'SEARCH CRITERIA: ' . $_SESSION['search_q'] . $criteriaText;
+        
+        else 
+            
+              
         {
             $this->searchCriteriaText = 'SEARCH CRITERIA: ' . $criteriaText;;
         }
