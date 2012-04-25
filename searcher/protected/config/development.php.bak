@@ -1,0 +1,94 @@
+<?php
+
+$main = include "main.php";
+
+// uncomment the following to define a path alias
+// Yii::setPathOfAlias('local','path/to/local-folder');
+
+// This is the main Web application configuration. Any writable
+// CWebApplication properties can be configured here.
+$development =  array(
+
+	'modules'=>array(
+		'gii'=>array(
+			'class'=>'system.gii.GiiModule',
+			'password'=>'123459876512345',
+		 	// If removed, Gii defaults to localhost only. Edit carefully to taste.
+			'ipFilters'=>array('127.0.0.1','::1'),	
+                    ),       
+	),
+    
+
+	// application components
+	'components'=>array(
+					
+		'db'=>array(
+			'connectionString' => 'mysql:host=localhost;dbname=meceve_test',
+			'emulatePrepare' => true,
+			'username' => 'root',
+			'password' => '',
+			'charset' => 'utf8',
+		),
+		'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CFileLogRoute',
+					'levels'=>'trace, info, error, warning',
+				),
+				
+				array(
+					'class'=>'CWebLogRoute',
+                                        'levels'=>'trace,error,warning',
+                                        'categories'=>'vardump',
+                                        'showInFireBug'=>true,
+                                    
+				),
+				
+			),
+		),
+            
+
+
+            'widgetFactory' => array(
+                'widgets' => array(
+                    'CJuiAutoComplete' => array(
+                
+                        'theme' => 'southstreet',
+                    ),
+                    'CJuiAccordion' => array(
+                
+                        'theme' => 'southstreet',
+                    ),
+                    'CJuiTabs' => array(
+                
+                        'theme' => 'southstreet',
+                    ),
+                    'CJuiSliderInput' => array(
+                
+                        'theme' => 'southstreet',
+                    ),
+                    'CJuiDialog' => array(
+                
+                        'theme' => 'southstreet',
+                    ),
+                    'EchMultiselect' => array(
+                
+                        'theme' => 'southstreet',
+                    ),                  
+                ),
+            ),    
+            
+            
+            
+	),
+
+	// application-level parameters that can be accessed
+	// using Yii::app()->params['paramName']
+	'params'=> require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR. 'params.php' ),
+);
+
+
+//merge both configurations and return them
+return CMap::mergeArray($main, $development);
+
