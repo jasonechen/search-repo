@@ -314,3 +314,12 @@
     );
 ?>
 
+<?php
+    Yii::app()->clientScript->registerScript(
+        'click-submit-button',
+        '$("#filter-bar-submit").click(function() {
+           $("#search-q-secondary").val($("#search_q").val());
+        });'
+    );
+
+?>
