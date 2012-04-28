@@ -164,16 +164,23 @@ class BasicProfile extends ProfileActiveRecord
 			array('race_id, gender', 'required','on'=>'demogr'),
                         array('nickname', 'unique'),
 			//array('race_id, gender, highSchoolType nickname, user_id, curr_university_id, num_scores, num_aps, num_sat2s, num_competitions, num_sports, num_academics, num_extracurriculars, num_essays, profile_type', 'required'),
-			array('first_university_id, curr_university_id, highschool_id, sat_I_score_range, num_scores, num_aps, num_sat2s, num_competitions, num_sports, num_academics, num_extracurriculars, num_essays, avg_profile_rating, l1ForSale, l2ForSale, l3ForSale, profile_type', 'numerical', 'integerOnly'=>true),
+			array('first_university_id, curr_university_id, highschool_id, sat_I_score_range, num_scores, num_aps, num_sat2s, num_competitions, num_sports, num_academics, num_extracurriculars, num_essays, 
+                                    avg_profile_rating, l1ForSale, l2ForSale, l3ForSale, l4ForSale, 
+                                    profile_type,searchable', 'numerical', 'integerOnly'=>true),
 			array('user_id, create_user_id, update_user_id', 'length', 'max'=>10),
-			array('isTransfer, gender, race_id', 'length', 'max'=>1),
+			array('isTransfer, gender, race_id,searchable', 'length', 'max'=>1),
 			array('highSchoolType', 'length', 'max'=>3),
 			array('musical_instrument_id', 'length', 'max'=>2),
                         array('first_university_name, curr_university_name', 'length', 'max'=>100),
 			array('early_regular, nickname, create_time, update_time', 'safe'),
+                        array('highschool_id,first_university_id,isTransfer,race_id, gender,highSchoolType,nickname, user_id,
+                            curr_university_id','filter','filter'=>array($obj=new CHtmlPurifier(),'purify')),                    
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('verified,race,firstUniversity,hsName, highschool_id, user_id, first_university_id, curr_university_id, isTransfer, gender, highSchoolType, race_id, sat_I_score_range, num_scores, num_aps, num_sat2s, num_competitions, num_sports, num_academics, num_extracurriculars, num_essays, avg_profile_rating, l1ForSale, l2ForSale, l3ForSale, musical_instrument_id, profile_type, create_time, create_user_id, update_time, update_user_id', 'safe', 'on'=>'search'),
+			array('verified,race,firstUniversity,hsName, highschool_id, user_id, first_university_id, curr_university_id, isTransfer, gender, highSchoolType, race_id, 
+                                sat_I_score_range, num_scores, num_aps, num_sat2s, num_competitions, num_sports, num_academics, num_extracurriculars, num_essays, 
+                                avg_profile_rating, l1ForSale, l2ForSale, l3ForSale, l4ForSale,
+                                musical_instrument_id, profile_type, create_time, create_user_id, update_time, update_user_id, searchable', 'safe', 'on'=>'search'),
 
 		);
 	}
@@ -238,14 +245,16 @@ class BasicProfile extends ProfileActiveRecord
             'l1ForSale'             => 'L1 For Sale',
             'l2ForSale'             => 'L2 For Sale',
             'l3ForSale'             => 'L3 For Sale',
+            'l4ForSale'             => 'L4 For Sale',
             'musical_instrument_id' => 'Musical Instrument',
-            'profile_type'          => 'Focus Areas',
+            'profile_type'          => 'App Strengths',
             'create_time'           => 'Create Time',
             'create_user_id'        => 'Create User',
             'update_time'           => 'Update Time',
             'update_user_id'        => 'Update User',
             'stateName'             => 'Home State',
             'verified'              => 'Verified',
+            'searchable'            => 'Searchable',
         );
 	}
 
@@ -276,6 +285,8 @@ class BasicProfile extends ProfileActiveRecord
         $this->l1ForSale            = 0;
         $this->l2ForSale            = 0;
         $this->l3ForSale            = 0;
+        $this->l4ForSale            = 0;
+        $this->searchable           = 0;
         $this->verified             = 'N';
 
     }
@@ -335,7 +346,9 @@ class BasicProfile extends ProfileActiveRecord
         $criteria->compare('l1ForSale', $this->l1ForSale);
         $criteria->compare('l2ForSale', $this->l2ForSale);
         $criteria->compare('l3ForSale', $this->l3ForSale);
+        $criteria->compare('l4ForSale', $this->l4ForSale);
         $criteria->compare('verified', $this->verified);
+        $criteria->compare('searchable', $this->searchable);
         $criteria->compare('musical_instrument_id', $this->musical_instrument_id, true);
         $criteria->compare('profile_type', $this->profile_type);
         $criteria->compare('name', $this->firstUniversity, true);
@@ -345,7 +358,7 @@ class BasicProfile extends ProfileActiveRecord
         $criteria->with = array('hsName');
         $criteria->with = array('race');
         $criteria->compare('gender', $this->gender, true);
-        $criteria->condition = "(l1ForSale = 1 or l2ForSale=1 or l3ForSale=1) and (user_id!=:userID)";
+        $criteria->condition = "(l1ForSale = 1 or l2ForSale=1 or l3ForSale=1 or l4ForSale=1) and (user_id!=:userID)";
         return new CActiveDataProvider($this,
             array(
                  'criteria'=> $criteria,
@@ -369,6 +382,7 @@ class BasicProfile extends ProfileActiveRecord
         $criteria->compare('num_extracurriculars', $this->num_extracurriculars);
         $criteria->compare('num_essays', $this->num_essays);
         $criteria->compare('avg_profile_rating', $this->avg_profile_rating);
+        $criteria->compare('searchable', $this->searchable);
         $criteria->compare('l1ForSale', $this->l1ForSale);
         $criteria->compare('l2ForSale', $this->l2ForSale);
         $criteria->compare('l3ForSale', $this->l3ForSale);
@@ -586,9 +600,9 @@ class BasicProfile extends ProfileActiveRecord
                 }
                 ;
             }
+            
         }
     }
-
     public static function getStateName($data)
     {
         if(!empty($data->user->personalProfile->state))
@@ -609,6 +623,7 @@ class BasicProfile extends ProfileActiveRecord
         return 'N/A';
     }
 
+     
     public function checkBuyer($buyer_id, $mpStudent)
     {
         if($mpStudent === null)

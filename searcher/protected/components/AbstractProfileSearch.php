@@ -269,6 +269,7 @@ abstract class AbstractProfileSearch
             $this->criteria = new CDbCriteria();
             $this->resolveOrQueries();
             $this->resolveAndQueries();
+            $this->criteria->addCondition('t.searchable = 1');
             $this->runSearch();
         }
         else
