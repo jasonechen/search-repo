@@ -193,13 +193,19 @@ class CommonMethods extends CController
         return $supportFrmt;
         
     }
-    
-       /**
+
+    /**
      * @static
-     * @param $userid,$activestatus,$byStatus
-     * @example $bySts is all the Referral user list  
-     * @return count
+     *          params $id, $activestatus, $byStatus
+     *
+     * @param $id
+     * @param $sts
+     * @param $bySts
+     *
+     * @example $bySts is all the Referral user list
+     * @return int $count
      */
+
     public static function getCount($id,$sts=1,$bySts=FALSE)
     {
         
@@ -216,6 +222,7 @@ class CommonMethods extends CController
      * @param integer $status
      * @return string
      */
+
     public static function getUserStatus($status)
     {
     	$list = array(
@@ -226,7 +233,158 @@ class CommonMethods extends CController
     	
     	return (isset($list[$status])) ? $list[$status] : 'Inactive';
     }
-    
+
+    /**
+     * Method used for filtering incoming search query from bad characters
+     *
+     * @static
+     * @param $str
+     * @return mixed|string
+     */
+
+    public static function weakFiltering($str)
+    {
+        $str = strip_tags($str);
+        $str = preg_replace("/[^a-zA-Z0-9\s]/", "", $str);
+
+        return $str;
+    }
+
+    /**
+     * Returning synonyms of schools for purposes of searching for keywords like 'mit' => 'massachusettsinstituteoft'
+     *
+     * @static
+     * @return array
+     */
+
+    public static function returnSchoolSynonyms()
+    {
+        return array(
+            'bsc'          => 'birminghamsoutherncollege',
+            'bju'          => 'bobjonesuniversity',
+            'byu'          => 'brighamyounguniversity',
+            'caltech'      => 'californiainstituteoftechnology',
+            'ccsu'         => 'centralconnecticutstateuniversity',
+            'cmsu'         => 'centralmissouristateuniversity',
+            'cnu'          => 'christophernewportuniversity',
+            'cmc'          => 'claremontmckennacollege',
+            'ccu'          => 'coastalcarolinauniversity',
+            'dpu'          => 'depauluniversity',
+            'ecu'          => 'eastcarolinauniversity',
+            'etsu'         => 'easttennesseestateuniversity',
+            'emu'          => 'easternmichiganuniversity',
+            'enc'          => 'easternnazarenecollege',
+            'ewu'          => 'easternwashingtonuniversity',
+            'fdu'          => 'fairleighdickinsonuniversity',
+            'famu'         => 'floridaa&muniversity',
+            'fgcu'         => 'floridagulfcoastuniversity',
+            'fiu'          => 'floridainternationaluniversity',
+            'fsu'          => 'floridastateuniversity',
+            'gmu'          => 'georgemasonuniversity',
+            'georgiatech'  => 'georgiainstituteoftechnology',
+            'gvsu'         => 'grandvalleystateuniversity',
+            'hiu'          => 'hamptonuniversity',
+            'iit'          => 'illinoisinstituteoftechnology',
+            'iup'          => 'indianauniversityofpennsylvania',
+            'jmu'          => 'jamesmadisonuniversity',
+            'jhu'          => 'johnshopkinsuniversity',
+            'jwu'          => 'johnsonandwalesuniversity',
+            'lssu'         => 'lakesuperiorstateuniversity',
+            'liu'          => 'longislanduniversity',
+            'lsu'          => 'louisianastateuniversity',
+            'latech'       => 'louisianatechuniversity',
+            'luc'          => 'loyolauniversitychicago',
+            'lsc'          => 'lyndonstatecollege',
+            'mcla'         => 'massachusettscollegeofliberalarts',
+            'mit'          => 'massachusettsinstituteoftechnology',
+            'mtsu'         => 'middletennesseestateuniversity',
+            'muw'          => 'mississippiuniversityforwomen',
+            'mvsu'         => 'mississippivalleystateuniversity',
+            'nmsu'         => 'newmexicostateuniversity',
+            'nymc'         => 'newyorkmedicalcollege',
+            'nyu'          => 'newyorkuniversity',
+            'nccu'         => 'northcarolinacentraluniversity',
+            'ndsu'         => 'northdakotastateuniversity',
+            'nau'          => 'northernarizonauniversity',
+            'niu'          => 'northernillinoisuniversity',
+            'nmu'          => 'northernmichiganuniversity',
+            'oxy'          => 'occidentalcollege',
+            'onu'          => 'ohionorthernuniversity',
+            'ocu'          => 'oklahomacityuniversity',
+            'oru'          => 'oralrobertsuniversity',
+            'plnu'         => 'pointlomanazareneuniversity',
+            'pvamu'        => 'prairieviewa&muniversity',
+            'rmwc'         => 'randolphmaconwoman\'scollege',
+            'rpi'          => 'rensselaerpolytechnicinstitute',
+            'risd'         => 'rhodeislandschoolofdesign',
+            'rwu'          => 'rogerwilliamsuniversity',
+            'sjfc'         => 'saintjohnfishercollege',
+            'sfsu'         => 'sanfranciscostateuniversity',
+            'sjsu'         => 'sanjos?stateuniversity',
+            'spu'          => 'seattlepacificuniversity',
+            'sru'          => 'slipperyrockuniversityofpennsylvania',
+            'sosu'         => 'southeasternoklahomastateuniversity',
+            'siue'         => 'southernillinoisuniversityedwardsville',
+            'smu'          => 'southernmethodistuniversity',
+            'suu'          => 'southernutahuniversity',
+            'shc'          => 'springhillcollege',
+            'tcu'          => 'texaschristianuniversity',
+            'ttu'          => 'texastechuniversity',
+            'tcnj'         => 'thecollegeofnewjersey',
+            'w&m'          => 'thecollegeofwilliam&mary',
+            'uncg'         => 'theuniversityofnorthcarolinaatgreensboro',
+            'navy'         => 'u.s.navalacademy',
+            'usafa'        => 'unitedstatesairforceacademy',
+            'westpoint'    => 'unitedstatesmilitaryacademy',
+            'uab'          => 'universityofalabamaatbirmingham',
+            'uah'          => 'universityofalabamaathuntsville',
+            'uaa'          => 'universityofalaskaanchorage',
+            'ualr'         => 'universityofarkansasatlittlerock',
+            'uam'          => 'universityofarkansasatmonticello',
+            'uapb'         => 'universityofarkansasatpinebluff',
+            'uci'          => 'universityofcalifornia,irvine',
+            'ucla'         => 'universityofcalifornia,losangeles',
+            'ucr'          => 'universityofcalifornia,riverside',
+            'ucsd'         => 'universityofcalifornia,sandiego',
+            'ucsf'         => 'universityofcalifornia,sanfrancisco',
+            'ucsb'         => 'universityofcalifornia,santabarbara',
+            'uco'          => 'universityofcentraloklahoma',
+            'ucd'          => 'universityofcoloradodenver',
+            'uconn'        => 'universityofconnecticut',
+            'udm'          => 'universityofdetroitmercy',
+            'olemiss'      => 'universityofmississippi',
+            'mizzou'       => 'universityofmissouri',
+            'unlv'         => 'universityofnevada,lasvegas',
+            'unm'          => 'universityofnewmexico',
+            'uncw'         => 'universityofnorthcarolinaatwilmington',
+            'unf'          => 'universityofnorthflorida',
+            'usd'          => 'universityofsandiego',
+            'usfca'        => 'universityofsanfrancisco',
+            'usao'         => 'universityofscienceandartsofoklahoma',
+            'utd'          => 'universityoftexasatdallas',
+            'utep'         => 'universityoftexasatelpaso',
+            'utsa'         => 'universityoftexasatsanantonio',
+            'utpb'         => 'universityoftexasofthepermianbasin',
+            'udc'          => 'universityofthedistrictofcolumbia',
+            'uvm'          => 'universityofvermont',
+            'uva'          => 'universityofvirginia',
+            'udub'         => 'universityofwashington',
+            'uwf'          => 'universityofwestflorida',
+            'uvu'          => 'utahvalleyuniversity',
+            'vcu'          => 'virginiacommonwealthuniversity',
+            'vmi'          => 'virginiamilitaryinstitute',
+            'virginiatech' => 'virginiapolytechnicinstituteandstateuniversity',
+            'wfu'          => 'wakeforestuniversity',
+            'wazzu'        => 'washingtonstateuniversity',
+            'washu'        => 'washingtonuniversityinst.louis',
+            'wvu'          => 'westvirginiauniversity',
+            'wpi'          => 'worcesterpolytechnicinstitute',
+            'ysu'          => 'youngstownstateuniversity',
+            'pennstate'    => 'pennsylvaniastateuniversity',
+            'ucf'          => 'universityofcentralflorida',
+            'umkc'         => 'universityofmissouri–kansascity',
+        );
+    }
 }
 
 ?>

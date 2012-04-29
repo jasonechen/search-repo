@@ -63,9 +63,8 @@ class SearchController extends Controller
     {
         if(isset($_SESSION['search_q']))
         {
-            
-                $this->profiles = ProfileSearch::factory($_SESSION['search_q']);
-            }
+            $this->profiles = ProfileSearch::factory($_SESSION['search_q']);
+        }
 
         
         else
@@ -90,13 +89,13 @@ class SearchController extends Controller
     {
         if(isset($_GET['search_q']))
         {
-            $_SESSION['search_q'] = AbstractProfileSearch::filterIncomingSearchQuery($_GET['search_q']);
+            $_SESSION['search_q'] = CommonMethods::weakFiltering($_GET['search_q']);
         }
 
        
         if(isset($_POST['search_q']))
         {
-            $_SESSION['search_q'] = AbstractProfileSearch::filterIncomingSearchQuery($_POST['search_q']);
+            $_SESSION['search_q'] = CommonMethods::weakFiltering($_POST['search_q']);
         }
     }
 

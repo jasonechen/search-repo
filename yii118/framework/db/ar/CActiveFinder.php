@@ -1322,7 +1322,7 @@ class CJoinQuery
 			if($condition!=='')
 				$conditions[]=$condition;
 		if($conditions!==array())
-			$sql.=' WHERE (' . implode(') OR (',$conditions).')';
+            $sql.=' WHERE (' . implode(') AND (',$conditions).')';
 
 		$groups=array();
 		foreach($this->groups as $group)

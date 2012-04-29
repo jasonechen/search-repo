@@ -150,9 +150,9 @@ class FilterProfileSearch extends AbstractProfileSearch
 //                'defaultMaxValue' => 3,
 //            ),
 //        ),
-        'first_university_id' => array(
-            'type' => 'hiddenField',
-        ),
+        /*'first_university_id' => array(
+            'type' => 'HiddenField',
+        ),*/
 //        'hasPets' => array(
 //            'type' => 'Checkbox',
 //        ),

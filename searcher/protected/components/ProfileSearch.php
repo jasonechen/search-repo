@@ -118,7 +118,7 @@ class ProfileSearch extends AbstractProfileSearch
 
     private function modifyDatabaseCriteriaAccordingToSearchQuery()
     {
-        foreach($this->fieldsThatAreSearchable as $key => $value)
+        /*foreach($this->fieldsThatAreSearchable as $key => $value)
         {
             if($this->checkIfFieldIsSimple($value))
             {
@@ -136,18 +136,18 @@ class ProfileSearch extends AbstractProfileSearch
             {
                 $this->modifyDatabaseCriteriaIfFieldHasTypeOfEnum($key, $value);
             }
-        }
+        }*/
         if($this->searchQuery == 'all')
         {
 
         }
         else
         {
-         
+            $this->criteria->addSearchCondition('firstUniversity.search_name ', $this->searchQuery);
         }
 
         if(empty($this->criteria->condition))
-            {
+        {
             $this->criteria->condition = 't.user_id = 0';
         }
     }

@@ -237,7 +237,7 @@ abstract class AbstractProfileSearch
      * @var int $minLengthOfQuery - min length of bad query
      */
 
-    public $minLengthOfQuery = 0;
+    public $minLengthOfQuery = 3;
 
     public $additionalSearchModifierClasses = array();
 
@@ -251,6 +251,12 @@ abstract class AbstractProfileSearch
     public $criteria;
     public $provider;
 
+    /**
+     * @var array $schoolSynonyms - synonyms of schools retrieved from @link CommonMethods
+     */
+
+    public static $schoolSynonyms;
+
     public abstract function runSearch();
 
     /**
@@ -260,6 +266,8 @@ abstract class AbstractProfileSearch
 
     public function __construct($searchQuery)
     {
+        self::$schoolSynonyms = CommonMethods::returnSchoolSynonyms();
+
         $this->searchQuery = $this->filterIncomingSearchQuery($searchQuery);
 
         if($this->isSearchQueryValid())
@@ -328,14 +336,24 @@ abstract class AbstractProfileSearch
 
     public static function filterIncomingSearchQuery($searchQuery)
     {
-        return htmlspecialchars(strip_tags(trim($searchQuery)));
+        $searchQuery = preg_replace("/[^a-zA-Z0-9\s]/", "", $searchQuery);
+        $searchQuery = strtolower(strip_tags($searchQuery));
+
+        if(!empty(self::$schoolSynonyms[$searchQuery]))
+        {
+            return self::$schoolSynonyms[$searchQuery];
+        }
+
+        $searchQuery = str_replace(' ', '', $searchQuery);
+
+        return $searchQuery;
     }
 
     /**
      * @static
      * @return array
      */
-public static function restoreSearchSession()
+    public static function restoreSearchSession()
     {
         $result = array();
 

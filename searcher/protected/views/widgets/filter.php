@@ -63,7 +63,7 @@
 
                 <?php
                 $profiletypes = BasicProfile::$ProfileTypeArray;
-                $this->widget('ext.widgets.EchMultiselect',
+                $this->widget('ext.widgets.EchMultiSelect',
                     array(
                          'model'             => $model,
                          'dropDownAttribute' => 'focus',
