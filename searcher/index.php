@@ -1,5 +1,5 @@
 <?php
-
+require('../searcher/protected/globals.php');
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/../yii118/framework/yii.php';
 $config=dirname(__FILE__).'/../searcher/protected/config/main.php';

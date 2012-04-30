@@ -36,10 +36,10 @@
                     
                     <div class="top-nav">
 <ul class='dd_menu'>
-<li><?php echo CHtml::link("Home",array('/site/indexFinder')); ?>
+<li><?php echo CHtml::link("Home",array('site/indexFinder')); ?>
 
 </li>
-<li><?php echo CHtml::link("Sign Up",array('user/create')); ?>
+<li><?php echo CHtml::link("Sign Up",array('/site/signup')); ?>
 	
 	
 </li>
@@ -108,7 +108,7 @@
 			<ul class="nav">
 				<li><?php echo CHtml::link("Blog",'http://blog.crowdprep.com'); ?></li>
 				<li><?php echo CHtml::link("Privacy Policy",array('site/page', 'view'=>'privacy_policy')); ?></li>
-				<li><?php echo CHtml::link("Terms and Conditions",array('site/page', 'view'=>'terms_conditions')); ?></li>
+				<li><?php echo CHtml::link("Terms of Service",array('site/page', 'view'=>'terms_conditions')); ?></li>
                                 <li><?php echo CHtml::link("Contact",array('site/contact')); ?></li>
 			</ul>
 		</div>
@@ -116,19 +116,19 @@
 			<ul class="social-networks">
 				<li>
 					<a href="http://www.facebook.com/crowdprep">
-						<img src="images/ico-facebook.png" alt="image description" />
+						<img src="<?php echo bu('/images/ico-facebook.png') ?>" alt="image description" />
 						<span>Facebook</span>
 					</a>
 				</li>
 				<li>
 					<a href="https://twitter.com/#!/CrowdPrep">
-						<img src="images/ico-twitter.png" alt="image description" />
+						<img src="<?php echo bu('/images/ico-twitter.png') ?>" alt="image description" />
 						<span>Twitter</span>
 					</a>
 				</li>
 				<li>
-					<a href="#">
-						<img src="images/ico-google.png" alt="image description" />
+					<a href="https://plus.google.com/116598968264679080646">
+						<img src="<?php echo bu('/images/ico-google.png') ?>" alt="image description" />
 						<span>Google +</span>
 					</a>
 				</li>

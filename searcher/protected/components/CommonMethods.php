@@ -51,7 +51,7 @@ class CommonMethods extends CController
         $year = array();
         $syear = (int)date('Y');
 
-        for($i = 0; $i <= 100; $i++)
+        for($i = 0; $i <= 10; $i++)
         {
             $value = $syear+$i;
             $year[$value] = $value;
@@ -233,7 +233,13 @@ class CommonMethods extends CController
     	
     	return (isset($list[$status])) ? $list[$status] : 'Inactive';
     }
-
+	
+	
+	public static function getUser() {
+	
+		return Yii::app()->user->id;
+	}
+	
     /**
      * Method used for filtering incoming search query from bad characters
      *

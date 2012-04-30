@@ -5,7 +5,7 @@
         
             <fieldset>
 
-                <!--<input class="text span-6" type="text" placeholder="Enter School Name" name="search_q" value="<?php echo $search_q;?>" />-->
+                <!--<input class="text span-6" type="text" placeholder="Enter University Name" name="search_q" value="<?php echo $search_q;?>" />-->
 
                 <?php
                     $this->widget('zii.widgets.jui.CJuiAutoComplete',

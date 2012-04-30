@@ -69,19 +69,19 @@ class SiteController extends Controller
         {
             $myUser = Yii::app()->user;
             if (empty($myUser)||($myUser->getIsGuest())){
-                $this->redirect(array('site/index'));
+                $this->redirect(Yii::app()->homeUrl);
             }
             else{
                 $myTransType = $myUser->getState('TransType');
 
                 if ($myTransType === 'B'){
-                     $this->redirect(array('search/indexBuyer'));                                                            
+                     $this->redirect(array('search/index'));                                                            
                 }
                 else if ($myTransType === 'S'){
                     $this->redirect(array('user/indexSeller'));      
                 }
                 else{
-                $this->redirect(array('site/index'));
+                $this->redirect(Yii::app()->homeUrl);
                 }
             }
         }
@@ -91,12 +91,39 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-             		
+          //     Yii::app()->user->returnUrl = array('/site/index');
         // renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('index');
+		
+                
+                            $myUser = Yii::app()->user;
+            if (empty($myUser)||($myUser->getIsGuest())){
+                $this->render('index');
+            }
+            else{
+                $myTransType = $myUser->getState('TransType');
+
+                if ($myTransType === 'B'){
+                     $this->redirect(array('search/index'));                                                            
+                }
+                else if ($myTransType === 'S'){
+                    $this->redirect(array('user/indexSeller'));      
+                }
+                else{
+               $this->render('index');
+                }
+            }
+
 	}
-/*
+	public function actionSignup()
+	{
+                $this->layout = 'column1';        
+		$this->render('signup');
+
+	}
+        
+        
+        /*
          public function actionTest()
      {
         echo Yii::app()->user->getID();
@@ -112,10 +139,7 @@ class SiteController extends Controller
 	{
 	    if($error=Yii::app()->errorHandler->error)
 	    {
-	    	if(Yii::app()->request->isAjaxRequest)
-	    		echo $error['message'];
-	    	else
-	        	$this->render('error', $error);
+                $this->redirect(array('site/IndexFinder'));
 	    }
 	}
 

@@ -337,7 +337,7 @@ abstract class AbstractProfileSearch
     public static function filterIncomingSearchQuery($searchQuery)
     {
         $searchQuery = preg_replace("/[^a-zA-Z0-9\s]/", "", $searchQuery);
-        $searchQuery = strtolower(strip_tags($searchQuery));
+        $searchQuery = strtolower(htmlspecialchars(strip_tags($searchQuery)));
 
         if(!empty(self::$schoolSynonyms[$searchQuery]))
         {
